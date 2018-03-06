@@ -4,42 +4,13 @@
     <title>Single layer | CARTO</title>
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
-    <!-- Include Leaflet -->
-    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
     <link href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" rel="stylesheet">
-    <!-- Include CARTO.js -->
-    <script src="https://cartodb-libs.global.ssl.fastly.net/carto.js/v4.0.0-beta.20/carto.min.js"></script>
-    <style>
-      body { margin: 0; padding: 0; }
-      #map { position: absolute; height: 100%; width: 100%; }
-    </style>
+    <link href="./styles.css" rel="stylesheet">
   </head>
   <body>
     <div id="map"></div>
-    <script>
-      const map = L.map('map').setView([30, 0], 3);
-
-      // Add base layer
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}.png', {
-        maxZoom: 18
-      }).addTo(map);
-
-      const client = new carto.Client({
-        //apiKey: '4149431e39df5b29c354c494625154c0c7640642',
-        apiKey: 'lalalal',
-        username: 'brelsfoeagain'
-      });
-
-      const source = new carto.source.Dataset('hms_efh_2009tiger_shark');
-      const style = new carto.style.CartoCSS(`
-        #layer {
-          polygon-fill: orange;
-        }
-      `);
-      const layer = new carto.layer.Layer(source, style);
-
-      client.addLayer(layer);
-      client.getLeafletLayer().addTo(map);
-    </script>
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+    <script src="https://cartodb-libs.global.ssl.fastly.net/carto.js/v4.0.0-beta.25/carto.min.js"></script>
+    <script src="/script.js"></script>
   </body>
 </html>
