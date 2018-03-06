@@ -1,3 +1,4 @@
+// This isn't necessary but it keeps the editor from thinking L and carto are typos
 /* global L, carto */
 
 const map = L.map('map').setView([30, 0], 3);
