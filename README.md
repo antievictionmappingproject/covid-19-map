@@ -1,8 +1,6 @@
-# My cool website
+# carto-single-layer
 
-This file describes your project to the community. What's your cool website about? What makes it special?
-
-ヽ(๏∀๏ )ﾉ
+Create a Carto map with one layer of data.
 
 ## ← index.html
 
@@ -14,5 +12,4 @@ CSS files add styling rules to your content
 
 ## ← script.js
 
-If you're feeling fancy you can add interactivity to your site with Javascript
-
+Contains the JavaScript that initializes Carto and creates the map that appears on the page.
