@@ -4,7 +4,7 @@
 var map = L.map('map').setView([30, 0], 3);
 
 // Add base layer
-L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}.png', {
+L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png', {
   maxZoom: 18
 }).addTo(map);
 
@@ -20,7 +20,12 @@ var source = new carto.source.Dataset('hms_efh_2009tiger_shark');
 // Create style for the data
 var style = new carto.style.CartoCSS(`
   #layer {
-    polygon-fill: red;
+    polygon-fill: ramp([life_stage], (#5F4690, #1D6996, #38A6A5), ("Adult", "Juvenile", "Neonate"), "=");
+  }
+  #layer::outline {
+    line-width: 1;
+    line-color: #FFFFFF;
+    line-opacity: 0.5;
   }
 `);
 
