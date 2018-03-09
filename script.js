@@ -1,7 +1,7 @@
 // This isn't necessary but it keeps the editor from thinking L and carto are typos
 /* global L, carto */
 
-var map = L.map('map').setView([30, 0], 3);
+var map = L.map('map').setView([34.034453, -82.199707], 5);
 
 // Add base layer
 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png', {
