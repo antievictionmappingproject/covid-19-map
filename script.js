@@ -4,7 +4,7 @@
 var map = L.map('map').setView([34.034453, -82.199707], 5);
 
 // Add base layer
-L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png', {
+L.tileLayer('https://api.mapbox.com/styles/v1/ebrelsford/cjdnmgzmv00dc2rnql1pzcsk2/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZWJyZWxzZm9yZCIsImEiOiI2VFFWT21ZIn0.qhtAhoVTOPzFwWAi7YHr_Q', {
   maxZoom: 18
 }).addTo(map);
 
