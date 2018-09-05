@@ -4,7 +4,7 @@
 var map = L.map('map').setView([34.03, -82.20], 5);
 
 // Add base layer
-L.tileLayer(' https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
+L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
   maxZoom: 18
 }).addTo(map);
 
