@@ -8,26 +8,17 @@ L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
   maxZoom: 18
 }).addTo(map);
 
-// Fetch data from our Glitch project
-fetch('https://data.cityofnewyork.us/resource/cuae-wd7h.geojson')
+fetch('https://data.cityofnewyork.us/resource/fhrw-4uyv.geojson')
   .then(function (response) {
     // Read data as JSON
     return response.json();
   })
   .then(function (data) {
-    console.log(data);
     // Add data to the map
-    L.geoJson(data).addTo(map);
-  });
-
-
-fetch('https://data.cityofnewyork.us/resource/fhrw-4uyv.geojson?$where=Latitude is not null&$limit=100')
-  .then(function (response) {
-    // Read data as JSON
-    return response.json();
-  })
-  .then(function (data) {
-    console.log(data);
-    // Add data to the map
-    L.geoJson(data).addTo(map);
+    var overlayData = L.geoJson(data)
+      .bindPopup(function (layer) {
+        return layer.feature.properties.complaint_type;
+      });
+    overlayData.addTo(map);
+    map.fitBounds(overlayData.getBounds());
   });
