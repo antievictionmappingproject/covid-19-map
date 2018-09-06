@@ -14,11 +14,21 @@ fetch('https://data.cityofnewyork.us/resource/fhrw-4uyv.geojson')
     return response.json();
   })
   .then(function (data) {
+    // Create the Leaflet layer for the data 
+    var complaintData = L.geoJson(data);
+  
+    // Add popups to the layer
+    complaintData.bindPopup(function (layer) {
+      // This function is called whenever a feature on the layer is clicked
+      
+      // Uncomment this to see all properties on the clicked feature:
+      // console.log(layer.feature.properties);
+      return layer.feature.properties.complaint_type;
+    });
+  
     // Add data to the map
-    var overlayData = L.geoJson(data)
-      .bindPopup(function (layer) {
-        return layer.feature.properties.complaint_type;
-      });
-    overlayData.addTo(map);
-    map.fitBounds(overlayData.getBounds());
+    complaintData.addTo(map);
+  
+    // Move the map view so that the complaintData is visible
+    map.fitBounds(complaintData.getBounds());
   });
