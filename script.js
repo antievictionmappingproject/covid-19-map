@@ -8,7 +8,7 @@ L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
   maxZoom: 18
 }).addTo(map);
 
-fetch('https://data.cityofnewyork.us/resource/fhrw-4uyv.geojson')
+fetch('https://data.cityofnewyork.us/resource/fhrw-4uyv.geojson?$where=latitude is not null')
   .then(function (response) {
     // Read data as JSON
     return response.json();
