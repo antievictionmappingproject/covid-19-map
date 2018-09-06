@@ -9,12 +9,25 @@ L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 // Fetch data from our Glitch project
-fetch('https://cdn.glitch.com/baade5a3-f979-48f2-9a28-14daee16fab0%2Fmap.geojson?1535912286843')
+fetch('https://data.cityofnewyork.us/resource/cuae-wd7h.geojson')
   .then(function (response) {
     // Read data as JSON
     return response.json();
   })
   .then(function (data) {
+    console.log(data);
+    // Add data to the map
+    L.geoJson(data).addTo(map);
+  });
+
+
+fetch('https://data.cityofnewyork.us/resource/fhrw-4uyv.geojson?$where=Latitude is not null&$limit=100')
+  .then(function (response) {
+    // Read data as JSON
+    return response.json();
+  })
+  .then(function (data) {
+    console.log(data);
     // Add data to the map
     L.geoJson(data).addTo(map);
   });
