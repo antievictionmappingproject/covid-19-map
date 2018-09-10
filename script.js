@@ -22,7 +22,7 @@ fetch('https://data.cityofnewyork.us/resource/fhrw-4uyv.geojson?$where=latitude 
       // This function is called whenever a feature on the layer is clicked
       
       // Uncomment this to see all properties on the clicked feature:
-      console.log(layer.feature.properties);
+      // console.log(layer.feature.properties);
       return layer.feature.properties['complaint_type'];
     });
   
