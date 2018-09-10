@@ -23,7 +23,7 @@ fetch('https://data.cityofnewyork.us/resource/fhrw-4uyv.geojson?$where=latitude 
       
       // Uncomment this to see all properties on the clicked feature:
       // console.log(layer.feature.properties);
-      return '<div class="popup-complaint-type">' + layer.feature.properties['complaint_type'] + '</div>';
+      return layer.feature.properties['complaint_type'];
     });
   
     // Add data to the map
