@@ -1,8 +1,10 @@
 // This isn't necessary but it keeps the editor from thinking L is a typo
 /* global L, Mustache */
 
+// the base URI for the CARTO SQL API
 const apiBaseURI = "https://ampitup.carto.com:443/api/v2/sql";
 
+// SQL query to pass to the CARTO API
 const evictionMoratoriumsQuery = 
   "SELECT " +
     "cartodb_id " + 
@@ -11,14 +13,13 @@ const evictionMoratoriumsQuery =
   "FROM " +
     "public.eviction_moratorium_mapping;";
 
+// complete URI to pass to fetch()
 const dataURI = `${apiBaseURI}?q=${evictionMoratoriumsQuery}`;
-console.log(dataURI)
 
 // create a new map instance by referencing the html element by classname
 const map = L.map('map').setView([34.03, -82.20], 5);
 
 // Get the popup template from the HTML.
-//
 // We can do this here because the template will never change.
 const popupTemplate = document.querySelector('.popup-template').innerHTML;
 
@@ -44,13 +45,13 @@ fetch(dataURI)
   
     const localitiesGeoJson = {
       type: "FeatureCollection",
-      features: localitiesData.map(d => ({
+      features: localitiesData.map(({ cartodb_id, lat, lon, ...rest}) => ({
         type: "Feature",
-        id: null,
-        properties: d,
+        id: cartodb_id,
+        properties: rest,
         geometry: {
           type: "Point",
-          coordinates: [d.lon, d.lat]
+          coordinates: [lon, lat]
         }
       }))
     }

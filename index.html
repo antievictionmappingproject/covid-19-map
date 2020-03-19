@@ -14,15 +14,18 @@
   <body>
     <div id="map"></div>
     
+<!--     "municipality, passed, lat, lon, link, policy_summary, " +
+    "policy_type, start, _end, state, admin_scale " +     -->
+    
     <!--
       This script element will not be displayed, it just holds our template
     -->
     <script class="popup-template" type="x-tmpl-mustache">
       <div>
-        <h2>{{complaint_type}}</h2>
-        <div class="address">{{incident_address}}</div>
-        <div>{{descriptor}}</div>
-        <div>{{agency}}</div>
+        <h2>{{municipality}}</h2>
+        <div>{{policy_summary}}</div>
+        <div>{{policy_type}}</div>
+        <div>{{passed}}</div>
       </div>
     </script>
     
