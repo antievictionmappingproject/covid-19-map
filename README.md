@@ -1,6 +1,6 @@
 # Evictions Moratoriums Map
 
-Mapping states and municipalities that are enacting a moratorium on evictions due to the corona virus pandemic.
+Mapping states, counties, and municipalities that are enacting a moratorium on evictions due to the corona virus pandemic.
 
 ## Data Source
 
