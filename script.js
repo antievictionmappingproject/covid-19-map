@@ -30,7 +30,7 @@ const statesGeoJsonURI = "./states.geojson";
  * MAP SETUP
  *****************************************/
 
-// create a new map instance by referencing the html element by classname
+// create a new map instance by referencing the appropriate html element by its "id" attribute
 const map = L.map("map").setView([34.03, -82.2], 5);
 
 // Get the popup template from the HTML.
