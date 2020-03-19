@@ -8,7 +8,8 @@ const apiBaseURI = "https://ampitup.carto.com:443/api/v2/sql";
 const evictionMoratoriumsQuery = 
   "SELECT " +
     "cartodb_id, " + 
-    "municipality, passed, lat, lon, link, policy_summary, " +
+    "(CASE WHEN passed IS TRUE THEN 'Yes' ELSE 'No' END) AS passed, " +
+    "municipality, lat, lon, link, policy_summary, " +
     "policy_type, start, _end, state, admin_scale " +
   "FROM " +
     "public.eviction_moratorium_mapping;";
@@ -29,6 +30,7 @@ L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
   maxZoom: 18
 }).addTo(map);
 
+// request the data from CARTO, then wrangle it and add it to the map
 fetch(dataURI)
   .then(function (response) {
     // Read data as JSON
@@ -38,7 +40,8 @@ fetch(dataURI)
     console.log(data);
     
     const { rows } = data;
-  
+    
+    // TODO: pull out data 
     const statesData = rows.filter(row => row.admin_scale === "State");
     const localitiesData = rows.filter(row => row.admin_scale !== "State" && row.lat !== null && row.lon !== null);
   

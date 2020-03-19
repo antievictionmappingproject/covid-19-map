@@ -9,6 +9,10 @@ body {
   width: 100%;
 }
 
+a {
+  text-decoration: none;
+}
+
 .leaflet-popup-content > .popup-container {
   padding: 0;
 }
@@ -22,6 +26,14 @@ body {
   font-size: 18px;
 }
 
-.popup-container p strong {
+.popup-container p {
   padding-top: 12px;
+}
+
+.popup-container > div {
+  padding-bottom: 12px;
+}
+
+.popup-container > div:last-of-type {
+  padding-bottom: 0;
 }
