@@ -50,6 +50,7 @@ a {
 
 .popup-container {
   padding: 0;
+  z-index: 1000;
 }
 
 .popup-container p.popup-title {

@@ -34,6 +34,12 @@ const statesGeoJsonURI = "./states.geojson";
 // don't add the default zoom ui and attribution as they're customized first then added layer
 const mapOptions = { zoomControl: false, attributionControl: false };
 
+
+// global styling variables
+const strokeWeight = 1.5;
+const pointRadius = 8;
+const fillOpacity = 0.7;
+
 // create a new map instance by referencing the appropriate html element by its "id" attribute
 const map = L.map("map", mapOptions).setView([34.03, -82.2], 5);
 
@@ -136,31 +142,26 @@ function handleData([cartoData, statesGeoJson]) {
 
 function handleLocalitiesLayer(geojson) {
   
-  
-  const passedMarkerOptions = {
-      color: "#4dac26",
-      fillColor: "#b8e186",
-      fillOpacity: 0.7,
-      radius: 5
-  };
-  
+  // styling for the localities layer: style localities conditionally according to a presence of a moratorium
   const pointToLayer = 
     (feature, latlng) => {
-      // style states based on whether their moratorium has passed
+      // style localities based on whether their moratorium has passed
       if (feature.properties.passed === 'Yes') {
         return  L.circleMarker(latlng, {
           color: "#4dac26",
           fillColor: "#b8e186",
-          fillOpacity: 0.7,
-          radius: 5
+          fillOpacity: fillOpacity,
+          radius: pointRadius,
+          weight: strokeWeight
         });
       }
       else {
         return  L.circleMarker(latlng, {
           color: "#d01c8b",
           fillColor: "#f1b6da",
-          fillOpacity: 0.7,
-          radius: 5
+          fillOpacity: fillOpacity,
+          radius: pointRadius,
+          weight: strokeWeight
         });
       }
   };
@@ -200,13 +201,15 @@ function handleStatesLayer(geojson) {
         return {
           color: "#4dac26",
           fillColor: "#b8e186",
-          fillOpacity: 0.7
+          fillOpacity: fillOpacity,
+          weight: strokeWeight
         };
       } else if (feature.properties.passed === 'No') {
         return {
           color: "#d01c8b",
           fillColor: "#f1b6da",
-          fillOpacity: 0.7
+          fillOpacity: fillOpacity,
+          weight: strokeWeight
         };
       }
       else {
