@@ -38,7 +38,7 @@ const map = L.map('map').setView([34.03, -82.20], 5);
 const popupTemplate = document.querySelector('.popup-template').innerHTML;
 
 // Add base layer
-L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
+L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.png', {
   maxZoom: 18
 }).addTo(map);
 
@@ -46,31 +46,33 @@ L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
  * FETCH DATA SOURCES
  *****************************************/
 
+Promise.all(
+  [evictionMoratoriumDataURI, statesGeoJsonURI].map(uri => 
+    fetch(uri).then(res => {
+      if (!res.ok) {
+        throw new Error("Network request error with data fetch");
+      }
+      return res.json();
+    })
+  )
+)
+.then(handleData)
+.catch(error => console.log(error));
 
-Promise.all([
-  fetch(statesGeoJsonURI).then(res => res.json()),
-  fetch(evictionMoratoriumDataURI).then(res => res.json())
-])
-  .then(console.log)
-  .catch(error => console.error(error));
+/****************************************** 
+ * HANDLE DATA ASYNC RESPONSES
+ *****************************************/
 
-// request the data from CARTO, then wrangle it and add it to the map
-fetch(evictionMoratoriumDataURI)
-  .then(function (response) {
-    // Read data as JSON
-    return response.json();
-  })
-  .then(function (data) {
-    console.log(data);
-    
-    const { rows } = data;
-    
-    // TODO: pull out data wrangling into a separate function
+function handleData([cartoData, statesGeoJson]) {
+    const { rows } = cartoData;
+  
+    // seperate out the states data from the localities data
     const statesData = rows.filter(row => row.admin_scale === "State");
     const localitiesData = rows.filter(row => row.admin_scale !== "State" && row.lat !== null && row.lon !== null);
   
     console.log(statesData, localitiesData);
-  
+    
+    // convert the regular moratorium JSON into valid GeoJSON
     const localitiesGeoJson = {
       type: "FeatureCollection",
       features: localitiesData.map(({ cartodb_id, lat, lon, ...rest}) => ({
@@ -84,8 +86,20 @@ fetch(evictionMoratoriumDataURI)
       }))
     }
     
+    // TODO: handle joining the states data
+    let statesDataJoined;
+    
+    handleMoratoriumsLayer(localitiesGeoJson)
+    handleStatesLayer(statesDataJoined);
+}
+
+/****************************************** 
+ * HANDLE ADDING MAP LAYERS
+ *****************************************/
+
+function handleMoratoriumsLayer(geojson) {
     // Create the Leaflet layer for the localities data 
-    const localitiesLayer = L.geoJson(localitiesGeoJson);
+    const localitiesLayer = L.geoJson(geojson);
   
     // Add popups to the layer
     localitiesLayer.bindPopup(function (layer) {
@@ -101,5 +115,9 @@ fetch(evictionMoratoriumDataURI)
     localitiesLayer.addTo(map);
   
     // Move the map view so that the localitiesLayer is visible
-    map.fitBounds(localitiesLayer.getBounds());
-  });
+    map.fitBounds(localitiesLayer.getBounds()); 
+}
+
+function handleStatesLayer(geojson) {
+  // TODO: handle creating the states layer
+}
