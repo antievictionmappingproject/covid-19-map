@@ -30,6 +30,8 @@ L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
   maxZoom: 18
 }).addTo(map);
 
+fetch()
+
 // request the data from CARTO, then wrangle it and add it to the map
 fetch(dataURI)
   .then(function (response) {
@@ -41,7 +43,7 @@ fetch(dataURI)
     
     const { rows } = data;
     
-    // TODO: pull out data 
+    // TODO: pull out data wrangling into a separate function
     const statesData = rows.filter(row => row.admin_scale === "State");
     const localitiesData = rows.filter(row => row.admin_scale !== "State" && row.lat !== null && row.lon !== null);
   

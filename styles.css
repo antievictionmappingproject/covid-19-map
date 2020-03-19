@@ -13,12 +13,13 @@ a {
   text-decoration: none;
 }
 
-.leaflet-popup-content > .popup-container {
+/* override leaflet's <p> element styles */
+.leaflet-popup-content > .popup-container p {
+  margin: 0;
   padding: 0;
 }
 
-.leaflet-popup-content > .popup-container p {
-  margin: 0;
+.popup-container {
   padding: 0;
 }
 
