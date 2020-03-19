@@ -30,8 +30,13 @@ const statesGeoJsonURI = "./states.geojson";
  * MAP SETUP
  *****************************************/
 
+// options for configuring the Leaflet map
+const mapOptions = {};
+
 // create a new map instance by referencing the appropriate html element by its "id" attribute
 const map = L.map("map").setView([34.03, -82.2], 5);
+
+const zoomControl = L.control.zoom({ position: "bottomright" }).addTo()
 
 // Get the popup template from the HTML.
 // We can do this here because the template will never change.
@@ -39,7 +44,7 @@ const popupTemplate = document.querySelector(".popup-template").innerHTML;
 
 // Add base layer
 L.tileLayer(
-  "https://stamen-tiles.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.png",
+  "https://a.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}@2x.png",
   {
     maxZoom: 18
   }
