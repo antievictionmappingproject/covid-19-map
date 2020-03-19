@@ -1,26 +1,40 @@
 // This isn't necessary but it keeps the editor from thinking L is a typo
 /* global L, Mustache */
 
-var map = L.map('map').setView([34.03, -82.20], 5);
+const apiBaseURI = "https://ampitup.carto.com:443/api/v2/sql";
+
+const evictionMoratoriumsQuery = 
+  "SELECT " +
+    "municipality, passed, lat, lon, link, policy_summary, " +
+    "policy_type, start, _end, state, admin_scale " +
+  "FROM " +
+    "public.eviction_moratorium_mapping;";
+
+const dataURI = `${apiBaseURI}?${evictionMoratoriumsQuery}`;
+console.log(dataURI)
+
+// create a new map instance by referencing the html element by classname
+const map = L.map('map').setView([34.03, -82.20], 5);
 
 // Get the popup template from the HTML.
 //
 // We can do this here because the template will never change.
-var popupTemplate = document.querySelector('.popup-template').innerHTML;
+const popupTemplate = document.querySelector('.popup-template').innerHTML;
 
 // Add base layer
 L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
   maxZoom: 18
 }).addTo(map);
 
-fetch('https://data.cityofnewyork.us/resource/fhrw-4uyv.geojson?$where=latitude is not null')
+fetch(dataURI)
   .then(function (response) {
     // Read data as JSON
     return response.json();
   })
   .then(function (data) {
+    console.log(data);
     // Create the Leaflet layer for the data 
-    var complaintData = L.geoJson(data);
+    const complaintData = L.geoJson(data);
   
     // Add popups to the layer
     complaintData.bindPopup(function (layer) {
