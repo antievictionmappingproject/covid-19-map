@@ -1,7 +1,15 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 0;
   font-family: Roboto, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
 }
 
 #root {
@@ -16,15 +24,18 @@ body {
   left: 0;
   bottom: 0;
   right: 0;
+  z-index: 0;
 }
 
 header {
   width: 60%;
-  postion: absolute;
+  position: absolute;
   top: 12px;
   left: 12px;
   padding: 12px;
+  background: #fff;
   border: 1px solid #333;
+  z-index: 1;
 }
 
 a {

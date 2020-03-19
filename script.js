@@ -152,7 +152,10 @@ function handleLocalitiesLayer(geojson) {
   localitiesLayer.addTo(map);
 
   // Move the map view so that the localitiesLayer is visible
-  map.fitBounds(localitiesLayer.getBounds());
+  map.fitBounds(localitiesLayer.getBounds(), {
+    paddingTopLeft: [12, 120],
+    paddingBottomRight: [12, 12]
+  });
 }
 
 function handleStatesLayer(geojson) {
