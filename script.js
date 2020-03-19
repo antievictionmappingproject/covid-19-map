@@ -70,7 +70,13 @@ Promise.all(
 function handleData([cartoData, statesGeoJson]) {
   // seperate out the states data from the localities data
   const { rows } = cartoData;
-  const statesData = rows.filter(row => row.admin_scale === "State");
+
+  const statesData = rows
+    .filter(row => row.admin_scale === "State")
+    .reduce((acc, { state, ...rest }) => {
+      return acc.set(state, rest);
+    }, new Map());
+
   const localitiesData = rows.filter(
     row => row.admin_scale !== "State" && row.lat !== null && row.lon !== null
   );
@@ -91,13 +97,21 @@ function handleData([cartoData, statesGeoJson]) {
     }))
   };
 
-  // TODO: handle joining the states data
-  let statesDataJoined = statesGeoJson.features.forEach(feature => {
-    
-  })
+  // join states moratorium data to states geojson
+  statesGeoJson.features.forEach(feature => {
+    const { properties } = feature;
+    if (statesData.has(properties.name)) {
+      feature.properties = {
+        ...statesData.get(properties.name),
+        ...properties
+      };
+    }
+  });
+
+  console.log(statesGeoJson);
 
   handleMoratoriumsLayer(localitiesGeoJson);
-  handleStatesLayer(statesDataJoined);
+  handleStatesLayer(statesGeoJson);
 }
 
 /******************************************
@@ -126,5 +140,22 @@ function handleMoratoriumsLayer(geojson) {
 }
 
 function handleStatesLayer(geojson) {
-  // TODO: handle creating the states layer
+  // styling for the states layer: style states conditionally according to a presence of a moratorium
+  const statesLayerOptions = {
+    style: feature => {
+      if (feature.properties.policy_type) {
+        return {
+          stroke: true,
+          color: "steelblue"
+        }
+      }
+    }
+  }
+  
+  // Create the Leaflet layer for the states data
+  const statesLayer = L.geoJson(geojson);
+  statesLayer.bindPopup(layer =>
+    Mustache.render(popupTemplate, layer.feature.properties)
+  );
+  statesLayer.addTo(map);
 }
