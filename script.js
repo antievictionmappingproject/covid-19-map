@@ -163,17 +163,24 @@ function handleStatesLayer(geojson) {
   const layerOptions = {
     style: feature => {
       // only style / show states that have a state wide moratorium
-      if (feature.properties.policy_type) {
+      if (feature.properties.passed === true) {
         return {
-          stroke: true,
-          color: "#3388ff",
-          fill: true
+          color: "#4dac26",
+          fillColor: "#b8e186",
+          fillOpacity: 0.7
         };
-      } else {
+      } else if (feature.properties.policy_type === false) {
+        return {
+          color: "#d01c8b",
+          fillColor: "#f1b6da",
+          fillOpacity: 0.7
+        };
+      }
+      else {
         return {
           stroke: false,
-          fill: false
-        };
+          
+        }
       }
     }
   };
