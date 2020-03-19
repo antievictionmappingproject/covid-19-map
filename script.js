@@ -5,12 +5,13 @@ const apiBaseURI = "https://ampitup.carto.com:443/api/v2/sql";
 
 const evictionMoratoriumsQuery = 
   "SELECT " +
+    "cartodb_id " + 
     "municipality, passed, lat, lon, link, policy_summary, " +
     "policy_type, start, _end, state, admin_scale " +
   "FROM " +
     "public.eviction_moratorium_mapping;";
 
-const dataURI = `${apiBaseURI}?${evictionMoratoriumsQuery}`;
+const dataURI = `${apiBaseURI}?q=${evictionMoratoriumsQuery}`;
 console.log(dataURI)
 
 // create a new map instance by referencing the html element by classname
@@ -33,11 +34,32 @@ fetch(dataURI)
   })
   .then(function (data) {
     console.log(data);
-    // Create the Leaflet layer for the data 
-    const complaintData = L.geoJson(data);
+    
+    const { rows } = data;
+  
+    const statesData = rows.filter(row => row.admin_scale === "State");
+    const localitiesData = rows.filter(row => row.admin_scale !== "State" && row.lat !== null && row.lon !== null);
+  
+    console.log(statesData, localitiesData);
+  
+    const localitiesGeoJson = {
+      type: "FeatureCollection",
+      features: localitiesData.map(d => ({
+        type: "Feature",
+        id: null,
+        properties: d,
+        geometry: {
+          type: "Point",
+          coordinates: [d.lon, d.lat]
+        }
+      }))
+    }
+    
+    // Create the Leaflet layer for the localities data 
+    const localitiesLayer = L.geoJson(localitiesGeoJson);
   
     // Add popups to the layer
-    complaintData.bindPopup(function (layer) {
+    localitiesLayer.bindPopup(function (layer) {
       // This function is called whenever a feature on the layer is clicked
       console.log(layer.feature.properties);
       
@@ -47,8 +69,8 @@ fetch(dataURI)
     });
   
     // Add data to the map
-    complaintData.addTo(map);
+    localitiesLayer.addTo(map);
   
-    // Move the map view so that the complaintData is visible
-    map.fitBounds(complaintData.getBounds());
+    // Move the map view so that the localitiesLayer is visible
+    map.fitBounds(localitiesLayer.getBounds());
   });
