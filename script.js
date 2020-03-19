@@ -135,8 +135,30 @@ function handleData([cartoData, statesGeoJson]) {
  *****************************************/
 
 function handleLocalitiesLayer(geojson) {
+  
+  const layerOptions = {
+    style: feature => {
+      // style localities based on whether their moratoriums have passed
+      if (feature.properties.passed === 'Yes') {
+        return {
+          color: "#4dac26",
+          fillColor: "#b8e186",
+          fillOpacity: 0.7,
+          radius: 7
+        };
+      } else {
+        return {
+          color: "#d01c8b",
+          fillColor: "#f1b6da",
+          fillOpacity: 0.7,
+          radius: 7
+        };
+      }
+    }
+  };
+  
   // Create the Leaflet layer for the localities data
-  const localitiesLayer = L.geoJson(geojson);
+  const localitiesLayer = L.geoJson(geojson, layerOptions);
 
   // Add popups to the layer
   localitiesLayer.bindPopup(function(layer) {
@@ -162,14 +184,14 @@ function handleStatesLayer(geojson) {
   // styling for the states layer: style states conditionally according to a presence of a moratorium
   const layerOptions = {
     style: feature => {
-      // only style / show states that have a state wide moratorium
-      if (feature.properties.passed === true) {
+      // style states based on whether their moratorium has passed
+      if (feature.properties.passed === 'Yes') {
         return {
           color: "#4dac26",
           fillColor: "#b8e186",
           fillOpacity: 0.7
         };
-      } else if (feature.properties.policy_type === false) {
+      } else if (feature.properties.passed === 'No') {
         return {
           color: "#d01c8b",
           fillColor: "#f1b6da",
@@ -179,7 +201,7 @@ function handleStatesLayer(geojson) {
       else {
         return {
           stroke: false,
-          
+          fill: false
         }
       }
     }
