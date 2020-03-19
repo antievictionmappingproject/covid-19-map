@@ -1,6 +1,12 @@
 // This isn't necessary but it keeps the editor from thinking L is a typo
 /* global L, Mustache */
 
+console.clear();
+
+/******************************************
+ * DATA SOURCES
+ *****************************************/
+
 // the base URI for the CARTO SQL API
 const apiBaseURI = "https://ampitup.carto.com:443/api/v2/sql";
 
@@ -15,8 +21,14 @@ const evictionMoratoriumsQuery =
     "public.eviction_moratorium_mapping;";
 
 // complete URI to pass to fetch()
-const dataURI = `${apiBaseURI}?q=${evictionMoratoriumsQuery}`;
-console.log(dataURI)
+const evictionMoratoriumDataURI = `${apiBaseURI}?q=${evictionMoratoriumsQuery}`;
+
+// states geojson url
+const statesGeoJsonURI = "./states.geojson";
+
+/****************************************** 
+ * MAP SETUP 
+ *****************************************/
 
 // create a new map instance by referencing the html element by classname
 const map = L.map('map').setView([34.03, -82.20], 5);
@@ -30,10 +42,20 @@ L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
   maxZoom: 18
 }).addTo(map);
 
-fetch()
+/****************************************** 
+ * FETCH DATA SOURCES
+ *****************************************/
+
+
+Promise.all([
+  fetch(statesGeoJsonURI).then(res => res.json()),
+  fetch(evictionMoratoriumDataURI).then(res => res.json())
+])
+  .then(console.log)
+  .catch(error => console.error(error));
 
 // request the data from CARTO, then wrangle it and add it to the map
-fetch(dataURI)
+fetch(evictionMoratoriumDataURI)
   .then(function (response) {
     // Read data as JSON
     return response.json();
