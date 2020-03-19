@@ -133,6 +133,18 @@ function handleData([cartoData, statesGeoJson]) {
   console.log(statesGeoJson);
   handleStatesLayer(statesGeoJson);
   handleLocalitiesLayer(localitiesGeoJson);
+  
+  //add layer control 
+var baselayers = {
+};
+
+var overlays = {
+    "Cities & Counties": localitiesLayer,
+    "States": statesLayer
+};
+
+L.control.layers(baselayers, overlays, {position: 'topright', collapsed: false}).addTo(map);
+
 
 }
 

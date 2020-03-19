@@ -35,7 +35,7 @@ header {
   padding: 12px;
   background: #fff;
   border: 1px solid #333;
-  z-index: 1;
+  z-index: 500;
 }
 
 a {
@@ -50,7 +50,7 @@ a {
 
 .popup-container {
   padding: 0;
-  z-index: 1000;
+  z-index: 7000;
 }
 
 .popup-container p.popup-title {
