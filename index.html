@@ -21,11 +21,23 @@
       This script element will not be displayed, it just holds our template
     -->
     <script class="popup-template" type="x-tmpl-mustache">
-      <div>
-        <h2>{{municipality}}</h2>
-        <div>{{policy_summary}}</div>
-        <div>{{policy_type}}</div>
-        <div>{{passed}}</div>
+      <div class="popup-container locality-popup-container">
+        <p class="popup-title"><strong>{{municipality}}</strong></p>
+        <div>
+          <p><strong>Policy Type</strong></p>
+          <p>{{policy_type}}</p>
+        </div>
+        <div>
+          <p><strong>Policy Summary</strong></p>
+          <p>{{policy_summary}}</p>
+        </div>
+        <div>
+          <p><strong>Has Passed?</strong></p>
+          {{passed}}
+        </div>
+        <div>
+          <p><a target="_blank" href="{{link}}">More Info</a></p>
+        </div>
       </div>
     </script>
     

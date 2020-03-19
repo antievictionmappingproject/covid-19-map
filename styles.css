@@ -8,3 +8,20 @@ body {
   height: 100%;
   width: 100%;
 }
+
+.leaflet-popup-content > .popup-container {
+  padding: 0;
+}
+
+.leaflet-popup-content > .popup-container p {
+  margin: 0;
+  padding: 0;
+}
+
+.popup-container p.popup-title {
+  font-size: 18px;
+}
+
+.popup-container p strong {
+  padding-top: 12px;
+}

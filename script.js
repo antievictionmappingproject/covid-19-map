@@ -7,7 +7,7 @@ const apiBaseURI = "https://ampitup.carto.com:443/api/v2/sql";
 // SQL query to pass to the CARTO API
 const evictionMoratoriumsQuery = 
   "SELECT " +
-    "cartodb_id " + 
+    "cartodb_id, " + 
     "municipality, passed, lat, lon, link, policy_summary, " +
     "policy_type, start, _end, state, admin_scale " +
   "FROM " +
@@ -15,6 +15,7 @@ const evictionMoratoriumsQuery =
 
 // complete URI to pass to fetch()
 const dataURI = `${apiBaseURI}?q=${evictionMoratoriumsQuery}`;
+console.log(dataURI)
 
 // create a new map instance by referencing the html element by classname
 const map = L.map('map').setView([34.03, -82.20], 5);
