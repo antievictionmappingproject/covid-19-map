@@ -92,7 +92,9 @@ function handleData([cartoData, statesGeoJson]) {
   };
 
   // TODO: handle joining the states data
-  let statesDataJoined;
+  let statesDataJoined = statesGeoJson.features.forEach(feature => {
+    
+  })
 
   handleMoratoriumsLayer(localitiesGeoJson);
   handleStatesLayer(statesDataJoined);
