@@ -7,21 +7,24 @@ body {
 #root {
   position: relative;
   height: 100vh;
+  width: 100vw;
 }
 
 #map {
   position: absolute;
-  height: 100%;
-  width: 100%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
 
 header {
-  postion: relative;
+  width: 60%;
+  postion: absolute;
   top: 12px;
   left: 12px;
   padding: 12px;
   border: 1px solid #333;
-  z-index: 1;
 }
 
 a {
