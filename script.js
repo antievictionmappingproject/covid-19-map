@@ -110,7 +110,7 @@ function handleData([cartoData, statesGeoJson]) {
 
   console.log(statesGeoJson);
 
-  handleMoratoriumsLayer(localitiesGeoJson);
+  handleLocalitiesLayer(localitiesGeoJson);
   handleStatesLayer(statesGeoJson);
 }
 
@@ -118,7 +118,7 @@ function handleData([cartoData, statesGeoJson]) {
  * HANDLE ADDING MAP LAYERS
  *****************************************/
 
-function handleMoratoriumsLayer(geojson) {
+function handleLocalitiesLayer(geojson) {
   // Create the Leaflet layer for the localities data
   const localitiesLayer = L.geoJson(geojson);
 
@@ -141,21 +141,30 @@ function handleMoratoriumsLayer(geojson) {
 
 function handleStatesLayer(geojson) {
   // styling for the states layer: style states conditionally according to a presence of a moratorium
-  const statesLayerOptions = {
+  const layerOptions = {
     style: feature => {
+      // only style / show states that have a state wide moratorium
       if (feature.properties.policy_type) {
         return {
           stroke: true,
-          color: "steelblue"
-        }
+          color: "#3388ff",
+          fill: true
+        };
+      } else {
+        return {
+          stroke: false,
+          fill: false
+        };
       }
     }
-  }
-  
+  };
+
   // Create the Leaflet layer for the states data
-  const statesLayer = L.geoJson(geojson);
+  const statesLayer = L.geoJson(geojson, layerOptions);
+
   statesLayer.bindPopup(layer =>
     Mustache.render(popupTemplate, layer.feature.properties)
   );
+
   statesLayer.addTo(map);
 }
