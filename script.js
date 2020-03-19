@@ -125,9 +125,9 @@ function handleData([cartoData, statesGeoJson]) {
   });
 
   console.log(statesGeoJson);
-
-  handleLocalitiesLayer(localitiesGeoJson);
   handleStatesLayer(statesGeoJson);
+  handleLocalitiesLayer(localitiesGeoJson);
+
 }
 
 /******************************************
@@ -136,29 +136,40 @@ function handleData([cartoData, statesGeoJson]) {
 
 function handleLocalitiesLayer(geojson) {
   
-  const layerOptions = {
-    style: feature => {
-      // style localities based on whether their moratoriums have passed
+  
+  const passedMarkerOptions = {
+      color: "#4dac26",
+      fillColor: "#b8e186",
+      fillOpacity: 0.7,
+      radius: 5
+  };
+  
+  const pointToLayer = 
+    (feature, latlng) => {
+      // style states based on whether their moratorium has passed
       if (feature.properties.passed === 'Yes') {
-        return {
+        return  L.circleMarker(latlng, {
           color: "#4dac26",
           fillColor: "#b8e186",
           fillOpacity: 0.7,
-          radius: 7
-        };
-      } else {
-        return {
+          radius: 5
+        });
+      }
+      else {
+        return  L.circleMarker(latlng, {
           color: "#d01c8b",
           fillColor: "#f1b6da",
           fillOpacity: 0.7,
-          radius: 7
-        };
+          radius: 5
+        });
       }
-    }
   };
   
   // Create the Leaflet layer for the localities data
-  const localitiesLayer = L.geoJson(geojson, layerOptions);
+  const localitiesLayer = L.geoJson(geojson, {
+      pointToLayer: pointToLayer
+    }
+  );
 
   // Add popups to the layer
   localitiesLayer.bindPopup(function(layer) {
