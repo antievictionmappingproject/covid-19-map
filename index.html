@@ -2,18 +2,23 @@
 <html>
   <head>
     <title>Eviction Moratoriums Map</title>
-    <meta name="viewport" content="initial-scale=1.0">
-    <meta charset="utf-8">
-    
+    <meta name="viewport" content="initial-scale=1.0" />
+    <meta charset="utf-8" />
+
     <!-- Load Leaflet CSS -->
-    <link href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" rel="stylesheet">
-    
+    <link
+      href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
+      rel="stylesheet"
+    />
+
     <!-- Load our styles -->
-    <link href="./styles.css" rel="stylesheet">
+    <link href="./styles.css" rel="stylesheet" />
   </head>
   <body>
-    <div id="map"></div>
     
+    <!-- the Leaflet map container -->
+    <div id="map"></div>
+
     <!--
       This script element will not be displayed, it just holds our Leaflet popup template
     -->
@@ -37,19 +42,19 @@
         </div>
       </div>
     </script>
-    
+
     <!-- Load Leaflet library -->
     <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
-    
+
     <!-- Load Promises polyfill -->
     <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"></script>
-    
+
     <!-- Load Fetch polyfill -->
     <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.4/fetch.js"></script>
-    
+
     <!-- import the Mustache library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.0/mustache.min.js"></script>
-    
+
     <!-- Load our JavaScript -->
     <script src="./script.js"></script>
   </body>
