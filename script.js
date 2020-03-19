@@ -31,12 +31,23 @@ const statesGeoJsonURI = "./states.geojson";
  *****************************************/
 
 // options for configuring the Leaflet map
-const mapOptions = {};
+// don't add zoom and attribution as they're customized first then added layer
+const mapOptions = { zoomControl: false, attributionControl: false };
 
 // create a new map instance by referencing the appropriate html element by its "id" attribute
-const map = L.map("map").setView([34.03, -82.2], 5);
+const map = L.map("map", mapOptions).setView([34.03, -82.2], 5);
 
-const zoomControl = L.control.zoom({ position: "bottomright" }).addTo()
+const attribution = L.control
+  .attribution({ prefix: "Data sources by: " })
+  .addAttribution(
+    "<a href='https://www.antievictionmap.com/' target='_blank'>Anti-Eviction Mapping Project</a>"
+  )
+  .addAttribution(
+    "<a href='https://www.openstreetmap.org' target='_blank'>Open Street Map Contributors</a>"
+  )
+  .addTo(map);
+
+const zoomControl = L.control.zoom({ position: "bottomright" }).addTo(map);
 
 // Get the popup template from the HTML.
 // We can do this here because the template will never change.
