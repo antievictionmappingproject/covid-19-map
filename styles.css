@@ -1,12 +1,27 @@
 body {
   margin: 0;
   padding: 0;
+  font-family: Roboto, sans-serif;
+}
+
+#root {
+  position: relative;
+  height: 100vh;
 }
 
 #map {
   position: absolute;
   height: 100%;
   width: 100%;
+}
+
+header {
+  postion: relative;
+  top: 12px;
+  left: 12px;
+  padding: 12px;
+  border: 1px solid #333;
+  z-index: 1;
 }
 
 a {

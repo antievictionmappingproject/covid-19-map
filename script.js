@@ -31,7 +31,7 @@ const statesGeoJsonURI = "./states.geojson";
  *****************************************/
 
 // options for configuring the Leaflet map
-// don't add zoom and attribution as they're customized first then added layer
+// don't add the default zoom ui and attribution as they're customized first then added layer
 const mapOptions = { zoomControl: false, attributionControl: false };
 
 // create a new map instance by referencing the appropriate html element by its "id" attribute
