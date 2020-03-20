@@ -55,6 +55,7 @@ const attribution = L.control
 
 const zoomControl = L.control.zoom({ position: "bottomright" }).addTo(map);
 
+// Map layers control: add the layers later after their data has been fetched
 const layersControl = L.control.layers(null, null, {position: 'topright', collapsed: false}).addTo(map);
 
 // Get the popup template from the HTML.
@@ -143,8 +144,6 @@ function handleData([cartoData, statesGeoJson]) {
   layersControl
     .addOverlay(localities, "Cities/Counties")
     .addOverlay(states, "States");
-
-  
 }
 
 /******************************************
@@ -243,6 +242,5 @@ function handleStatesLayer(geojson) {
 
   statesLayer.addTo(map);
   
-  return statesLayer;
-  
+  return statesLayer; 
 }

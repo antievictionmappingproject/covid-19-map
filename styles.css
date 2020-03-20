@@ -34,7 +34,9 @@ header {
   left: 12px;
   padding: 12px;
   background: #fff;
-  border: 1px solid #333;
+  border: 2px solid rgba(0,0,0,0.2);
+  border-radius: 5px;
+  background-clip: padding-box;
   z-index: 500;
 }
 

@@ -4,6 +4,11 @@
     <title>COVID-19 Emergency Tenant Protections Map</title>
     <meta name="viewport" content="initial-scale=1.0" />
     <meta charset="utf-8" />
+    <meta name="author" content="Anti-Eviction Mapping Project" />
+    <meta
+      name="description"
+      content="Where United States officials have passed, or tenants are working to pass, emergency tenant protections during the COVID-19 crisis."
+    />
 
     <!-- Load Leaflet CSS -->
     <link
@@ -22,17 +27,22 @@
   </head>
   <body>
     <div id="root">
-      
       <header>
         <h1>
           COVID-19 Emergency Tenant Protections
         </h1>
         <p>
-          Where United States officials <b class="color-passed">have passed</b>
-          (or tenants are <b class="color-yet-to-pass">working to pass</b>) emergency tenant protections during the COVID-19 crisis. Global map coming soon! 
-          <p>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfHzR_SYO-wKfa3Abi9jDvZXCH3dsLgrkDj-9Rwm-3oRjDD9A/viewform" target="_blank">Submit your updates here.</a> 
-          </p>
+          Where United States officials
+          <b class="color-passed">have passed</b> (or tenants are
+          <b class="color-yet-to-pass">working to pass</b>) emergency tenant
+          protections during the COVID-19 crisis. Global map coming soon!
+        </p>
+        <p>
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSfHzR_SYO-wKfa3Abi9jDvZXCH3dsLgrkDj-9Rwm-3oRjDD9A/viewform"
+            target="_blank"
+            >Submit your updates here.</a
+          >
         </p>
       </header>
 
@@ -59,12 +69,12 @@
         </div>
         {{#start}}
         <div>
-          <p><strong>Effective: </strong>{{start}}</p>  
+          <p><strong>Effective: </strong>{{start}}</p>
         </div>
         {{/start}}
         {{#_end}}
         <div>
-          <p><strong>Ends: </strong>{{_end}}</p>  
+          <p><strong>Ends: </strong>{{_end}}</p>
         </div>
         {{/_end}}
         {{#link}}
