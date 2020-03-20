@@ -132,8 +132,8 @@ function handleData([cartoData, statesGeoJson]) {
 
   console.log(statesGeoJson);
   
-  // add both the states layer and localities layer to the map and 
-  // save the layer output
+  // add both the states layer and localities layer to the map 
+  // and save the layer output
   const states = handleStatesLayer(statesGeoJson);
   const localities = handleLocalitiesLayer(localitiesGeoJson);
 
