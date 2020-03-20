@@ -27,7 +27,7 @@ const evictionMoratoriumDataURI = `${apiBaseURI}?q=${evictionMoratoriumsQuery}`;
 const statesGeoJsonURI = "./states.geojson";
 
 /******************************************
- * MAP SETUP
+ * MAP SETUP & MAP CONTROLS
  *****************************************/
 
 // options for configuring the Leaflet map
@@ -54,6 +54,8 @@ const attribution = L.control
   .addTo(map);
 
 const zoomControl = L.control.zoom({ position: "bottomright" }).addTo(map);
+
+const layersControl = L.control.layers(null, null, {position: 'topright', collapsed: false}).addTo(map);
 
 // Get the popup template from the HTML.
 // We can do this here because the template will never change.
@@ -137,15 +139,10 @@ function handleData([cartoData, statesGeoJson]) {
   const states = handleStatesLayer(statesGeoJson);
   const localities = handleLocalitiesLayer(localitiesGeoJson);
 
-  // Generate a layer control
-  var baselayers = {};
-
-  var overlays = {
-      "Cities/Counties": localities,
-      "States": states
-  };
-
-  L.control.layers(baselayers, overlays, {position: 'topright', collapsed: false}).addTo(map);
+  // add layers to layers control
+  layersControl
+    .addOverlay(localities, "Cities/Counties")
+    .addOverlay(states, "States");
 
   
 }
