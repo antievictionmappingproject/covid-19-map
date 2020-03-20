@@ -28,7 +28,8 @@
           COVID-19 Emergency Tenant Protections Map
         </h1>
         <p>
-          Where in the United States officials have passed (or tenants are working to pass) emergency tenant protections during the COVID-19 crisis. (Global map coming soon!) <a href="https://docs.google.com/forms/d/e/1FAIpQLSfHzR_SYO-wKfa3Abi9jDvZXCH3dsLgrkDj-9Rwm-3oRjDD9A/viewform" target="_blank">Submit your updates here.</a> 
+          Where in the United States officials <b class="color-passed">have passed</b>
+          (or tenants are <b class="color-yet-to-pass">working to pass</b>) emergency tenant protections during the COVID-19 crisis. (Global map coming soon!) <a href="https://docs.google.com/forms/d/e/1FAIpQLSfHzR_SYO-wKfa3Abi9jDvZXCH3dsLgrkDj-9Rwm-3oRjDD9A/viewform" target="_blank">Submit your updates here.</a> 
         </p>
       </header>
 
@@ -43,12 +44,12 @@
       <div class="popup-container locality-popup-container">
         <p class="popup-title"><strong>{{municipality}}</strong></p>
         <div>
-          <p class="popup-heading"><strong>Policy Type</strong></p>
-          <p>{{policy_type}}</p>
-        </div>
-        <div>
           <p><strong>Policy Summary</strong></p>
           <p>{{policy_summary}}</p>
+          <p>Effective {{start}}.
+            {{#start}}
+              Never shown!
+            {{/start}}</p>
         </div>
         <div>
           <p><strong>Has It Passed Yet?</strong></p>

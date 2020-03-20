@@ -131,21 +131,23 @@ function handleData([cartoData, statesGeoJson]) {
   });
 
   console.log(statesGeoJson);
-  handleStatesLayer(statesGeoJson);
-  handleLocalitiesLayer(localitiesGeoJson);
   
-  //add layer control 
-var baselayers = {
-};
+  // add both the states layer and localities layer to the map and 
+  // save the layer output
+  const states = handleStatesLayer(statesGeoJson);
+  const localities = handleLocalitiesLayer(localitiesGeoJson);
 
-var overlays = {
-    "Cities & Counties": localitiesLayer,
-    "States": statesLayer
-};
+  // Generate a layer control
+  var baselayers = {};
 
-L.control.layers(baselayers, overlays, {position: 'topright', collapsed: false}).addTo(map);
+  var overlays = {
+      "Cities/Counties": localities,
+      "States": states
+  };
 
+  L.control.layers(baselayers, overlays, {position: 'topright', collapsed: false}).addTo(map);
 
+  
 }
 
 /******************************************
@@ -202,6 +204,8 @@ function handleLocalitiesLayer(geojson) {
     paddingTopLeft: [12, 120],
     paddingBottomRight: [12, 12]
   });
+
+  return localitiesLayer;
 }
 
 function handleStatesLayer(geojson) {
@@ -241,4 +245,7 @@ function handleStatesLayer(geojson) {
   );
 
   statesLayer.addTo(map);
+  
+  return statesLayer;
+  
 }

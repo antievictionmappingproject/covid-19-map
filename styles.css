@@ -40,6 +40,21 @@ header {
 
 a {
   text-decoration: none;
+  font-style: italic;
+  color: black;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* custom classes */
+.color-passed {
+  color: #4dac26
+}
+
+.color-yet-to-pass {
+  color: #d01c8b
 }
 
 /* override leaflet's <p> element styles */
