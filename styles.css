@@ -9,7 +9,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6, p {
-  margin: 0;
+  margin: 0.5rem;
 }
 
 #root {
@@ -28,7 +28,7 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 header {
-  width: 60%;
+  width: 30%;
   position: absolute;
   top: 12px;
   left: 12px;
@@ -36,6 +36,20 @@ header {
   background: #fff;
   border: 1px solid #333;
   z-index: 500;
+}
+
+@media (max-width: 600px) {
+  header {
+    width: 60%
+  }
+  
+  h1 {
+    font-size: 1.25rem;
+  }
+  
+  p {
+    font-size: 0.775rem;
+  }
 }
 
 a {
