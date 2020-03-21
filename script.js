@@ -18,7 +18,7 @@ const evictionMoratoriumsQuery =
   "municipality, lat, lon, link, policy_summary, " +
   "policy_type, start, _end, state, admin_scale " +
   "FROM " +
-  "public.eviction_moratorium_mapping;";
+  "public.emergency_tenant_protections_carto_sync_do_not_edit;";
 
 // complete URI to pass to fetch()
 const evictionMoratoriumDataURI = `${apiBaseURI}?q=${evictionMoratoriumsQuery}`;
