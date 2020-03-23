@@ -6,7 +6,10 @@ console.clear();
 /******************************************
  * DATA SOURCES
  *****************************************/
+// unique id of the sheet that imports desired columns from the form responses sheet
 const sheetId = "1AkYjbnLbWW83LTm6jcsRjg78hRVxWsSKQv1eSssDHSM";
+
+// the URI that grabs the sheet text formatted as a CSV
 const sheetURI = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&id=${sheetId}`;
 
 // states geojson url
