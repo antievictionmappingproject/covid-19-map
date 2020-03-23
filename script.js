@@ -6,22 +6,11 @@ console.clear();
 /******************************************
  * DATA SOURCES
  *****************************************/
+// unique id of the sheet that imports desired columns from the form responses sheet
+const sheetId = "1AkYjbnLbWW83LTm6jcsRjg78hRVxWsSKQv1eSssDHSM";
 
-// the base URI for the CARTO SQL API
-const apiBaseURI = "https://ampitup.carto.com:443/api/v2/sql";
-
-// SQL query to pass to the CARTO API
-const evictionMoratoriumsQuery =
-  "SELECT " +
-  "cartodb_id, " +
-  "(CASE WHEN passed IS TRUE THEN 'Yes' ELSE 'No' END) AS passed, " +
-  "municipality, lat, lon, link, policy_summary, " +
-  "policy_type, start, _end, state, admin_scale " +
-  "FROM " +
-  "public.emergency_tenant_protections_carto_sync_do_not_edit;";
-
-// complete URI to pass to fetch()
-const evictionMoratoriumDataURI = `${apiBaseURI}?q=${evictionMoratoriumsQuery}`;
+// the URI that grabs the sheet text formatted as a CSV
+const sheetURI = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&id=${sheetId}`;
 
 // states geojson url
 const statesGeoJsonURI = "./states.geojson";
@@ -33,7 +22,6 @@ const statesGeoJsonURI = "./states.geojson";
 // options for configuring the Leaflet map
 // don't add the default zoom ui and attribution as they're customized first then added layer
 const mapOptions = { zoomControl: false, attributionControl: false };
-
 
 // global styling variables
 const strokeWeight = 1.5;
@@ -56,7 +44,9 @@ const attribution = L.control
 const zoomControl = L.control.zoom({ position: "bottomright" }).addTo(map);
 
 // Map layers control: add the layers later after their data has been fetched
-const layersControl = L.control.layers(null, null, {position: 'topright', collapsed: false}).addTo(map);
+const layersControl = L.control
+  .layers(null, null, { position: "topright", collapsed: false })
+  .addTo(map);
 
 // Get the popup template from the HTML.
 // We can do this here because the template will never change.
@@ -74,17 +64,16 @@ L.tileLayer(
  * FETCH DATA SOURCES
  *****************************************/
 
-Promise.all(
-  // map our data URIs to Fetch requests, then handle them once they've completed (or errored)
-  [evictionMoratoriumDataURI, statesGeoJsonURI].map(uri =>
-    fetch(uri).then(res => {
-      if (!res.ok) {
-        throw new Error("Network request error with data fetch");
-      }
-      return res.json();
-    })
-  )
-)
+Promise.all([
+  fetch(sheetURI).then(res => {
+    if (!res.ok) throw Error("Unable to fetch moratoriums sheet data");
+    return res.text();
+  }),
+  fetch(statesGeoJsonURI).then(res => {
+    if (!res.ok) throw Error("Unable to fetch states geojson");
+    return res.json();
+  })
+])
   .then(handleData)
   .catch(error => console.log(error));
 
@@ -92,12 +81,16 @@ Promise.all(
  * HANDLE DATA ASYNC RESPONSES
  *****************************************/
 
-function handleData([cartoData, statesGeoJson]) {
-  // seperate out the states data from the localities data
-  const { rows } = cartoData;
+function handleData([sheetsText, statesGeoJson]) {
+  const rows = d3.csvParse(sheetsText, d3.autoType);
+  console.log(rows);
 
   const statesData = rows
     .filter(row => row.admin_scale === "State")
+    .map(({ passed, ...rest }) => ({
+      passed: passed === "TRUE" ? "Yes" : "No",
+      ...rest
+    }))
     .reduce((acc, { state, ...rest }) => {
       return acc.set(state, rest);
     }, new Map());
