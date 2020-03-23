@@ -82,15 +82,16 @@ Promise.all([
  *****************************************/
 
 function handleData([sheetsText, statesGeoJson]) {
-  const rows = d3.csvParse(sheetsText, d3.autoType);
+  const rows = d3
+    .csvParse(sheetsText, d3.autoType)
+    .map(({ passed, ...rest }) => ({
+      passed: passed === "TRUE" ? "Yes" : "No",
+      ...rest
+    }));
   console.log(rows);
 
   const statesData = rows
     .filter(row => row.admin_scale === "State")
-    .map(({ passed, ...rest }) => ({
-      passed: passed === "TRUE" ? "Yes" : "No",
-      ...rest
-    }))
     .reduce((acc, { state, ...rest }) => {
       return acc.set(state, rest);
     }, new Map());
