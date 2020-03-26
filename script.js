@@ -1,7 +1,11 @@
-// This isn't necessary but it keeps the editor from thinking L is a typo
-/* global L, Mustache */
-
 console.clear();
+
+/******************************************
+ * GLOBAL CONSTANTS & FLAGS
+ *****************************************/
+// note: this matches the breakpoint in styles.css
+const MOBILE_BREAKPOINT = 640;
+let IS_MOBILE = document.querySelector("body").offsetWidth < MOBILE_BREAKPOINT;
 
 /******************************************
  * DATA SOURCES
@@ -23,47 +27,66 @@ const statesGeoJsonURI = "./states.geojson";
 // don't add the default zoom ui and attribution as they're customized first then added layer
 const mapOptions = { zoomControl: false, attributionControl: false };
 
-// global styling variables
+// global map layer styling variables
 const strokeWeight = 1.5;
 const pointRadius = 8;
 const fillOpacity = 0.7;
 
 // create a new map instance by referencing the appropriate html element by its "id" attribute
 const map = L.map("map", mapOptions).setView([34.03, -82.2], 5);
-var isSmall;
-function checkIfSmall() {
-  isSmall = (document.getElementById("map").offsetWidth > 640) ? false : true;
+
+// the collapsable <details> element below the map title
+const titleDetails = document
+  .getElementById("aemp-titlebox")
+  .querySelector("details");
+
+titleDetails.addEventListener("toggle", () => {
+  if (titleDetails.open) {
+    document.getElementById("aemp-titlebox").classList.remove("collapsed");
+  } else {
+    document.getElementById("aemp-titlebox").classList.add("collapsed");
+  }
+});
+
+function checkIsMobile() {
+  IS_MOBILE = document.querySelector("body").offsetWidth < MOBILE_BREAKPOINT;
 }
-function toggleTitle() {
-  document.getElementById("aemp-titlebox").classList.toggle("collapsed");
-  document.getElementById("aemp-titlearrow").classList.toggle("down");
-  document.getElementById("aemp-titlearrow").classList.toggle("left");
+
+function toggleTitleDetails() {
+  if (titleDetails.open) {
+    titleDetails.removeAttribute("open");
+  } else {
+    titleDetails.setAttribute("open", true);
+  }
 }
+
+// used by infowindow-template
 function closeInfo() {
   map.closePopup();
 }
 
-checkIfSmall();
-map.on('popupopen', function(e) {
+map.on("popupopen", function(e) {
   document.getElementById("root").classList.add("aemp-popupopen");
-  if (isSmall && !document.getElementById("aemp-titlebox").classList.contains("collapsed")) toggleTitle();
+
+  if (IS_MOBILE && titleDetails.open) {
+    toggleTitleDetails();
+  }
+
   map.invalidateSize();
   var px = map.project(e.target._popup._latlng); // find the pixel location on the map where the popup anchor is
-  px.y -= e.target._popup._container.clientHeight/2; // find the height of the popup container, divide by 2, subtract from the Y axis of marker location
-  map.panTo(map.unproject(px),{animate: true}); // pan to new center
+  px.y -= e.target._popup._container.clientHeight / 2; // find the height of the popup container, divide by 2, subtract from the Y axis of marker location
+  map.panTo(map.unproject(px), { animate: true }); // pan to new center
 });
+
 map.on("popupclose", function(e) {
   document.getElementById("root").classList.remove("aemp-popupopen");
   document.getElementById("aemp-infowindow-container").innerHTML = " ";
-});
-document.getElementById("aemp-title").addEventListener("click", function(e) {
-  toggleTitle();
 });
 
 window.addEventListener("resize", function() {
   var resizeWindow;
   clearTimeout(resizeWindow);
-  resizeWindow = setTimeout(checkIfSmall(), 500);
+  resizeWindow = setTimeout(checkIsMobile, 500);
 });
 
 const attribution = L.control
@@ -86,7 +109,8 @@ const layersControl = L.control
 // Get the popup template from the HTML.
 // We can do this here because the template will never change.
 const popupTemplate = document.querySelector(".popup-template").innerHTML;
-const infowindowTemplate = document.getElementById("aemp-infowindow-template").innerHTML;
+const infowindowTemplate = document.getElementById("aemp-infowindow-template")
+  .innerHTML;
 
 // Add base layer
 L.tileLayer(
@@ -181,36 +205,32 @@ function handleData([sheetsText, statesGeoJson]) {
  *****************************************/
 
 function handleLocalitiesLayer(geojson) {
-  
   // styling for the localities layer: style localities conditionally according to a presence of a moratorium
-  const pointToLayer = 
-    (feature, latlng) => {
-      // style localities based on whether their moratorium has passed
-      if (feature.properties.passed === 'Yes') {
-        return  L.circleMarker(latlng, {
-          color: "#4dac26",
-          fillColor: "#b8e186",
-          fillOpacity: fillOpacity,
-          radius: pointRadius,
-          weight: strokeWeight
-        });
-      }
-      else {
-        return  L.circleMarker(latlng, {
-          color: "#d01c8b",
-          fillColor: "#f1b6da",
-          fillOpacity: fillOpacity,
-          radius: pointRadius,
-          weight: strokeWeight
-        });
-      }
+  const pointToLayer = (feature, latlng) => {
+    // style localities based on whether their moratorium has passed
+    if (feature.properties.passed === "Yes") {
+      return L.circleMarker(latlng, {
+        color: "#4dac26",
+        fillColor: "#b8e186",
+        fillOpacity: fillOpacity,
+        radius: pointRadius,
+        weight: strokeWeight
+      });
+    } else {
+      return L.circleMarker(latlng, {
+        color: "#d01c8b",
+        fillColor: "#f1b6da",
+        fillOpacity: fillOpacity,
+        radius: pointRadius,
+        weight: strokeWeight
+      });
+    }
   };
-  
+
   // Create the Leaflet layer for the localities data
   const localitiesLayer = L.geoJson(geojson, {
-      pointToLayer: pointToLayer
-    }
-  );
+    pointToLayer: pointToLayer
+  });
 
   // Add popups to the layer
   localitiesLayer.bindPopup(function(layer) {
@@ -219,8 +239,13 @@ function handleLocalitiesLayer(geojson) {
 
     // Render the template with all of the properties. Mustache ignores properties
     // that aren't used in the template, so this is fine.
-    const renderedInfo = Mustache.render(infowindowTemplate, layer.feature.properties);
-    document.getElementById("aemp-infowindow-container").innerHTML = renderedInfo;
+    const renderedInfo = Mustache.render(
+      infowindowTemplate,
+      layer.feature.properties
+    );
+    document.getElementById(
+      "aemp-infowindow-container"
+    ).innerHTML = renderedInfo;
     return Mustache.render(popupTemplate, layer.feature.properties);
   });
 
@@ -241,26 +266,25 @@ function handleStatesLayer(geojson) {
   const layerOptions = {
     style: feature => {
       // style states based on whether their moratorium has passed
-      if (feature.properties.passed === 'Yes') {
+      if (feature.properties.passed === "Yes") {
         return {
           color: "#4dac26",
           fillColor: "#b8e186",
           fillOpacity: fillOpacity,
           weight: strokeWeight
         };
-      } else if (feature.properties.passed === 'No') {
+      } else if (feature.properties.passed === "No") {
         return {
           color: "#d01c8b",
           fillColor: "#f1b6da",
           fillOpacity: fillOpacity,
           weight: strokeWeight
         };
-      }
-      else {
+      } else {
         return {
           stroke: false,
           fill: false
-        }
+        };
       }
     }
   };
@@ -269,8 +293,13 @@ function handleStatesLayer(geojson) {
   const statesLayer = L.geoJson(geojson, layerOptions);
 
   statesLayer.bindPopup(function(layer) {
-    const renderedInfo = Mustache.render(infowindowTemplate, layer.feature.properties);
-    document.getElementById("aemp-infowindow-container").innerHTML = renderedInfo;
+    const renderedInfo = Mustache.render(
+      infowindowTemplate,
+      layer.feature.properties
+    );
+    document.getElementById(
+      "aemp-infowindow-container"
+    ).innerHTML = renderedInfo;
     return Mustache.render(popupTemplate, layer.feature.properties);
   });
 
