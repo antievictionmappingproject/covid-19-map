@@ -2,10 +2,16 @@
   box-sizing: border-box;
 }
 
+html {
+  /* sets default font size to 10px */
+  font-size: 62.5%;
+}
+
 body {
   margin: 0;
   padding: 0;
   font-family: Roboto, sans-serif;
+  font-size: 1.2rem;
 }
 
 #root {
@@ -37,29 +43,37 @@ header {
 }
 
 header > h1 {
-  margin: 0 0 12px 0;
+  margin: 0 0 1.2rem 0;
 }
 
 details > summary {
-  font-size: 14px;
+  font-size: 1.6rem;
+  font-weight: bold;
   cursor: pointer;
+}
+
+details p {
+  font-size: 1.6rem;
 }
 
 details p:last-of-type {
   margin-bottom: 0;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   header {
-    width: 60%;
+    top: 0;
+    left: 0;
+    width: 70%;
+    margin: 1rem;
   }
 
-  h1 {
-    font-size: 1.25rem;
+  header > h1 {
+    font-size: 1.8rem;
   }
 
-  p {
-    font-size: 0.775rem;
+  details p {
+    font-size: 1.4rem;
   }
 }
 
@@ -81,6 +95,8 @@ a:hover {
   color: #d01c8b;
 }
 
+/* popup styling */
+
 /* override leaflet's <p> element styles */
 .leaflet-popup-content > .popup-container p {
   margin: 0;
@@ -93,15 +109,18 @@ a:hover {
 }
 
 .popup-container p.popup-title {
-  font-size: 18px;
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-size: 1.5rem;
+  background: white;
 }
 
 .popup-container p {
-  padding-top: 12px;
+  padding-top: 1.2rem;
 }
 
 .popup-container > div {
-  padding-bottom: 12px;
+  padding-bottom: 1.2rem;
 }
 
 .popup-container > div:last-of-type {
@@ -129,6 +148,18 @@ a:hover {
   white-space: nowrap;
 }
 
+/* Hide map layers controls on mobile for now, as they get obscured */
+@media (max-width: 640px) {
+  #root.aemp-popupopen .leaflet-control-attribution {
+    display: none;
+  }
+
+  .leaflet-control-layers.leaflet-control-layers-expanded.leaflet-control {
+    display: none;
+  }
+}
+
+/* InfoWindow Styling */
 #aemp-infowindow-container {
   top: 0;
   right: 0;
@@ -138,6 +169,7 @@ a:hover {
 
 .aemp-infowindow {
   position: absolute;
+  top: 75px;
   right: 0;
   width: 350px;
   margin: 10px 10px 0 0;
@@ -149,49 +181,34 @@ a:hover {
 }
 
 .aemp-infowindow p {
+  font-size: 1.4rem;
   overflow-wrap: break-word;
   overflow-x: hidden;
+}
+
+.aemp-infowindow p.infowindow-title {
+  font-size: 1.6rem;
 }
 
 a.aemp-infowindow-close {
   display: inline-block;
   float: right;
+  font-size: 2.4rem;
   font-style: normal;
+  font-weight: bold;
 }
-
-.popup-container p.popup-title {
-  padding: 5px 10px;
-  border-radius: 10px;
-  font-size: 15px;
-  background: white;
-}
-
-/* Mobile styling */
 
 @media (max-width: 640px) {
   #root.aemp-popupopen #map {
     height: 50%;
   }
-  #root.aemp-popupopen .leaflet-control-attribution {
-    display: none;
-  }
-
-  .leaflet-control-layers.leaflet-control-layers-expanded.leaflet-control {
-    display: none;
-  }
-
-  header {
-    top: 0;
-    left: 0;
-    width: 70%;
-    margin: 10px;
-  }
 
   a.arrow-container {
-    padding-top: 5px;
+    padding-top: 0.5rem;
   }
 
   .aemp-infowindow {
+    top: auto;
     left: 0;
     bottom: 0;
     margin: 0;
