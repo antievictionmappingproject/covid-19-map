@@ -44,11 +44,11 @@ header {
   header {
     width: 60%
   }
-  
+
   h1 {
     font-size: 1.25rem;
   }
-  
+
   p {
     font-size: 0.775rem;
   }
@@ -138,6 +138,11 @@ a:hover {
   padding: 15px;
   background: white;
   box-shadow: 0 3px 14px rgba(0,0,0,0.4);
+}
+
+.aemp-infowindow p {
+  overflow-wrap: break-word;
+  overflow-x: hidden;
 }
 
 a.aemp-infowindow-close {
