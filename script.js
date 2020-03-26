@@ -63,6 +63,7 @@ function toggleTitleDetails() {
 // used by infowindow-template
 function closeInfo() {
   map.closePopup();
+  map.invalidateSize();
 }
 
 map.on("popupopen", function(e) {
@@ -86,8 +87,13 @@ map.on("popupclose", function(e) {
 window.addEventListener("resize", function() {
   var resizeWindow;
   clearTimeout(resizeWindow);
-  resizeWindow = setTimeout(checkIsMobile, 500);
+  resizeWindow = setTimeout(handleWindowResize, 500);
 });
+
+function handleWindowResize() {
+  checkIsMobile();
+  map.invalidateSize();
+}
 
 const attribution = L.control
   .attribution({ prefix: "Data sources by: " })
