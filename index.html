@@ -27,8 +27,11 @@
   </head>
   <body>
     <div id="root">
-      <header>
-        <h1>
+      <header id="aemp-titlebox">
+        <h1 id="aemp-title">
+          <a class="arrow-container">
+            <i id="aemp-titlearrow" class="arrow down"></i>
+          </a>
           COVID-19 Emergency Tenant Protections
         </h1>
         <p>
@@ -48,6 +51,9 @@
 
       <!-- the Leaflet map container -->
       <div id="map"></div>
+
+      <!-- the infowindow popup container -->
+      <div id="aemp-infowindow-container"></div>
     </div>
 
     <!--
@@ -55,6 +61,16 @@
     -->
     <script class="popup-template" type="x-tmpl-mustache">
       <div class="popup-container locality-popup-container">
+        <div>
+          <p class="popup-title">
+            <strong>{{municipality}}</strong>
+          </p>
+        </div>
+      </div>
+    </script>
+    <script id="aemp-infowindow-template" type="x-tmpl-mustache">
+      <div class="aemp-infowindow">
+        <a class="aemp-infowindow-close" href="#close" onClick="closeInfo()">×</a>
         <div>
           <p class="popup-title">
             <strong>{{municipality}}</strong>

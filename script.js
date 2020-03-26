@@ -30,6 +30,41 @@ const fillOpacity = 0.7;
 
 // create a new map instance by referencing the appropriate html element by its "id" attribute
 const map = L.map("map", mapOptions).setView([34.03, -82.2], 5);
+var isSmall;
+function checkIfSmall() {
+  isSmall = (document.getElementById("map").offsetWidth > 640) ? false : true;
+}
+function toggleTitle() {
+  document.getElementById("aemp-titlebox").classList.toggle("collapsed");
+  document.getElementById("aemp-titlearrow").classList.toggle("down");
+  document.getElementById("aemp-titlearrow").classList.toggle("left");
+}
+function closeInfo() {
+  map.closePopup();
+}
+
+checkIfSmall();
+map.on('popupopen', function(e) {
+  document.getElementById("root").classList.add("aemp-popupopen");
+  if (isSmall && !document.getElementById("aemp-titlebox").classList.contains("collapsed")) toggleTitle();
+  map.invalidateSize();
+  var px = map.project(e.target._popup._latlng); // find the pixel location on the map where the popup anchor is
+  px.y -= e.target._popup._container.clientHeight/2; // find the height of the popup container, divide by 2, subtract from the Y axis of marker location
+  map.panTo(map.unproject(px),{animate: true}); // pan to new center
+});
+map.on("popupclose", function(e) {
+  document.getElementById("root").classList.remove("aemp-popupopen");
+  document.getElementById("aemp-infowindow-container").innerHTML = " ";
+});
+document.getElementById("aemp-title").addEventListener("click", function(e) {
+  toggleTitle();
+});
+
+window.addEventListener("resize", function() {
+  var resizeWindow;
+  clearTimeout(resizeWindow);
+  resizeWindow = setTimeout(checkIfSmall(), 500);
+});
 
 const attribution = L.control
   .attribution({ prefix: "Data sources by: " })
@@ -51,6 +86,7 @@ const layersControl = L.control
 // Get the popup template from the HTML.
 // We can do this here because the template will never change.
 const popupTemplate = document.querySelector(".popup-template").innerHTML;
+const infowindowTemplate = document.getElementById("aemp-infowindow-template").innerHTML;
 
 // Add base layer
 L.tileLayer(
@@ -128,8 +164,8 @@ function handleData([sheetsText, statesGeoJson]) {
   });
 
   console.log(statesGeoJson);
-  
-  // add both the states layer and localities layer to the map 
+
+  // add both the states layer and localities layer to the map
   // and save the layer output
   const states = handleStatesLayer(statesGeoJson);
   const localities = handleLocalitiesLayer(localitiesGeoJson);
@@ -183,6 +219,8 @@ function handleLocalitiesLayer(geojson) {
 
     // Render the template with all of the properties. Mustache ignores properties
     // that aren't used in the template, so this is fine.
+    const renderedInfo = Mustache.render(infowindowTemplate, layer.feature.properties);
+    document.getElementById("aemp-infowindow-container").innerHTML = renderedInfo;
     return Mustache.render(popupTemplate, layer.feature.properties);
   });
 
@@ -230,11 +268,13 @@ function handleStatesLayer(geojson) {
   // Create the Leaflet layer for the states data
   const statesLayer = L.geoJson(geojson, layerOptions);
 
-  statesLayer.bindPopup(layer =>
-    Mustache.render(popupTemplate, layer.feature.properties)
-  );
+  statesLayer.bindPopup(function(layer) {
+    const renderedInfo = Mustache.render(infowindowTemplate, layer.feature.properties);
+    document.getElementById("aemp-infowindow-container").innerHTML = renderedInfo;
+    return Mustache.render(popupTemplate, layer.feature.properties);
+  });
 
   statesLayer.addTo(map);
-  
-  return statesLayer; 
+
+  return statesLayer;
 }
