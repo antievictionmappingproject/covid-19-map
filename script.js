@@ -80,6 +80,7 @@ map.on("popupopen", function(e) {
 map.on("popupclose", function(e) {
   document.getElementById("root").classList.remove("aemp-popupopen");
   document.getElementById("aemp-infowindow-container").innerHTML = "";
+  if (IS_MOBILE) setTimeout(function(){ map.invalidateSize() }, 100);
 });
 
 window.addEventListener("resize", function() {
