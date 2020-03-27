@@ -27,27 +27,34 @@
   </head>
   <body>
     <div id="root">
-      <header>
-        <h1>
+      <header id="aemp-titlebox">
+        <h1 id="aemp-title">
           COVID-19 Emergency Tenant Protections
         </h1>
-        <p>
-          Where United States officials
-          <b class="color-passed">have passed</b> (or tenants are
-          <b class="color-yet-to-pass">working to pass</b>) emergency tenant
-          protections during the COVID-19 crisis. Global map coming soon!
-        </p>
-        <p>
-          <a
-            href="https://docs.google.com/forms/d/e/1FAIpQLSfHzR_SYO-wKfa3Abi9jDvZXCH3dsLgrkDj-9Rwm-3oRjDD9A/viewform"
-            target="_blank"
-            >Submit your updates here.</a
-          >
-        </p>
+        <details open>
+          <summary>About the map:</summary>
+          <p>
+            Where United States officials
+            <strong class="color-passed">have passed</strong> (or tenants are
+            <strong class="color-yet-to-pass">working to pass</strong>)
+            emergency tenant protections during the COVID-19 crisis. Global map
+            coming soon!
+          </p>
+          <p>
+            <a
+              href="https://docs.google.com/forms/d/e/1FAIpQLSfHzR_SYO-wKfa3Abi9jDvZXCH3dsLgrkDj-9Rwm-3oRjDD9A/viewform"
+              target="_blank"
+              >Submit your updates here.</a
+            >
+          </p>
+        </details>
       </header>
 
       <!-- the Leaflet map container -->
       <div id="map"></div>
+
+      <!-- the infowindow popup container -->
+      <div id="aemp-infowindow-container"></div>
     </div>
 
     <!--
@@ -57,6 +64,16 @@
       <div class="popup-container locality-popup-container">
         <div>
           <p class="popup-title">
+            <strong>{{municipality}}</strong>
+          </p>
+        </div>
+      </div>
+    </script>
+    <script id="aemp-infowindow-template" type="x-tmpl-mustache">
+      <div class="aemp-infowindow">
+        <a class="aemp-infowindow-close" href="#close" onClick="closeInfo()">×</a>
+        <div>
+          <p class="infowindow-title">
             <strong>{{municipality}}</strong>
           </p>
         </div>
@@ -93,6 +110,9 @@
 
     <!-- Load Fetch polyfill -->
     <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.4/fetch.js"></script>
+
+    <!-- <details> element polyfill for IE -->
+    <script src="//cdn.jsdelivr.net/npm/details-polyfill@1/index.min.js"></script>
 
     <!-- import the Mustache library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.0/mustache.min.js"></script>
