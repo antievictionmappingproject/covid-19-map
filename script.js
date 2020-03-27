@@ -80,12 +80,13 @@ map.on("popupopen", function(e) {
 map.on("popupclose", function(e) {
   document.getElementById("root").classList.remove("aemp-popupopen");
   document.getElementById("aemp-infowindow-container").innerHTML = "";
+  if (IS_MOBILE) setTimeout(function(){ map.invalidateSize() }, 100);
 });
 
+let resizeWindow;
 window.addEventListener("resize", function() {
-  var resizeWindow;
   clearTimeout(resizeWindow);
-  resizeWindow = setTimeout(handleWindowResize, 500);
+  resizeWindow = setTimeout(handleWindowResize, 250);
 });
 
 function handleWindowResize() {
@@ -152,7 +153,6 @@ function handleData([sheetsText, statesGeoJson]) {
       passed: passed === "TRUE" ? "Yes" : "No",
       ...rest
     }));
-  console.log(rows);
 
   const statesData = rows
     .filter(row => row.admin_scale === "State")
@@ -163,8 +163,6 @@ function handleData([sheetsText, statesGeoJson]) {
   const localitiesData = rows.filter(
     row => row.admin_scale !== "State" && row.lat !== null && row.lon !== null
   );
-
-  console.log(statesData, localitiesData);
 
   // convert the regular moratorium JSON into valid GeoJSON
   const localitiesGeoJson = {
@@ -190,8 +188,6 @@ function handleData([sheetsText, statesGeoJson]) {
       };
     }
   });
-
-  console.log(statesGeoJson);
 
   // add both the states layer and localities layer to the map
   // and save the layer output
@@ -239,7 +235,6 @@ function handleLocalitiesLayer(geojson) {
   // Add popups to the layer
   localitiesLayer.bindPopup(function(layer) {
     // This function is called whenever a feature on the layer is clicked
-    console.log(layer.feature.properties);
 
     // Render the template with all of the properties. Mustache ignores properties
     // that aren't used in the template, so this is fine.
