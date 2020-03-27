@@ -83,10 +83,10 @@ map.on("popupclose", function(e) {
   if (IS_MOBILE) setTimeout(function(){ map.invalidateSize() }, 100);
 });
 
+let resizeWindow;
 window.addEventListener("resize", function() {
-  var resizeWindow;
   clearTimeout(resizeWindow);
-  resizeWindow = setTimeout(handleWindowResize, 500);
+  resizeWindow = setTimeout(handleWindowResize, 250);
 });
 
 function handleWindowResize() {
