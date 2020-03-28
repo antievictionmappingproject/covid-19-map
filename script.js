@@ -161,13 +161,31 @@ function handleData([sheetsText, statesGeoJson]) {
     }, new Map());
 
   const localitiesData = rows.filter(
-    row => row.admin_scale !== "State" && row.lat !== null && row.lon !== null
+    row => row.admin_scale !== "State" && row.lat !== null && row.lon !== null && row.admin_scale !=="County"
+  );
+  console.log(localitiesData);
+  const countiesData = rows.filter(
+    row => row.admin_scale !== "State" && row.lat !== null && row.lon !== null && row.admin_scale !=="City"
   );
 
   // convert the regular moratorium JSON into valid GeoJSON
   const localitiesGeoJson = {
     type: "FeatureCollection",
     features: localitiesData.map(({ cartodb_id, lat, lon, ...rest }) => ({
+      type: "Feature",
+      id: cartodb_id,
+      properties: rest,
+      geometry: {
+        type: "Point",
+        coordinates: [lon, lat]
+      }
+    }))
+  };
+
+  // convert the regular moratorium JSON into valid GeoJSON
+  const countiesGeoJson = {
+    type: "FeatureCollection",
+    features: countiesData.map(({ cartodb_id, lat, lon, ...rest }) => ({
       type: "Feature",
       id: cartodb_id,
       properties: rest,
@@ -192,11 +210,17 @@ function handleData([sheetsText, statesGeoJson]) {
   // add both the states layer and localities layer to the map
   // and save the layer output
   const states = handleStatesLayer(statesGeoJson);
+  const counties = handleCountiesLayer(countiesGeoJson);
   const localities = handleLocalitiesLayer(localitiesGeoJson);
+
+  // icons for the legend / layer control
+  let cityIcon = "<svg width="+ 2.4* pointRadius +" height="+ 2.4* pointRadius +"><circle cx="+ 1.2*pointRadius +" cy="+ 1.2*pointRadius +" r=" + pointRadius + " stroke='#4dac26' stroke-width=" + strokeWeight + " fill='#b8e186' fill-opacity='" +fillOpacity + "'/></svg>"
+  let countyIcon = "<svg width="+ 3.4* pointRadius +" height="+ 3.4* pointRadius +"><circle cx="+ 1.7*pointRadius +" cy="+ 1.7*pointRadius +" r=" + 1.5*pointRadius + " stroke='#4dac26' stroke-width=" + strokeWeight*2 + " fill='#b8e186' fill-opacity='"+fillOpacity/3+"'/></svg>"
 
   // add layers to layers control
   layersControl
-    .addOverlay(localities, "Cities/Counties")
+    .addOverlay(localities, "Cities" + cityIcon)
+    .addOverlay(counties, "Counties" + countyIcon)
     .addOverlay(states, "States");
 }
 
@@ -260,6 +284,62 @@ function handleLocalitiesLayer(geojson) {
   return localitiesLayer;
 }
 
+function handleCountiesLayer(geojson) {
+  // styling for the localities layer: style localities conditionally according to a presence of a moratorium
+  const pointToLayer = (feature, latlng) => {
+    // style localities based on whether their moratorium has passed
+    if (feature.properties.passed === "Yes") {
+      return L.circleMarker(latlng, {
+        color: "#4dac26",
+        fillColor: "#b8e186",
+        fillOpacity: fillOpacity / 3,
+        radius: pointRadius*1.5,
+        weight: strokeWeight*2
+      });
+    } else {
+      return L.circleMarker(latlng, {
+        color: "#d01c8b",
+        fillColor: "#f1b6da",
+        fillOpacity: fillOpacity/3,
+        radius: pointRadius*1.5,
+        weight: strokeWeight*2
+      });
+    }
+  };
+
+  // Create the Leaflet layer for the localities data
+  const countiesLayer = L.geoJson(geojson, {
+    pointToLayer: pointToLayer
+  });
+
+  // Add popups to the layer
+  countiesLayer.bindPopup(function(layer) {
+    // This function is called whenever a feature on the layer is clicked
+
+    // Render the template with all of the properties. Mustache ignores properties
+    // that aren't used in the template, so this is fine.
+    const renderedInfo = Mustache.render(
+      infowindowTemplate,
+      layer.feature.properties
+    );
+    document.getElementById(
+      "aemp-infowindow-container"
+    ).innerHTML = renderedInfo;
+    return Mustache.render(popupTemplate, layer.feature.properties);
+  });
+
+  // Add data to the map
+  countiesLayer.addTo(map);
+
+  // Move the map view so that the localitiesLayer is visible
+  map.fitBounds(countiesLayer.getBounds(), {
+    paddingTopLeft: [12, 120],
+    paddingBottomRight: [12, 12]
+  });
+
+  return countiesLayer;
+}
+
 function handleStatesLayer(geojson) {
   // styling for the states layer: style states conditionally according to a presence of a moratorium
   const layerOptions = {
@@ -302,7 +382,11 @@ function handleStatesLayer(geojson) {
     return Mustache.render(popupTemplate, layer.feature.properties);
   });
 
+  
+  
   statesLayer.addTo(map);
-
+  statesLayer.bringToBack();
+  
   return statesLayer;
 }
+
