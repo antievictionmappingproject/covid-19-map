@@ -125,6 +125,9 @@ L.tileLayer(
   }
 ).addTo(map);
 
+//add url hash
+var hash = new L.Hash(map);
+
 /******************************************
  * FETCH DATA SOURCES
  *****************************************/
