@@ -60,6 +60,11 @@ details p:last-of-type {
   margin-bottom: 0;
 }
 
+/* marker cluster override */
+.marker-cluster-small div {
+  background-color: #ff8c1a !important; 
+}
+
 @media (max-width: 640px) {
   header {
     top: 0;
