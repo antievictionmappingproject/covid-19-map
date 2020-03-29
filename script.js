@@ -132,30 +132,6 @@ L.tileLayer(
  * FETCH DATA SOURCES
  *****************************************/
 
-// Promise.all([
-//   fetch(sheetURI).then(res => {
-//     if (!res.ok) throw Error("Unable to fetch moratoriums sheet data");
-//     return res.text();
-//   }),
-//   fetch(statesGeoJsonURI).then(res => {
-//     if (!res.ok) throw Error("Unable to fetch states geojson");
-//     return res.json();
-//   })
-// ])
-//   .then(handleData)
-// .then(getCartoData)
-// .then(({ cartoUri, countiesData }) => {
-//   fetch(cartoUri)
-//     .then(res => {
-//       if (!res.ok) throw Error("Unable to fetch CARTO data");
-//       return res.json();
-//     })
-//     .then(cartoData => {
-//       handleCartoData(cartoData, countiesData);
-//     });
-// })
-// .catch(error => console.log(error));
-
 fetch(sheetURI)
   .then(res => {
     if (!res.ok) throw Error("Unable to fetch moratoriums sheet data");
@@ -187,7 +163,7 @@ fetch(sheetURI)
 /******************************************
  * HANDLE DATA ASYNC RESPONSES
  *****************************************/
-/////
+
 function handleSheetsData(sheetsText) {
   const rows = d3
     .csvParse(sheetsText, d3.autoType)
