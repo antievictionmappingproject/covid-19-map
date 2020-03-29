@@ -80,7 +80,10 @@ map.on("popupopen", function(e) {
 map.on("popupclose", function(e) {
   document.getElementById("root").classList.remove("aemp-popupopen");
   document.getElementById("aemp-infowindow-container").innerHTML = "";
-  if (IS_MOBILE) setTimeout(function(){ map.invalidateSize() }, 100);
+  if (IS_MOBILE)
+    setTimeout(function() {
+      map.invalidateSize();
+    }, 100);
 });
 
 let resizeWindow;
@@ -129,24 +132,63 @@ L.tileLayer(
  * FETCH DATA SOURCES
  *****************************************/
 
-Promise.all([
-  fetch(sheetURI).then(res => {
+// Promise.all([
+//   fetch(sheetURI).then(res => {
+//     if (!res.ok) throw Error("Unable to fetch moratoriums sheet data");
+//     return res.text();
+//   }),
+//   fetch(statesGeoJsonURI).then(res => {
+//     if (!res.ok) throw Error("Unable to fetch states geojson");
+//     return res.json();
+//   })
+// ])
+//   .then(handleData)
+// .then(getCartoData)
+// .then(({ cartoUri, countiesData }) => {
+//   fetch(cartoUri)
+//     .then(res => {
+//       if (!res.ok) throw Error("Unable to fetch CARTO data");
+//       return res.json();
+//     })
+//     .then(cartoData => {
+//       handleCartoData(cartoData, countiesData);
+//     });
+// })
+// .catch(error => console.log(error));
+
+fetch(sheetURI)
+  .then(res => {
     if (!res.ok) throw Error("Unable to fetch moratoriums sheet data");
     return res.text();
-  }),
-  fetch(statesGeoJsonURI).then(res => {
-    if (!res.ok) throw Error("Unable to fetch states geojson");
-    return res.json();
   })
-])
-  .then(handleData)
-  .catch(error => console.log(error));
+  .then(handleSheetsData)
+  .then(rows => {
+    const cartoUri = createCartoUri(rows);
+
+    //get all the data
+    Promise.all([
+      fetch(statesGeoJsonURI).then(res => {
+        if (!res.ok) throw Error("Unable to fetch states geojson");
+        return res.json();
+      }),
+      fetch(cartoUri).then(res => {
+        if (!res.ok) throw Error("Unable to fetch CARTO data");
+        return res.json();
+      })
+    ])
+      .then(([statesGeoJson, countiesCartoData]) => ({
+        sheetsRows: rows,
+        statesGeoJson,
+        countiesCartoData
+      }))
+      .then(handleGeoData);
+  });
 
 /******************************************
  * HANDLE DATA ASYNC RESPONSES
  *****************************************/
-
-function handleData([sheetsText, statesGeoJson]) {
+/////
+function handleSheetsData(sheetsText) {
   const rows = d3
     .csvParse(sheetsText, d3.autoType)
     .map(({ passed, ...rest }) => ({
@@ -154,15 +196,24 @@ function handleData([sheetsText, statesGeoJson]) {
       ...rest
     }));
 
-  const statesData = rows
+  return rows;
+}
+
+function handleGeoData({ sheetsRows, statesGeoJson, countiesCartoData }) {
+  console.log(countiesCartoData);
+
+  const statesData = sheetsRows
     .filter(row => row.admin_scale === "State")
     .reduce((acc, { state, ...rest }) => {
       return acc.set(state, rest);
     }, new Map());
 
-  const localitiesData = rows.filter(
-    row => row.admin_scale !== "State" && row.lat !== null && row.lon !== null
+  const localitiesData = sheetsRows.filter(
+    row => row.admin_scale === "City" && row.lat !== null && row.lon !== null
   );
+
+  //create the counties data
+  const countiesData = sheetsRows.filter(row => row.admin_scale === "County");
 
   // convert the regular moratorium JSON into valid GeoJSON
   const localitiesGeoJson = {
@@ -189,15 +240,76 @@ function handleData([sheetsText, statesGeoJson]) {
     }
   });
 
+  countiesGeoJson = {
+    type: "FeatureCollection",
+    features: countiesCartoData.rows.map(
+      ({ the_geom, state, county }, index) => {
+        const properties = countiesData.filter(
+          row =>
+            row.municipality
+              .replace(" County", "")
+              .replace("Miami-Dade", "Dade")
+              .replace("County of ", "")
+              .replace(" (unincorporated)", "")
+              .replace(" County", "") === county &&
+            row.state.replace("Illinoise", "Illinois") === state
+        );
+
+        return {
+          type: "Feature",
+          id: index,
+          properties,
+          geometry: JSON.parse(the_geom)
+        };
+      }
+    )
+  };
+
+  console.log(countiesGeoJson);
+
   // add both the states layer and localities layer to the map
   // and save the layer output
   const states = handleStatesLayer(statesGeoJson);
+  const counties = handleCountiesCartoLayer(countiesGeoJson);
   const localities = handleLocalitiesLayer(localitiesGeoJson);
-
+  
   // add layers to layers control
   layersControl
-    .addOverlay(localities, "Cities/Counties")
+    .addOverlay(localities, "Cities")
+    .addOverlay(counties, "Counties")
     .addOverlay(states, "States");
+}
+
+function createCartoUri(rows) {
+  const countiesData = rows.filter(row => row.admin_scale === "County");
+
+  const predicateString = countiesData
+    .map(({ state, municipality }) => {
+      return {
+        state,
+        municipality
+      };
+    })
+    .reduce(
+      (acc, row) =>
+        `${acc} county LIKE '${row.municipality
+          .replace(" County", "")
+          .replace("Miami-Dade", "Dade")
+          .replace("County of ", "")
+          .replace(" (unincorporated)", "")
+          .replace(" County", "")}' AND state LIKE '${row.state.replace(
+          "Illinoise",
+          "Illinois"
+        )}' OR`,
+      "WHERE"
+    )
+    .slice(0, -3);
+
+  cartoQuery = `SELECT county, state, ST_AsGeoJSON(the_geom) as the_geom from public.us_county_boundaries ${predicateString}`;
+
+  console.log(cartoQuery);
+
+  return `https://ampitup.carto.com/api/v2/sql?q=${cartoQuery}`;
 }
 
 /******************************************
@@ -305,4 +417,91 @@ function handleStatesLayer(geojson) {
   statesLayer.addTo(map);
 
   return statesLayer;
+}
+
+function handleCountiesCartoLayer(geojson) {
+  // style layer based on whether their moratorium has passed
+  const layerOptions = {
+    style: feature => {
+      const yesOptions = {
+        color: "#4dac26",
+        fillColor: "#b8e186",
+        fillOpacity: fillOpacity,
+        weight: strokeWeight
+      };
+
+      const noOptions = {
+        color: "#d01c8b",
+        fillColor: "#f1b6da",
+        fillOpacity: fillOpacity,
+        weight: strokeWeight
+      };
+
+      const splitOptions = {
+        color: "#E0E0E0",
+        fillColor: "#707070",
+        fillOpacity: fillOpacity,
+        weight: strokeWeight
+      };
+
+      const elseOptions = {
+        stroke: false,
+        fill: false
+      };
+
+      if (feature.properties.length > 1) {
+        const featurePropertiesPassed = Array.from(
+          new Set(feature.properties.map(row => row.passed))
+        );
+
+        if (
+          featurePropertiesPassed.length === 1 &&
+          featurePropertiesPassed[0] === "Yes"
+        ) {
+          return yesOptions;
+        }
+        if (
+          featurePropertiesPassed.length === 1 &&
+          featurePropertiesPassed[0] === "No"
+        ) {
+          return noOptions;
+        }
+        if (featurePropertiesPassed.length === 1) {
+          return splitOptions;
+        }
+      }
+
+      if (feature.properties.length === 1) {
+        if (feature.properties[0].passed === "Yes") {
+          return yesOptions;
+        }
+        if (
+          feature.properties.length === 1 &&
+          feature.properties[0].passed === "No"
+        ) {
+          return noOptions;
+        } else {
+          return elseOptions;
+        }
+      }
+    }
+  };
+
+  // Create the Leaflet layer for the counties data
+  const countiesLayer = L.geoJson(geojson, layerOptions);
+
+  countiesLayer.bindPopup(function(layer) {
+    const renderedInfo = Mustache.render(
+      infowindowTemplate,
+      layer.feature.properties[0]
+    );
+    document.getElementById(
+      "aemp-infowindow-container"
+    ).innerHTML = renderedInfo;
+    return Mustache.render(popupTemplate, layer.feature.properties[0]);
+  });
+
+  countiesLayer.addTo(map);
+
+  return countiesLayer;
 }
