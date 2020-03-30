@@ -7,6 +7,10 @@ console.clear();
 const MOBILE_BREAKPOINT = 640;
 let IS_MOBILE = document.querySelector("body").offsetWidth < MOBILE_BREAKPOINT;
 
+const DESKTOP_BREAKPOINT = 1200;
+let IS_DESKTOP = document.querySelector("body").offsetWidth > DESKTOP_BREAKPOINT;
+
+
 /******************************************
  * DATA SOURCES
  *****************************************/
@@ -32,17 +36,15 @@ const strokeWeight = 1.5;
 const pointRadius = 8;
 const fillOpacity = 0.7;
 
+let initialMapZoom = 4;
 //setting the initial zoom settings
-if (document.querySelector("body").offsetWidth < 400){
-  z = 3;}
-else if (document.querySelector("body").offsetWidth < 1200){
-  z = 4;}
-else{
-    z = 5;
-  }
+if (IS_MOBILE){
+  initialMapZoom = 3;}
+else if (IS_DESKTOP){
+  initialMapZoom = 5;}
 
 // create a new map instance by referencing the appropriate html element by its "id" attribute
-const map = L.map("map", mapOptions).setView([40.67,-97.23], z);
+const map = L.map("map", mapOptions).setView([40.67,-97.23], initialMapZoom);
 
 
 // the collapsable <details> element below the map title
