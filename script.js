@@ -32,8 +32,18 @@ const strokeWeight = 1.5;
 const pointRadius = 8;
 const fillOpacity = 0.7;
 
+//setting the initial zoom settings
+if (document.querySelector("body").offsetWidth < 400){
+  z = 3;}
+else if (document.querySelector("body").offsetWidth < 1200){
+  z = 4;}
+else{
+    z = 5;
+  }
+
 // create a new map instance by referencing the appropriate html element by its "id" attribute
-const map = L.map("map", mapOptions).setView([34.03, -82.2], 5);
+const map = L.map("map", mapOptions).setView([40.67,-97.23], z);
+
 
 // the collapsable <details> element below the map title
 const titleDetails = document
@@ -254,11 +264,6 @@ function handleLocalitiesLayer(geojson) {
   // Add data to the map
   localitiesLayer.addTo(map);
 
-  // Move the map view so that the localitiesLayer is visible
-  map.fitBounds(localitiesLayer.getBounds(), {
-    paddingTopLeft: [12, 120],
-    paddingBottomRight: [12, 12]
-  });
 
   return localitiesLayer;
 }
