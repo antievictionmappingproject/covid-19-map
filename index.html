@@ -38,24 +38,39 @@
     <div id="root">
       <header id="aemp-titlebox">
         <h1 id="aemp-title">
-          COVID-19 Emergency Tenant Protections
+          COVID-19 Emergency Tenant Protections & Rent Strikes
         </h1>
         <details open>
           <summary>About the map:</summary>
+          <h2>Emergency Tenant Protections</h2>
           <p>
             Where United States officials
             <strong class="color-passed">have passed</strong> (or tenants are
             <strong class="color-yet-to-pass">working to pass</strong>)
-            emergency tenant protections during the COVID-19 crisis. Global map
-            coming soon!
+            emergency tenant protections during the COVID-19 crisis.
           </p>
           <p>
             <a
               href="https://docs.google.com/forms/d/e/1FAIpQLSfHzR_SYO-wKfa3Abi9jDvZXCH3dsLgrkDj-9Rwm-3oRjDD9A/viewform"
               target="_blank"
-              >Submit your updates here.</a
+              >Submit a tenant protection update here.</a
             >
           </p>
+          <h2>Rent Strikes</h2>
+          <p>
+            Where organized rent stikes are
+            <strong class="color-ocurring">currently ocurring</strong> or
+            <strong class="color-may-be-ocurring">may be ocurring</strong> in
+            the United States and Canada.
+          </p>
+          <p>
+            <a
+              href="https://docs.google.com/forms/d/e/1FAIpQLSfzMYs_BZYFb601oiAGtotfTX7tjZXvao3F0PHuTlko4rAxKA/viewform"
+              target="_blank"
+              >Submit a rent strike update here.</a
+            >
+          </p>
+          <h3>Global map coming soon!</h3>
         </details>
       </header>
 
@@ -92,11 +107,16 @@
         <a class="aemp-infowindow-close" href="#close" onClick="closeInfo()">×</a>
         <div>
           <p class="infowindow-title">
-            <strong>{{municipality}}</strong>
+            <strong>Emergency Tenant Protections</strong>
           </p>
         </div>
         <div>
-          <p><strong>Policy Summary</strong></p>
+          <p>
+            <strong>Municipality: </strong>{{municipality}}
+          </p>
+        </div>
+        <div>
+          <p><strong>Policy Summary:</strong></p>
           <p>{{policy_summary}}</p>
         </div>
         <div>
@@ -125,10 +145,13 @@
         <a class="aemp-infowindow-close" href="#close" onClick="closeInfo()">×</a>
         <div>
           <p class="infowindow-title">
-            <strong>{{Location}}</strong>
+            <strong>Rent Strike</strong>
           </p>
         </div>
         <div>
+          <p>
+            <strong>Location: </strong>{{Location}}
+          </p>
           <p><strong>Status: </strong>{{status}}</p>
         </div>
         {{#Why}}

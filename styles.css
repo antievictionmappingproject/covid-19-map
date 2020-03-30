@@ -62,7 +62,8 @@ details p:last-of-type {
 
 /* marker cluster override */
 .marker-cluster-small div {
-  background-color: #ff8c1a !important; 
+  background-color: #ff8c1a !important;
+  opacity: 0.6;
 }
 
 @media (max-width: 640px) {
@@ -100,6 +101,13 @@ a:hover {
   color: #d01c8b;
 }
 
+.color-ocurring {
+  color: #1772aa;
+}
+
+.color-may-be-ocurring {
+  color: #ae5117;
+}
 /* popup styling */
 
 /* override leaflet's <p> element styles */
@@ -191,7 +199,7 @@ a:hover {
 }
 
 .aemp-infowindow p.infowindow-title {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
 }
 
 a.aemp-infowindow-close {

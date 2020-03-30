@@ -246,7 +246,7 @@ function handleData([
   layersControl
     .addOverlay(localities, "Cities/Counties")
     .addOverlay(states, "States")
-    .addOverlay(rentStrikes, "Rent strike");
+    .addOverlay(rentStrikes, "Rent Strikes");
 }
 
 /******************************************
@@ -357,9 +357,33 @@ function handleStatesLayer(geojson) {
 }
 
 function handleRentStrikeLayer(geoJson) {
-  const rentStrikeLayer = L.geoJson(geoJson);
-  //add markers to cluster
-  const rentStrikeLayerMarkers = L.markerClusterGroup();
+  const iconSize = [60, 60];
+  const iconAnchor = [27, 20];
+  const rentStrikeYesIcon = new L.Icon({
+    iconUrl: "./assets/mapIcons/rent-strike-blue.png",
+    iconSize: iconSize,
+    iconAnchor: iconAnchor
+  });
+
+  const rentStrikeUnsureIcon = new L.Icon({
+    iconUrl: "./assets/mapIcons/rent-strike-orange.png",
+    iconSize: [60, 60],
+    iconAnchor: iconAnchor
+  });
+
+  // add custom marker icons
+  const rentStrikeLayer = L.geoJson(geoJson, {
+    pointToLayer: function(feature, latlng) {
+      const { status } = feature.properties;
+      return L.marker(latlng, {
+        icon: status === "Yes" ? rentStrikeYesIcon : rentStrikeUnsureIcon
+      });
+    }
+  });
+  //add markers to cluster with options
+  const rentStrikeLayerMarkers = L.markerClusterGroup({
+    maxClusterRadius: 40
+  });
 
   rentStrikeLayerMarkers.addLayer(rentStrikeLayer).bindPopup(function(layer) {
     const renderedInfo = Mustache.render(
