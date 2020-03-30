@@ -16,6 +16,9 @@ const sheetId = "1AkYjbnLbWW83LTm6jcsRjg78hRVxWsSKQv1eSssDHSM";
 // the URI that grabs the sheet text formatted as a CSV
 const sheetURI = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&id=${sheetId}`;
 
+// the URI for CARTO counties layer joined to the moratoriums data (both in CARTO  acct)
+const cartoCountiesURI = createCartoURI();
+
 // states geojson url
 const statesGeoJsonURI = "./states.geojson";
 
@@ -80,7 +83,10 @@ map.on("popupopen", function(e) {
 map.on("popupclose", function(e) {
   document.getElementById("root").classList.remove("aemp-popupopen");
   document.getElementById("aemp-infowindow-container").innerHTML = "";
-  if (IS_MOBILE) setTimeout(function(){ map.invalidateSize() }, 100);
+  if (IS_MOBILE)
+    setTimeout(function() {
+      map.invalidateSize();
+    }, 100);
 });
 
 let resizeWindow;
@@ -124,6 +130,23 @@ L.tileLayer(
     maxZoom: 18
   }
 ).addTo(map);
+/******************************************
+ * URI HELPER
+ *****************************************/
+function createCartoURI() {
+  const query = `SELECT 
+  c.the_geom, c.county as municipality, c.state as state_name, m.policy_type, m.policy_summary, m.link, m.passed 
+  FROM us_county_boundaries c 
+  INNER JOIN eviction_moratorium_mapping m 
+  ON ST_Intersects(c.the_geom, m.the_geom) 
+  WHERE m.the_geom IS NOT NULL 
+  AND m.admin_scale = 'County'
+  OR m.admin_scale = 'City and County'`; // how should we handle cases with city and county
+
+  const cartoURI = `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
+
+  return cartoURI;
+}
 
 /******************************************
  * FETCH DATA SOURCES
@@ -137,6 +160,10 @@ Promise.all([
   fetch(statesGeoJsonURI).then(res => {
     if (!res.ok) throw Error("Unable to fetch states geojson");
     return res.json();
+  }),
+  fetch(cartoCountiesURI).then(res => {
+    if (!res.ok) throw Error("Unable to fetch counties geojson");
+    return res.json();
   })
 ])
   .then(handleData)
@@ -146,7 +173,7 @@ Promise.all([
  * HANDLE DATA ASYNC RESPONSES
  *****************************************/
 
-function handleData([sheetsText, statesGeoJson]) {
+function handleData([sheetsText, statesGeoJson, countiesGeojson]) {
   const rows = d3
     .csvParse(sheetsText, d3.autoType)
     .map(({ passed, ...rest }) => ({
@@ -160,14 +187,14 @@ function handleData([sheetsText, statesGeoJson]) {
       return acc.set(state, rest);
     }, new Map());
 
-  const localitiesData = rows.filter(
-    row => row.admin_scale !== "State" && row.lat !== null && row.lon !== null
+  const citiesData = rows.filter(
+    row => row.admin_scale === "City" && row.lat !== null && row.lon !== null
   );
 
   // convert the regular moratorium JSON into valid GeoJSON
-  const localitiesGeoJson = {
+  const citiesGeoJson = {
     type: "FeatureCollection",
-    features: localitiesData.map(({ cartodb_id, lat, lon, ...rest }) => ({
+    features: citiesData.map(({ cartodb_id, lat, lon, ...rest }) => ({
       type: "Feature",
       id: cartodb_id,
       properties: rest,
@@ -189,14 +216,16 @@ function handleData([sheetsText, statesGeoJson]) {
     }
   });
 
-  // add both the states layer and localities layer to the map
+  // add both the states layer, cities, and counties layers to the map
   // and save the layer output
   const states = handleStatesLayer(statesGeoJson);
-  const localities = handleLocalitiesLayer(localitiesGeoJson);
+  const counties = handleCountiesLayer(countiesGeojson);
+  const cities = handleCitiesLayer(citiesGeoJson);
 
   // add layers to layers control
   layersControl
-    .addOverlay(localities, "Cities/Counties")
+    .addOverlay(cities, "Cities")
+    .addOverlay(counties, "Counties")
     .addOverlay(states, "States");
 }
 
@@ -204,10 +233,10 @@ function handleData([sheetsText, statesGeoJson]) {
  * HANDLE ADDING MAP LAYERS
  *****************************************/
 
-function handleLocalitiesLayer(geojson) {
-  // styling for the localities layer: style localities conditionally according to a presence of a moratorium
+function handleCitiesLayer(geojson) {
+  // styling for the cities layer: style cities conditionally according to a presence of a moratorium
   const pointToLayer = (feature, latlng) => {
-    // style localities based on whether their moratorium has passed
+    // style cities based on whether their moratorium has passed
     if (feature.properties.passed === "Yes") {
       return L.circleMarker(latlng, {
         color: "#4dac26",
@@ -227,13 +256,13 @@ function handleLocalitiesLayer(geojson) {
     }
   };
 
-  // Create the Leaflet layer for the localities data
-  const localitiesLayer = L.geoJson(geojson, {
+  // Create the Leaflet layer for the cities data
+  const citiesLayer = L.geoJson(geojson, {
     pointToLayer: pointToLayer
   });
 
   // Add popups to the layer
-  localitiesLayer.bindPopup(function(layer) {
+  citiesLayer.bindPopup(function(layer) {
     // This function is called whenever a feature on the layer is clicked
 
     // Render the template with all of the properties. Mustache ignores properties
@@ -249,15 +278,61 @@ function handleLocalitiesLayer(geojson) {
   });
 
   // Add data to the map
-  localitiesLayer.addTo(map);
+  citiesLayer.addTo(map);
 
-  // Move the map view so that the localitiesLayer is visible
-  map.fitBounds(localitiesLayer.getBounds(), {
+  // Move the map view so that the citiesLayer is visible
+  map.fitBounds(citiesLayer.getBounds(), {
     paddingTopLeft: [12, 120],
     paddingBottomRight: [12, 12]
   });
 
-  return localitiesLayer;
+  return citiesLayer;
+}
+
+function handleCountiesLayer(geojson) {
+  const layerOptions = {
+    style: feature => {
+      // style states based on whether their moratorium has passed
+      if (feature.properties.passed === true) {
+        return {
+          color: "#4dac26",
+          fillColor: "#b8e186",
+          fillOpacity: fillOpacity,
+          weight: strokeWeight
+        };
+      } else if (feature.properties.passed === false) {
+        return {
+          color: "#d01c8b",
+          fillColor: "#f1b6da",
+          fillOpacity: fillOpacity,
+          weight: strokeWeight
+        };
+      } else {
+        return {
+          stroke: false,
+          fill: false
+        };
+      }
+    }
+  };
+
+  // Create the Leaflet layer for the states data
+  const countiesLayer = L.geoJson(geojson, layerOptions);
+
+  countiesLayer.bindPopup(function(layer) {
+    const renderedInfo = Mustache.render(
+      infowindowTemplate,
+      layer.feature.properties
+    );
+    document.getElementById(
+      "aemp-infowindow-container"
+    ).innerHTML = renderedInfo;
+    return Mustache.render(popupTemplate, layer.feature.properties);
+  });
+
+  countiesLayer.addTo(map);
+
+  return countiesLayer;
 }
 
 function handleStatesLayer(geojson) {
