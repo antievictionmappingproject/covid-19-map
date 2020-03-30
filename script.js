@@ -62,6 +62,10 @@ function toggleTitleDetails() {
   }
 }
 
+function closeTitleDetails() {
+  titleDetails.removeAttribute("open");
+}
+
 // used by infowindow-template
 function closeInfo() {
   map.closePopup();
@@ -383,6 +387,10 @@ function handleRentStrikeLayer(geoJson) {
   //add markers to cluster with options
   const rentStrikeLayerMarkers = L.markerClusterGroup({
     maxClusterRadius: 40
+  }).on("clusterclick", function() {
+    if (IS_MOBILE) {
+      closeTitleDetails();
+    }
   });
 
   rentStrikeLayerMarkers.addLayer(rentStrikeLayer).bindPopup(function(layer) {

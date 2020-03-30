@@ -161,6 +161,9 @@ a:hover {
   white-space: nowrap;
 }
 
+.title-content-wrapper:last-child {
+  font-size: 1.2rem;
+}
 /* Hide map layers controls on mobile for now, as they get obscured */
 @media (max-width: 640px) {
   #root.aemp-popupopen .leaflet-control-attribution {
@@ -225,5 +228,10 @@ a.aemp-infowindow-close {
     margin: 0;
     width: 100%;
     height: 50%;
+  }
+
+  .title-content-wrapper {
+    max-height: 270px;
+    overflow-y: auto;
   }
 }
