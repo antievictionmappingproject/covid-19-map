@@ -131,9 +131,9 @@ L.tileLayer(
   }
 ).addTo(map);
 /******************************************
- * URI HELPER
+ * URI HELPERS
  *****************************************/
-//CASE m.passed WHEN 'TRUE' THEN 'Yes' ELSE 'NO' END
+
 function createCountiesCartoURI() {
   const query = `SELECT 
   c.the_geom, c.county as municipality, c.state as state_name, m.policy_type, m.policy_summary, m.link, 
@@ -169,7 +169,6 @@ Promise.all([
     if (!res.ok) throw Error("Unable to fetch moratoriums sheet data");
     return res.text();
   }),
-  // fetch(cartoStatesURI).then(res => {
   fetch(cartoStatesURI).then(res => {
     if (!res.ok) throw Error("Unable to fetch states geojson");
     return res.json();
