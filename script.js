@@ -62,10 +62,6 @@ function toggleTitleDetails() {
   }
 }
 
-// function closeTitleDetails() {
-//   titleDetails.removeAttribute("open");
-// }
-
 // used by infowindow-template
 function closeInfo() {
   map.closePopup();
