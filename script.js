@@ -43,9 +43,63 @@ if (IS_MOBILE){
 else if (IS_DESKTOP){
   initialMapZoom = 5;}
 
-// create a new map instance by referencing the appropriate html element by its "id" attribute
-const map = L.map("map", mapOptions).setView([40.67,-97.23], initialMapZoom);
+//initial values, if not given by the url
+let lat = 40.67;
+let long = -97.23;
+let z = initialMapZoom;
+let statesOn = true;
+let citiesOn = true;
+let countiesOn = true;
 
+//read url hash input
+let hash = location.hash;
+let input = inputValues(hash);
+
+// breaks up the url into an array; should be in the form
+// #/lat= & long= & z= & state= & cities= & counties=
+function inputValues(hash){
+  let inputVals = [];
+  let input = hash.slice(2).split("&");
+// splitting the hash by &, then creating an array
+  for (i=0;i<input.length;i++){
+    inputVals[input[i].split("=")[0]]=input[i].split("=")[1]
+  }
+
+  //overriding the default values, if relevant
+  if(inputVals["z"]!==undefined){
+    z=inputVals["z"]}
+  if(inputVals["lat"]!==undefined){
+    lat=inputVals["lat"]}
+  if(inputVals["long"]!==undefined){
+    long=inputVals["long"]}
+
+  if(inputVals["cities"]!==undefined){
+    if(inputVals["cities"]==="true"){
+      citiesOn=true
+    } else if(inputVals["cities"]==="false"){
+      citiesOn=false
+    }
+  }
+
+  if(inputVals["counties"]!==undefined){
+    if(inputVals["counties"]==="true"){
+      countiesOn=true
+    } else if(inputVals["counties"]==="false"){
+      countiesOn=false
+    }
+  }
+
+  if(inputVals["states"]!==undefined){
+    if(inputVals["states"]==="true"){
+      statesOn=true
+    } else if(inputVals["states"]==="false"){
+      statesOn=false
+    }
+  }
+}
+
+// create a new map instance by referencing the appropriate html element by its "id" attribute
+const map = L.map("map", mapOptions).setView([lat,long], z);
 
 // the collapsable <details> element below the map title
 const titleDetails = document
@@ -137,9 +191,6 @@ L.tileLayer(
   }
 ).addTo(map);
 
-//add url hash
-var hash = new L.Hash(map);
-
 /******************************************
  * FETCH DATA SOURCES
  *****************************************/
@@ -213,6 +264,18 @@ function handleData([sheetsText, statesGeoJson]) {
   layersControl
     .addOverlay(localities, "Cities/Counties")
     .addOverlay(states, "States");
+
+
+  if (!statesOn){
+    map.removeLayer(states);
+  }
+  if (!citiesOn){
+    map.removeLayer(localities);//change this to cities once counties are split out
+  }
+//include once there are counties
+  // if (!countiesOn){
+  //   map.removeLayer(localities);//change this to cities once counties are split out
+  // }
 }
 
 /******************************************
