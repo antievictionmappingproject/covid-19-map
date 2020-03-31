@@ -16,11 +16,11 @@ const sheetId = "1AkYjbnLbWW83LTm6jcsRjg78hRVxWsSKQv1eSssDHSM";
 // the URI that grabs the sheet text formatted as a CSV
 const sheetURI = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&id=${sheetId}`;
 
-// the URI for CARTO counties layer joined to the moratoriums data (both in CARTO  acct)
-const cartoCountiesURI = createCartoURI();
-
-// states geojson url
-const statesGeoJsonURI = "./states.geojson";
+// the URIs for CARTO counties &states layers
+// joined to the moratoriums data
+// (all in CARTO  acct)
+const cartoCountiesURI = createCountiesCartoURI();
+const cartoStatesURI = createStatesCartoURI();
 
 /******************************************
  * MAP SETUP & MAP CONTROLS
@@ -133,19 +133,31 @@ L.tileLayer(
 /******************************************
  * URI HELPER
  *****************************************/
-function createCartoURI() {
+//CASE m.passed WHEN 'TRUE' THEN 'Yes' ELSE 'NO' END
+function createCountiesCartoURI() {
   const query = `SELECT 
-  c.the_geom, c.county as municipality, c.state as state_name, m.policy_type, m.policy_summary, m.link, m.passed 
+  c.the_geom, c.county as municipality, c.state as state_name, m.policy_type, m.policy_summary, m.link, 
+  CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
   FROM us_county_boundaries c 
-  INNER JOIN eviction_moratorium_mapping m 
+  JOIN eviction_moratorium_mapping m 
   ON ST_Intersects(c.the_geom, m.the_geom) 
   WHERE m.the_geom IS NOT NULL 
   AND m.admin_scale = 'County'
   OR m.admin_scale = 'City and County'`; // how should we handle cases with city and county
 
-  const cartoURI = `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
+  return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
+}
 
-  return cartoURI;
+function createStatesCartoURI() {
+  const query = `SELECT 
+  s.the_geom, s.state_name as municipality, m.policy_type, m.policy_summary, m.link, 
+  CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
+  FROM states s 
+  INNER JOIN eviction_moratorium_mapping m 
+  ON s.state_name = m.state  
+  AND m.admin_scale = 'State'`;
+
+  return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
 }
 
 /******************************************
@@ -157,7 +169,8 @@ Promise.all([
     if (!res.ok) throw Error("Unable to fetch moratoriums sheet data");
     return res.text();
   }),
-  fetch(statesGeoJsonURI).then(res => {
+  // fetch(cartoStatesURI).then(res => {
+  fetch(cartoStatesURI).then(res => {
     if (!res.ok) throw Error("Unable to fetch states geojson");
     return res.json();
   }),
@@ -173,19 +186,13 @@ Promise.all([
  * HANDLE DATA ASYNC RESPONSES
  *****************************************/
 
-function handleData([sheetsText, statesGeoJson, countiesGeojson]) {
+function handleData([sheetsText, statesGeoJson, countiesGeoJson]) {
   const rows = d3
     .csvParse(sheetsText, d3.autoType)
     .map(({ passed, ...rest }) => ({
       passed: passed === "TRUE" ? "Yes" : "No",
       ...rest
     }));
-
-  const statesData = rows
-    .filter(row => row.admin_scale === "State")
-    .reduce((acc, { state, ...rest }) => {
-      return acc.set(state, rest);
-    }, new Map());
 
   const citiesData = rows.filter(
     row => row.admin_scale === "City" && row.lat !== null && row.lon !== null
@@ -205,21 +212,10 @@ function handleData([sheetsText, statesGeoJson, countiesGeojson]) {
     }))
   };
 
-  // join states moratorium data to states geojson
-  statesGeoJson.features.forEach(feature => {
-    const { properties } = feature;
-    if (statesData.has(properties.name)) {
-      feature.properties = {
-        ...statesData.get(properties.name),
-        ...properties
-      };
-    }
-  });
-
   // add both the states layer, cities, and counties layers to the map
   // and save the layer output
   const states = handleStatesLayer(statesGeoJson);
-  const counties = handleCountiesLayer(countiesGeojson);
+  const counties = handleCountiesLayer(countiesGeoJson);
   const cities = handleCitiesLayer(citiesGeoJson);
 
   // add layers to layers control
@@ -293,24 +289,19 @@ function handleCountiesLayer(geojson) {
   const layerOptions = {
     style: feature => {
       // style states based on whether their moratorium has passed
-      if (feature.properties.passed === true) {
+      if (feature.properties.passed === "Yes") {
         return {
           color: "#4dac26",
           fillColor: "#b8e186",
           fillOpacity: fillOpacity,
           weight: strokeWeight
         };
-      } else if (feature.properties.passed === false) {
+      } else {
         return {
           color: "#d01c8b",
           fillColor: "#f1b6da",
           fillOpacity: fillOpacity,
           weight: strokeWeight
-        };
-      } else {
-        return {
-          stroke: false,
-          fill: false
         };
       }
     }
@@ -337,6 +328,7 @@ function handleCountiesLayer(geojson) {
 
 function handleStatesLayer(geojson) {
   // styling for the states layer: style states conditionally according to a presence of a moratorium
+
   const layerOptions = {
     style: feature => {
       // style states based on whether their moratorium has passed
