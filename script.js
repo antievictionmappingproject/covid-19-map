@@ -8,8 +8,8 @@ const MOBILE_BREAKPOINT = 640;
 let IS_MOBILE = document.querySelector("body").offsetWidth < MOBILE_BREAKPOINT;
 
 const DESKTOP_BREAKPOINT = 1200;
-let IS_DESKTOP = document.querySelector("body").offsetWidth > DESKTOP_BREAKPOINT;
-
+let IS_DESKTOP =
+  document.querySelector("body").offsetWidth > DESKTOP_BREAKPOINT;
 
 /******************************************
  * DATA SOURCES
@@ -36,70 +36,43 @@ const strokeWeight = 1.5;
 const pointRadius = 8;
 const fillOpacity = 0.7;
 
-let initialMapZoom = 4;
-//setting the initial zoom settings
-if (IS_MOBILE){
-  initialMapZoom = 3;}
-else if (IS_DESKTOP){
-  initialMapZoom = 5;}
+// default map view and layers settings
+let mapConfig = {
+  lat: 41.33,
+  lng: -95.71,
+  zoom: 4,
+  layers: ["states", "counties", "cities", "rentstrikes"]
+};
 
-//initial values, if not given by the url
-let lat = 40.67;
-let long = -97.23;
-let z = initialMapZoom;
-let statesOn = true;
-let citiesOn = true;
-let countiesOn = true;
+if (IS_MOBILE) {
+  mapConfig.zoom = 3;
+} else if (IS_DESKTOP) {
+  mapConfig.zoom = 5;
+}
 
-//read url hash input
+// read url hash input
 let hash = location.hash;
-let input = inputValues(hash);
 
-// breaks up the url into an array; should be in the form
-// #/lat= & long= & z= & state= & cities= & counties=
-function inputValues(hash){
-  let inputVals = [];
-  let input = hash.slice(2).split("&");
-// splitting the hash by &, then creating an array
-  for (i=0;i<input.length;i++){
-    inputVals[input[i].split("=")[0]]=input[i].split("=")[1]
-  }
+if (hash) {
+  // expected url hash format:
+  // '#{"lat":41.33,"lng":-107.46",zoom":7,"layers":["cities", "states"]}'
+  let params = hash.split("#")[1];
+  params = decodeURIComponent(params);
 
-  //overriding the default values, if relevant
-  if(inputVals["z"]!==undefined){
-    z=inputVals["z"]}
-  if(inputVals["lat"]!==undefined){
-    lat=inputVals["lat"]}
-  if(inputVals["long"]!==undefined){
-    long=inputVals["long"]}
-
-  if(inputVals["cities"]!==undefined){
-    if(inputVals["cities"]==="true"){
-      citiesOn=true
-    } else if(inputVals["cities"]==="false"){
-      citiesOn=false
-    }
-  }
-
-  if(inputVals["counties"]!==undefined){
-    if(inputVals["counties"]==="true"){
-      countiesOn=true
-    } else if(inputVals["counties"]==="false"){
-      countiesOn=false
-    }
-  }
-
-  if(inputVals["states"]!==undefined){
-    if(inputVals["states"]==="true"){
-      statesOn=true
-    } else if(inputVals["states"]==="false"){
-      statesOn=false
-    }
+  try {
+    let parsedHash = JSON.parse(params);
+    // if parsed correctly, override the default map config
+    mapConfig = Object.assign({}, mapConfig, parsedHash);
+  } catch (error) {
+    console.error("invalid url params: ", error);
   }
 }
 
 // create a new map instance by referencing the appropriate html element by its "id" attribute
-const map = L.map("map", mapOptions).setView([lat,long], z);
+const map = L.map("map", mapOptions).setView(
+  [mapConfig.lat, mapConfig.lng],
+  mapConfig.zoom
+);
 
 // the collapsable <details> element below the map title
 const titleDetails = document
@@ -146,7 +119,10 @@ map.on("popupopen", function(e) {
 map.on("popupclose", function(e) {
   document.getElementById("root").classList.remove("aemp-popupopen");
   document.getElementById("aemp-infowindow-container").innerHTML = "";
-  if (IS_MOBILE) setTimeout(function(){ map.invalidateSize() }, 100);
+  if (IS_MOBILE)
+    setTimeout(function() {
+      map.invalidateSize();
+    }, 100);
 });
 
 let resizeWindow;
@@ -265,17 +241,14 @@ function handleData([sheetsText, statesGeoJson]) {
     .addOverlay(localities, "Cities/Counties")
     .addOverlay(states, "States");
 
-
-  if (!statesOn){
+  if (mapConfig.layers.indexOf("states") === -1) {
     map.removeLayer(states);
   }
-  if (!citiesOn){
-    map.removeLayer(localities);//change this to cities once counties are split out
+
+  // TODO: change this to cities once counties are split out
+  if (mapConfig.layers.indexOf("cities") === -1) {
+    map.removeLayer(localities);
   }
-//include once there are counties
-  // if (!countiesOn){
-  //   map.removeLayer(localities);//change this to cities once counties are split out
-  // }
 }
 
 /******************************************
@@ -328,7 +301,6 @@ function handleLocalitiesLayer(geojson) {
 
   // Add data to the map
   localitiesLayer.addTo(map);
-
 
   return localitiesLayer;
 }
