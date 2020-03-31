@@ -229,7 +229,8 @@ a.aemp-infowindow-close {
   }
 
   .title-content-wrapper {
-    max-height: 270px;
+   
+    max-height: 250px;
     overflow-y: auto;
   }
 }

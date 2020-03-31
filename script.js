@@ -62,9 +62,9 @@ function toggleTitleDetails() {
   }
 }
 
-function closeTitleDetails() {
-  titleDetails.removeAttribute("open");
-}
+// function closeTitleDetails() {
+//   titleDetails.removeAttribute("open");
+// }
 
 // used by infowindow-template
 function closeInfo() {
@@ -90,6 +90,12 @@ map.on("popupclose", function(e) {
     setTimeout(function() {
       map.invalidateSize();
     }, 100);
+});
+
+map.on("click", function() {
+  if (IS_MOBILE) {
+    titleDetails.open = false;
+  }
 });
 
 let resizeWindow;
@@ -389,7 +395,7 @@ function handleRentStrikeLayer(geoJson) {
     maxClusterRadius: 40
   }).on("clusterclick", function() {
     if (IS_MOBILE) {
-      closeTitleDetails();
+      titleDetails.open = false;
     }
   });
 
