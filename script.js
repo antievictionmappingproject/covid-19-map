@@ -67,11 +67,22 @@ function inputValues(hash){
 
   //overriding the default values, if relevant
   if(inputVals["z"]!==undefined){
-    z=inputVals["z"]}
+    if(!isNaN(inputVals["z"])){
+      z=Number(inputVals["z"]);
+    }
+  }
+
   if(inputVals["lat"]!==undefined){
-    lat=inputVals["lat"]}
+    if(!isNaN(inputVals["lat"])){
+      lat=inputVals["lat"]
+      }
+    }
+
   if(inputVals["long"]!==undefined){
-    long=inputVals["long"]}
+    if(!isNaN(inputVals["long"])){
+      long=inputVals["long"]
+    }
+  }
 
   if(inputVals["cities"]!==undefined){
     if(inputVals["cities"]==="true"){
