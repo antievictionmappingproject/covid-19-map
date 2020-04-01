@@ -7,6 +7,10 @@ console.clear();
 const MOBILE_BREAKPOINT = 640;
 let IS_MOBILE = document.querySelector("body").offsetWidth < MOBILE_BREAKPOINT;
 
+const DESKTOP_BREAKPOINT = 1200;
+let IS_DESKTOP = document.querySelector("body").offsetWidth > DESKTOP_BREAKPOINT;
+
+
 /******************************************
  * DATA SOURCES
  *****************************************/
@@ -34,8 +38,86 @@ const strokeWeight = 1.5;
 const pointRadius = 8;
 const fillOpacity = 0.7;
 
+//setting the initial zoom settings
+if (IS_MOBILE){
+  initialMapZoom = 3;}
+else if (IS_DESKTOP){
+  initialMapZoom = 5;}
+
+//initial values, if not given by the url
+let mapConfig = {
+  lat : 40.67,
+  lng : -97.23,
+  z : 4,
+  states: true,
+  cities: true,
+  counties: true,
+  rentStrikes: true
+};
+
+//read url hash input
+let hash = location.hash;
+let input = inputValues(hash);
+
+// breaks up the url into an array; should be in the form
+// #lat= & lng= & z= & state= & cities= & counties=
+function inputValues(hash){
+  let input = hash.slice(1).split("&");
+// splitting the hash by &, then creating an array
+  let inputVals = {};
+  for (i=0; i<input.length; i++){
+    let [key, value] = input[i].split("=");
+    inputVals[key] = value;
+  }
+
+  //overriding the default values, if relevant
+  if(!isNaN(inputVals.z)){
+      mapConfig.z=parseInt(inputVals.z);
+  }
+
+ if(!isNaN(inputVals.lat)){
+      mapConfig.lat=parseFloat(inputVals.lat);
+  }
+
+  if(!isNaN(inputVals.lng)){
+    mapConfig.lng=parseFloat(inputVals.lng);
+  }
+
+  if(inputVals.cities!==undefined){
+    if(inputVals.cities==="true"){
+      mapConfig.cities=true
+    } else if(inputVals.cities==="false"){
+      mapConfig.cities=false
+    }
+  }
+
+  if(inputVals.counties!==undefined){
+    if(inputVals.counties==="true"){
+      mapConfig.counties=true
+    } else if(inputVals.counties==="false"){
+      mapConfig.counties=false
+    }
+  }
+
+  if(inputVals.states!==undefined){
+    if(inputVals.states==="true"){
+      mapConfig.states=true
+    } else if(inputVals.states==="false"){
+      mapConfig.states=false
+    }
+  }
+
+  if(inputVals.rentstrike!==undefined){
+    if(inputVals.rentstrike==="true"){
+      mapConfig.rentStrikes=true
+    } else if(inputVals.rentstrike==="false"){
+      mapConfig.rentStrikes=false
+    }
+  }
+}
+
 // create a new map instance by referencing the appropriate html element by its "id" attribute
-const map = L.map("map", mapOptions).setView([34.03, -82.2], 5);
+const map = L.map("map", mapOptions).setView([mapConfig.lat,mapConfig.lng], mapConfig.z);
 
 // the collapsable <details> element below the map title
 const titleDetails = document
@@ -253,6 +335,21 @@ function handleData([
     .addOverlay(localities, "Cities/Counties")
     .addOverlay(states, "States")
     .addOverlay(rentStrikes, "Rent Strikes");
+
+if (!mapConfig.states){
+    map.removeLayer(states);
+  }
+  //include once there are counties
+  // if (!mapConfig.counties){
+  //   map.removeLayer(localities);//change this to cities once counties are split out
+  // }
+  if (!mapConfig.cities){
+    map.removeLayer(localities);//change this to cities once counties are split out
+  }
+
+   if (!mapConfig.rentStrikes){
+    map.removeLayer(rentStrikes);
+  }
 }
 
 /******************************************
@@ -306,11 +403,6 @@ function handleLocalitiesLayer(geojson) {
   // Add data to the map
   localitiesLayer.addTo(map);
 
-  // Move the map view so that the localitiesLayer is visible
-  map.fitBounds(localitiesLayer.getBounds(), {
-    paddingTopLeft: [12, 120],
-    paddingBottomRight: [12, 12]
-  });
 
   return localitiesLayer;
 }
