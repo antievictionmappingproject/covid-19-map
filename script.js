@@ -15,10 +15,12 @@ let IS_DESKTOP = document.querySelector("body").offsetWidth > DESKTOP_BREAKPOINT
  * DATA SOURCES
  *****************************************/
 // unique id of the sheet that imports desired columns from the form responses sheet
-const sheetId = "1AkYjbnLbWW83LTm6jcsRjg78hRVxWsSKQv1eSssDHSM";
+const moratoriumSheetId = "1AkYjbnLbWW83LTm6jcsRjg78hRVxWsSKQv1eSssDHSM";
+const renStikeSheetId = "1rCZfNXO3gbl5H3cKhGXKIv3samJ1KC4nLhCwwZqrHvU";
 
 // the URI that grabs the sheet text formatted as a CSV
-const sheetURI = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&id=${sheetId}`;
+const moratoriumSheetURI = `https://docs.google.com/spreadsheets/d/${moratoriumSheetId}/export?format=csv&id=${moratoriumSheetId}`;
+const rentStrikeSheetURI = `https://docs.google.com/spreadsheets/d/${renStikeSheetId}/export?format=csv&id=${renStikeSheetId}`;
 
 // states geojson url
 const statesGeoJsonURI = "./states.geojson";
@@ -49,7 +51,8 @@ let mapConfig = {
   z : 4,
   states: true,
   cities: true,
-  counties : true
+  counties: true,
+  rentStrikes: true
 };
 
 //read url hash input
@@ -66,11 +69,6 @@ function inputValues(hash){
     let [key, value] = input[i].split("=");
     inputVals[key] = value;
   }
-
-
-  // for (i=0;i<input.length;i++){
-  //   inputVals[input[i].split("=")[0]]=input[i].split("=")[1]
-  // }
 
   //overriding the default values, if relevant
   if(!isNaN(inputVals.z)){
@@ -106,6 +104,14 @@ function inputValues(hash){
       mapConfig.states=true
     } else if(inputVals.states==="false"){
       mapConfig.states=false
+    }
+  }
+
+  if(inputVals.rentstrike!==undefined){
+    if(inputVals.rentstrike==="true"){
+      mapConfig.rentStrikes=true
+    } else if(inputVals.rentstrike==="false"){
+      mapConfig.rentStrikes=false
     }
   }
 }
@@ -158,7 +164,16 @@ map.on("popupopen", function(e) {
 map.on("popupclose", function(e) {
   document.getElementById("root").classList.remove("aemp-popupopen");
   document.getElementById("aemp-infowindow-container").innerHTML = "";
-  if (IS_MOBILE) setTimeout(function(){ map.invalidateSize() }, 100);
+  if (IS_MOBILE)
+    setTimeout(function() {
+      map.invalidateSize();
+    }, 100);
+});
+
+map.on("click", function() {
+  if (IS_MOBILE) {
+    titleDetails.open = false;
+  }
 });
 
 let resizeWindow;
@@ -195,6 +210,12 @@ const popupTemplate = document.querySelector(".popup-template").innerHTML;
 const infowindowTemplate = document.getElementById("aemp-infowindow-template")
   .innerHTML;
 
+const rentStrikePopupTemplate = document.querySelector(
+  ".rentstrike-popup-template"
+).innerHTML;
+const rentStrikeInfowindowTemplate = document.getElementById(
+  "aemp-rentstrike-infowindow-template"
+).innerHTML;
 // Add base layer
 L.tileLayer(
   "https://a.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}@2x.png",
@@ -208,8 +229,12 @@ L.tileLayer(
  *****************************************/
 
 Promise.all([
-  fetch(sheetURI).then(res => {
+  fetch(moratoriumSheetURI).then(res => {
     if (!res.ok) throw Error("Unable to fetch moratoriums sheet data");
+    return res.text();
+  }),
+  fetch(rentStrikeSheetURI).then(res => {
+    if (!res.ok) throw Error("Unable to fetch rent strike sheet data");
     return res.text();
   }),
   fetch(statesGeoJsonURI).then(res => {
@@ -224,21 +249,36 @@ Promise.all([
  * HANDLE DATA ASYNC RESPONSES
  *****************************************/
 
-function handleData([sheetsText, statesGeoJson]) {
-  const rows = d3
-    .csvParse(sheetsText, d3.autoType)
+function handleData([
+  moratoriumSheetsText,
+  rentStrikeSheetsText,
+  statesGeoJson
+]) {
+  const moratoriumRows = d3
+    .csvParse(moratoriumSheetsText, d3.autoType)
     .map(({ passed, ...rest }) => ({
       passed: passed === "TRUE" ? "Yes" : "No",
       ...rest
     }));
 
-  const statesData = rows
+  const rentStrikeRows = d3
+    .csvParse(rentStrikeSheetsText, d3.autoType)
+    .filter(row => row.Strike_Status !== null)
+    .map(({ Strike_Status, ...rest }) => ({
+      status:
+        Strike_Status === "Yes / Sí / 是 / Oui" || Strike_Status === "Yes"
+          ? "Yes"
+          : "Unsure",
+      ...rest
+    }));
+
+  const statesData = moratoriumRows
     .filter(row => row.admin_scale === "State")
     .reduce((acc, { state, ...rest }) => {
       return acc.set(state, rest);
     }, new Map());
 
-  const localitiesData = rows.filter(
+  const localitiesData = moratoriumRows.filter(
     row => row.admin_scale !== "State" && row.lat !== null && row.lon !== null
   );
 
@@ -267,27 +307,49 @@ function handleData([sheetsText, statesGeoJson]) {
     }
   });
 
+  rentStrikeData = rentStrikeRows.filter(
+    row => row.Latitude !== null && row.Longitude !== null
+  );
+
+  const rentStrikeGeoJson = {
+    type: "FeatureCollection",
+    features: rentStrikeData.map(({ Longitude, Latitude, ...rest }, index) => ({
+      type: "Feature",
+      id: index,
+      properties: rest,
+      geometry: {
+        type: "Point",
+        coordinates: [Longitude, Latitude]
+      }
+    }))
+  };
+
   // add both the states layer and localities layer to the map
   // and save the layer output
   const states = handleStatesLayer(statesGeoJson);
   const localities = handleLocalitiesLayer(localitiesGeoJson);
+  const rentStrikes = handleRentStrikeLayer(rentStrikeGeoJson);
 
   // add layers to layers control
   layersControl
     .addOverlay(localities, "Cities/Counties")
-    .addOverlay(states, "States");
+    .addOverlay(states, "States")
+    .addOverlay(rentStrikes, "Rent Strikes");
 
-
-  if (!mapConfig.states){
+if (!mapConfig.states){
     map.removeLayer(states);
   }
-  if (!mapConfig.cities){
-    map.removeLayer(localities);//change this to cities once counties are split out
-  }
-//include once there are counties
+  //include once there are counties
   // if (!mapConfig.counties){
   //   map.removeLayer(localities);//change this to cities once counties are split out
   // }
+  if (!mapConfig.cities){
+    map.removeLayer(localities);//change this to cities once counties are split out
+  }
+
+   if (!mapConfig.rentStrikes){
+    map.removeLayer(rentStrikes);
+  }
 }
 
 /******************************************
@@ -390,4 +452,53 @@ function handleStatesLayer(geojson) {
   statesLayer.addTo(map);
 
   return statesLayer;
+}
+
+function handleRentStrikeLayer(geoJson) {
+  const iconSize = [60, 60];
+  const iconAnchor = [27, 20];
+  const rentStrikeYesIcon = new L.Icon({
+    iconUrl: "./assets/mapIcons/rent-strike-blue.png",
+    iconSize: iconSize,
+    iconAnchor: iconAnchor
+  });
+
+  const rentStrikeUnsureIcon = new L.Icon({
+    iconUrl: "./assets/mapIcons/rent-strike-orange.png",
+    iconSize: [60, 60],
+    iconAnchor: iconAnchor
+  });
+
+  // add custom marker icons
+  const rentStrikeLayer = L.geoJson(geoJson, {
+    pointToLayer: function(feature, latlng) {
+      const { status } = feature.properties;
+      return L.marker(latlng, {
+        icon: status === "Yes" ? rentStrikeYesIcon : rentStrikeUnsureIcon
+      });
+    }
+  });
+  //add markers to cluster with options
+  const rentStrikeLayerMarkers = L.markerClusterGroup({
+    maxClusterRadius: 40
+  }).on("clusterclick", function() {
+    if (IS_MOBILE) {
+      titleDetails.open = false;
+    }
+  });
+
+  rentStrikeLayerMarkers.addLayer(rentStrikeLayer).bindPopup(function(layer) {
+    const renderedInfo = Mustache.render(
+      rentStrikeInfowindowTemplate,
+      layer.feature.properties
+    );
+    document.getElementById(
+      "aemp-infowindow-container"
+    ).innerHTML = renderedInfo;
+    return Mustache.render(rentStrikePopupTemplate, layer.feature.properties);
+  });
+
+  map.addLayer(rentStrikeLayerMarkers);
+
+  return rentStrikeLayerMarkers;
 }

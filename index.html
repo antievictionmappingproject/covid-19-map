@@ -15,6 +15,15 @@
       href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
       rel="stylesheet"
     />
+    <!-- Load the Marker Cluster CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css"
+    />
 
     <!-- Load the Roboto font family -->
     <link
@@ -29,24 +38,39 @@
     <div id="root">
       <header id="aemp-titlebox">
         <h1 id="aemp-title">
-          COVID-19 Emergency Tenant Protections
+          COVID-19 Emergency Tenant Protections & Rent Strikes
         </h1>
         <details open>
           <summary>About the map:</summary>
-          <p>
-            Where United States officials
-            <strong class="color-passed">have passed</strong> (or tenants are
-            <strong class="color-yet-to-pass">working to pass</strong>)
-            emergency tenant protections during the COVID-19 crisis. Global map
-            coming soon!
-          </p>
-          <p>
-            <a
-              href="https://docs.google.com/forms/d/e/1FAIpQLSfHzR_SYO-wKfa3Abi9jDvZXCH3dsLgrkDj-9Rwm-3oRjDD9A/viewform"
-              target="_blank"
-              >Submit your updates here.</a
-            >
-          </p>
+          <div class="title-content-wrapper">
+            <h2>Emergency Tenant Protections</h2>
+            <p>
+              Where United States officials
+              <strong class="color-passed">have passed</strong> (or tenants are
+              <strong class="color-yet-to-pass">working to pass</strong>)
+              emergency tenant protections during the COVID-19 crisis.
+            </p>
+            <p>
+              <a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSfHzR_SYO-wKfa3Abi9jDvZXCH3dsLgrkDj-9Rwm-3oRjDD9A/viewform"
+                target="_blank"
+                >Submit a tenant protection update.</a
+              >
+            </p>
+            <h2>Rent Strikes</h2>
+            <p>
+              Where organized rent strikes are
+              <strong class="color-ocurring">currently occurring</strong> or
+              <strong class="color-may-be-ocurring">may be occurring</strong>.
+            </p>
+            <p>
+              <a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSfzMYs_BZYFb601oiAGtotfTX7tjZXvao3F0PHuTlko4rAxKA/viewform"
+                target="_blank"
+                >Submit a rent strike update.</a
+              >
+            </p>
+          </div>
         </details>
       </header>
 
@@ -69,16 +93,30 @@
         </div>
       </div>
     </script>
+    <script class="rentstrike-popup-template" type="x-tmpl-mustache">
+      <div class="popup-container locality-popup-container">
+        <div>
+          <p class="popup-title">
+            <strong>{{Location}}</strong>
+          </p>
+        </div>
+      </div>
+    </script>
     <script id="aemp-infowindow-template" type="x-tmpl-mustache">
       <div class="aemp-infowindow">
         <a class="aemp-infowindow-close" href="#close" onClick="closeInfo()">×</a>
         <div>
           <p class="infowindow-title">
-            <strong>{{municipality}}</strong>
+            <strong>Emergency Tenant Protections</strong>
           </p>
         </div>
         <div>
-          <p><strong>Policy Summary</strong></p>
+          <p>
+            <strong>Municipality: </strong>{{municipality}}
+          </p>
+        </div>
+        <div>
+          <p><strong>Policy Summary:</strong></p>
           <p>{{policy_summary}}</p>
         </div>
         <div>
@@ -102,8 +140,43 @@
       </div>
     </script>
 
+    <script id="aemp-rentstrike-infowindow-template" type="x-tmpl-mustache">
+      <div class="aemp-infowindow">
+        <a class="aemp-infowindow-close" href="#close" onClick="closeInfo()">×</a>
+        <div>
+          <p class="infowindow-title">
+            <strong>Rent Strike</strong>
+          </p>
+        </div>
+        <div>
+          <p>
+            <strong>Location: </strong>{{Location}}
+          </p>
+          <p><strong>Status: </strong>{{status}}</p>
+        </div>
+        {{#Why}}
+        <div>
+          <p><strong>Why? </strong>{{Why}}</p>
+        </div>
+        {{/Why}}
+        {{#Start}}
+        <div>
+          <p><strong>Start: </strong>{{Start}}</p>
+        </div>
+        {{/Start}}
+        {{#Landlord}}
+        <div>
+          <p><strong>Landlord: </strong>{{Landlord}}</p>
+        </div>
+        {{/Landlord}}
+      </div>
+    </script>
+
     <!-- Load Leaflet library -->
     <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
+
+    <!-- Load Leaflet Marker Cluster plugin -->
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster-src.js"></script>
 
     <!-- Load Promises polyfill -->
     <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"></script>
@@ -119,7 +192,7 @@
 
     <!-- Load d3-tsv -->
     <script src="https://d3js.org/d3-dsv.v1.min.js"></script>
-    
+
     <!-- Load our JavaScript -->
     <script src="./script.js"></script>
   </body>
