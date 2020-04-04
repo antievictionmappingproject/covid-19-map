@@ -1,3 +1,6 @@
+// this tells webpack to use our CSS
+import "./styles/index.css";
+
 console.clear();
 
 /******************************************
@@ -8,7 +11,8 @@ const MOBILE_BREAKPOINT = 640;
 let IS_MOBILE = document.querySelector("body").offsetWidth < MOBILE_BREAKPOINT;
 
 const DESKTOP_BREAKPOINT = 1200;
-let IS_DESKTOP = document.querySelector("body").offsetWidth > DESKTOP_BREAKPOINT;
+let IS_DESKTOP =
+  document.querySelector("body").offsetWidth > DESKTOP_BREAKPOINT;
 
 /******************************************
  * DATA SOURCES
@@ -38,10 +42,10 @@ const pointRadius = 8;
 const fillOpacity = 0.7;
 
 // setting the initial zoom settings
-if (IS_MOBILE){
+let initialMapZoom = 4;
+if (IS_MOBILE) {
   initialMapZoom = 3;
-}
-else if (IS_DESKTOP){
+} else if (IS_DESKTOP) {
   initialMapZoom = 5;
 }
 
@@ -49,7 +53,7 @@ else if (IS_DESKTOP){
 let mapConfig = {
   lat: 40.67,
   lng: -97.23,
-  z: 4,
+  z: initialMapZoom,
   states: true,
   cities: true,
   counties: true,
@@ -64,61 +68,65 @@ let input = inputValues(hash);
 // #lat= & lng= & z= & state= & cities= & counties=
 function inputValues(hash) {
   let input = hash.slice(1).split("&");
-// splitting the hash by &, then creating an array
+  // splitting the hash by &, then creating an array
   let inputVals = {};
-  for (i = 0; i < input.length; i++){
+  let i = 0;
+  for (i; i < input.length; i++) {
     let [key, value] = input[i].split("=");
     inputVals[key] = value;
   }
 
   // overriding the default values, if relevant
-  if(!isNaN(inputVals.z)){
+  if (!isNaN(inputVals.z)) {
     mapConfig.z = parseInt(inputVals.z);
   }
 
-  if(!isNaN(inputVals.lat)){
+  if (!isNaN(inputVals.lat)) {
     mapConfig.lat = parseFloat(inputVals.lat);
   }
 
-  if(!isNaN(inputVals.lng)){
+  if (!isNaN(inputVals.lng)) {
     mapConfig.lng = parseFloat(inputVals.lng);
   }
 
-  if(inputVals.cities !== undefined){
-    if(inputVals.cities === "true"){
+  if (inputVals.cities !== undefined) {
+    if (inputVals.cities === "true") {
       mapConfig.cities = true;
-    } else if(inputVals.cities === "false"){
+    } else if (inputVals.cities === "false") {
       mapConfig.cities = false;
     }
   }
 
-  if(inputVals.counties !== undefined){
-    if(inputVals.counties === "true"){
+  if (inputVals.counties !== undefined) {
+    if (inputVals.counties === "true") {
       mapConfig.counties = true;
-    } else if(inputVals.counties === "false"){
+    } else if (inputVals.counties === "false") {
       mapConfig.counties = false;
     }
   }
 
-  if(inputVals.states !== undefined){
-    if(inputVals.states === "true"){
+  if (inputVals.states !== undefined) {
+    if (inputVals.states === "true") {
       mapConfig.states = true;
-    } else if(inputVals.states === "false"){
+    } else if (inputVals.states === "false") {
       mapConfig.states = false;
     }
   }
 
-  if(inputVals.rentstrike !== undefined){
-    if(inputVals.rentstrike === "true"){
+  if (inputVals.rentstrike !== undefined) {
+    if (inputVals.rentstrike === "true") {
       mapConfig.rentStrikes = true;
-    } else if(inputVals.rentstrike === "false"){
+    } else if (inputVals.rentstrike === "false") {
       mapConfig.rentStrikes = false;
     }
   }
 }
 
 // create a new map instance by referencing the appropriate html element by its "id" attribute
-const map = L.map("map", mapOptions).setView([mapConfig.lat,mapConfig.lng], mapConfig.z);
+const map = L.map("map", mapOptions).setView(
+  [mapConfig.lat, mapConfig.lng],
+  mapConfig.z
+);
 
 // the collapsable <details> element below the map title
 const titleDetails = document
@@ -308,7 +316,7 @@ function handleData([
     }
   });
 
-  rentStrikeData = rentStrikeRows.filter(
+  const rentStrikeData = rentStrikeRows.filter(
     row => row.Latitude !== null && row.Longitude !== null
   );
 
@@ -337,7 +345,7 @@ function handleData([
     .addOverlay(states, "States")
     .addOverlay(rentStrikes, "Rent Strikes");
 
-  if (!mapConfig.states){
+  if (!mapConfig.states) {
     map.removeLayer(states);
   }
 
@@ -345,11 +353,11 @@ function handleData([
   //  if (!mapConfig.counties){
   //    map.removeLayer(localities);}//change this to cities once counties are split out
 
-  if (!mapConfig.cities){
-    map.removeLayer(localities);//change this to cities once counties are split out
+  if (!mapConfig.cities) {
+    map.removeLayer(localities); //change this to cities once counties are split out
   }
 
-  if (!mapConfig.rentStrikes){
+  if (!mapConfig.rentStrikes) {
     map.removeLayer(rentStrikes);
   }
 }
@@ -404,7 +412,6 @@ function handleLocalitiesLayer(geojson) {
 
   // Add data to the map
   localitiesLayer.addTo(map);
-
 
   return localitiesLayer;
 }
