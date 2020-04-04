@@ -158,6 +158,7 @@ function closeInfo() {
   map.closePopup();
   map.invalidateSize();
 }
+window.closeInfo = closeInfo;
 
 map.on("popupopen", function(e) {
   document.getElementById("root").classList.add("aemp-popupopen");
