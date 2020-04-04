@@ -10,15 +10,21 @@ let IS_MOBILE = document.querySelector("body").offsetWidth < MOBILE_BREAKPOINT;
 /******************************************
  * DATA SOURCES
  *****************************************/
-// unique id of the sheet that imports desired columns from the form responses sheet
+// unique id of the sheet that imports desired columns from the moratoriums form responses sheet
 const sheetId = "1AkYjbnLbWW83LTm6jcsRjg78hRVxWsSKQv1eSssDHSM";
 
 // the URI that grabs the sheet text formatted as a CSV
 const sheetURI = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&id=${sheetId}`;
 
-// the URIs for CARTO counties &states layers
+// table in CARTO that syncs with the Google sheet data
+// note the sync is broken due to a problem with sheets
+// that reference data from another sheet
+const cartoSheetSyncTable =
+  "emergency_tenant_protections_carto_sync_do_not_edit";
+
+// the URIs for CARTO counties &s tates layers
 // joined to the moratoriums data
-// (all in CARTO  acct)
+// (all in AEMP CARTO acct)
 const cartoCountiesURI = createCountiesCartoURI();
 const cartoStatesURI = createStatesCartoURI();
 
@@ -117,7 +123,7 @@ const layersControl = L.control
   .layers(null, null, { position: "topright", collapsed: false })
   .addTo(map);
 
-// Get the popup template from the HTML.
+// Get the popup & infowindow templates from the HTML.
 // We can do this here because the template will never change.
 const popupTemplate = document.querySelector(".popup-template").innerHTML;
 const infowindowTemplate = document.getElementById("aemp-infowindow-template")
@@ -130,6 +136,7 @@ L.tileLayer(
     maxZoom: 18
   }
 ).addTo(map);
+
 /******************************************
  * URI HELPERS
  *****************************************/
@@ -139,11 +146,11 @@ function createCountiesCartoURI() {
   c.the_geom, c.county as municipality, c.state as state_name, m.policy_type, m.policy_summary, m.link, 
   CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
   FROM us_county_boundaries c 
-  JOIN eviction_moratorium_mapping m 
+  JOIN ${cartoSheetSyncTable} m
   ON ST_Intersects(c.the_geom, m.the_geom) 
   WHERE m.the_geom IS NOT NULL 
   AND m.admin_scale = 'County'
-  OR m.admin_scale = 'City and County'`; // how should we handle cases with city and county
+  OR m.admin_scale = 'City and County'`; // how should we handle cases with city and county?
 
   return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
 }
@@ -153,7 +160,7 @@ function createStatesCartoURI() {
   s.the_geom, s.state_name as municipality, m.policy_type, m.policy_summary, m.link, 
   CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
   FROM states s 
-  INNER JOIN eviction_moratorium_mapping m 
+  INNER JOIN ${cartoSheetSyncTable} m
   ON s.state_name = m.state  
   AND m.admin_scale = 'State'`;
 
@@ -211,7 +218,7 @@ function handleData([sheetsText, statesGeoJson, countiesGeoJson]) {
     }))
   };
 
-  // add both the states layer, cities, and counties layers to the map
+  // add the states, cities, and counties layers to the map
   // and save the layer output
   const states = handleStatesLayer(statesGeoJson);
   const counties = handleCountiesLayer(countiesGeoJson);
