@@ -22,6 +22,14 @@ module.exports = {
     path: path.resolve(__dirname, "dist")
   },
 
+  // "devtool" tells webpack what type of source maps to use
+  devtool: "inline-source-map",
+
+  // configuration for webpack's development server
+  devServer: {
+    contentBase: "./dist"
+  },
+
   // "module" is where we tell webpack how to handle our various modules / files
   module: {
     // "rules" tells webpack how it should handle file types
