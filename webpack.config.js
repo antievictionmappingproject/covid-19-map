@@ -16,8 +16,9 @@ module.exports = {
 
   // "output" specifies where our processed files will end up
   output: {
-    // this tells webpack to use the same name as the key from "entry" above
-    filename: "[name].js",
+    // "[name]" tells webpack to use the same name as the key from "entry" above
+    // "[contenthash]" gives the output file(s) a "hash", which will help with cache-busing browsers
+    filename: "[name].[contenthash].js",
 
     // tell webpack to put our processed files in a directory called "dist"
     path: path.resolve(__dirname, "dist")
@@ -72,6 +73,21 @@ module.exports = {
         }
       }
     ]
+  },
+
+  optimization: {
+    moduleIds: "hashed",
+    runtimeChunk: "single",
+    splitChunks: {
+      chunks: "all",
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendors",
+          chunks: "all"
+        }
+      }
+    }
   },
 
   // what plugins Webpack should use for advanced functionality
