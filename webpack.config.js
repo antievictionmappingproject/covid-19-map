@@ -41,6 +41,35 @@ module.exports = {
         test: /\.css$/,
         // tell webpack what "loaders" to use to process this file type, in this order
         use: ["style-loader", "css-loader"]
+      },
+
+      // this "rule" tells webpack what "loader(s)" to use to process our JS
+      {
+        // only target .js files
+        test: /\.js$/,
+
+        // tell webpack to ignore the node_modules directory for this rule
+        exclude: /node_modules/,
+
+        // many options in webpack's config can take a value as an array or object
+        // here we're specify an object with additonal properties, such as
+        // plugins for babel to use
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: [
+              [
+                "@babel/preset-env",
+                {
+                  useBuiltIns: "entry",
+                  targets: "> 0.25%, not dead",
+                  corejs: { version: 3, proposals: true }
+                }
+              ]
+            ],
+            plugins: ["@babel/plugin-proposal-object-rest-spread"]
+          }
+        }
       }
     ]
   },
