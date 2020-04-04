@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/antievictionmappingproject/covid-19-map#readme",
   "devDependencies": {
+    "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.4.2",
     "html-webpack-plugin": "^4.0.4",
