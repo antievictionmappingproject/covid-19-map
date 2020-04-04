@@ -1,6 +1,7 @@
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 // this defines a configuration object that NodeJS can pass to Webpack
 module.exports = {
@@ -46,6 +47,9 @@ module.exports = {
 
   // what plugins Webpack should use for advanced functionality
   plugins: [
+    // makes sure our output folder is cleaned before adding new files to it
+    new CleanWebpackPlugin(),
+
     // handles HTML files
     new HtmlWebpackPlugin({ template: "./public/index.html" }),
 
