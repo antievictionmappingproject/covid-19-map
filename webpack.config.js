@@ -2,6 +2,9 @@ const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+const devMode = process.env.NODE_ENV !== "production";
 
 // this defines a configuration object that NodeJS can pass to Webpack
 module.exports = {
@@ -40,8 +43,17 @@ module.exports = {
       {
         // use a Regular Expression to tell webpack what type of file(s) this rule targets
         test: /\.css$/,
-        // tell webpack what "loaders" to use to process this file type, in this order
-        use: ["style-loader", "css-loader"]
+        // tell webpack what "loaders" to use to process this file type
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              hmr: process.env.NODE_ENV === "development",
+              reloadAll: true
+            }
+          },
+          "css-loader"
+        ]
       },
 
       // this "rule" tells webpack what "loader(s)" to use to process our JS
@@ -85,6 +97,12 @@ module.exports = {
           test: /[\\/]node_modules[\\/]/,
           name: "vendors",
           chunks: "all"
+        },
+        styles: {
+          name: "styles",
+          test: /\.css$/,
+          chunks: "all",
+          enforce: true
         }
       }
     }
@@ -99,6 +117,15 @@ module.exports = {
     new HtmlWebpackPlugin({ template: "./public/index.html" }),
 
     // handles copying files that aren't "imported" into our JS to the output directory
-    new CopyPlugin(["./data/states.geojson"])
+    new CopyPlugin(["./data/states.geojson"]),
+
+    // handles extracting our CSS into a file(s)
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // all options are optional
+      filename: devMode ? "[name].css" : "[name].[contenthash].css",
+      chunkFilename: devMode ? "[id].css" : "[id].[contenthash].css",
+      ignoreOrder: false // Enable to remove warnings about conflicting order
+    })
   ]
 };
