@@ -4,6 +4,8 @@ const CopyPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const TerserJSPlugin = require("terser-webpack-plugin");
 
 // `module.exports` is NodeJS's way of exporting code from a file,
 // so that it can be made available in other files. It's what
@@ -59,7 +61,7 @@ module.exports = (env, argv) => {
     /******************************************************************************
      * The type of source maps to use for any transformed code
      ******************************************************************************/
-    devtool: devMode ? "source-map" : "cheap-source-map",
+    devtool: "source-map",
 
     /******************************************************************************
      * Configuration for webpack's development server
@@ -135,6 +137,22 @@ module.exports = (env, argv) => {
     optimization: {
       moduleIds: "hashed",
       runtimeChunk: "single",
+
+      // how to handle code minimization in production
+      minimizer: [
+        new TerserJSPlugin({
+          test: /\.js(\?.*)?$/i,
+          exclude: /node_modules/,
+          terserOptions: {
+            output: {
+              comments: /@license/i
+            }
+          },
+          extractComments: true,
+          sourceMap: true
+        }),
+        new OptimizeCSSAssetsPlugin({})
+      ],
 
       // how webpack should split our code compiled into separate files for production
       splitChunks: {
