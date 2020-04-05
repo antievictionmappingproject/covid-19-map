@@ -117,7 +117,10 @@ module.exports = {
     new HtmlWebpackPlugin({ template: "./public/index.html" }),
 
     // handles copying files that aren't "imported" into our JS to the output directory
-    new CopyPlugin(["./data/states.geojson"]),
+    new CopyPlugin([
+      "./data/states.geojson",
+      { from: "public/assets/mapIcons", to: "assets/mapIcons" }
+    ]),
 
     // handles extracting our CSS into a file(s)
     new MiniCssExtractPlugin({
