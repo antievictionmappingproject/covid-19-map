@@ -1,134 +1,159 @@
 const path = require("path");
+const webpack = require("webpack");
 const CopyPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const devMode = process.env.NODE_ENV !== "production";
+// module.exports is NodeJS's way of exporting code from a file,
+// so that it can be made available in other files. It's what
+// enables Webpack to read our configuration from a .js file.
+module.exports = (env, argv) => {
+  // whether or not we're in development mode
+  // this affects how some of the config options are set
+  const devMode = argv.env.NODE_ENV !== "production";
 
-// this defines a configuration object that NodeJS can pass to Webpack
-module.exports = {
-  // specify Webpack's "mode" as "development";
-  // we can also specify "production" for a production optimized build
-  mode: "development",
+  if (argv.mode === "development") {
+    console.log("webpack is in dev mode");
+  } else if (argv.mode === "production") {
+    console.log("webpack is in production mode");
+  } else {
+    console.log("webpack has no mode defined");
+  }
 
-  // "entry" points to our source file(s) which is used to create Webpack's dependency tree
-  entry: {
-    index: "./src/index.js"
-  },
+  // this defines a configuration object that NodeJS can pass to Webpack
+  const config = {
+    // specify Webpack's "mode" as "development";
+    // we can also specify "production" for a production optimized build
+    // mode: argv.mode,
 
-  // "output" specifies where our processed files will end up
-  output: {
-    // "[name]" tells webpack to use the same name as the key from "entry" above
-    // "[contenthash]" gives the output file(s) a "hash", which will help with cache-busing browsers
-    filename: "[name].[contenthash].js",
+    // "entry" points to our source file(s) which is used to create Webpack's dependency tree
+    entry: {
+      index: "./src/index.js"
+    },
 
-    // tell webpack to put our processed files in a directory called "dist"
-    path: path.resolve(__dirname, "dist")
-  },
+    // "output" specifies where our processed files will end up
+    output: {
+      // "[name]" tells webpack to use the same name as the key from "entry" above
+      // "[contenthash]" gives the output file(s) a "hash", which will help with cache-busing browsers
+      filename: "[name].[contenthash].js",
 
-  // "devtool" tells webpack what type of source maps to use
-  devtool: "inline-source-map",
+      // tell webpack to put our processed files in a directory called "dist"
+      path: path.resolve(__dirname, "dist")
+    },
 
-  // configuration for webpack's development server
-  devServer: {
-    contentBase: "./dist"
-  },
+    // "devtool" tells webpack what type of source maps to use
+    devtool: devMode ? "source-map" : "cheap-source-map",
 
-  // "module" is where we tell webpack how to handle our various modules / files
-  module: {
-    // "rules" tells webpack how it should handle file types
-    rules: [
-      // this "rule" tells webpack what "loaders" to use to process our CSS
-      {
-        // use a Regular Expression to tell webpack what type of file(s) this rule targets
-        test: /\.css$/,
-        // tell webpack what "loaders" to use to process this file type
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
+    // configuration for webpack's development server
+    devServer: {
+      contentBase: "./dist"
+    },
+
+    // "module" is where we tell webpack how to handle our various modules / files
+    module: {
+      // "rules" tells webpack how it should handle file types
+      rules: [
+        // this "rule" tells webpack what "loaders" to use to process our CSS
+        {
+          // use a Regular Expression to tell webpack what type of file(s) this rule targets
+          test: /\.css$/,
+          // tell webpack what "loaders" to use to process this file type
+          use: [
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                hmr: process.env.NODE_ENV === "development",
+                reloadAll: true
+              }
+            },
+            "css-loader"
+          ]
+        },
+
+        // this "rule" tells webpack what "loader(s)" to use to process our JS
+        {
+          // only target .js files
+          test: /\.js$/,
+
+          // tell webpack to ignore the node_modules directory for this rule
+          exclude: /node_modules/,
+
+          // many options in webpack's config can take a value as an array or object
+          // here we're specify an object with additonal properties, such as
+          // plugins for babel to use
+          use: {
+            loader: "babel-loader",
             options: {
-              hmr: process.env.NODE_ENV === "development",
-              reloadAll: true
+              presets: [
+                [
+                  "@babel/preset-env",
+                  {
+                    useBuiltIns: "entry",
+                    targets: "> 0.25%, not dead",
+                    corejs: { version: 3, proposals: true }
+                  }
+                ]
+              ],
+              plugins: ["@babel/plugin-proposal-object-rest-spread"]
             }
+          }
+        }
+      ]
+    },
+
+    optimization: {
+      moduleIds: "hashed",
+      runtimeChunk: "single",
+      splitChunks: {
+        chunks: "all",
+        cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: "vendors",
+            chunks: "all"
           },
-          "css-loader"
-        ]
-      },
-
-      // this "rule" tells webpack what "loader(s)" to use to process our JS
-      {
-        // only target .js files
-        test: /\.js$/,
-
-        // tell webpack to ignore the node_modules directory for this rule
-        exclude: /node_modules/,
-
-        // many options in webpack's config can take a value as an array or object
-        // here we're specify an object with additonal properties, such as
-        // plugins for babel to use
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: [
-              [
-                "@babel/preset-env",
-                {
-                  useBuiltIns: "entry",
-                  targets: "> 0.25%, not dead",
-                  corejs: { version: 3, proposals: true }
-                }
-              ]
-            ],
-            plugins: ["@babel/plugin-proposal-object-rest-spread"]
+          styles: {
+            name: "styles",
+            test: /\.css$/,
+            chunks: "all",
+            enforce: true
           }
         }
       }
+    },
+
+    // what plugins Webpack should use for advanced functionality
+    plugins: [
+      // makes sure our output folder is cleaned before adding new files to it
+      new CleanWebpackPlugin(),
+
+      // handles HTML files
+      new HtmlWebpackPlugin({ template: "./public/index.html" }),
+
+      // handles copying files that aren't "imported" into our JS to the output directory
+      new CopyPlugin([
+        "./data/states.geojson",
+        { from: "public/assets/mapIcons", to: "assets/mapIcons" }
+      ]),
+
+      // handles extracting our CSS into a file(s)
+      new MiniCssExtractPlugin({
+        // Options similar to the same options in webpackOptions.output
+        // all options are optional
+        filename: devMode ? "[name].css" : "[name].[contenthash].css",
+        chunkFilename: devMode ? "[id].css" : "[id].[contenthash].css",
+        ignoreOrder: false // Enable to remove warnings about conflicting order
+      }),
+
+      // allows for variables to be available in our app code
+      // helpful for enabling certain things when in development that you might not
+      // want in production, such as logging
+      new webpack.DefinePlugin({
+        "process.env.NODE_ENV": JSON.stringify(argv.env.NODE_ENV)
+      })
     ]
-  },
+  };
 
-  optimization: {
-    moduleIds: "hashed",
-    runtimeChunk: "single",
-    splitChunks: {
-      chunks: "all",
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: "vendors",
-          chunks: "all"
-        },
-        styles: {
-          name: "styles",
-          test: /\.css$/,
-          chunks: "all",
-          enforce: true
-        }
-      }
-    }
-  },
-
-  // what plugins Webpack should use for advanced functionality
-  plugins: [
-    // makes sure our output folder is cleaned before adding new files to it
-    new CleanWebpackPlugin(),
-
-    // handles HTML files
-    new HtmlWebpackPlugin({ template: "./public/index.html" }),
-
-    // handles copying files that aren't "imported" into our JS to the output directory
-    new CopyPlugin([
-      "./data/states.geojson",
-      { from: "public/assets/mapIcons", to: "assets/mapIcons" }
-    ]),
-
-    // handles extracting our CSS into a file(s)
-    new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output
-      // all options are optional
-      filename: devMode ? "[name].css" : "[name].[contenthash].css",
-      chunkFilename: devMode ? "[id].css" : "[id].[contenthash].css",
-      ignoreOrder: false // Enable to remove warnings about conflicting order
-    })
-  ]
+  return config;
 };
