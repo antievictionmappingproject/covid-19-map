@@ -22,6 +22,8 @@ To start a development server with live reload:
 npm start
 ```
 
+...then visit `localhost:8080` in your browser.
+
 To create a production build in the `dist` directory:
 
 ```
