@@ -5,12 +5,14 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-// module.exports is NodeJS's way of exporting code from a file,
+// `module.exports` is NodeJS's way of exporting code from a file,
 // so that it can be made available in other files. It's what
-// enables Webpack to read our configuration from a .js file.
+// enables Webpack to read our configuration from a .js file (rather than for example a JSON file)
 module.exports = (env, argv) => {
-  // whether or not we're in development mode
-  // this affects how some of the config options are set
+  /**
+   * Whether or not we're in development mode.
+   * This affects how some of the config options are set
+   */
   const devMode = argv.env.NODE_ENV !== "production";
 
   if (argv.mode === "development") {
@@ -21,18 +23,30 @@ module.exports = (env, argv) => {
     console.log("webpack has no mode defined");
   }
 
-  // this defines a configuration object that NodeJS can pass to Webpack
+  /******************************************************************************
+   * Define a configuration object that instructs how Webpack should handle our code
+   ******************************************************************************/
   const config = {
-    // specify Webpack's "mode" as "development";
-    // we can also specify "production" for a production optimized build
+    /******************************************************************************
+     * specify Webpack's "mode", typically either "development" or "production"
+     * we currently set this using the CLI, see the "scripts" in package.json
+     * so it's commented out below. Many of webpack's options can be specified
+     * either by the CLI or the config file.
+     ******************************************************************************/
     // mode: argv.mode,
 
-    // "entry" points to our source file(s) which is used to create Webpack's dependency tree
+    /******************************************************************************
+     * Which file(s) are used to create Webpack's dependency tree
+     * Note there can be multiple entries, for example for different HTML pages
+     * The key (e.g. "index") can be referenced elsewhere in the configuration
+     ******************************************************************************/
     entry: {
       index: "./src/index.js"
     },
 
-    // "output" specifies where our processed files will end up
+    /******************************************************************************
+     * Where our processed files will end up and how they are named
+     ******************************************************************************/
     output: {
       // "[name]" tells webpack to use the same name as the key from "entry" above
       // "[chunkhash]" gives the output file(s) a "hash", which will help with cache-busing browsers
@@ -42,10 +56,14 @@ module.exports = (env, argv) => {
       path: path.resolve(__dirname, "dist")
     },
 
-    // "devtool" tells webpack what type of source maps to use
+    /******************************************************************************
+     * The type of source maps to use for any transformed code
+     ******************************************************************************/
     devtool: devMode ? "source-map" : "cheap-source-map",
 
-    // configuration for webpack's development server
+    /******************************************************************************
+     * Configuration for webpack's development server
+     ******************************************************************************/
     devServer: {
       contentBase: "./dist",
       // use webpack's hot module replacement
@@ -53,7 +71,9 @@ module.exports = (env, argv) => {
       hot: true
     },
 
-    // "module" is where we tell webpack how to handle our various modules / files
+    /******************************************************************************
+     * "module" is where we tell webpack how to handle our various modules / files
+     ******************************************************************************/
     module: {
       // "rules" tells webpack how it should handle file types
       rules: [
@@ -108,19 +128,28 @@ module.exports = (env, argv) => {
       ]
     },
 
-    // "optimization" specifies how webpack should handle code optimization when it's being transpiled
-    // for example, we can split our source code from our "vendor" dependencies
+    /******************************************************************************
+     * "optimization" specifies how webpack should handle code optimization when it's being transpiled
+     * for example, we can split our source code from our "vendor" dependencies
+     ******************************************************************************/
     optimization: {
       moduleIds: "hashed",
       runtimeChunk: "single",
+
+      // how webpack should split our code compiled into separate files for production
       splitChunks: {
         chunks: "all",
+
+        // handles how webpack caches related code
         cacheGroups: {
+          // group any of our 3rd party modules installed via npm/yarn that live in node_modules
           vendor: {
             test: /[\\/]node_modules[\\/]/,
             name: "vendors",
             chunks: "all"
           },
+
+          // group any css
           styles: {
             name: "styles",
             test: /\.css$/,
@@ -131,7 +160,10 @@ module.exports = (env, argv) => {
       }
     },
 
-    // what plugins Webpack should use for advanced functionality
+    /******************************************************************************
+     * What plugins Webpack should use for more advanced & customized configuration
+     * see: https://webpack.js.org/plugins/
+     ******************************************************************************/
     plugins: [
       // makes sure our output folder is cleaned before adding new files to it
       new CleanWebpackPlugin(),
