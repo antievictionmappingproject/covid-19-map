@@ -5,8 +5,8 @@
   "description": "Mapping states, counties, and municipalities that are enacting a moratorium on evictions due to the corona virus pandemic.",
   "main": "src/main.js",
   "scripts": {
-    "start": "webpack-dev-server --open",
-    "build": "webpack",
+    "start": "webpack-dev-server --mode=development --env.NODE_ENV=development",
+    "build": "webpack --mode=production --env.NODE_ENV=production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
