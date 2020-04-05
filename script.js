@@ -297,15 +297,15 @@ function handleCountiesLayer(geojson) {
       // style states based on whether their moratorium has passed
       if (feature.properties.passed === "Yes") {
         return {
-          color: "#4dac26",
-          fillColor: "#b8e186",
+          color: "#31a354",
+          fillColor: "#99d8c9",
           fillOpacity: fillOpacity,
           weight: strokeWeight
         };
       } else {
         return {
-          color: "#d01c8b",
-          fillColor: "#f1b6da",
+          color: "#de2d26",
+          fillColor: "#fc9272",
           fillOpacity: fillOpacity,
           weight: strokeWeight
         };
