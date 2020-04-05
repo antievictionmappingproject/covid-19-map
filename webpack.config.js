@@ -35,8 +35,8 @@ module.exports = (env, argv) => {
     // "output" specifies where our processed files will end up
     output: {
       // "[name]" tells webpack to use the same name as the key from "entry" above
-      // "[contenthash]" gives the output file(s) a "hash", which will help with cache-busing browsers
-      filename: "[name].[contenthash].js",
+      // "[chunkhash]" gives the output file(s) a "hash", which will help with cache-busing browsers
+      filename: devMode ? "[name].js" : "[name].[contenthash].js",
 
       // tell webpack to put our processed files in a directory called "dist"
       path: path.resolve(__dirname, "dist")
@@ -47,7 +47,10 @@ module.exports = (env, argv) => {
 
     // configuration for webpack's development server
     devServer: {
-      contentBase: "./dist"
+      contentBase: "./dist",
+      // use webpack's hot module replacement
+      // see: https://webpack.js.org/guides/hot-module-replacement/
+      hot: true
     },
 
     // "module" is where we tell webpack how to handle our various modules / files
@@ -61,9 +64,12 @@ module.exports = (env, argv) => {
           // tell webpack what "loaders" to use to process this file type
           use: [
             {
+              // use the  MiniCssExtractPlugin's loader
               loader: MiniCssExtractPlugin.loader,
               options: {
-                hmr: process.env.NODE_ENV === "development",
+                // enables hot module replacement for css files
+                hmr: devMode,
+                // fallback to a full page reload if hmr is not present
                 reloadAll: true
               }
             },
@@ -102,6 +108,8 @@ module.exports = (env, argv) => {
       ]
     },
 
+    // "optimization" specifies how webpack should handle code optimization when it's being transpiled
+    // for example, we can split our source code from our "vendor" dependencies
     optimization: {
       moduleIds: "hashed",
       runtimeChunk: "single",
