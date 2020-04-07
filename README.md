@@ -12,7 +12,7 @@ Requires [NodeJS](https://nodejs.org/en/) >= v10.13 and [NPM](https://www.npmjs.
 
 ### Develop
 
-First, using a terminal, in the root level of this repo install the required dependencies do:
+First, using a terminal, in the root level of this repo install the required dependencies by doing:
 
 ```
 npm install
