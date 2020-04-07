@@ -1,3 +1,4 @@
+"use strict";
 console.clear();
 
 /******************************************
@@ -7,14 +8,20 @@ console.clear();
 const MOBILE_BREAKPOINT = 640;
 let IS_MOBILE = document.querySelector("body").offsetWidth < MOBILE_BREAKPOINT;
 
+const DESKTOP_BREAKPOINT = 1200;
+let IS_DESKTOP =
+  document.querySelector("body").offsetWidth > DESKTOP_BREAKPOINT;
+
 /******************************************
  * DATA SOURCES
  *****************************************/
-// unique id of the sheet that imports desired columns from the moratoriums form responses sheet
-const sheetId = "1AkYjbnLbWW83LTm6jcsRjg78hRVxWsSKQv1eSssDHSM";
+// unique id of the sheet that imports desired columns from the form responses sheet
+const moratoriumSheetId = "1AkYjbnLbWW83LTm6jcsRjg78hRVxWsSKQv1eSssDHSM";
+const renStikeSheetId = "1rCZfNXO3gbl5H3cKhGXKIv3samJ1KC4nLhCwwZqrHvU";
 
 // the URI that grabs the sheet text formatted as a CSV
-const sheetURI = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&id=${sheetId}`;
+const moratoriumSheetURI = `https://docs.google.com/spreadsheets/d/${moratoriumSheetId}/export?format=csv&id=${moratoriumSheetId}`;
+const rentStrikeSheetURI = `https://docs.google.com/spreadsheets/d/${renStikeSheetId}/export?format=csv&id=${renStikeSheetId}`;
 
 // table in CARTO that syncs with the Google sheet data
 // note the sync is broken due to a problem with sheets
@@ -41,8 +48,92 @@ const strokeWeight = 1.5;
 const pointRadius = 8;
 const fillOpacity = 0.7;
 
+// setting the initial zoom settings
+let initialMapZoom = 4;
+if (IS_MOBILE) {
+  initialMapZoom = 3;
+} else if (IS_DESKTOP) {
+  initialMapZoom = 5;
+}
+
+// initial values, if not given by the url
+let mapConfig = {
+  lat: 40.67,
+  lng: -97.23,
+  z: initialMapZoom,
+  states: true,
+  cities: true,
+  counties: true,
+  rentStrikes: true,
+};
+
+// read url hash input
+let hash = location.hash;
+let input = inputValues(hash);
+
+// breaks up the url into an array; should be in the form
+// #lat= & lng= & z= & state= & cities= & counties=
+function inputValues(hash) {
+  let input = hash.slice(1).split("&");
+  // splitting the hash by &, then creating an array
+  let inputVals = {};
+  let i = 0;
+  for (i; i < input.length; i++) {
+    let [key, value] = input[i].split("=");
+    inputVals[key] = value;
+  }
+
+  // overriding the default values, if relevant
+  if (!isNaN(inputVals.z)) {
+    mapConfig.z = parseInt(inputVals.z);
+  }
+
+  if (!isNaN(inputVals.lat)) {
+    mapConfig.lat = parseFloat(inputVals.lat);
+  }
+
+  if (!isNaN(inputVals.lng)) {
+    mapConfig.lng = parseFloat(inputVals.lng);
+  }
+
+  if (inputVals.cities !== undefined) {
+    if (inputVals.cities === "true") {
+      mapConfig.cities = true;
+    } else if (inputVals.cities === "false") {
+      mapConfig.cities = false;
+    }
+  }
+
+  if (inputVals.counties !== undefined) {
+    if (inputVals.counties === "true") {
+      mapConfig.counties = true;
+    } else if (inputVals.counties === "false") {
+      mapConfig.counties = false;
+    }
+  }
+
+  if (inputVals.states !== undefined) {
+    if (inputVals.states === "true") {
+      mapConfig.states = true;
+    } else if (inputVals.states === "false") {
+      mapConfig.states = false;
+    }
+  }
+
+  if (inputVals.rentstrike !== undefined) {
+    if (inputVals.rentstrike === "true") {
+      mapConfig.rentStrikes = true;
+    } else if (inputVals.rentstrike === "false") {
+      mapConfig.rentStrikes = false;
+    }
+  }
+}
+
 // create a new map instance by referencing the appropriate html element by its "id" attribute
-const map = L.map("map", mapOptions).setView([34.03, -82.2], 5);
+const map = L.map("map", mapOptions).setView(
+  [mapConfig.lat, mapConfig.lng],
+  mapConfig.z
+);
 
 // the collapsable <details> element below the map title
 const titleDetails = document
@@ -75,7 +166,7 @@ function closeInfo() {
   map.invalidateSize();
 }
 
-map.on("popupopen", function(e) {
+map.on("popupopen", function (e) {
   document.getElementById("root").classList.add("aemp-popupopen");
 
   if (IS_MOBILE) {
@@ -86,17 +177,23 @@ map.on("popupopen", function(e) {
   map.setView(e.popup._latlng, map.getZoom(), { animate: true });
 });
 
-map.on("popupclose", function(e) {
+map.on("popupclose", function (e) {
   document.getElementById("root").classList.remove("aemp-popupopen");
   document.getElementById("aemp-infowindow-container").innerHTML = "";
   if (IS_MOBILE)
-    setTimeout(function() {
+    setTimeout(function () {
       map.invalidateSize();
     }, 100);
 });
 
+map.on("click", function () {
+  if (IS_MOBILE) {
+    titleDetails.open = false;
+  }
+});
+
 let resizeWindow;
-window.addEventListener("resize", function() {
+window.addEventListener("resize", function () {
   clearTimeout(resizeWindow);
   resizeWindow = setTimeout(handleWindowResize, 250);
 });
@@ -129,11 +226,17 @@ const popupTemplate = document.querySelector(".popup-template").innerHTML;
 const infowindowTemplate = document.getElementById("aemp-infowindow-template")
   .innerHTML;
 
+const rentStrikePopupTemplate = document.querySelector(
+  ".rentstrike-popup-template"
+).innerHTML;
+const rentStrikeInfowindowTemplate = document.getElementById(
+  "aemp-rentstrike-infowindow-template"
+).innerHTML;
 // Add base layer
 L.tileLayer(
   "https://a.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}@2x.png",
   {
-    maxZoom: 18
+    maxZoom: 18,
   }
 ).addTo(map);
 
@@ -172,37 +275,60 @@ function createStatesCartoURI() {
  *****************************************/
 
 Promise.all([
-  fetch(sheetURI).then(res => {
+  fetch(moratoriumSheetURI).then((res) => {
     if (!res.ok) throw Error("Unable to fetch moratoriums sheet data");
     return res.text();
   }),
-  fetch(cartoStatesURI).then(res => {
-    if (!res.ok) throw Error("Unable to fetch states geojson");
+  fetch(rentStrikeSheetURI).then((res) => {
+    if (!res.ok) throw Error("Unable to fetch rent strike sheet data");
+    return res.text();
+  }),
+  fetch(cartoStatesURI).then((res) => {
+    if (!res.ok) throw Error("Unable to fetch  states geojson");
     return res.json();
   }),
-  fetch(cartoCountiesURI).then(res => {
+  fetch(cartoCountiesURI).then((res) => {
     if (!res.ok) throw Error("Unable to fetch counties geojson");
     return res.json();
-  })
+  }),
 ])
   .then(handleData)
-  .catch(error => console.log(error));
+  .catch((error) => console.log(error));
 
 /******************************************
  * HANDLE DATA ASYNC RESPONSES
  *****************************************/
 
-function handleData([sheetsText, statesGeoJson, countiesGeoJson]) {
-  const rows = d3
-    .csvParse(sheetsText, d3.autoType)
+// const rows = d3
+//   .csvParse(sheetsText, d3.autoType)
+
+function handleData([
+  moratoriumSheetsText,
+  rentStrikeSheetsText,
+  statesGeoJson,
+  countiesGeoJson,
+]) {
+  const moratoriumRows = d3
+    .csvParse(moratoriumSheetsText, d3.autoType)
     .map(({ passed, ...rest }) => ({
       passed: passed === "TRUE" ? "Yes" : "No",
-      ...rest
+      ...rest,
     }));
 
-  const citiesData = rows.filter(
-    row => row.admin_scale === "City" && row.lat !== null && row.lon !== null
+  const citiesData = moratoriumRows.filter(
+    (row) => row.admin_scale === "City" && row.lat !== null && row.lon !== null
   );
+
+  const rentStrikeRows = d3
+    .csvParse(rentStrikeSheetsText, d3.autoType)
+    .filter((row) => row.Strike_Status !== null)
+    .map(({ Strike_Status, ...rest }) => ({
+      status:
+        Strike_Status === "Yes / Sí / 是 / Oui" || Strike_Status === "Yes"
+          ? "Yes"
+          : "Unsure",
+      ...rest,
+    }));
 
   // convert the regular moratorium JSON into valid GeoJSON
   const citiesGeoJson = {
@@ -213,9 +339,26 @@ function handleData([sheetsText, statesGeoJson, countiesGeoJson]) {
       properties: rest,
       geometry: {
         type: "Point",
-        coordinates: [lon, lat]
-      }
-    }))
+        coordinates: [lon, lat],
+      },
+    })),
+  };
+
+  const rentStrikeData = rentStrikeRows.filter(
+    (row) => row.Latitude !== null && row.Longitude !== null
+  );
+
+  const rentStrikeGeoJson = {
+    type: "FeatureCollection",
+    features: rentStrikeData.map(({ Longitude, Latitude, ...rest }, index) => ({
+      type: "Feature",
+      id: index,
+      properties: rest,
+      geometry: {
+        type: "Point",
+        coordinates: [Longitude, Latitude],
+      },
+    })),
   };
 
   // add the states, cities, and counties layers to the map
@@ -223,12 +366,30 @@ function handleData([sheetsText, statesGeoJson, countiesGeoJson]) {
   const states = handleStatesLayer(statesGeoJson);
   const counties = handleCountiesLayer(countiesGeoJson);
   const cities = handleCitiesLayer(citiesGeoJson);
+  const rentStrikes = handleRentStrikeLayer(rentStrikeGeoJson);
 
   // add layers to layers control
   layersControl
+    .addOverlay(rentStrikes, "Rent Strikes")
     .addOverlay(cities, "Cities")
     .addOverlay(counties, "Counties")
     .addOverlay(states, "States");
+
+  if (!mapConfig.states) {
+    map.removeLayer(states);
+  }
+
+  if (!mapConfig.counties) {
+    map.removeLayer(counties);
+  }
+
+  if (!mapConfig.cities) {
+    map.removeLayer(cities);
+  }
+
+  if (!mapConfig.rentStrikes) {
+    map.removeLayer(rentStrikes);
+  }
 }
 
 /******************************************
@@ -245,7 +406,7 @@ function handleCitiesLayer(geojson) {
         fillColor: "#b8e186",
         fillOpacity: fillOpacity,
         radius: pointRadius,
-        weight: strokeWeight
+        weight: strokeWeight,
       });
     } else {
       return L.circleMarker(latlng, {
@@ -253,18 +414,18 @@ function handleCitiesLayer(geojson) {
         fillColor: "#f1b6da",
         fillOpacity: fillOpacity,
         radius: pointRadius,
-        weight: strokeWeight
+        weight: strokeWeight,
       });
     }
   };
 
   // Create the Leaflet layer for the cities data
   const citiesLayer = L.geoJson(geojson, {
-    pointToLayer: pointToLayer
+    pointToLayer: pointToLayer,
   });
 
   // Add popups to the layer
-  citiesLayer.bindPopup(function(layer) {
+  citiesLayer.bindPopup(function (layer) {
     // This function is called whenever a feature on the layer is clicked
 
     // Render the template with all of the properties. Mustache ignores properties
@@ -282,41 +443,35 @@ function handleCitiesLayer(geojson) {
   // Add data to the map
   citiesLayer.addTo(map);
 
-  // Move the map view so that the citiesLayer is visible
-  map.fitBounds(citiesLayer.getBounds(), {
-    paddingTopLeft: [12, 120],
-    paddingBottomRight: [12, 12]
-  });
-
   return citiesLayer;
 }
 
 function handleCountiesLayer(geojson) {
   const layerOptions = {
-    style: feature => {
+    style: (feature) => {
       // style states based on whether their moratorium has passed
       if (feature.properties.passed === "Yes") {
         return {
           color: "#4dac26",
           fillColor: "#b8e186",
           fillOpacity: fillOpacity,
-          weight: strokeWeight
+          weight: strokeWeight,
         };
       } else {
         return {
           color: "#d01c8b",
           fillColor: "#f1b6da",
           fillOpacity: fillOpacity,
-          weight: strokeWeight
+          weight: strokeWeight,
         };
       }
-    }
+    },
   };
 
   // Create the Leaflet layer for the states data
   const countiesLayer = L.geoJson(geojson, layerOptions);
 
-  countiesLayer.bindPopup(function(layer) {
+  countiesLayer.bindPopup(function (layer) {
     const renderedInfo = Mustache.render(
       infowindowTemplate,
       layer.feature.properties
@@ -328,7 +483,6 @@ function handleCountiesLayer(geojson) {
   });
 
   countiesLayer.addTo(map);
-
   return countiesLayer;
 }
 
@@ -336,35 +490,35 @@ function handleStatesLayer(geojson) {
   // styling for the states layer: style states conditionally according to a presence of a moratorium
 
   const layerOptions = {
-    style: feature => {
+    style: (feature) => {
       // style states based on whether their moratorium has passed
       if (feature.properties.passed === "Yes") {
         return {
           color: "#4dac26",
           fillColor: "#b8e186",
           fillOpacity: fillOpacity,
-          weight: strokeWeight
+          weight: strokeWeight,
         };
       } else if (feature.properties.passed === "No") {
         return {
           color: "#d01c8b",
           fillColor: "#f1b6da",
           fillOpacity: fillOpacity,
-          weight: strokeWeight
+          weight: strokeWeight,
         };
       } else {
         return {
           stroke: false,
-          fill: false
+          fill: false,
         };
       }
-    }
+    },
   };
 
   // Create the Leaflet layer for the states data
   const statesLayer = L.geoJson(geojson, layerOptions);
 
-  statesLayer.bindPopup(function(layer) {
+  statesLayer.bindPopup(function (layer) {
     const renderedInfo = Mustache.render(
       infowindowTemplate,
       layer.feature.properties
@@ -378,4 +532,53 @@ function handleStatesLayer(geojson) {
   statesLayer.addTo(map);
 
   return statesLayer;
+}
+
+function handleRentStrikeLayer(geoJson) {
+  const iconSize = [60, 60];
+  const iconAnchor = [27, 20];
+  const rentStrikeYesIcon = new L.Icon({
+    iconUrl: "./assets/mapIcons/rent-strike-blue.png",
+    iconSize: iconSize,
+    iconAnchor: iconAnchor,
+  });
+
+  const rentStrikeUnsureIcon = new L.Icon({
+    iconUrl: "./assets/mapIcons/rent-strike-orange.png",
+    iconSize: [60, 60],
+    iconAnchor: iconAnchor,
+  });
+
+  // add custom marker icons
+  const rentStrikeLayer = L.geoJson(geoJson, {
+    pointToLayer: function (feature, latlng) {
+      const { status } = feature.properties;
+      return L.marker(latlng, {
+        icon: status === "Yes" ? rentStrikeYesIcon : rentStrikeUnsureIcon,
+      });
+    },
+  });
+  //add markers to cluster with options
+  const rentStrikeLayerMarkers = L.markerClusterGroup({
+    maxClusterRadius: 40,
+  }).on("clusterclick", function () {
+    if (IS_MOBILE) {
+      titleDetails.open = false;
+    }
+  });
+
+  rentStrikeLayerMarkers.addLayer(rentStrikeLayer).bindPopup(function (layer) {
+    const renderedInfo = Mustache.render(
+      rentStrikeInfowindowTemplate,
+      layer.feature.properties
+    );
+    document.getElementById(
+      "aemp-infowindow-container"
+    ).innerHTML = renderedInfo;
+    return Mustache.render(rentStrikePopupTemplate, layer.feature.properties);
+  });
+
+  map.addLayer(rentStrikeLayerMarkers);
+
+  return rentStrikeLayerMarkers;
 }

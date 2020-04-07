@@ -60,6 +60,12 @@ details p:last-of-type {
   margin-bottom: 0;
 }
 
+/* marker cluster override */
+.marker-cluster-small div {
+  background-color: #ff8c1a !important;
+  opacity: 0.6;
+}
+
 @media (max-width: 640px) {
   header {
     top: 0;
@@ -95,6 +101,13 @@ a:hover {
   color: #d01c8b;
 }
 
+.color-ocurring {
+  color: #1772aa;
+}
+
+.color-may-be-ocurring {
+  color: #ae5117;
+}
 /* popup styling */
 
 /* override leaflet's <p> element styles */
@@ -148,6 +161,7 @@ a:hover {
   white-space: nowrap;
 }
 
+
 /* Hide map layers controls on mobile for now, as they get obscured */
 @media (max-width: 640px) {
   #root.aemp-popupopen .leaflet-control-attribution {
@@ -186,7 +200,7 @@ a:hover {
 }
 
 .aemp-infowindow p.infowindow-title {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
 }
 
 a.aemp-infowindow-close {
@@ -212,5 +226,11 @@ a.aemp-infowindow-close {
     margin: 0;
     width: 100%;
     height: 50%;
+  }
+
+  .title-content-wrapper {
+   
+    max-height: 250px;
+    overflow-y: auto;
   }
 }
