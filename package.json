@@ -10,6 +10,10 @@
     "deploy": "npm run build && gh-pages -d dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "engines": {
+    "node": ">=10.13.0",
+    "npm": ">6.4.1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/antievictionmappingproject/covid-19-map.git"
