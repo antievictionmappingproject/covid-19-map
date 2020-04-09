@@ -27,7 +27,8 @@ const rentStrikeSheetURI = `https://docs.google.com/spreadsheets/d/${renStikeShe
 // note the sync is broken due to a problem with sheets
 // that reference data from another sheet
 const cartoSheetSyncTable =
-  "emergency_tenant_protections_carto_sync_do_not_edit";  // this table is not syncing and will need to chage potentially
+  "emergency_tenant_protections_current_do_not_edit_me_sheet1";
+
 
 // the URIs for CARTO counties &s tates layers
 // joined to the moratoriums data
@@ -71,11 +72,12 @@ let mapConfig = {
 let hash = location.hash;
 let input = inputValues(hash);
 
-// breaks up the url into an array; should be in the form
-// #lat= & lng= & z= & state= & cities= & counties=
+// check the url hash for params then
+// override map default settings if any are present
+// assumes params are as follows:
+// #lat=<float>&lng=<float>&z=<integer>&states=<boolean>&cities=<boolean>&counties=<boolean>&rentstrike=<boolean>
 function inputValues(hash) {
   let input = hash.slice(1).split("&");
-  // splitting the hash by &, then creating an array
   let inputVals = {};
   let i = 0;
   for (i; i < input.length; i++) {
@@ -83,7 +85,7 @@ function inputValues(hash) {
     inputVals[key] = value;
   }
 
-  // overriding the default values, if relevant
+  // override the default map config values, if they exist
   if (!isNaN(inputVals.z)) {
     mapConfig.z = parseInt(inputVals.z);
   }
@@ -279,12 +281,12 @@ Promise.all([
     if (!res.ok) throw Error("Unable to fetch moratoriums sheet data");
     return res.text();
   }),
-  fetch(rentStrikeSheetURI).then((res) => {
+  fetch(rentStrikeSheetURI).then(res => {
     if (!res.ok) throw Error("Unable to fetch rent strike sheet data");
     return res.text();
   }),
-  fetch(cartoStatesURI).then((res) => {
-    if (!res.ok) throw Error("Unable to fetch  states geojson");
+  fetch(cartoStatesURI).then(res => {
+    if (!res.ok) throw Error("Unable to fetch states geojson");
     return res.json();
   }),
   fetch(cartoCountiesURI).then((res) => {
@@ -299,14 +301,11 @@ Promise.all([
  * HANDLE DATA ASYNC RESPONSES
  *****************************************/
 
-// const rows = d3
-//   .csvParse(sheetsText, d3.autoType)
-
 function handleData([
   moratoriumSheetsText,
   rentStrikeSheetsText,
   statesGeoJson,
-  countiesGeoJson,
+  countiesGeoJson
 ]) {
   const moratoriumRows = d3
     .csvParse(moratoriumSheetsText, d3.autoType)
@@ -316,21 +315,10 @@ function handleData([
     }));
 
   const citiesData = moratoriumRows.filter(
-    (row) => row.admin_scale === "City" && row.lat !== null && row.lon !== null
+    row => row.admin_scale === "City" && row.lat !== null && row.lon !== null
   );
 
-  const rentStrikeRows = d3
-    .csvParse(rentStrikeSheetsText, d3.autoType)
-    .filter((row) => row.Strike_Status !== null)
-    .map(({ Strike_Status, ...rest }) => ({
-      status:
-        Strike_Status === "Yes / Sí / 是 / Oui" || Strike_Status === "Yes"
-          ? "Yes"
-          : "Unsure",
-      ...rest,
-    }));
-
-  // convert the regular moratorium JSON into valid GeoJSON
+  // convert the regular cities moratorium JSON into valid GeoJSON
   const citiesGeoJson = {
     type: "FeatureCollection",
     features: citiesData.map(({ cartodb_id, lat, lon, ...rest }) => ({
@@ -343,6 +331,17 @@ function handleData([
       },
     })),
   };
+
+  const rentStrikeRows = d3
+    .csvParse(rentStrikeSheetsText, d3.autoType)
+    .filter(row => row.Strike_Status !== null)
+    .map(({ Strike_Status, ...rest }) => ({
+      status:
+        Strike_Status === "Yes / Sí / 是 / Oui" || Strike_Status === "Yes"
+          ? "Yes"
+          : "Unsure",
+      ...rest
+    }));
 
   const rentStrikeData = rentStrikeRows.filter(
     (row) => row.Latitude !== null && row.Longitude !== null
@@ -361,20 +360,22 @@ function handleData([
     })),
   };
 
-  // add the states, cities, and counties layers to the map
-  // and save the layer output
+  // add the states, cities, counties, and rentstrikes layers to the map
+  // and save the layers output
   const states = handleStatesLayer(statesGeoJson);
   const counties = handleCountiesLayer(countiesGeoJson);
   const cities = handleCitiesLayer(citiesGeoJson);
   const rentStrikes = handleRentStrikeLayer(rentStrikeGeoJson);
 
-  // add layers to layers control
+  // add layers to map layers control UI
   layersControl
     .addOverlay(rentStrikes, "Rent Strikes")
     .addOverlay(cities, "Cities")
     .addOverlay(counties, "Counties")
     .addOverlay(states, "States");
 
+  // if any layers in the map config are set to false,
+  // remove them from the map
   if (!mapConfig.states) {
     map.removeLayer(states);
   }
@@ -448,8 +449,8 @@ function handleCitiesLayer(geojson) {
 
 function handleCountiesLayer(geojson) {
   const layerOptions = {
-    style: (feature) => {
-      // style states based on whether their moratorium has passed
+    style: feature => {
+      // style counties based on whether their moratorium has passed
       if (feature.properties.passed === "Yes") {
         return {
           color: "#4dac26",
@@ -468,7 +469,7 @@ function handleCountiesLayer(geojson) {
     },
   };
 
-  // Create the Leaflet layer for the states data
+  // Create the Leaflet layer for the counties data
   const countiesLayer = L.geoJson(geojson, layerOptions);
 
   countiesLayer.bindPopup(function (layer) {
@@ -488,7 +489,6 @@ function handleCountiesLayer(geojson) {
 
 function handleStatesLayer(geojson) {
   // styling for the states layer: style states conditionally according to a presence of a moratorium
-
   const layerOptions = {
     style: (feature) => {
       // style states based on whether their moratorium has passed
@@ -535,6 +535,7 @@ function handleStatesLayer(geojson) {
 }
 
 function handleRentStrikeLayer(geoJson) {
+  // custom icons & icon settings for rent strikes markers
   const iconSize = [60, 60];
   const iconAnchor = [27, 20];
   const rentStrikeYesIcon = new L.Icon({
@@ -558,6 +559,7 @@ function handleRentStrikeLayer(geoJson) {
       });
     },
   });
+
   //add markers to cluster with options
   const rentStrikeLayerMarkers = L.markerClusterGroup({
     maxClusterRadius: 40,
