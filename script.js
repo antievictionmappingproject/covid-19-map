@@ -524,16 +524,16 @@ function handleRentStrikeLayer(geoJson) {
 
 // Ensure that layers are displayed in the correct Z-Order
 function fixZOrder(dataLayers) {
-    // Use the order in the dataLayers object to define the z-order
-    dataLayers.forEach(function (layerGroup) {
-        const hasLayers =
-          layerGroup._layers && 
-          Object.keys(layerGroup._layers).length > 0;
-        const hasVisibleLayers =
-          hasLayers &&
-          layerGroup._layers[Object.keys(layerGroup._layers)[0]]._path &&
-          layerGroup._layers[Object.keys(layerGroup._layers)[0]]._path.parentNode;
-        // If if the layer group has been added to the map, bring it to the front
-        if (hasVisibleLayers) { layerGroup.bringToFront() };
-    });
+  // Use the order in the dataLayers object to define the z-order
+  dataLayers.forEach(function (layerGroup) {
+    const hasLayers =
+      layerGroup._layers && 
+      Object.keys(layerGroup._layers).length > 0;
+    const hasVisibleLayers =
+      hasLayers &&
+      layerGroup._layers[Object.keys(layerGroup._layers)[0]]._path &&
+      layerGroup._layers[Object.keys(layerGroup._layers)[0]]._path.parentNode;
+    // If if the layer group has been added to the map, bring it to the front
+    if (hasVisibleLayers) { layerGroup.bringToFront() };
+  });
 }
