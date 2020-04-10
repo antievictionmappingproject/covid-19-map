@@ -261,7 +261,7 @@ function createStatesCartoURI() {
   const query = `SELECT 
   s.the_geom, s.state_name as municipality, m.policy_type, m.policy_summary, m.link, 
   CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
-  FROM states s 
+  FROM state_5m s
   INNER JOIN ${cartoSheetSyncTable} m
   ON s.state_name = m.state  
   AND m.admin_scale = 'State'`;
