@@ -343,11 +343,12 @@ function handleData([
     .addOverlay(states, "States")
     .addOverlay(rentStrikes, "Rent Strikes");
 
-   const dataLayersOrder = {
+  // Order of how layers are displayed. Last is on top
+  const dataLayersOrder = [
      states,
      localities,
      rentStrikes,
-   };
+  ];
 
    // Apply correct relative order of layers when adding from control
    map.on('overlayadd', function () {
@@ -527,14 +528,15 @@ function handleRentStrikeLayer(geoJson) {
  **/
 function fixZOrder(dataLayers) {
     // use the order in the dataLayers object to define the z-order
-    Object.keys(dataLayers).forEach(function (key) {
+    dataLayers.forEach(function (layerGroup) {
         // check if the layer has been added to the map, if it hasn't then do nothing
-        const layerGroup = dataLayers[key];
         const hasLayers =
-          layerGroup._layers && Object.keys(layerGroup._layers).length > 0;
+          layerGroup._layers && 
+          Object.keys(layerGroup._layers).length > 0;
         const hasVisibleLayers =
           hasLayers &&
-          layerGroup._layers[Object.keys(layerGroup._layers)[0]]._path;
+          layerGroup._layers[Object.keys(layerGroup._layers)[0]]._path &&
+          layerGroup._layers[Object.keys(layerGroup._layers)[0]]._path.parentNode;
         // If the layers are set to be visible, bring them to the front
         if (hasVisibleLayers) { layerGroup.bringToFront() };
     });
