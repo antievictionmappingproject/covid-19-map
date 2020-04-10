@@ -24,10 +24,8 @@ const moratoriumSheetURI = `https://docs.google.com/spreadsheets/d/${moratoriumS
 const rentStrikeSheetURI = `https://docs.google.com/spreadsheets/d/${renStikeSheetId}/export?format=csv&id=${renStikeSheetId}`;
 
 // table in CARTO that syncs with the Google sheet data
-// note the sync is broken due to a problem with sheets
-// that reference data from another sheet
 const cartoSheetSyncTable =
-  "emergency_tenant_protections_carto_sync_do_not_edit";
+  "emergency_tenant_protections_current_do_not_edit_me_sheet1";
 
 // the URIs for CARTO counties &s tates layers
 // joined to the moratoriums data
