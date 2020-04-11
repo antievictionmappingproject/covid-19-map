@@ -527,12 +527,12 @@ function fixZOrder(dataLayers) {
   // Use the order in the dataLayers object to define the z-order
   dataLayers.forEach(function (layerGroup) {
     const hasLayers =
-      layerGroup._layers && 
+      layerGroup._layers != null && 
       Object.keys(layerGroup._layers).length > 0;
     const hasVisibleLayers =
       hasLayers &&
-      layerGroup._layers[Object.keys(layerGroup._layers)[0]]._path &&
-      layerGroup._layers[Object.keys(layerGroup._layers)[0]]._path.parentNode;
+      layerGroup._layers[Object.keys(layerGroup._layers)[0]]._path != null &&
+      layerGroup._layers[Object.keys(layerGroup._layers)[0]]._path.parentNode != null;
     // If if the layer group has been added to the map, bring it to the front
     if (hasVisibleLayers) { layerGroup.bringToFront() };
   });
