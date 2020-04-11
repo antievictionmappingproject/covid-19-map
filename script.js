@@ -343,17 +343,15 @@ function handleData([
     .addOverlay(states, "States")
     .addOverlay(rentStrikes, "Rent Strikes");
 
-  // Order of how layers are displayed. Last is on top
-  const dataLayersOrder = [
-     states,
-     localities,
-     rentStrikes,
-  ];
-
-   // Apply correct relative order of layers when adding from control
-   map.on('overlayadd', function () {
-     fixZOrder(dataLayersOrder);
-   });
+  // Apply correct relative order of layers when adding from control.
+  map.on('overlayadd', function () {
+    // Top of list is top layer
+    fixZOrder([
+      rentStrikes, 
+      localities, 
+      states
+    ]);
+  });
 
   if (!mapConfig.states) {
     map.removeLayer(states);
@@ -524,16 +522,18 @@ function handleRentStrikeLayer(geoJson) {
 
 // Ensure that layers are displayed in the correct Z-Order
 function fixZOrder(dataLayers) {
-  // Use the order in the dataLayers object to define the z-order
-  dataLayers.forEach(function (layerGroup) {
-    const hasLayers =
-      layerGroup._layers != null && 
-      Object.keys(layerGroup._layers).length > 0;
-    const hasVisibleLayers =
-      hasLayers &&
-      layerGroup._layers[Object.keys(layerGroup._layers)[0]]._path != null &&
-      layerGroup._layers[Object.keys(layerGroup._layers)[0]]._path.parentNode != null;
-    // If if the layer group has been added to the map, bring it to the front
-    if (hasVisibleLayers) { layerGroup.bringToFront() };
-  });
+  dataLayers
+    // Reverse layers so that top of list is the top layer
+    .reverse()
+    .forEach(function (layerGroup) {
+      const hasLayers =
+        layerGroup._layers != null && 
+        Object.keys(layerGroup._layers).length > 0;
+      const hasVisibleLayers =
+        hasLayers &&
+        layerGroup._layers[Object.keys(layerGroup._layers)[0]]._path != null &&
+        layerGroup._layers[Object.keys(layerGroup._layers)[0]]._path.parentNode != null;
+      // If if the layer group has been added to the map, bring it to the front
+      if (hasVisibleLayers) { layerGroup.bringToFront() };
+    });
 }
