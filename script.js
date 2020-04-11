@@ -347,9 +347,8 @@ function handleData([
   map.on('overlayadd', function () {
     // Top of list is top layer
     fixZOrder([
-      rentStrikes, 
       localities, 
-      states
+      states,
     ]);
   });
 
@@ -525,15 +524,10 @@ function fixZOrder(dataLayers) {
   dataLayers
     // Reverse layers so that top of list is the top layer
     .reverse()
-    .forEach(function (layerGroup) {
-      const hasLayers =
-        layerGroup._layers != null && 
-        Object.keys(layerGroup._layers).length > 0;
-      const hasVisibleLayers =
-        hasLayers &&
-        Object.values(layerGroup._layers)[0]._path != null &&
-        Object.values(layerGroup._layers)[0]._path.parentNode != null;
+    .forEach(function (layerGroup) { 
       // If if the layer group has been added to the map, bring it to the front
-      if (hasVisibleLayers) { layerGroup.bringToFront() };
+      if (map.hasLayer(layerGroup)) {
+        layerGroup.bringToFront();
+      }
     });
 }
