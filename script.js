@@ -531,8 +531,8 @@ function fixZOrder(dataLayers) {
         Object.keys(layerGroup._layers).length > 0;
       const hasVisibleLayers =
         hasLayers &&
-        layerGroup._layers[Object.keys(layerGroup._layers)[0]]._path != null &&
-        layerGroup._layers[Object.keys(layerGroup._layers)[0]]._path.parentNode != null;
+        Object.values(layerGroup._layers)[0]._path != null &&
+        Object.values(layerGroup._layers)[0]._path.parentNode != null;
       // If if the layer group has been added to the map, bring it to the front
       if (hasVisibleLayers) { layerGroup.bringToFront() };
     });
