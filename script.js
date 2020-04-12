@@ -165,7 +165,7 @@ function closeInfo() {
   map.invalidateSize();
 }
 
-map.on("popupopen", function(e) {
+map.on("popupopen", function (e) {
   document.getElementById("root").classList.add("aemp-popupopen");
 
   if (IS_MOBILE) {
@@ -176,23 +176,23 @@ map.on("popupopen", function(e) {
   map.setView(e.popup._latlng, map.getZoom(), { animate: true });
 });
 
-map.on("popupclose", function(e) {
+map.on("popupclose", function (e) {
   document.getElementById("root").classList.remove("aemp-popupopen");
   document.getElementById("aemp-infowindow-container").innerHTML = "";
   if (IS_MOBILE)
-    setTimeout(function() {
+    setTimeout(function () {
       map.invalidateSize();
     }, 100);
 });
 
-map.on("click", function() {
+map.on("click", function () {
   if (IS_MOBILE) {
     titleDetails.open = false;
   }
 });
 
 let resizeWindow;
-window.addEventListener("resize", function() {
+window.addEventListener("resize", function () {
   clearTimeout(resizeWindow);
   resizeWindow = setTimeout(handleWindowResize, 250);
 });
@@ -371,6 +371,12 @@ function handleData([
     .addOverlay(counties, "Counties")
     .addOverlay(states, "States");
 
+  // Apply correct relative order of layers when adding from control.
+  map.on("overlayadd", function () {
+    // Top of list is top layer
+    fixZOrder([cities, counties, states]);
+  });
+
   // if any layers in the map config are set to false,
   // remove them from the map
   if (!mapConfig.states) {
@@ -423,7 +429,7 @@ function handleCitiesLayer(geojson) {
   });
 
   // Add popups to the layer
-  citiesLayer.bindPopup(function(layer) {
+  citiesLayer.bindPopup(function (layer) {
     // This function is called whenever a feature on the layer is clicked
 
     // Render the template with all of the properties. Mustache ignores properties
@@ -469,7 +475,7 @@ function handleCountiesLayer(geojson) {
   // Create the Leaflet layer for the counties data
   const countiesLayer = L.geoJson(geojson, layerOptions);
 
-  countiesLayer.bindPopup(function(layer) {
+  countiesLayer.bindPopup(function (layer) {
     const renderedInfo = Mustache.render(
       infowindowTemplate,
       layer.feature.properties
@@ -515,7 +521,7 @@ function handleStatesLayer(geojson) {
   // Create the Leaflet layer for the states data
   const statesLayer = L.geoJson(geojson, layerOptions);
 
-  statesLayer.bindPopup(function(layer) {
+  statesLayer.bindPopup(function (layer) {
     const renderedInfo = Mustache.render(
       infowindowTemplate,
       layer.feature.properties
@@ -549,7 +555,7 @@ function handleRentStrikeLayer(geoJson) {
 
   // add custom marker icons
   const rentStrikeLayer = L.geoJson(geoJson, {
-    pointToLayer: function(feature, latlng) {
+    pointToLayer: function (feature, latlng) {
       const { status } = feature.properties;
       return L.marker(latlng, {
         icon: status === "Yes" ? rentStrikeYesIcon : rentStrikeUnsureIcon
@@ -560,13 +566,13 @@ function handleRentStrikeLayer(geoJson) {
   //add markers to cluster with options
   const rentStrikeLayerMarkers = L.markerClusterGroup({
     maxClusterRadius: 40
-  }).on("clusterclick", function() {
+  }).on("clusterclick", function () {
     if (IS_MOBILE) {
       titleDetails.open = false;
     }
   });
 
-  rentStrikeLayerMarkers.addLayer(rentStrikeLayer).bindPopup(function(layer) {
+  rentStrikeLayerMarkers.addLayer(rentStrikeLayer).bindPopup(function (layer) {
     const renderedInfo = Mustache.render(
       rentStrikeInfowindowTemplate,
       layer.feature.properties
@@ -580,4 +586,13 @@ function handleRentStrikeLayer(geoJson) {
   map.addLayer(rentStrikeLayerMarkers);
 
   return rentStrikeLayerMarkers;
+}
+
+// Ensures that map overlay pane layers are displayed in the correct Z-Order
+function fixZOrder(dataLayers) {
+  dataLayers.forEach(function (layerGroup) {
+    if (map.hasLayer(layerGroup)) {
+      layerGroup.bringToBack();
+    }
+  });
 }
