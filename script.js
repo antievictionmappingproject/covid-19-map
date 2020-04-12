@@ -343,6 +343,12 @@ function handleData([
     .addOverlay(states, "States")
     .addOverlay(rentStrikes, "Rent Strikes");
 
+  // Apply correct relative order of layers when adding from control.
+  map.on("overlayadd", function () {
+    // Top of list is top layer
+    fixZOrder([localities, states]);
+  });
+
   if (!mapConfig.states) {
     map.removeLayer(states);
   }
@@ -508,4 +514,13 @@ function handleRentStrikeLayer(geoJson) {
   map.addLayer(rentStrikeLayerMarkers);
 
   return rentStrikeLayerMarkers;
+}
+
+// Ensures that map overlay pane layers are displayed in the correct Z-Order
+function fixZOrder(dataLayers) {
+  dataLayers.forEach(function (layerGroup) {
+    if (map.hasLayer(layerGroup)) {
+      layerGroup.bringToBack();
+    }
+  });
 }
