@@ -31,9 +31,11 @@ body {
 
 header {
   width: 30%;
-  position: absolute;
+  position: fixed;
   top: 12px;
   left: 12px;
+  max-height: calc(100vh - 24px);
+  overflow-y: auto;
   padding: 12px;
   background: #fff;
   border: 2px solid rgba(0, 0, 0, 0.2);
