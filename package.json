@@ -14,6 +14,16 @@
     "node": ">=10.13.0",
     "npm": ">6.4.1"
   },
+  "lint-staged": {
+    "src/**/*.{js,vue,json,css,scss,md}": [
+      "prettier --write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/antievictionmappingproject/covid-19-map.git"
