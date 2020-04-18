@@ -23,8 +23,15 @@ const renStikeSheetId = "1rCZfNXO3gbl5H3cKhGXKIv3samJ1KC4nLhCwwZqrHvU";
 const moratoriumSheetURI = `https://docs.google.com/spreadsheets/d/${moratoriumSheetId}/export?format=csv&id=${moratoriumSheetId}`;
 const rentStrikeSheetURI = `https://docs.google.com/spreadsheets/d/${renStikeSheetId}/export?format=csv&id=${renStikeSheetId}`;
 
-// states geojson url
-const statesGeoJsonURI = "./states.geojson";
+// table in CARTO that syncs with the Google sheet data
+const cartoSheetSyncTable =
+  "emergency_tenant_protections_current_do_not_edit_me_sheet1";
+
+// the URIs for CARTO counties &s tates layers
+// joined to the moratoriums data
+// (all in AEMP CARTO acct)
+const cartoCountiesURI = createCountiesCartoURI();
+const cartoStatesURI = createStatesCartoURI();
 
 /******************************************
  * MAP SETUP & MAP CONTROLS
@@ -62,11 +69,12 @@ let mapConfig = {
 let hash = location.hash;
 let input = inputValues(hash);
 
-// breaks up the url into an array; should be in the form
-// #lat= & lng= & z= & state= & cities= & counties=
+// check the url hash for params then
+// override map default settings if any are present
+// assumes params are as follows:
+// #lat=<float>&lng=<float>&z=<integer>&states=<boolean>&cities=<boolean>&counties=<boolean>&rentstrike=<boolean>
 function inputValues(hash) {
   let input = hash.slice(1).split("&");
-  // splitting the hash by &, then creating an array
   let inputVals = {};
   let i = 0;
   for (i; i < input.length; i++) {
@@ -74,7 +82,7 @@ function inputValues(hash) {
     inputVals[key] = value;
   }
 
-  // overriding the default values, if relevant
+  // override the default map config values, if they exist
   if (!isNaN(inputVals.z)) {
     mapConfig.z = parseInt(inputVals.z);
   }
@@ -157,7 +165,7 @@ function closeInfo() {
   map.invalidateSize();
 }
 
-map.on("popupopen", function(e) {
+map.on("popupopen", function (e) {
   document.getElementById("root").classList.add("aemp-popupopen");
 
   if (IS_MOBILE) {
@@ -168,23 +176,23 @@ map.on("popupopen", function(e) {
   map.setView(e.popup._latlng, map.getZoom(), { animate: true });
 });
 
-map.on("popupclose", function(e) {
+map.on("popupclose", function (e) {
   document.getElementById("root").classList.remove("aemp-popupopen");
   document.getElementById("aemp-infowindow-container").innerHTML = "";
   if (IS_MOBILE)
-    setTimeout(function() {
+    setTimeout(function () {
       map.invalidateSize();
     }, 100);
 });
 
-map.on("click", function() {
+map.on("click", function () {
   if (IS_MOBILE) {
     titleDetails.open = false;
   }
 });
 
 let resizeWindow;
-window.addEventListener("resize", function() {
+window.addEventListener("resize", function () {
   clearTimeout(resizeWindow);
   resizeWindow = setTimeout(handleWindowResize, 250);
 });
@@ -211,7 +219,7 @@ const layersControl = L.control
   .layers(null, null, { position: "topright", collapsed: false })
   .addTo(map);
 
-// Get the popup template from the HTML.
+// Get the popup & infowindow templates from the HTML.
 // We can do this here because the template will never change.
 const popupTemplate = document.querySelector(".popup-template").innerHTML;
 const infowindowTemplate = document.getElementById("aemp-infowindow-template")
@@ -232,6 +240,36 @@ L.tileLayer(
 ).addTo(map);
 
 /******************************************
+ * URI HELPERS
+ *****************************************/
+
+function createCountiesCartoURI() {
+  const query = `SELECT 
+  c.the_geom, c.county as municipality, c.state as state_name, m.policy_type, m.policy_summary, m.link, 
+  CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
+  FROM us_county_boundaries c 
+  JOIN ${cartoSheetSyncTable} m
+  ON ST_Intersects(c.the_geom, m.the_geom) 
+  WHERE m.the_geom IS NOT NULL 
+  AND m.admin_scale = 'County'
+  OR m.admin_scale = 'City and County'`; // how should we handle cases with city and county?
+
+  return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
+}
+
+function createStatesCartoURI() {
+  const query = `SELECT 
+  s.the_geom, s.state_name as municipality, m.policy_type, m.policy_summary, m.link, 
+  CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
+  FROM state_5m s
+  INNER JOIN ${cartoSheetSyncTable} m
+  ON s.state_name = m.state  
+  AND m.admin_scale = 'State'`;
+
+  return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
+}
+
+/******************************************
  * FETCH DATA SOURCES
  *****************************************/
 
@@ -244,8 +282,12 @@ Promise.all([
     if (!res.ok) throw Error("Unable to fetch rent strike sheet data");
     return res.text();
   }),
-  fetch(statesGeoJsonURI).then(res => {
+  fetch(cartoStatesURI).then(res => {
     if (!res.ok) throw Error("Unable to fetch states geojson");
+    return res.json();
+  }),
+  fetch(cartoCountiesURI).then(res => {
+    if (!res.ok) throw Error("Unable to fetch counties geojson");
     return res.json();
   })
 ])
@@ -259,7 +301,8 @@ Promise.all([
 function handleData([
   moratoriumSheetsText,
   rentStrikeSheetsText,
-  statesGeoJson
+  statesGeoJson,
+  countiesGeoJson
 ]) {
   const moratoriumRows = d3
     .csvParse(moratoriumSheetsText, d3.autoType)
@@ -267,6 +310,24 @@ function handleData([
       passed: passed === "TRUE" ? "Yes" : "No",
       ...rest
     }));
+
+  const citiesData = moratoriumRows.filter(
+    row => row.admin_scale === "City" && row.lat !== null && row.lon !== null
+  );
+
+  // convert the regular cities moratorium JSON into valid GeoJSON
+  const citiesGeoJson = {
+    type: "FeatureCollection",
+    features: citiesData.map(({ cartodb_id, lat, lon, ...rest }) => ({
+      type: "Feature",
+      id: cartodb_id,
+      properties: rest,
+      geometry: {
+        type: "Point",
+        coordinates: [lon, lat]
+      }
+    }))
+  };
 
   const rentStrikeRows = d3
     .csvParse(rentStrikeSheetsText, d3.autoType)
@@ -278,41 +339,6 @@ function handleData([
           : "Unsure",
       ...rest
     }));
-
-  const statesData = moratoriumRows
-    .filter(row => row.admin_scale === "State")
-    .reduce((acc, { state, ...rest }) => {
-      return acc.set(state, rest);
-    }, new Map());
-
-  const localitiesData = moratoriumRows.filter(
-    row => row.admin_scale !== "State" && row.lat !== null && row.lon !== null
-  );
-
-  // convert the regular moratorium JSON into valid GeoJSON
-  const localitiesGeoJson = {
-    type: "FeatureCollection",
-    features: localitiesData.map(({ cartodb_id, lat, lon, ...rest }) => ({
-      type: "Feature",
-      id: cartodb_id,
-      properties: rest,
-      geometry: {
-        type: "Point",
-        coordinates: [lon, lat]
-      }
-    }))
-  };
-
-  // join states moratorium data to states geojson
-  statesGeoJson.features.forEach(feature => {
-    const { properties } = feature;
-    if (statesData.has(properties.name)) {
-      feature.properties = {
-        ...statesData.get(properties.name),
-        ...properties
-      };
-    }
-  });
 
   const rentStrikeData = rentStrikeRows.filter(
     row => row.Latitude !== null && row.Longitude !== null
@@ -331,34 +357,38 @@ function handleData([
     }))
   };
 
-  // add both the states layer and localities layer to the map
-  // and save the layer output
+  // add the states, cities, counties, and rentstrikes layers to the map
+  // and save the layers output
   const states = handleStatesLayer(statesGeoJson);
-  const localities = handleLocalitiesLayer(localitiesGeoJson);
+  const counties = handleCountiesLayer(countiesGeoJson);
+  const cities = handleCitiesLayer(citiesGeoJson);
   const rentStrikes = handleRentStrikeLayer(rentStrikeGeoJson);
 
-  // add layers to layers control
+  // add layers to map layers control UI
   layersControl
-    .addOverlay(localities, "Cities/Counties")
-    .addOverlay(states, "States")
-    .addOverlay(rentStrikes, "Rent Strikes");
+    .addOverlay(rentStrikes, "Rent Strikes")
+    .addOverlay(cities, "Cities")
+    .addOverlay(counties, "Counties")
+    .addOverlay(states, "States");
 
   // Apply correct relative order of layers when adding from control.
   map.on("overlayadd", function () {
     // Top of list is top layer
-    fixZOrder([localities, states]);
+    fixZOrder([cities, counties, states]);
   });
 
+  // if any layers in the map config are set to false,
+  // remove them from the map
   if (!mapConfig.states) {
     map.removeLayer(states);
   }
 
-  // include once there are counties
-  //  if (!mapConfig.counties){
-  //    map.removeLayer(localities);}//change this to cities once counties are split out
+  if (!mapConfig.counties) {
+    map.removeLayer(counties);
+  }
 
   if (!mapConfig.cities) {
-    map.removeLayer(localities); //change this to cities once counties are split out
+    map.removeLayer(cities);
   }
 
   if (!mapConfig.rentStrikes) {
@@ -370,10 +400,10 @@ function handleData([
  * HANDLE ADDING MAP LAYERS
  *****************************************/
 
-function handleLocalitiesLayer(geojson) {
-  // styling for the localities layer: style localities conditionally according to a presence of a moratorium
+function handleCitiesLayer(geojson) {
+  // styling for the cities layer: style cities conditionally according to a presence of a moratorium
   const pointToLayer = (feature, latlng) => {
-    // style localities based on whether their moratorium has passed
+    // style cities based on whether their moratorium has passed
     if (feature.properties.passed === "Yes") {
       return L.circleMarker(latlng, {
         color: "#4dac26",
@@ -393,13 +423,13 @@ function handleLocalitiesLayer(geojson) {
     }
   };
 
-  // Create the Leaflet layer for the localities data
-  const localitiesLayer = L.geoJson(geojson, {
+  // Create the Leaflet layer for the cities data
+  const citiesLayer = L.geoJson(geojson, {
     pointToLayer: pointToLayer
   });
 
   // Add popups to the layer
-  localitiesLayer.bindPopup(function(layer) {
+  citiesLayer.bindPopup(function (layer) {
     // This function is called whenever a feature on the layer is clicked
 
     // Render the template with all of the properties. Mustache ignores properties
@@ -415,9 +445,49 @@ function handleLocalitiesLayer(geojson) {
   });
 
   // Add data to the map
-  localitiesLayer.addTo(map);
+  citiesLayer.addTo(map);
 
-  return localitiesLayer;
+  return citiesLayer;
+}
+
+function handleCountiesLayer(geojson) {
+  const layerOptions = {
+    style: feature => {
+      // style counties based on whether their moratorium has passed
+      if (feature.properties.passed === "Yes") {
+        return {
+          color: "#4dac26",
+          fillColor: "#b8e186",
+          fillOpacity: fillOpacity,
+          weight: strokeWeight
+        };
+      } else {
+        return {
+          color: "#d01c8b",
+          fillColor: "#f1b6da",
+          fillOpacity: fillOpacity,
+          weight: strokeWeight
+        };
+      }
+    }
+  };
+
+  // Create the Leaflet layer for the counties data
+  const countiesLayer = L.geoJson(geojson, layerOptions);
+
+  countiesLayer.bindPopup(function (layer) {
+    const renderedInfo = Mustache.render(
+      infowindowTemplate,
+      layer.feature.properties
+    );
+    document.getElementById(
+      "aemp-infowindow-container"
+    ).innerHTML = renderedInfo;
+    return Mustache.render(popupTemplate, layer.feature.properties);
+  });
+
+  countiesLayer.addTo(map);
+  return countiesLayer;
 }
 
 function handleStatesLayer(geojson) {
@@ -451,7 +521,7 @@ function handleStatesLayer(geojson) {
   // Create the Leaflet layer for the states data
   const statesLayer = L.geoJson(geojson, layerOptions);
 
-  statesLayer.bindPopup(function(layer) {
+  statesLayer.bindPopup(function (layer) {
     const renderedInfo = Mustache.render(
       infowindowTemplate,
       layer.feature.properties
@@ -468,6 +538,7 @@ function handleStatesLayer(geojson) {
 }
 
 function handleRentStrikeLayer(geoJson) {
+  // custom icons & icon settings for rent strikes markers
   const iconSize = [60, 60];
   const iconAnchor = [27, 20];
   const rentStrikeYesIcon = new L.Icon({
@@ -484,23 +555,24 @@ function handleRentStrikeLayer(geoJson) {
 
   // add custom marker icons
   const rentStrikeLayer = L.geoJson(geoJson, {
-    pointToLayer: function(feature, latlng) {
+    pointToLayer: function (feature, latlng) {
       const { status } = feature.properties;
       return L.marker(latlng, {
         icon: status === "Yes" ? rentStrikeYesIcon : rentStrikeUnsureIcon
       });
     }
   });
+
   //add markers to cluster with options
   const rentStrikeLayerMarkers = L.markerClusterGroup({
     maxClusterRadius: 40
-  }).on("clusterclick", function() {
+  }).on("clusterclick", function () {
     if (IS_MOBILE) {
       titleDetails.open = false;
     }
   });
 
-  rentStrikeLayerMarkers.addLayer(rentStrikeLayer).bindPopup(function(layer) {
+  rentStrikeLayerMarkers.addLayer(rentStrikeLayer).bindPopup(function (layer) {
     const renderedInfo = Mustache.render(
       rentStrikeInfowindowTemplate,
       layer.feature.properties
