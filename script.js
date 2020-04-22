@@ -39,7 +39,14 @@ const cartoStatesURI = createStatesCartoURI();
 
 // options for configuring the Leaflet map
 // don't add the default zoom ui and attribution as they're customized first then added layer
-const mapOptions = { zoomControl: false, attributionControl: false };
+const mapOptions = { 
+  zoomControl: false, 
+  attributionControl: false,
+  maxBounds: [
+    [-90, -190],
+    [90, 200]
+  ]
+};
 
 // global map layer styling variables
 const strokeWeight = 1.5;
@@ -235,6 +242,7 @@ const rentStrikeInfowindowTemplate = document.getElementById(
 L.tileLayer(
   "https://a.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}@2x.png",
   {
+    minZoom: 3,
     maxZoom: 18
   }
 ).addTo(map);
