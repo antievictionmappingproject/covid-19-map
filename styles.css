@@ -60,6 +60,11 @@ details p:last-of-type {
   margin-bottom: 0;
 }
 
+.title-content-wrapper {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
 /* marker cluster override */
 .marker-cluster-small div {
   background-color: #ff8c1a !important;
@@ -80,6 +85,10 @@ details p:last-of-type {
 
   details p {
     font-size: 1.4rem;
+  }
+
+  .title-content-wrapper {
+    max-height: 250px;
   }
 }
 
@@ -226,11 +235,5 @@ a.aemp-infowindow-close {
     margin: 0;
     width: 100%;
     height: 50%;
-  }
-
-  .title-content-wrapper {
-   
-    max-height: 250px;
-    overflow-y: auto;
   }
 }
