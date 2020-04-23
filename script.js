@@ -39,7 +39,14 @@ const cartoStatesURI = createStatesCartoURI();
 
 // options for configuring the Leaflet map
 // don't add the default zoom ui and attribution as they're customized first then added layer
-const mapOptions = { zoomControl: false, attributionControl: false };
+const mapOptions = {
+  zoomControl: false,
+  attributionControl: false,
+  maxBounds: [
+    [-85.05, -190], // lower left
+    [85.05, 200] // upper right
+  ]
+};
 
 // global map layer styling variables
 const strokeWeight = 1.5;
@@ -235,6 +242,7 @@ const rentStrikeInfowindowTemplate = document.getElementById(
 L.tileLayer(
   "https://a.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}@2x.png",
   {
+    minZoom: 3,
     maxZoom: 18
   }
 ).addTo(map);
@@ -244,13 +252,13 @@ L.tileLayer(
  *****************************************/
 
 function createCountiesCartoURI() {
-  const query = `SELECT 
-  c.the_geom, c.county as municipality, c.state as state_name, m.policy_type, m.policy_summary, m.link, 
+  const query = `SELECT
+  c.the_geom, c.county as municipality, c.state as state_name, m.policy_type, m.policy_summary, m.link,
   CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
-  FROM us_county_boundaries c 
+  FROM us_county_boundaries c
   JOIN ${cartoSheetSyncTable} m
-  ON ST_Intersects(c.the_geom, m.the_geom) 
-  WHERE m.the_geom IS NOT NULL 
+  ON ST_Intersects(c.the_geom, m.the_geom)
+  WHERE m.the_geom IS NOT NULL
   AND m.admin_scale = 'County'
   OR m.admin_scale = 'City and County'`; // how should we handle cases with city and county?
 
@@ -258,12 +266,12 @@ function createCountiesCartoURI() {
 }
 
 function createStatesCartoURI() {
-  const query = `SELECT 
-  s.the_geom, s.state_name as municipality, m.policy_type, m.policy_summary, m.link, 
+  const query = `SELECT
+  s.the_geom, s.state_name as municipality, m.policy_type, m.policy_summary, m.link,
   CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
   FROM state_5m s
   INNER JOIN ${cartoSheetSyncTable} m
-  ON s.state_name = m.state  
+  ON s.state_name = m.state
   AND m.admin_scale = 'State'`;
 
   return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
