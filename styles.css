@@ -31,17 +31,26 @@ body {
 
 header {
   width: 30%;
-  position: fixed;
+  position: absolute;
   top: 12px;
   left: 12px;
-  max-height: calc(100vh - 24px);
-  overflow-y: auto;
   padding: 12px;
   background: #fff;
   border: 2px solid rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   background-clip: padding-box;
   z-index: 500;
+}
+
+.title-content-wrapper {
+  max-height: 50vh; 
+  overflow-y: auto;
+}
+
+@media (max-width: 640px) {
+  .title-content-wrapper {
+    max-height: 250px;
+  }
 }
 
 header > h1 {
