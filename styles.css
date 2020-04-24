@@ -71,9 +71,18 @@ details p:last-of-type {
   margin-bottom: 0;
 }
 
-/* marker cluster override */
+/* SVGs in image tags need to be colored using a filter
+Use https://codepen.io/sosuke/pen/Pjoqqp to figure out color*/
+.icon-rent-strike {
+  filter: invert(24%) sepia(0%) saturate(6986%) hue-rotate(315deg) brightness(85%) contrast(66%);
+  opacity: 0.8;
+  /* Corresponds to #4d4d4d */
+}
+
+/* marker cluster override should match rent-strike color*/
 .marker-cluster-small div {
-  background-color: #ff8c1a !important;
+  background-color: #4d4d4d !important;
+  color: white;
   opacity: 0.6;
 }
 
