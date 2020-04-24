@@ -630,10 +630,6 @@ function handleStatesLayer(geojson) {
 
 function handleRentStrikeLayer(geoJson) {
   // custom icon for rent strikes markers
-  // const rentStrikeIcon = new L.Icon({
-  
-  // });
-
   const rentStrikeIcon = new L.Icon({
     iconUrl: "./assets/mapIcons/rent-strike.svg",
     iconSize: [40, 40],
