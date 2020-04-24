@@ -545,7 +545,6 @@ function handleRentStrikeLayer(geoJson) {
       const { status } = feature.properties;
       return L.marker(latlng, {
         icon: rentStrikeIcon 
-        // status === "Yes" ? rentStrikeYesIcon : rentStrikeUnsureIcon
       });
     }
   });
