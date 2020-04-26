@@ -121,13 +121,6 @@ a:hover {
   color: #d01c8b;
 }
 
-.color-ocurring {
-  color: #1772aa;
-}
-
-.color-may-be-ocurring {
-  color: #ae5117;
-}
 /* popup styling */
 
 /* override leaflet's <p> element styles */
