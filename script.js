@@ -1,6 +1,8 @@
 "use strict";
 console.clear();
 
+//FIXME: whoops did this all in a branch called countryLayer. Check this out to other branch. 
+
 /******************************************
  * GLOBAL CONSTANTS & FLAGS
  *****************************************/
@@ -32,6 +34,11 @@ const cartoSheetSyncTable =
 // (all in AEMP CARTO acct)
 const cartoCountiesURI = createCountiesCartoURI();
 const cartoStatesURI = createStatesCartoURI();
+
+// colorScale comes from this ColorBrewer url:
+// https://colorbrewer2.org/#type=sequential&scheme=YlGn&n=7
+const fillColorScale = ["#d9f0a3","#78c679","#238443"];
+const strokeColorScale = ["#addd8e","#41ab5d","#005a32"];
 
 /******************************************
  * MAP SETUP & MAP CONTROLS
@@ -309,13 +316,14 @@ Promise.all([
 function handleData([
   moratoriumSheetsText,
   rentStrikeSheetsText,
-  statesGeoJson,
-  countiesGeoJson
+  statesGeoJson,//mock this by adding rank property
+  countiesGeoJson//mock this by adding rank propery
 ]) {
   const moratoriumRows = d3
     .csvParse(moratoriumSheetsText, d3.autoType)
     .map(({ passed, ...rest }) => ({
       passed: passed === "TRUE" ? "Yes" : "No",
+      scale: Math.floor(Math.random()*3),
       ...rest
     }));
 
@@ -345,6 +353,7 @@ function handleData([
         Strike_Status === "Yes / Sí / 是 / Oui" || Strike_Status === "Yes"
           ? "Yes"
           : "Unsure",
+
       ...rest
     }));
 
@@ -409,26 +418,33 @@ function handleData([
  *****************************************/
 
 function handleCitiesLayer(geojson) {
-  // styling for the cities layer: style cities conditionally according to a presence of a moratorium
+  // styling for the cities layer: style cities conditionally according to moratorium rating scale 1 to 3
   const pointToLayer = (feature, latlng) => {
-    // style cities based on whether their moratorium has passed
-    if (feature.properties.passed === "Yes") {
-      return L.circleMarker(latlng, {
-        color: "#4dac26",
-        fillColor: "#b8e186",
-        fillOpacity: fillOpacity,
-        radius: pointRadius,
-        weight: strokeWeight
-      });
-    } else {
-      return L.circleMarker(latlng, {
-        color: "#d01c8b",
-        fillColor: "#f1b6da",
-        fillOpacity: fillOpacity,
-        radius: pointRadius,
-        weight: strokeWeight
-      });
-    }
+    return L.circleMarker(latlng, {
+      color: strokeColorScale[feature.properties.scale],
+      fillColor: fillColorScale[feature.properties.scale],
+      fillOpacity: fillOpacity,
+      radius: pointRadius,
+      weight: strokeWeight
+    });
+      // style cities based on whether their moratorium has passed
+    // if (feature.properties.passed === "Yes") {
+    //   return L.circleMarker(latlng, {
+    //     color: "#4dac26",
+    //     fillColor: "#b8e186",
+    //     fillOpacity: fillOpacity,
+    //     radius: pointRadius,
+    //     weight: strokeWeight
+    //   });
+    // } else {
+    //   return L.circleMarker(latlng, {
+    //     color: "#d01c8b",
+    //     fillColor: "#f1b6da",
+    //     fillOpacity: fillOpacity,
+    //     radius: pointRadius,
+    //     weight: strokeWeight
+    //   });
+    // }
   };
 
   // Create the Leaflet layer for the cities data
@@ -457,26 +473,34 @@ function handleCitiesLayer(geojson) {
 
   return citiesLayer;
 }
+//FIXME: city colors are working but the states and counties are not.
 
 function handleCountiesLayer(geojson) {
   const layerOptions = {
     style: feature => {
       // style counties based on whether their moratorium has passed
-      if (feature.properties.passed === "Yes") {
-        return {
-          color: "#4dac26",
-          fillColor: "#b8e186",
-          fillOpacity: fillOpacity,
-          weight: strokeWeight
-        };
-      } else {
-        return {
-          color: "#d01c8b",
-          fillColor: "#f1b6da",
-          fillOpacity: fillOpacity,
-          weight: strokeWeight
-        };
-      }
+      return {
+        color: strokeColorScale[feature.properties.scale],
+        fillColor: fillColorScale[feature.properties.scale],
+        fillOpacity: fillOpacity,
+        weight: strokeWeight
+      };
+
+      // if (feature.properties.passed === "Yes") {
+      //   return {
+      //     color: "#4dac26",
+      //     fillColor: "#b8e186",
+      //     fillOpacity: fillOpacity,
+      //     weight: strokeWeight
+      //   };
+      // } else {
+      //   return {
+      //     color: "#d01c8b",
+      //     fillColor: "#f1b6da",
+      //     fillOpacity: fillOpacity,
+      //     weight: strokeWeight
+      //   };
+      // }
     }
   };
 
@@ -499,32 +523,40 @@ function handleCountiesLayer(geojson) {
 }
 
 function handleStatesLayer(geojson) {
-  // styling for the states layer: style states conditionally according to a presence of a moratorium
+  // styling for the states layer: style states conditionally according to moratorium rating scale 1 to 3
   const layerOptions = {
     style: feature => {
+    return {
+      color: strokeColorScale[feature.properties.scale],
+      fillColor: fillColorScale[feature.properties.scale],
+      fillOpacity: fillOpacity,
+      weight: strokeWeight
+    };
+
       // style states based on whether their moratorium has passed
-      if (feature.properties.passed === "Yes") {
-        return {
-          color: "#4dac26",
-          fillColor: "#b8e186",
-          fillOpacity: fillOpacity,
-          weight: strokeWeight
-        };
-      } else if (feature.properties.passed === "No") {
-        return {
-          color: "#d01c8b",
-          fillColor: "#f1b6da",
-          fillOpacity: fillOpacity,
-          weight: strokeWeight
-        };
-      } else {
-        return {
-          stroke: false,
-          fill: false
-        };
-      }
-    }
-  };
+      //colors url: https://colorbrewer2.org/#type=sequential&scheme=YlGn&n=7
+//       if (feature.properties.passed === "Yes") {
+//     return {
+//       color: "#4dac26",
+//       fillColor: "#b8e186",
+//       fillOpacity: fillOpacity,
+//       weight: strokeWeight
+//     };
+//   } else if (feature.properties.passed === "No") {
+//     return {
+//       color: "#d01c8b",
+//       fillColor: "#f1b6da",
+//       fillOpacity: fillOpacity,
+//       weight: strokeWeight
+//     };
+//   } else {
+//     return {
+//       stroke: false,
+//       fill: false
+//     };
+//   }
+   }
+  }
 
   // Create the Leaflet layer for the states data
   const statesLayer = L.geoJson(geojson, layerOptions);
