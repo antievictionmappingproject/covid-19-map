@@ -17,6 +17,9 @@
     "npm": ">6.4.1"
   },
   "lint-staged": {
+    "src/**/*.{js,json}": [
+      "eslint --fix", "git add"
+    ],
     "src/**/*.{js,vue,json,css,scss,md}": [
       "prettier --write"
     ]
