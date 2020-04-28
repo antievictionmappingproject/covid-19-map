@@ -503,6 +503,7 @@ function handleCitiesLayer(geojson) {
 
   // Add popups to the layer
   citiesLayer.bindPopup(function (layer) {
+    console.log(layer.feature)
     // This function is called whenever a feature on the layer is clicked
 
     // Render the template with all of the properties. Mustache ignores properties
