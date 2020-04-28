@@ -1,7 +1,7 @@
 "use strict";
 console.clear();
 
-//FIXME: whoops did this all in a branch called countryLayer. Check this out to other branch. 
+//FIXME: whoops did this all in a branch called countryLayer. Check this out to other branch.
 
 /******************************************
  * GLOBAL CONSTANTS & FLAGS
@@ -323,9 +323,9 @@ function handleData([
     .csvParse(moratoriumSheetsText, d3.autoType)
     .map(({ passed, ...rest }) => ({
       passed: passed === "TRUE" ? "Yes" : "No",
-      scale: Math.floor(Math.random()*3),
       ...rest
     }));
+
 
   const citiesData = moratoriumRows.filter(
     row => row.admin_scale === "City" && row.lat !== null && row.lon !== null
@@ -344,6 +344,17 @@ function handleData([
       }
     }))
   };
+  /*
+  * Begin mocking scale
+  * */
+  const mockScale = obj=>Object.assign(obj.properties,{scale:Math.floor(Math.random()*3)});
+  citiesGeoJson.features.map(mockScale);
+  statesGeoJson.features.map(mockScale);
+  countiesGeoJson.features.map(mockScale);
+  /*
+  * End mocking scale
+  * */
+
 
   const rentStrikeRows = d3
     .csvParse(rentStrikeSheetsText, d3.autoType)
