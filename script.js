@@ -431,6 +431,15 @@ function handleData([
  * HANDLE ADDING MAP LAYERS
  *****************************************/
 
+// Ensures that map overlay pane layers are displayed in the correct Z-Order
+function fixZOrder(dataLayers) {
+  dataLayers.forEach(function (layerGroup) {
+    if (map.hasLayer(layerGroup)) {
+      layerGroup.bringToBack();
+    }
+  });
+}
+
 function handleCitiesLayer(geojson) {
   // styling for the cities layer: style cities conditionally according to a presence of a moratorium
   const pointToLayer = (feature, latlng) => {
@@ -617,15 +626,6 @@ function handleRentStrikeLayer(geoJson) {
   map.addLayer(rentStrikeLayerMarkers);
 
   return rentStrikeLayerMarkers;
-}
-
-// Ensures that map overlay pane layers are displayed in the correct Z-Order
-function fixZOrder(dataLayers) {
-  dataLayers.forEach(function (layerGroup) {
-    if (map.hasLayer(layerGroup)) {
-      layerGroup.bringToBack();
-    }
-  });
 }
 
 function handleNationsLayer(geojson) {
