@@ -279,12 +279,12 @@ function createStatesCartoURI() {
 }
 
 function createNationsCartoURI() {
-  const query = `SELECT
-  c.the_geom, c.iso_a3, m.ISO, c.name as country, m.range, m.passed, m.policy_type, m.policy_summary
-  FROM public.countries c
-  INNER JOIN ${cartoSheetSyncTable} m
-  ON m.admin_scale = 'Country'
-  AND c.iso_a3 = m.ISO`;
+  const query = `SELECT c.the_geom, c.iso_a3, c.name_en, 
+  m.policy_type, m.policy_summary, m.link, m.range, m.policy_type, m.start, m._end, m.link 
+  FROM countries c 
+  INNER JOIN ${cartoSheetSyncTable} m 
+  ON c.iso_a3 = m.iso 
+  AND m.admin_scale = 'Country'`;
 
   return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
 }
@@ -632,27 +632,13 @@ function handleNationsLayer(geojson) {
   // styling for the nations layer: style states conditionally according to a presence of a moratorium
   const layerOptions = {
     style: feature => {
-      // style states based on whether their moratorium has passed
-      if (feature.properties.passed === 'Yes') {
-        return {
-          color: '#4dac26',
-          fillColor: '#b8e186',
-          fillOpacity: fillOpacity,
-          weight: strokeWeight,
-        };
-      } else if (feature.properties.passed === 'No') {
-        return {
-          color: '#d01c8b',
-          fillColor: '#f1b6da',
-          fillOpacity: fillOpacity,
-          weight: strokeWeight,
-        };
-      } else {
-        return {
-          stroke: false,
-          fill: false,
-        };
-      }
+    // style states based on whether their moratorium has passed
+      return {
+        color: '#4dac26',
+        fillColor: '#b8e186',
+        fillOpacity: fillOpacity,
+        weight: strokeWeight,
+      };
     },
   };
 
