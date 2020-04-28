@@ -224,6 +224,9 @@ a.aemp-infowindow-close {
   font-weight: bold;
 }
 
+
+/*begin legend styles*/
+
 div.legend{
   display:flex;
   justify-content: space-between;
@@ -241,11 +244,13 @@ div.legendpair {
   height:20px;
   background-color: #d9f0a3;
   border-color: #addd8e;
-  display: inline-block
+  display: inline-block;
+  border-style: solid;
+  border-width: 1px;
 }
 
 .scale1 {
-  background-color: #d9f0a3; border-color: #addd8e
+  background-color: #d9f0a3; border-color: #addd8e;
 }
 
 .scale2 {
@@ -255,6 +260,8 @@ div.legendpair {
 .scale3 {
   background-color: #238443; border-color: #005a32;
 }
+
+/*end legend styles*/
 
 @media (max-width: 640px) {
   #root.aemp-popupopen #map {
