@@ -608,7 +608,7 @@ function handleStatesLayer(geojson) {
     return Mustache.render(popupTemplate, props);
   });
 
-  statesLayer.addTo(map);
+  // statesLayer.addTo(map);
 
   return statesLayer;
 }
