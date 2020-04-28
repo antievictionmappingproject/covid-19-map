@@ -615,7 +615,7 @@ function handleStatesLayer(geojson) {
     return Mustache.render(popupTemplate, layer.feature.properties);
   });
 
-  statesLayer.addTo(map);
+  // statesLayer.addTo(map);
 
   return statesLayer;
 }
@@ -680,16 +680,21 @@ function handleNationsLayer(geojson) {
 
   // Create the Leaflet layer for the states data
   const nationsLayer = L.geoJson(geojson, layerOptions);
-
+  
+  
   nationsLayer.bindPopup(function (layer) {
+    const props = {
+      municipality: layer.feature.properties.name_en,
+      ...layer.feature.properties
+    };
     const renderedInfo = Mustache.render(
       infowindowTemplate,
-      layer.feature.properties,
+      props,
     );
     document.getElementById(
       'aemp-infowindow-container',
     ).innerHTML = renderedInfo;
-    return Mustache.render(popupTemplate, layer.feature.properties);
+    return Mustache.render(popupTemplate, props);
   });
 
   nationsLayer.addTo(map);
