@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/script.js" line="288" mnemonic="F" />
-    <bookmark url="file://$PROJECT_DIR$/script.js" line="522" mnemonic="H" />
-    <bookmark url="file://$PROJECT_DIR$/script.js" line="272" mnemonic="S" />
+    <bookmark url="file://$PROJECT_DIR$/script.js" line="290" mnemonic="F" />
+    <bookmark url="file://$PROJECT_DIR$/script.js" line="535" mnemonic="H" />
+    <bookmark url="file://$PROJECT_DIR$/script.js" line="274" mnemonic="S" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a2e9669e-6f12-4b6c-8945-249731fce5fa" name="Default Changelist" comment="">
@@ -23,11 +23,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2730">
-              <caret line="353" column="6" selection-start-line="353" selection-start-column="6" selection-end-line="353" selection-end-column="6" />
+            <state relative-caret-position="198">
+              <caret line="40" column="54" selection-start-line="40" selection-start-column="48" selection-end-line="40" selection-end-column="54" />
               <folding>
                 <element signature="e#32#147#0" />
                 <element signature="e#429#532#0" />
@@ -56,18 +56,25 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1503" />
+            <state relative-caret-position="70">
+              <caret line="46" column="56" selection-start-line="46" selection-start-column="56" selection-end-line="46" selection-end-column="56" />
+              <folding>
+                <element signature="e#1667#1673#1" expanded="true" />
+                <element signature="e#1840#1846#1" expanded="true" />
+                <element signature="e#1987#1993#1" expanded="true" />
+              </folding>
+            </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
+        <entry file="file://$PROJECT_DIR$/styles.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-675">
-              <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+            <state relative-caret-position="75">
+              <caret line="228" column="16" selection-start-line="228" selection-start-column="16" selection-end-line="228" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -82,6 +89,8 @@
       <list>
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/script.js" />
+        <option value="$PROJECT_DIR$/styles.css" />
+        <option value="$PROJECT_DIR$/index.html" />
       </list>
     </option>
   </component>
@@ -103,6 +112,11 @@
       </pane>
       <pane id="ProjectPane" />
     </panes>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -126,23 +140,23 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1587915847735</updated>
-      <workItem from="1587915849140" duration="5883000" />
+      <workItem from="1587915849140" duration="11190000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5883000" />
+    <option name="totallyTimeSpent" value="11190000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="121" y="23" width="1243" height="837" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" sideWeight="0.5021645" side_tool="true" visible="true" weight="0.24959083" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4978355" visible="true" weight="0.24959083" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4978355" visible="true" weight="0.24959083" />
       <window_info id="Structure" order="1" sideWeight="0.5010225" side_tool="true" weight="0.24959083" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" />
-      <window_info active="true" anchor="bottom" id="Terminal" visible="true" weight="0.34188035" />
+      <window_info anchor="bottom" id="Terminal" visible="true" weight="0.34188035" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -167,15 +181,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1503" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2730">
-          <caret line="353" column="6" selection-start-line="353" selection-start-column="6" selection-end-line="353" selection-end-column="6" />
+        <state relative-caret-position="198">
+          <caret line="40" column="54" selection-start-line="40" selection-start-column="48" selection-end-line="40" selection-end-column="54" />
           <folding>
             <element signature="e#32#147#0" />
             <element signature="e#429#532#0" />
@@ -199,6 +208,25 @@
             <element signature="e#6398#6452#0" />
             <element signature="e#7011#7048#0" />
             <element signature="e#7064#7166#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/styles.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="228" column="16" selection-start-line="228" selection-start-column="16" selection-end-line="228" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="70">
+          <caret line="46" column="56" selection-start-line="46" selection-start-column="56" selection-end-line="46" selection-end-column="56" />
+          <folding>
+            <element signature="e#1667#1673#1" expanded="true" />
+            <element signature="e#1840#1846#1" expanded="true" />
+            <element signature="e#1987#1993#1" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -43,7 +43,7 @@ header {
 }
 
 .title-content-wrapper {
-  max-height: 50vh; 
+  max-height: 50vh;
   overflow-y: auto;
 }
 
@@ -220,6 +220,38 @@ a.aemp-infowindow-close {
   font-size: 2.4rem;
   font-style: normal;
   font-weight: bold;
+}
+
+div.legend{
+  display:flex;
+  justify-content: space-between;
+  width: 90%;
+  max-width: 250px;
+}
+
+div.legendpair {
+  display: inline-block;
+  font-size: 1.5em
+}
+
+.legendbox {
+  width: 20px;
+  height:20px;
+  background-color: #d9f0a3;
+  border-color: #addd8e;
+  display: inline-block
+}
+
+.scale1 {
+  background-color: #d9f0a3; border-color: #addd8e
+}
+
+.scale2 {
+  background-color: #78c679; border-color: #41ab5d;
+}
+
+.scale3 {
+  background-color: #238443; border-color: #005a32;
 }
 
 @media (max-width: 640px) {
