@@ -332,6 +332,10 @@ Promise.all([
     if (!res.ok) throw Error("Unable to fetch nations geojson");
     return res.json();
   })
+  // fetch(cartoCountiesURI).then(res => {
+  //   if (!res.ok) throw Error("Unable to fetch counties geojson");
+  //   return res.json();
+  // })
 ])
   .then(handleData)
   .catch(error => console.log(error));
