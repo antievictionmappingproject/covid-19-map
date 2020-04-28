@@ -298,7 +298,7 @@ function createStatesCartoURI() {
 
 function createNationsCartoURI() {
   const query = `SELECT c.the_geom, c.iso_a3, c.name_en, 
-  m.policy_type, m.policy_summary, m.link, m.range, m.policy_type, m.start, m._end 
+  m.policy_type, m.policy_summary, m.link, m.range, m.policy_type, m.start, m._end, m.link 
   FROM countries c 
   INNER JOIN ${cartoSheetSyncTable} m 
   ON c.iso_a3 = m.iso 
