@@ -478,18 +478,27 @@ function handleCitiesLayer(geojson) {
 
   // Add popups to the layer
   citiesLayer.bindPopup(function (layer) {
+    console.log(layer.feature)
     // This function is called whenever a feature on the layer is clicked
 
     // Render the template with all of the properties. Mustache ignores properties
     // that aren't used in the template, so this is fine.
+    const { municipality, state, Country } = layer.feature.properties; 
+    const props = {
+      // Build city name with state and country
+      jurisdictionName: `${municipality}, ${state ? `${state} , ${Country}` : `${Country}`}`,
+      jurisdictionType: 'City',
+      ...layer.feature.properties,
+    };
+
     const renderedInfo = Mustache.render(
       infowindowTemplate,
-      layer.feature.properties
+      props
     );
     document.getElementById(
       "aemp-infowindow-container"
     ).innerHTML = renderedInfo;
-    return Mustache.render(popupTemplate, layer.feature.properties);
+    return Mustache.render(popupTemplate, { ...props, jurisdictionName: municipality });
   });
 
   // Add data to the map
@@ -516,14 +525,19 @@ function handleCountiesLayer(geojson) {
   const countiesLayer = L.geoJson(geojson, layerOptions);
 
   countiesLayer.bindPopup(function (layer) {
+    const props = {
+      jurisdictionName: layer.feature.properties.municipality,
+      jurisdictionType: 'County',
+      ...layer.feature.properties,
+    };
     const renderedInfo = Mustache.render(
       infowindowTemplate,
-      layer.feature.properties
+      props
     );
     document.getElementById(
       "aemp-infowindow-container"
     ).innerHTML = renderedInfo;
-    return Mustache.render(popupTemplate, layer.feature.properties);
+    return Mustache.render(popupTemplate, props);
   });
 
   countiesLayer.addTo(map);
@@ -547,14 +561,19 @@ function handleStatesLayer(geojson) {
   const statesLayer = L.geoJson(geojson, layerOptions);
 
   statesLayer.bindPopup(function (layer) {
+    const props = {
+      jurisdictionName: layer.feature.properties.municipality,
+      jurisdictionType: 'State/Province',
+      ...layer.feature.properties,
+    };
     const renderedInfo = Mustache.render(
       infowindowTemplate,
-      layer.feature.properties
+      props
     );
     document.getElementById(
       "aemp-infowindow-container"
     ).innerHTML = renderedInfo;
-    return Mustache.render(popupTemplate, layer.feature.properties);
+    return Mustache.render(popupTemplate, props);
   });
 
   // statesLayer.addTo(map);
@@ -610,7 +629,7 @@ function handleNationsLayer(geojson) {
   // styling for the nations layer: style states conditionally according to a presence of a moratorium
   const layerOptions = {
     style: feature => {
-    // style states based on whether their moratorium has passed
+    // style nations based on their rating
       return {
         color: '#4dac26',
         fillColor: '#b8e186',
@@ -620,14 +639,14 @@ function handleNationsLayer(geojson) {
     },
   };
 
-  // Create the Leaflet layer for the states data
+  // Create the Leaflet layer for the nations data
   const nationsLayer = L.geoJson(geojson, layerOptions);
-  
   
   nationsLayer.bindPopup(function (layer) {
     const props = {
-      municipality: layer.feature.properties.name_en,
-      ...layer.feature.properties
+      jurisdictionName: layer.feature.properties.name_en,
+      jurisdictionType: 'Country',
+      ...layer.feature.properties,
     };
     const renderedInfo = Mustache.render(
       infowindowTemplate,
