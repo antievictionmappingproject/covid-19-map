@@ -260,7 +260,7 @@ L.tileLayer(
 
 function createCountiesCartoURI() {
   const query = `SELECT
-  c.the_geom, c.county as municipality, c.state as state_name, m.policy_type, m.policy_summary, m.link,
+  c.the_geom, c.county, c.state, m.policy_type, m.policy_summary, m.link,
   CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
   FROM us_county_boundaries c
   JOIN ${cartoSheetSyncTable} m
@@ -274,7 +274,7 @@ function createCountiesCartoURI() {
 
 function createStatesCartoURI() {
   const query = `SELECT
-  s.the_geom, s.name as municipality, m.policy_type, m.policy_summary, m.link,
+  s.the_geom, s.name, m.policy_type, m.policy_summary, m.link,
   CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
   FROM public.states_and_provinces_global s
   INNER JOIN ${cartoSheetSyncTable} m
@@ -478,7 +478,6 @@ function handleCitiesLayer(geojson) {
 
   // Add popups to the layer
   citiesLayer.bindPopup(function (layer) {
-    console.log(layer.feature)
     // This function is called whenever a feature on the layer is clicked
 
     // Render the template with all of the properties. Mustache ignores properties
@@ -525,8 +524,10 @@ function handleCountiesLayer(geojson) {
   const countiesLayer = L.geoJson(geojson, layerOptions);
 
   countiesLayer.bindPopup(function (layer) {
+    const { county, state } = layer.feature.properties;
     const props = {
-      jurisdictionName: layer.feature.properties.municipality,
+      // Show county with state if state field is set
+      jurisdictionName: `${county}${state ? `, ${state}`: ''}`,
       jurisdictionType: 'County',
       ...layer.feature.properties,
     };
@@ -562,7 +563,7 @@ function handleStatesLayer(geojson) {
 
   statesLayer.bindPopup(function (layer) {
     const props = {
-      jurisdictionName: layer.feature.properties.municipality,
+      jurisdictionName: layer.feature.properties.name,
       jurisdictionType: 'State/Province',
       ...layer.feature.properties,
     };
@@ -646,6 +647,8 @@ function handleNationsLayer(geojson) {
     const props = {
       jurisdictionName: layer.feature.properties.name_en,
       jurisdictionType: 'Country',
+      // Placeholder, using 'passed' to send to label "has it passed"
+      passed: layer.feature.properties.range,
       ...layer.feature.properties,
     };
     const renderedInfo = Mustache.render(
