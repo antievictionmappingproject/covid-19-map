@@ -33,6 +33,7 @@ const cartoSheetSyncTable =
 // (all in AEMP CARTO acct)
 const cartoCountiesURI = createCountiesCartoURI();
 const cartoStatesURI = createStatesCartoURI();
+// const cartoNationsURI = createNationsCartoURI();
 
 // colorScale comes from this ColorBrewer url:
 // https://colorbrewer2.org/#type=sequential&scheme=YlGn&n=7
@@ -273,15 +274,30 @@ function createCountiesCartoURI() {
 
 function createStatesCartoURI() {
   const query = `SELECT
-  s.the_geom, s.state_name as municipality, m.policy_type, m.policy_summary, m.link,
+  s.the_geom, s.name as municipality, m.policy_type, m.policy_summary, m.link,
   CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
-  FROM state_5m s
+  FROM public.states_and_provinces_global s
   INNER JOIN ${cartoSheetSyncTable} m
-  ON s.state_name = m.state
+  ON s.name = m.state
   AND m.admin_scale = 'State'`;
 
   return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
 }
+
+function createNationsCartoURI() {
+  const query = `SELECT
+  c.name, c.the_geom, c.iso_a3 
+  FROM public.countries c
+  INNER JOIN ${cartoSheetSyncTable} m
+  ON m.admin_scale = 'Country'
+  AND c.name = m.Country`;
+
+  return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
+}
+
+Promise.resolve(fetch(createStatesCartoURI())).then(res =>
+  Promise.resolve(res.json()).then(geojson => console.log(geojson)),
+);
 
 /******************************************
  * FETCH DATA SOURCES
@@ -304,6 +320,10 @@ Promise.all([
     if (!res.ok) throw Error("Unable to fetch counties geojson");
     return res.json();
   })
+  // fetch(cartoCountiesURI).then(res => {
+  //   if (!res.ok) throw Error("Unable to fetch counties geojson");
+  //   return res.json();
+  // })
 ])
   .then(handleData)
   .catch(error => console.log(error));
