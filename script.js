@@ -34,7 +34,7 @@ const cartoSheetSyncTable =
 // (all in AEMP CARTO acct)
 const cartoCountiesURI = createCountiesCartoURI();
 const cartoStatesURI = createStatesCartoURI();
-// const cartoNationsURI = createNationsCartoURI();
+const cartoNationsURI = createNationsCartoURI();
 
 // colorScale comes from this ColorBrewer url:
 // https://colorbrewer2.org/#type=sequential&scheme=YlGn&n=7
@@ -287,18 +287,18 @@ function createStatesCartoURI() {
 
 function createNationsCartoURI() {
   const query = `SELECT
-  c.name, c.the_geom, c.iso_a3 
+  c.the_geom, c.iso_a3, m.ISO, c.name as country, m.range, m.passed, m.policy_type, m.policy_summary
   FROM public.countries c
   INNER JOIN ${cartoSheetSyncTable} m
   ON m.admin_scale = 'Country'
-  AND c.name = m.Country`;
+  AND c.iso_a3 = m.ISO`;
 
   return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
 }
 
-Promise.resolve(fetch(createStatesCartoURI())).then(res =>
-  Promise.resolve(res.json()).then(geojson => console.log(geojson)),
-);
+// Promise.resolve(fetch(createNationsCartoURI())).then(res =>
+//   Promise.resolve(res.json()).then(geojson => console.log(geojson)),
+// );
 
 /******************************************
  * FETCH DATA SOURCES
@@ -320,11 +320,11 @@ Promise.all([
   fetch(cartoCountiesURI).then(res => {
     if (!res.ok) throw Error("Unable to fetch counties geojson");
     return res.json();
+  }),
+  fetch(cartoNationsURI).then(res => {
+    if (!res.ok) throw Error("Unable to fetch counties geojson");
+    return res.json();
   })
-  // fetch(cartoCountiesURI).then(res => {
-  //   if (!res.ok) throw Error("Unable to fetch counties geojson");
-  //   return res.json();
-  // })
 ])
   .then(handleData)
   .catch(error => console.log(error));
@@ -336,8 +336,9 @@ Promise.all([
 function handleData([
   moratoriumSheetsText,
   rentStrikeSheetsText,
-  statesGeoJson,//mock this by adding rank property
-  countiesGeoJson//mock this by adding rank propery
+  statesGeoJson,
+  countiesGeoJson,
+  nationsGeoJson
 ]) {
   const moratoriumRows = d3
     .csvParse(moratoriumSheetsText, d3.autoType)
@@ -407,6 +408,7 @@ function handleData([
 
   // add the states, cities, counties, and rentstrikes layers to the map
   // and save the layers output
+  const nations = handleNationsLayer(nationsGeoJson);
   const states = handleStatesLayer(statesGeoJson);
   const counties = handleCountiesLayer(countiesGeoJson);
   const cities = handleCitiesLayer(citiesGeoJson);
@@ -417,12 +419,13 @@ function handleData([
     .addOverlay(rentStrikes, "Rent Strikes")
     .addOverlay(cities, "Cities")
     .addOverlay(counties, "Counties")
-    .addOverlay(states, "States");
+    .addOverlay(states, "States")
+    .addOverlay(nations, "Nations");
 
   // Apply correct relative order of layers when adding from control.
   map.on("overlayadd", function () {
     // Top of list is top layer
-    fixZOrder([cities, counties, states]);
+    fixZOrder([cities, counties, states, nations]);
   });
 
   // if any layers in the map config are set to false,
@@ -659,4 +662,51 @@ function fixZOrder(dataLayers) {
       layerGroup.bringToBack();
     }
   });
+}
+
+function handleNationsLayer(geojson) {
+  // styling for the nations layer: style states conditionally according to a presence of a moratorium
+  const layerOptions = {
+    style: feature => {
+      // style states based on whether their moratorium has passed
+      if (feature.properties.passed === 'Yes') {
+        return {
+          color: '#4dac26',
+          fillColor: '#b8e186',
+          fillOpacity: fillOpacity,
+          weight: strokeWeight,
+        };
+      } else if (feature.properties.passed === 'No') {
+        return {
+          color: '#d01c8b',
+          fillColor: '#f1b6da',
+          fillOpacity: fillOpacity,
+          weight: strokeWeight,
+        };
+      } else {
+        return {
+          stroke: false,
+          fill: false,
+        };
+      }
+    },
+  };
+
+  // Create the Leaflet layer for the states data
+  const nationsLayer = L.geoJson(geojson, layerOptions);
+
+  nationsLayer.bindPopup(function (layer) {
+    const renderedInfo = Mustache.render(
+      infowindowTemplate,
+      layer.feature.properties,
+    );
+    document.getElementById(
+      'aemp-infowindow-container',
+    ).innerHTML = renderedInfo;
+    return Mustache.render(popupTemplate, layer.feature.properties);
+  });
+
+  nationsLayer.addTo(map);
+
+  return nationsLayer;
 }
