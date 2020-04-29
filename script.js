@@ -704,16 +704,28 @@ function handleRentStrikeLayer(geoJson) {
   return rentStrikeLayerMarkers;
 }
 
+const scoreFillColors = {
+  '1': '#e5f5f9',
+  '2': '#99d8c9',
+  '3': '#2ca25f'
+};
+
+function polygonColorsByScore(score) {
+  return {
+    // Return fill color from score, or grey
+    fillColor: scoreFillColors[score] || '#f0f0f0',
+    color: '#000'
+  };
+}
+
 function handleNationsLayer(geojson) {
-  // styling for the nations layer: style states conditionally according to a presence of a moratorium
   const layerOptions = {
     style: feature => {
-    // style nations based on their rating
+      const colorsObject = polygonColorsByScore(feature.properties.range)
       return {
-        color: '#4dac26',
-        fillColor: '#b8e186',
-        fillOpacity: fillOpacity,
-        weight: strokeWeight,
+        ...colorsObject,
+        fillOpacity: 0.7,
+        weight: 1.2,
       };
     },
   };
