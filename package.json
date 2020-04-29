@@ -18,7 +18,8 @@
   },
   "lint-staged": {
     "src/**/*.{js,json}": [
-      "eslint --fix", "git add"
+      "eslint --fix",
+      "git add"
     ],
     "src/**/*.{js,vue,json,css,scss,md}": [
       "prettier --write"
@@ -49,6 +50,7 @@
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.4.2",
     "eslint": "^6.8.0",
+    "file-loader": "^6.0.0",
     "gh-pages": "^2.2.0",
     "html-webpack-plugin": "^4.0.4",
     "husky": "^4.2.5",
