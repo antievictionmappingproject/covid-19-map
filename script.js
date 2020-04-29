@@ -683,6 +683,12 @@ const scoreFillColors = {
   '3': '#2ca25f'
 };
 
+const scoreDescription = {
+  '1': 'Low protection',
+  '2': 'Medium protection',
+  '3': 'Strong protection'
+}
+
 function polygonColorsByScore(score) {
   return {
     // Return fill color from score, or grey
