@@ -677,6 +677,20 @@ function handleRentStrikeLayer(geoJson) {
   return rentStrikeLayerMarkers;
 }
 
+const scoreFillColors = {
+  '1': '#e5f5f9',
+  '2': '#99d8c9',
+  '3': '#2ca25f'
+};
+
+function polygonColorsByScore(score) {
+  return {
+    // Return fill color from score, or grey
+    fillColor: scoreFillColors[score] || '#f0f0f0',
+    color: '#000'
+  };
+}
+
 function handleNationsLayer(geojson) {
   // Scores are bound to range prop of each feature
   const layerOptions = {
