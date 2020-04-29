@@ -158,6 +158,44 @@
       </div>
     </script>
 
+    <script id="aemp-infowindow-template-nation" type="x-tmpl-mustache">
+      <div class="aemp-infowindow">
+        <a class="aemp-infowindow-close" href="#close" onClick="closeInfo()">×</a>
+        <div>
+          <p class="infowindow-title">
+            <strong>Emergency Tenant Protections</strong>
+          </p>
+        </div>
+        <div>
+          <p>
+            <strong>{{jurisdictionType}}: </strong>{{jurisdictionName}}
+          </p>
+        </div>
+        <div>
+          <p><strong>Policy strength: </strong>{{policyStrength}}</p>
+        </div>
+        <div>
+          <p><strong>Policy Summary:</strong></p>
+          <p>{{policy_summary}}</p>
+        </div>
+        {{#start}}
+        <div>
+          <p><strong>Effective: </strong>{{start}}</p>
+        </div>
+        {{/start}}
+        {{#_end}}
+        <div>
+          <p><strong>Ends: </strong>{{_end}}</p>
+        </div>
+        {{/_end}}
+        {{#link}}
+        <div>
+          <p><a target="_blank" href="{{link}}" rel="noopener noreferrer">View more info.</a></p>
+        </div>
+        {{/link}}
+      </div>
+    </script>
+
     <script id="aemp-rentstrike-infowindow-template" type="x-tmpl-mustache">
       <div class="aemp-infowindow">
         <a class="aemp-infowindow-close" href="#close" onClick="closeInfo()">×</a>
