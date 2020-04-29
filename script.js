@@ -239,6 +239,8 @@ const layersControl = L.control
 const popupTemplate = document.querySelector(".popup-template").innerHTML;
 const infowindowTemplate = document.getElementById("aemp-infowindow-template")
   .innerHTML;
+const nationInfowindowTemplate = document.getElementById('aemp-infowindow-template-nation')
+  .innerHTML;
 
 const rentStrikePopupTemplate = document.querySelector(
   ".rentstrike-popup-template"
@@ -710,6 +712,12 @@ const scoreFillColors = {
   '3': '#2ca25f'
 };
 
+const scoreDescription = {
+  '1': 'Low protection',
+  '2': 'Medium protection',
+  '3': 'Strong protection'
+}
+
 function polygonColorsByScore(score) {
   return {
     // Return fill color from score, or grey
@@ -719,6 +727,7 @@ function polygonColorsByScore(score) {
 }
 
 function handleNationsLayer(geojson) {
+  // Scores are bound to range prop of each feature
   const layerOptions = {
     style: feature => {
       const colorsObject = polygonColorsByScore(feature.properties.range)
@@ -734,15 +743,15 @@ function handleNationsLayer(geojson) {
   const nationsLayer = L.geoJson(geojson, layerOptions);
   
   nationsLayer.bindPopup(function (layer) {
+    const { name_en, range } = layer.feature.properties;
     const props = {
-      jurisdictionName: layer.feature.properties.name_en,
+      jurisdictionName: name_en,
       jurisdictionType: 'Country',
-      // Placeholder, using 'passed' to send to label "has it passed"
-      passed: layer.feature.properties.range,
+      policyStrength: scoreDescription[range],
       ...layer.feature.properties,
     };
     const renderedInfo = Mustache.render(
-      infowindowTemplate,
+      nationInfowindowTemplate,
       props,
     );
     document.getElementById(
