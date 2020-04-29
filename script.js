@@ -67,6 +67,7 @@ let mapConfig = {
   lat: 40.67,
   lng: -97.23,
   z: initialMapZoom,
+  nations: true,
   states: true,
   cities: true,
   counties: true,
@@ -126,6 +127,14 @@ function inputValues(hash) {
       mapConfig.states = false;
     }
   }
+
+   if (inputVals.nations !== undefined) {
+     if (inputVals.nations === 'true') {
+       mapConfig.nations = true;
+     } else if (inputVals.nations === 'false') {
+       mapConfig.nations = false;
+     }
+   }
 
   if (inputVals.rentstrike !== undefined) {
     if (inputVals.rentstrike === "true") {
