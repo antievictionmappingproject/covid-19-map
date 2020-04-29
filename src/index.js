@@ -1,7 +1,6 @@
 // this tells webpack to use our CSS
 import "./styles/index.css";
-
-console.clear();
+import { rentStrikeIcon } from "./utils/L.Icon.RentStrike";
 
 /******************************************
  * GLOBAL CONSTANTS & FLAGS
@@ -464,29 +463,16 @@ function handleStatesLayer(geojson) {
 }
 
 function handleRentStrikeLayer(geoJson) {
-  const iconSize = [60, 60];
-  const iconAnchor = [27, 20];
-  const rentStrikeYesIcon = new L.Icon({
-    iconUrl: "./assets/mapIcons/rent-strike-blue.png",
-    iconSize: iconSize,
-    iconAnchor: iconAnchor,
-  });
-
-  const rentStrikeUnsureIcon = new L.Icon({
-    iconUrl: "./assets/mapIcons/rent-strike-orange.png",
-    iconSize: [60, 60],
-    iconAnchor: iconAnchor,
-  });
-
-  // add custom marker icons
+  // add custom marker icon
   const rentStrikeLayer = L.geoJson(geoJson, {
     pointToLayer: function (feature, latlng) {
       const { status } = feature.properties;
       return L.marker(latlng, {
-        icon: status === "Yes" ? rentStrikeYesIcon : rentStrikeUnsureIcon,
+        icon: rentStrikeIcon(),
       });
     },
   });
+
   //add markers to cluster with options
   const rentStrikeLayerMarkers = L.markerClusterGroup({
     maxClusterRadius: 40,
