@@ -126,6 +126,22 @@ module.exports = (env, argv) => {
               plugins: ["@babel/plugin-proposal-object-rest-spread"]
             }
           }
+        },
+
+        // rule to handle loading images
+        {
+          test: /\.(png|svg|jpg|gif)$/,
+          use: [
+            "file-loader"
+          ]
+        },
+
+        // rule to handle loading fonts
+        {
+          test: /\.(woff|woff2|eot|ttf|otf)$/,
+          use: [
+            "file-loader"
+          ]
         }
       ]
     },
