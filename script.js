@@ -585,40 +585,20 @@ function handleStatesLayer(geojson) {
 }
 
 function handleRentStrikeLayer(geoJson) {
-  // custom icon class for rent strikes markers
-  const CustomIcon = L.Icon.extend({
+  // custom icon for rent strikes markers
+  const rentStrikeIcon = new L.Icon({
+    iconUrl: "./assets/mapIcons/rent-strike.svg",
     iconSize: [40, 40],
     iconAnchor: [27, 20],
+    className: 'icon-rent-strike'
   });
-
-  const svg = `
-    <svg
-      height="48"
-      width="48"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 48 48"
-      fill="#4d4d4d"
-    >
-      <path d="M18.853 33.982l-3.354-9.388h6.226L17.14 11.766h-6.269l3.355 9.388H8zm20.456-14.021l-4.549-3.348v-3.992c0-.625-.508-1.133-1.134-1.133h-1.84c-.625 0-1.133.508-1.133 1.133v.971l-3.468-2.555c-.753-.553-1.984-.553-2.739 0l-5.123 3.771 1.347 3.932 3.776-2.779c.755-.555 1.986-.555 2.739 0l9.774 7.193a1.706 1.706 0 002.376-.361l.335-.457a1.701 1.701 0 00-.361-2.375z"/><path d="M35.69 23.781l-8.501-6.283v.004l-.007-.004c-.753-.555-1.98-.555-2.733 0l-3.355 2.48 1.842 5.377h-6.133l2.769 9.873-4.988-4.877v4.346c0 1.48 1.269 2.68 2.831 2.68h5.193v-8.055c0-.625.509-1.135 1.132-1.135h4.153c.623 0 1.132.51 1.132 1.135v8.055h5.201c1.563 0 2.832-1.199 2.832-2.678v-9.112c-.001-.437-.617-1.249-1.368-1.806z"/>
-    </svg>`;
-
-  // note: the # replace is necessary for IE and Firefox
-  const url = encodeURI("data:image/svg+xml," + svg).replace('#','%23');
-  const rentStrikeIcon = new CustomIcon({iconUrl: url})
-
-  // const rentStrikeIcon = new L.Icon({
-  //   iconUrl: "./assets/mapIcons/rent-strike.svg",
-  //   iconSize: [40, 40],
-  //   iconAnchor: [27, 20],
-  //   className: 'icon-rent-strike'
-  // });
 
   // add custom marker icons
   const rentStrikeLayer = L.geoJson(geoJson, {
     pointToLayer: function (feature, latlng) {
       const { status } = feature.properties;
       return L.marker(latlng, {
-        icon: rentStrikeIcon
+        icon: rentStrikeIcon 
       });
     }
   });
