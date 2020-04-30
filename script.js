@@ -38,8 +38,8 @@ const cartoNationsURI = createNationsCartoURI();
 
 // colorScale comes from this ColorBrewer url:
 // https://colorbrewer2.org/#type=sequential&scheme=YlGn&n=7
-const fillColorScale = ["#d9f0a3","#78c679","#238443"];
-const strokeColorScale = ["#addd8e","#41ab5d","#005a32"];
+const fillColorScale = ["","#d9f0a3","#78c679","#238443"];
+const strokeColorScale = ["","#addd8e","#41ab5d","#005a32"];
 
 /******************************************
  * MAP SETUP & MAP CONTROLS
@@ -375,7 +375,7 @@ function handleData([
   /*
   * Begin mocking scale
   * */
-  const mockScale = obj=>Object.assign(obj.properties,{scale:Math.floor(Math.random()*3)});
+  const mockScale = obj=>Object.assign(obj.properties,{scale:(Math.floor(Math.random()*3)+1).toString()});
   citiesGeoJson.features.map(mockScale);
   statesGeoJson.features.map(mockScale);
   countiesGeoJson.features.map(mockScale);
