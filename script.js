@@ -286,7 +286,7 @@ function createCountiesCartoURI() {
 
 function createStatesCartoURI() {
   const query = `SELECT
-  s.the_geom, s.name, m.iso, m.policy_type, m.policy_summary, m.link,
+  s.the_geom, s.name, s.admin, m.iso, m.policy_type, m.policy_summary, m.link,
   CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
   FROM public.states_and_provinces_global s
   INNER JOIN ${cartoSheetSyncTable} m
@@ -508,10 +508,10 @@ function handleCitiesLayer(geojson) {
 
     // Render the template with all of the properties. Mustache ignores properties
     // that aren't used in the template, so this is fine.
-    const { municipality, state, Country: country } = layer.feature.properties; 
+    const { municipality, state, Country } = layer.feature.properties; 
     const props = {
       // Build city name with state and country if supplied
-      jurisdictionName: `${municipality}${state ? `, ${state}`: ''}${country ? `, ${country}` : ''}`,
+      jurisdictionName: `${municipality}${state ? `, ${state}`: ''}${Country ? `, ${Country}` : ''}`,
       jurisdictionType: 'City',
       ...layer.feature.properties,
     };
@@ -523,6 +523,7 @@ function handleCitiesLayer(geojson) {
     document.getElementById(
       "aemp-infowindow-container"
     ).innerHTML = renderedInfo;
+    // Override jurisdiction name for popup
     return Mustache.render(popupTemplate, { ...props, jurisdictionName: municipality });
   });
 
@@ -627,8 +628,9 @@ function handleStatesLayer(geojson) {
   const statesLayer = L.geoJson(geojson, layerOptions);
 
   statesLayer.bindPopup(function (layer) {
+    const { name, admin } = layer.feature.properties;
     const props = {
-      jurisdictionName: layer.feature.properties.name,
+      jurisdictionName: `${name}${admin ? `, ${admin}` : ''}`,
       jurisdictionType: 'State/Province',
       ...layer.feature.properties,
     };
@@ -639,7 +641,8 @@ function handleStatesLayer(geojson) {
     document.getElementById(
       "aemp-infowindow-container"
     ).innerHTML = renderedInfo;
-    return Mustache.render(popupTemplate, props);
+    // Overwrite jurisdiction name to remove country
+    return Mustache.render(popupTemplate, { ...props, jurisdictionName: name });
   });
 
   statesLayer.addTo(map);
