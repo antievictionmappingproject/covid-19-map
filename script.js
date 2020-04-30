@@ -285,7 +285,7 @@ function createCountiesCartoURI() {
 
 function createStatesCartoURI() {
   const query = `SELECT
-  s.the_geom, s.name, m.policy_type, m.policy_summary, m.link,
+  s.the_geom, s.name, m.iso, m.policy_type, m.policy_summary, m.link,
   CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
   FROM public.states_and_provinces_global s
   INNER JOIN ${cartoSheetSyncTable} m
@@ -305,10 +305,6 @@ function createNationsCartoURI() {
 
   return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
 }
-
-// Promise.resolve(fetch(createNationsCartoURI())).then(res =>
-//   Promise.resolve(res.json()).then(geojson => console.log(geojson)),
-// );
 
 /******************************************
  * FETCH DATA SOURCES
@@ -493,10 +489,10 @@ function handleCitiesLayer(geojson) {
 
     // Render the template with all of the properties. Mustache ignores properties
     // that aren't used in the template, so this is fine.
-    const { municipality, state, Country } = layer.feature.properties; 
+    const { municipality, state, Country: country } = layer.feature.properties; 
     const props = {
-      // Build city name with state and country
-      jurisdictionName: `${municipality}, ${state ? `${state} , ${Country}` : `${Country}`}`,
+      // Build city name with state and country if supplied
+      jurisdictionName: `${municipality}${state ? `, ${state}`: ''}${country ? `, ${country}` : ''}`,
       jurisdictionType: 'City',
       ...layer.feature.properties,
     };
@@ -588,7 +584,7 @@ function handleStatesLayer(geojson) {
     return Mustache.render(popupTemplate, props);
   });
 
-  // statesLayer.addTo(map);
+  statesLayer.addTo(map);
 
   return statesLayer;
 }
@@ -638,28 +634,29 @@ function handleRentStrikeLayer(geoJson) {
 }
 
 const scoreFillColors = {
-  '1': '#e5f5f9',
+  '1': '#2ca25f',
   '2': '#99d8c9',
-  '3': '#2ca25f'
+  '3': '#e5f5f9',
 };
 
 const scoreDescription = {
-  '1': 'Low protection',
-  '2': 'Medium protection',
-  '3': 'Strong protection'
-}
+  '1': 'Many protections in place',
+  '2': 'Some protections in place',
+  '3': 'Few protections in place',
+};
 
+// Do not add nations to map at start
 function handleNationsLayer(geojson) {
   // Scores are bound to range prop of each feature
   const layerOptions = {
     style: feature => {
       const score = feature.properties.range
       return {
-        // Get colour from score
-        fillColor: scoreFillColors[score],
+        // Get color from score
+        fillColor: scoreFillColors[score] || '', // fallback color
+        fillOpacity: 0.7,
         color: '#333',
         opacity: 0.7,
-        fillOpacity: 0.7,
         weight: 1.2,
       };
     },
@@ -685,8 +682,6 @@ function handleNationsLayer(geojson) {
     ).innerHTML = renderedInfo;
     return Mustache.render(popupTemplate, props);
   });
-
-  nationsLayer.addTo(map);
 
   return nationsLayer;
 }
