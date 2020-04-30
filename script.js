@@ -657,18 +657,6 @@ function handleRentStrikeLayer(geoJson) {
   return rentStrikeLayerMarkers;
 }
 
-const scoreFillColors = {
-  '1': '#2ca25f',
-  '2': '#99d8c9',
-  '3': '#e5f5f9',
-};
-
-const scoreDescription = {
-  '1': 'Many protections in place',
-  '2': 'Some protections in place',
-  '3': 'Few protections in place',
-};
-
 // Do not add nations to map at start
 function handleNationsLayer(geojson) {
   // Scores are bound to range prop of each feature
