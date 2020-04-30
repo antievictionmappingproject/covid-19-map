@@ -707,21 +707,16 @@ const scoreDescription = {
   '3': 'Strong protection'
 }
 
-function polygonColorsByScore(score) {
-  return {
-    // Return fill color from score, or grey
-    fillColor: scoreFillColors[score] || '#f0f0f0',
-    color: '#000'
-  };
-}
-
 function handleNationsLayer(geojson) {
   // Scores are bound to range prop of each feature
   const layerOptions = {
     style: feature => {
-      const colorsObject = polygonColorsByScore(feature.properties.range)
+      const score = feature.properties.range
       return {
-        ...colorsObject,
+        // Get colour from score
+        fillColor: scoreFillColors[score],
+        color: '#333',
+        opacity: 0.7,
         fillOpacity: 0.7,
         weight: 1.2,
       };
