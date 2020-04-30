@@ -589,19 +589,12 @@ function handleStatesLayer(geojson) {
 }
 
 function handleRentStrikeLayer(geoJson) {
-  // custom icons & icon settings for rent strikes markers
-  const iconSize = [60, 60];
-  const iconAnchor = [27, 20];
-  const rentStrikeYesIcon = new L.Icon({
-    iconUrl: "./assets/mapIcons/rent-strike-blue.png",
-    iconSize: iconSize,
-    iconAnchor: iconAnchor
-  });
-
-  const rentStrikeUnsureIcon = new L.Icon({
-    iconUrl: "./assets/mapIcons/rent-strike-orange.png",
-    iconSize: [60, 60],
-    iconAnchor: iconAnchor
+  // custom icon for rent strikes markers
+  const rentStrikeIcon = new L.Icon({
+    iconUrl: "./assets/mapIcons/rent-strike.svg",
+    iconSize: [40, 40],
+    iconAnchor: [27, 20],
+    className: 'icon-rent-strike'
   });
 
   // add custom marker icons
@@ -609,7 +602,7 @@ function handleRentStrikeLayer(geoJson) {
     pointToLayer: function (feature, latlng) {
       const { status } = feature.properties;
       return L.marker(latlng, {
-        icon: status === "Yes" ? rentStrikeYesIcon : rentStrikeUnsureIcon
+        icon: rentStrikeIcon 
       });
     }
   });
