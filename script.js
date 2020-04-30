@@ -678,7 +678,7 @@ function handleNationsLayer(geojson) {
       const score = feature.properties.range
       return {
         // Get color from score
-        fillColor: scoreFillColors[score] || '', // fallback color
+        fillColor: scoreFillColors[score] || '#808080', // fallback color
         fillOpacity: 0.7,
         color: '#333',
         opacity: 0.7,
