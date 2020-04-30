@@ -73,7 +73,7 @@ let mapConfig = {
   lat: 40.67,
   lng: -97.23,
   z: initialMapZoom,
-  nations: true,
+  nations: false,
   states: true,
   cities: true,
   counties: true,
@@ -436,6 +436,10 @@ function handleData([
 
   // if any layers in the map config are set to false,
   // remove them from the map
+  if (!mapConfig.nations) {
+    map.removeLayer(nations);
+  }
+
   if (!mapConfig.states) {
     map.removeLayer(states);
   }
@@ -456,6 +460,19 @@ function handleData([
 /******************************************
  * HANDLE ADDING MAP LAYERS
  *****************************************/
+
+// Styles
+const scoreFillColors = {
+  '1': '#2ca25f',
+  '2': '#99d8c9',
+  '3': '#e5f5f9',
+};
+
+const scoreDescription = {
+  '1': 'Many protections in place',
+  '2': 'Some protections in place',
+  '3': 'Few protections in place',
+};
 
 // Ensures that map overlay pane layers are displayed in the correct Z-Order
 function fixZOrder(dataLayers) {
@@ -636,18 +653,6 @@ function handleRentStrikeLayer(geoJson) {
   return rentStrikeLayerMarkers;
 }
 
-const scoreFillColors = {
-  '1': '#2ca25f',
-  '2': '#99d8c9',
-  '3': '#e5f5f9',
-};
-
-const scoreDescription = {
-  '1': 'Many protections in place',
-  '2': 'Some protections in place',
-  '3': 'Few protections in place',
-};
-
 // Do not add nations to map at start
 function handleNationsLayer(geojson) {
   // Scores are bound to range prop of each feature
@@ -685,6 +690,8 @@ function handleNationsLayer(geojson) {
     ).innerHTML = renderedInfo;
     return Mustache.render(popupTemplate, props);
   });
+
+  map.addLayer(nationsLayer);
 
   return nationsLayer;
 }
