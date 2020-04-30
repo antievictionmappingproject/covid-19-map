@@ -507,7 +507,7 @@ function handleCitiesLayer(geojson) {
 
     // Render the template with all of the properties. Mustache ignores properties
     // that aren't used in the template, so this is fine.
-    const { municipality, state, Country: country } = layer.feature.properties; 
+    const { municipality, state, Country } = layer.feature.properties; 
     const props = {
       // Build city name with state and country if supplied
       jurisdictionName: `${municipality}${state ? `, ${state}`: ''}${Country ? `, ${Country}` : ''}`,
