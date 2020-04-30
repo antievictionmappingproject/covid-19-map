@@ -44,8 +44,8 @@ const mapOptions = {
   attributionControl: false,
   maxBounds: [
     [-85.05, -190], // lower left
-    [85.05, 200] // upper right
-  ]
+    [85.05, 200], // upper right
+  ],
 };
 
 // global map layer styling variables
@@ -69,7 +69,7 @@ let mapConfig = {
   states: true,
   cities: true,
   counties: true,
-  rentStrikes: true
+  rentStrikes: true,
 };
 
 // read url hash input
@@ -243,7 +243,7 @@ L.tileLayer(
   "https://a.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}@2x.png",
   {
     minZoom: 3,
-    maxZoom: 18
+    maxZoom: 18,
   }
 ).addTo(map);
 
@@ -277,30 +277,46 @@ function createStatesCartoURI() {
   return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
 }
 
+//testing new queries
+function createNationsCartoURI() {
+  const query = `SELECT c.the_geom, c.iso_a3, c.name_en, 
+  m.policy_type, m.policy_summary, m.link, m.range, m.policy_type, m.start, m._end, m.link 
+  FROM countries c 
+  INNER JOIN ${cartoSheetSyncTable} m 
+  ON c.iso_a3 = m.iso 
+  AND m.admin_scale = 'Country'`;
+
+  return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
+}
+console.log(createNationsCartoURI());
+
+function createGlobalStatesURI(){
+  const query = `SELECT g.the_geom `
+}
 /******************************************
  * FETCH DATA SOURCES
  *****************************************/
 
 Promise.all([
-  fetch(moratoriumSheetURI).then(res => {
+  fetch(moratoriumSheetURI).then((res) => {
     if (!res.ok) throw Error("Unable to fetch moratoriums sheet data");
     return res.text();
   }),
-  fetch(rentStrikeSheetURI).then(res => {
+  fetch(rentStrikeSheetURI).then((res) => {
     if (!res.ok) throw Error("Unable to fetch rent strike sheet data");
     return res.text();
   }),
-  fetch(cartoStatesURI).then(res => {
+  fetch(cartoStatesURI).then((res) => {
     if (!res.ok) throw Error("Unable to fetch states geojson");
     return res.json();
   }),
-  fetch(cartoCountiesURI).then(res => {
+  fetch(cartoCountiesURI).then((res) => {
     if (!res.ok) throw Error("Unable to fetch counties geojson");
     return res.json();
-  })
+  }),
 ])
   .then(handleData)
-  .catch(error => console.log(error));
+  .catch((error) => console.log(error));
 
 /******************************************
  * HANDLE DATA ASYNC RESPONSES
@@ -310,17 +326,17 @@ function handleData([
   moratoriumSheetsText,
   rentStrikeSheetsText,
   statesGeoJson,
-  countiesGeoJson
+  countiesGeoJson,
 ]) {
   const moratoriumRows = d3
     .csvParse(moratoriumSheetsText, d3.autoType)
     .map(({ passed, ...rest }) => ({
       passed: passed === "TRUE" ? "Yes" : "No",
-      ...rest
+      ...rest,
     }));
 
   const citiesData = moratoriumRows.filter(
-    row => row.admin_scale === "City" && row.lat !== null && row.lon !== null
+    (row) => row.admin_scale === "City" && row.lat !== null && row.lon !== null
   );
 
   // convert the regular cities moratorium JSON into valid GeoJSON
@@ -332,24 +348,24 @@ function handleData([
       properties: rest,
       geometry: {
         type: "Point",
-        coordinates: [lon, lat]
-      }
-    }))
+        coordinates: [lon, lat],
+      },
+    })),
   };
 
   const rentStrikeRows = d3
     .csvParse(rentStrikeSheetsText, d3.autoType)
-    .filter(row => row.Strike_Status !== null)
+    .filter((row) => row.Strike_Status !== null)
     .map(({ Strike_Status, ...rest }) => ({
       status:
         Strike_Status === "Yes / Sí / 是 / Oui" || Strike_Status === "Yes"
           ? "Yes"
           : "Unsure",
-      ...rest
+      ...rest,
     }));
 
   const rentStrikeData = rentStrikeRows.filter(
-    row => row.Latitude !== null && row.Longitude !== null
+    (row) => row.Latitude !== null && row.Longitude !== null
   );
 
   const rentStrikeGeoJson = {
@@ -360,9 +376,9 @@ function handleData([
       properties: rest,
       geometry: {
         type: "Point",
-        coordinates: [Longitude, Latitude]
-      }
-    }))
+        coordinates: [Longitude, Latitude],
+      },
+    })),
   };
 
   // add the states, cities, counties, and rentstrikes layers to the map
@@ -418,7 +434,7 @@ function handleCitiesLayer(geojson) {
         fillColor: "#b8e186",
         fillOpacity: fillOpacity,
         radius: pointRadius,
-        weight: strokeWeight
+        weight: strokeWeight,
       });
     } else {
       return L.circleMarker(latlng, {
@@ -426,14 +442,14 @@ function handleCitiesLayer(geojson) {
         fillColor: "#f1b6da",
         fillOpacity: fillOpacity,
         radius: pointRadius,
-        weight: strokeWeight
+        weight: strokeWeight,
       });
     }
   };
 
   // Create the Leaflet layer for the cities data
   const citiesLayer = L.geoJson(geojson, {
-    pointToLayer: pointToLayer
+    pointToLayer: pointToLayer,
   });
 
   // Add popups to the layer
@@ -460,24 +476,24 @@ function handleCitiesLayer(geojson) {
 
 function handleCountiesLayer(geojson) {
   const layerOptions = {
-    style: feature => {
+    style: (feature) => {
       // style counties based on whether their moratorium has passed
       if (feature.properties.passed === "Yes") {
         return {
           color: "#4dac26",
           fillColor: "#b8e186",
           fillOpacity: fillOpacity,
-          weight: strokeWeight
+          weight: strokeWeight,
         };
       } else {
         return {
           color: "#d01c8b",
           fillColor: "#f1b6da",
           fillOpacity: fillOpacity,
-          weight: strokeWeight
+          weight: strokeWeight,
         };
       }
-    }
+    },
   };
 
   // Create the Leaflet layer for the counties data
@@ -501,29 +517,29 @@ function handleCountiesLayer(geojson) {
 function handleStatesLayer(geojson) {
   // styling for the states layer: style states conditionally according to a presence of a moratorium
   const layerOptions = {
-    style: feature => {
+    style: (feature) => {
       // style states based on whether their moratorium has passed
       if (feature.properties.passed === "Yes") {
         return {
           color: "#4dac26",
           fillColor: "#b8e186",
           fillOpacity: fillOpacity,
-          weight: strokeWeight
+          weight: strokeWeight,
         };
       } else if (feature.properties.passed === "No") {
         return {
           color: "#d01c8b",
           fillColor: "#f1b6da",
           fillOpacity: fillOpacity,
-          weight: strokeWeight
+          weight: strokeWeight,
         };
       } else {
         return {
           stroke: false,
-          fill: false
+          fill: false,
         };
       }
-    }
+    },
   };
 
   // Create the Leaflet layer for the states data
@@ -552,13 +568,13 @@ function handleRentStrikeLayer(geoJson) {
   const rentStrikeYesIcon = new L.Icon({
     iconUrl: "./assets/mapIcons/rent-strike-blue.png",
     iconSize: iconSize,
-    iconAnchor: iconAnchor
+    iconAnchor: iconAnchor,
   });
 
   const rentStrikeUnsureIcon = new L.Icon({
     iconUrl: "./assets/mapIcons/rent-strike-orange.png",
     iconSize: [60, 60],
-    iconAnchor: iconAnchor
+    iconAnchor: iconAnchor,
   });
 
   // add custom marker icons
@@ -566,14 +582,14 @@ function handleRentStrikeLayer(geoJson) {
     pointToLayer: function (feature, latlng) {
       const { status } = feature.properties;
       return L.marker(latlng, {
-        icon: status === "Yes" ? rentStrikeYesIcon : rentStrikeUnsureIcon
+        icon: status === "Yes" ? rentStrikeYesIcon : rentStrikeUnsureIcon,
       });
-    }
+    },
   });
 
   //add markers to cluster with options
   const rentStrikeLayerMarkers = L.markerClusterGroup({
-    maxClusterRadius: 40
+    maxClusterRadius: 40,
   }).on("clusterclick", function () {
     if (IS_MOBILE) {
       titleDetails.open = false;
