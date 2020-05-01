@@ -375,7 +375,7 @@ function handleData([
   /*
   * Begin mocking scale
   * */
-  const mockScale = obj=>Object.assign(obj.properties,{scale:(Math.floor(Math.random()*3)+1).toString()});
+  const mockScale = obj=>Object.assign(obj.properties,{range:(Math.floor(Math.random()*3)+1).toString()});
   citiesGeoJson.features.map(mockScale);
   statesGeoJson.features.map(mockScale);
   countiesGeoJson.features.map(mockScale);
@@ -488,8 +488,8 @@ function handleCitiesLayer(geojson) {
   // styling for the cities layer: style cities conditionally according to moratorium rating scale 1 to 3
   const pointToLayer = (feature, latlng) => {
     return L.circleMarker(latlng, {
-      color: strokeColorScale[feature.properties.range],
-      fillColor: fillColorScale[feature.properties.range],
+      color: feature.properties.range?strokeColorScale[feature.properties.range]:"#808080",
+      fillColor: feature.properties.range?fillColorScale[feature.properties.range]:"#A0A0A0",
       fillOpacity: fillOpacity,
       radius: pointRadius,
       weight: strokeWeight
@@ -539,8 +539,8 @@ function handleCountiesLayer(geojson) {
     style: feature => {
       // style counties based on whether their moratorium has passed
       return {
-        color: strokeColorScale[feature.properties.range],
-        fillColor: fillColorScale[feature.properties.range],
+        color: feature.properties.range?strokeColorScale[feature.properties.range]:"#808080",
+        fillColor: feature.properties.range?fillColorScale[feature.properties.range]:"#A0A0A0",
         fillOpacity: fillOpacity,
         weight: strokeWeight
       };
@@ -578,8 +578,8 @@ function handleStatesLayer(geojson) {
   const layerOptions = {
     style: feature => {
     return {
-      color: strokeColorScale[feature.properties.range],
-      fillColor: fillColorScale[feature.properties.range],
+      color: feature.properties.range?strokeColorScale[feature.properties.range]:"#808080",
+      fillColor: feature.properties.range?strokeColorScale[feature.properties.range]:"#A0A0A0",
       fillOpacity: fillOpacity,
       weight: strokeWeight
     };
