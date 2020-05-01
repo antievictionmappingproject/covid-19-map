@@ -36,6 +36,7 @@ const cartoStatesURI = createStatesCartoURI();
 
 // colorScale comes from this ColorBrewer url:
 // https://colorbrewer2.org/#type=sequential&scheme=YlGn&n=7
+const colorNoData = "#808080";
 const fillColorScale = ["#808080","#d9f0a3","#78c679","#238443"];
 const strokeColorScale = ["#808080","#addd8e","#41ab5d","#005a32"];
 
@@ -431,8 +432,8 @@ function handleCitiesLayer(geojson) {
   // styling for the cities layer: style cities conditionally according to moratorium rating scale 1 to 3
   const pointToLayer = (feature, latlng) => {
     return L.circleMarker(latlng, {
-      color: feature.properties.range?strokeColorScale[feature.properties.range]:"#808080",
-      fillColor: feature.properties.range?fillColorScale[feature.properties.range]:"#A0A0A0",
+      color: strokeColorScale[feature.properties.range]||colorNoData,
+      fillColor: fillColorScale[feature.properties.range]||colorNoData,
       fillOpacity: fillOpacity,
       radius: pointRadius,
       weight: strokeWeight
@@ -472,8 +473,8 @@ function handleCountiesLayer(geojson) {
     style: feature => {
       // style counties based on whether their moratorium has passed
       return {
-        color: feature.properties.range?strokeColorScale[feature.properties.range]:"#808080",
-        fillColor: feature.properties.range?fillColorScale[feature.properties.range]:"#A0A0A0",
+        color: strokeColorScale[feature.properties.range]||colorNoData,
+        fillColor: fillColorScale[feature.properties.range]||colorNoData,
         fillOpacity: fillOpacity,
         weight: strokeWeight
       };
@@ -503,8 +504,8 @@ function handleStatesLayer(geojson) {
   const layerOptions = {
     style: feature => {
     return {
-      color: feature.properties.range?strokeColorScale[feature.properties.range]:"#808080",
-      fillColor: feature.properties.range?strokeColorScale[feature.properties.range]:"#A0A0A0",
+      color: strokeColorScale[feature.properties.range]||colorNoData,
+      fillColor: fillColorScale[feature.properties.range]||colorNoData,
       fillOpacity: fillOpacity,
       weight: strokeWeight
     };
