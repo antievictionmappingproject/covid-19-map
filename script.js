@@ -298,7 +298,7 @@ function createStatesCartoURI() {
 
 function createNationsCartoURI() {
   const query = `SELECT c.the_geom, c.iso_a3, c.name_en, 
-  m.policy_type, m.policy_summary, m.link, m.range, m.policy_type, m.start, m._end, m.link 
+  m.policy_type, m.policy_summary, m.link, m.range, m.policy_type, m.start, m._end 
   FROM countries c 
   INNER JOIN ${cartoSheetSyncTable} m 
   ON c.iso_a3 = m.iso 
@@ -657,7 +657,6 @@ function handleRentStrikeLayer(geoJson) {
   return rentStrikeLayerMarkers;
 }
 
-// Do not add nations to map at start
 function handleNationsLayer(geojson) {
   // Scores are bound to range prop of each feature
   const layerOptions = {
