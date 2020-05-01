@@ -618,7 +618,7 @@ function handleRentStrikeLayer(geoJson) {
   const rentStrikeIcon = new L.Icon({
     iconUrl: "./assets/mapIcons/rent-strike.svg",
     iconSize: [40, 40],
-    iconAnchor: [27, 20],
+    iconAnchor: [20, 20],
     className: 'icon-rent-strike'
   });
 
