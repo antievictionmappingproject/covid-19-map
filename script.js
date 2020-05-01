@@ -696,4 +696,6 @@ function handleNationsLayer(geojson) {
   });
 
   map.addLayer(nationsLayer);
+
+  return nationsLayer;
 }
