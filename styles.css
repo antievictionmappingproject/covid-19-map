@@ -71,19 +71,14 @@ details p:last-of-type {
   margin-bottom: 0;
 }
 
-/* SVGs in image tags need to be colored using a filter
-Use https://codepen.io/sosuke/pen/Pjoqqp to figure out color*/
-.icon-rent-strike {
-  filter: invert(24%) sepia(0%) saturate(6986%) hue-rotate(315deg) brightness(85%) contrast(66%);
-  opacity: 0.8;
-  /* Corresponds to #4d4d4d */
-}
-
-/* marker cluster override should match rent-strike color*/
-.marker-cluster-small div {
-  background-color: #4d4d4d !important;
+/* marker cluster override should match rent-strike color.
+If updating color, remember to update fill property in SVG */
+.marker-cluster-small, .marker-cluster-small div,
+.marker-cluster-medium, .marker-cluster-medium div,
+.marker-cluster-large, .marker-cluster-large div {
+  background-color: #ff6347 !important;
   color: white;
-  opacity: 0.6;
+  opacity: 0.8;
 }
 
 @media (max-width: 640px) {
