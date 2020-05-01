@@ -279,11 +279,12 @@ function createCountiesCartoURI() {
 
 function createStatesCartoURI() {
   const query = `SELECT
-  s.the_geom, s.name, s.admin, m.iso, m.policy_type, m.policy_summary, m.link,
+  s.the_geom, s.name, s.admin, s.sr_adm0_a3, m.iso, m.policy_type, m.policy_summary, m.link,
   CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
   FROM public.states_and_provinces_global s
   INNER JOIN ${cartoSheetSyncTable} m
   ON s.name = m.state
+  AND s.sr_adm0_a3 = m.iso
   AND m.admin_scale = 'State'`;
 
   return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
@@ -291,7 +292,7 @@ function createStatesCartoURI() {
 
 function createNationsCartoURI() {
   const query = `SELECT c.the_geom, c.iso_a3, c.name_en, 
-  m.policy_type, m.policy_summary, m.link, m.range, m.policy_type, m.start, m._end, m.link 
+  m.policy_type, m.policy_summary, m.link, m.range, m.policy_type, m.start, m._end 
   FROM countries c 
   INNER JOIN ${cartoSheetSyncTable} m 
   ON c.iso_a3 = m.iso 
@@ -322,7 +323,7 @@ Promise.all([
     return res.json();
   }),
   fetch(cartoNationsURI).then(res => {
-    if (!res.ok) throw Error("Unable to fetch counties geojson");
+    if (!res.ok) throw Error("Unable to fetch nations geojson");
     return res.json();
   })
 ])
@@ -503,6 +504,7 @@ function handleCitiesLayer(geojson) {
       // Build city name with state and country if supplied
       jurisdictionName: `${municipality}${state ? `, ${state}`: ''}${Country ? `, ${Country}` : ''}`,
       jurisdictionType: 'City',
+      popupName: municipality,
       ...layer.feature.properties,
     };
 
@@ -514,7 +516,7 @@ function handleCitiesLayer(geojson) {
       "aemp-infowindow-container"
     ).innerHTML = renderedInfo;
     // Override jurisdiction name for popup
-    return Mustache.render(popupTemplate, { ...props, jurisdictionName: municipality });
+    return Mustache.render(popupTemplate, props);
   });
 
   // Add data to the map
@@ -554,6 +556,7 @@ function handleCountiesLayer(geojson) {
       // Show county with state if state field is set
       jurisdictionName: `${county}${state ? `, ${state}`: ''}`,
       jurisdictionType: 'County',
+      popupName: `${county}${state ? `, ${state}`: ''}`,
       ...layer.feature.properties,
     };
     const renderedInfo = Mustache.render(
@@ -606,6 +609,7 @@ function handleStatesLayer(geojson) {
     const props = {
       jurisdictionName: `${name}${admin ? `, ${admin}` : ''}`,
       jurisdictionType: 'State/Province',
+      popupName: name,
       ...layer.feature.properties,
     };
     const renderedInfo = Mustache.render(
@@ -616,7 +620,7 @@ function handleStatesLayer(geojson) {
       "aemp-infowindow-container"
     ).innerHTML = renderedInfo;
     // Overwrite jurisdiction name to remove country
-    return Mustache.render(popupTemplate, { ...props, jurisdictionName: name });
+    return Mustache.render(popupTemplate, props);
   });
 
   statesLayer.addTo(map);
@@ -675,7 +679,6 @@ function handleRentStrikeLayer(geoJson) {
   return rentStrikeLayerMarkers;
 }
 
-// Do not add nations to map at start
 function handleNationsLayer(geojson) {
   // Scores are bound to range prop of each feature
   const layerOptions = {
@@ -683,7 +686,7 @@ function handleNationsLayer(geojson) {
       const score = feature.properties.range
       return {
         // Get color from score
-        fillColor: scoreFillColors[score] || '#808080', // fallback color
+        fillColor: scoreFillColors[score] || '#939393', // fallback color
         fillOpacity: 0.7,
         color: '#333',
         opacity: 0.7,
@@ -700,6 +703,7 @@ function handleNationsLayer(geojson) {
     const props = {
       jurisdictionName: name_en,
       jurisdictionType: 'Country',
+      popupName: name_en,
       policyStrength: scoreDescription[range],
       ...layer.feature.properties,
     };
