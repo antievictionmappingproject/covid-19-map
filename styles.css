@@ -226,25 +226,34 @@ a.aemp-infowindow-close {
 /*begin legend styles*/
 
 div.legend{
-  display:flex;
-  justify-content: space-between;
-  width: 90%;
-  max-width: 250px;
+  width: 100%;
 }
 
 div.legendpair {
-  display: inline-block;
-  font-size: 1.5em
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  font-size: 1.2em;
+  padding: 2px 0 0 0;
+  width: 100%;
 }
 
 .legendbox {
-  width: 20px;
-  height:20px;
+  width: 12px;
+  height:12px;
   background-color: #d9f0a3;
   border-color: #addd8e;
   display: inline-block;
   border-style: solid;
   border-width: 2px;
+  margin: 2px 5px 0 0;
+}
+
+.legendtext{
+  width: 50px;
+  font-size:12px;
+  display: inline-block;
+  margin: 0 2px 7px 0;
 }
 
 .scale1 {
