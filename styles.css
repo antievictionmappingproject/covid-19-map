@@ -73,10 +73,12 @@ details p:last-of-type {
 
 /* marker cluster override should match rent-strike color.
 If updating color, remember to update fill property in SVG */
-.marker-cluster-small div {
+.marker-cluster-small, .marker-cluster-small div,
+.marker-cluster-medium, .marker-cluster-medium div,
+.marker-cluster-large, .marker-cluster-large div {
   background-color: #ff6347 !important;
   color: white;
-  opacity: 0.6;
+  opacity: 0.8;
 }
 
 @media (max-width: 640px) {
