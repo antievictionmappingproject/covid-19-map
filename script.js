@@ -466,7 +466,6 @@ function handleCitiesLayer(geojson) {
 
   return citiesLayer;
 }
-//FIXME: city colors are working but the states and counties are not.
 
 function handleCountiesLayer(geojson) {
   const layerOptions = {
