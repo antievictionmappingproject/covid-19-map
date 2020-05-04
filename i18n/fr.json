@@ -1,0 +1,36 @@
+{
+  "page-title": "Protections d'urgence des locataires COVID-19",
+  "about-title": "Protections d'urgence des locataires COVID-19",
+  "about-map": "Sur la carte:",
+  "about-protections": "Protections d'urgence",
+  "about-description": [
+	  
+      "Lieux où les fonctionnaires du gouvernement <strong class='color-ocurring'>ont passé</strong> ",
+	  "(ou les locataires <strong class='color-may-be-ocurring'>travaillent pour faire passer</strong>)",
+	  " des protections d'urgence des locataires pendant la crise COVID-19."
+  ],
+  "tenant-form-link": "Soumettez vos mises à jour ici.",
+  "rent-strikes-title": "Suspension du loyer",
+  "rent-strikes-description": [ 
+	  "Sites où la suspension du loyer <strong class='color-ocurring'>a lieu</strong>",
+      " ou <strong class='color-may-be-ocurring'>pourrait avoir lieu</strong>."
+  ],
+  "rent-strikes-link": "Envoyez des informations sur les suspensions de loyer et les expulsions dans votre région.",
+  "resources-title" : "Ressources",
+  "resources-description": "Voici quelques ressources pour vous aider si vous êtes dans le besoin.",
+  "resources-link-1": "Ressources et demandes de l'Alliance du droit à la ville et de Foyers pour tous.",
+  "resources-link-2": "Ressources de la grève des loyers pour #suspensionduloyer",
+  "infowindow-prot-title": "Protection d'urgence",
+  "infowindow-prot-city": "Ville:",
+  "infowindow-prot-desc": "Résumé de la politique publique: ",
+  "infowindow-prot-passed": "A-t-il déjà été approuvé ? ",
+  "infowindow-prot-effective": "En effet: ",
+  "infowindow-prot-ends": "Fin: ",
+  "infowindow-prot-link": "Pour plus d'informations, voir ici",
+  "infowindow-strike-title": "Suspension du loyer",
+  "infowindow-strike-loc": "Lieu: ",
+  "infowindow-strike-status": "Status: ",
+  "infowindow-strike-why": "Pourquoi ? ",
+  "infowindow-strike-start": "Début: ",
+  "infowindow-strike-resources": "Ressources: "
+}

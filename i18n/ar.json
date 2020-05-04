@@ -1,0 +1,34 @@
+{
+  "page-title": "COVID-19 حماية المستأجرين في حالات الطوارئ",
+  "about-title": "COVID-19 حماية المستأجرين في حالات الطوارئ",
+  "about-map": "حول هذه الخريطة:",
+  "about-protections": "حماية المستأجر في حالات الطوارئ",
+  "about-description": [
+	  "COVID-19 حماية المستأجرين في حالات الطوارئ",
+      "حيث اجتاز مسؤولو الولايات المتحدة (أو يعمل المستأجرون لتمرير)",
+      "حماية المستأجر في حالات الطوارئ خلال أزمة COVID-19."
+  ],
+  "tenant-form-link": "أرسل تحديثاتك هنا.",
+  "rent-strikes-title": "تعليق الإيجار",
+  "rent-strikes-description": [ 
+	  "المواقع التي يتم فيها تعليق الإيجار ، أو قد تحدث."
+  ],
+  "rent-strikes-link": "إرسال تحديث إضراب الإيجار",
+  "resources-title" : "موارد",
+  "resources-description": "إليك بعض الموارد إذا وجدت نفسك بحاجة للمساعدة",
+  "resources-link-1": "موارد ومطالب رايت تو تحالف المدينة ومنازل للجميع.",
+  "resources-link-2": "تأجير موارد الإضراب لـ #CancelRent.",
+  "infowindow-prot-title": "حماية المستأجر في حالات الطوارئ",
+  "infowindow-prot-city": "مدينة: ",
+  "infowindow-prot-desc": "ملخص السياسة العامة",
+  "infowindow-prot-passed": "هل تمت الموافقة عليه حتى الآن؟ ",
+  "infowindow-prot-effective": "في الواقع: ",
+  "infowindow-prot-ends": "يقضي على: ",
+  "infowindow-prot-link": "عرض المزيد من المعلومات هنا",
+  "infowindow-strike-title": "تعليق الإيجار",
+  "infowindow-strike-loc": "موقعك: ",
+  "infowindow-strike-status": "الحالة: ",
+  "infowindow-strike-why": "لماذا ",
+  "infowindow-strike-start": "بداية: ",
+  "infowindow-strike-resources": "مصادر: "
+}

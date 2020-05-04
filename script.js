@@ -17,7 +17,7 @@ let IS_DESKTOP =
 ******************************************/
 var translator = new Translator({
   persist: false,
-  languages: ["en", "es", "jp", "zh", "pt-br", "tr", "de", "ar"],
+  languages: ["en", "es", "fr", "pt-br", "tr", "de", "ar"],
   defaultLanguage: "en",
   detectLanguage: true,
   filesLocation: "/i18n"

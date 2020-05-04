@@ -1,0 +1,34 @@
+{
+  "page-title": "KOVID-19 Acil Kiracı Koruma Tedbirleri",
+  "about-title": "KOVID-19 Acil Kiracı Koruma Tedbirleri Ve Kira Grevi",
+  "about-map": "Harita hakkında:",
+  "about-protections": "Acil kiracı korumaları",
+  "about-description": [
+	  "KOVİD-19 krizi sırasında Türkiye'de yetkililerin <strong class='color-ocurring'>çıkarmış olduğu</strong>",
+      " (veya kiracıların <strong class='color-may-be-ocurring'>çıkması için uğraştığı</strong>)",
+      " kiracılar için acil koruma tedbirlerinin olduğu yerler."
+  ],
+  "tenant-form-link": "Güncellemelerinizi buraya gönderin.",
+  "rent-strikes-title": "Kiraın askıya alınması",
+  "rent-strikes-description": [ 
+	  "Kiranın askıya alındığı veya meydana gelebileceği yerler."
+  ],
+  "rent-strikes-link": "Kira ihtarıyla ilgili güncelleme gönderin",
+  "resources-title" : "Araç",
+  "resources-description": "İhtiyacınız varsa yardımcı olacak bazı kaynaklar.",
+  "resources-link-1": "Kent İttifakı ve Herkes İçin Evler'den gelen kaynaklar ve talepler.",
+  "resources-link-2": "Grev kaynaklarını kiralama #cancelrent",
+  "infowindow-prot-title": "Acil kiracı korumaları",
+  "infowindow-prot-city": "Kent: ",
+  "infowindow-prot-desc": "Kamu politikasının özeti: ",
+  "infowindow-prot-passed": "Henüz onaylanmadı mı? ",
+  "infowindow-prot-effective": "Aktif: ",
+  "infowindow-prot-ends": "Uçlar: ",
+  "infowindow-prot-link": "Daha fazla bilgi görün.",
+  "infowindow-strike-title": "Kiraın askıya alınması",
+  "infowindow-strike-loc": "Yerelleştirme: ",
+  "infowindow-strike-status": "Status: ",
+  "infowindow-strike-why": "Neden? ",
+  "infowindow-strike-start": "Başlat: ",
+  "infowindow-strike-resources": "Araç: "
+}

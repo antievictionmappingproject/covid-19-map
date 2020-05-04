@@ -1,0 +1,33 @@
+{
+  "page-title": "Notfall-Mieterschutz im Zusammenhang mit COVID-19",
+  "about-title": "Notfall-Mieterschutz im Zusammenhang mit COVID-19",
+  "about-map": "Über die Karte:",
+  "about-protections": "Notfallmieterschutz",
+  "about-description": [
+	  "Wo in den Mieterschutz-Notmaßnahmen offiziell beschlossen worden sind ",
+      "oder daran gearbeitet wird."
+  ],
+  "tenant-form-link": "Hier können Sie Informationen einreichen.",
+  "rent-strikes-title": "Aussetzung der Miete",
+  "rent-strikes-description": [ 
+	  "Standorte, an denen die Miete ausgesetzt wird oder auftreten kann."
+  ],
+  "rent-strikes-link": "Senden Sie Informationen zu einem Mietstreik",
+  "resources-title" : "Ressourcen",
+  "resources-description": "Hier sind einige Ressourcen, die Ihnen bei Bedarf helfen können",
+  "resources-link-1": "Ressourcen und Anforderungen von Right To The City Alliance und Homes For All",
+  "resources-link-2": "Rent Strike-Ressourcen für #CancelRent",
+  "infowindow-prot-title": "Notfallmieterschutz",
+  "infowindow-prot-city": "Stadt: ",
+  "infowindow-prot-desc": "Zusammenfassung der öffentlichen Ordnung: ",
+  "infowindow-prot-passed": "Wurde es bereits genehmigt? ",
+  "infowindow-prot-effective": "Effektiv? ",
+  "infowindow-prot-ends": "Endet: ",
+  "infowindow-prot-link": "Weitere Informationen anzeigen",
+  "infowindow-strike-title": "Aussetzung der Miete",
+  "infowindow-strike-loc": "Lage: ",
+  "infowindow-strike-status": "Status: ",
+  "infowindow-strike-why": "Warum? ",
+  "infowindow-strike-start": "Start: ",
+  "infowindow-strike-resources": "Ressourcen: "
+}
