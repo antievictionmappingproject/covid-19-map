@@ -292,7 +292,7 @@ function createStatesCartoURI() {
 
 function createNationsCartoURI() {
   const query = `SELECT c.the_geom, c.iso_a3, c.name_en, 
-  m.policy_type, m.policy_summary, m.link, m.range, m.policy_type, m.start, m._end 
+  m.policy_type, m.policy_summary, m.link, m.policy_type, m.start, m._end, m.passed
   FROM countries c 
   INNER JOIN ${cartoSheetSyncTable} m 
   ON c.iso_a3 = m.iso 
@@ -442,19 +442,6 @@ function handleData([
 /******************************************
  * HANDLE ADDING MAP LAYERS
  *****************************************/
-
-// Styles
-const scoreFillColors = {
-  '1': '#2ca25f',
-  '2': '#99d8c9',
-  '3': '#e5f5f9',
-};
-
-const scoreDescription = {
-  '1': 'Many protections in place',
-  '2': 'Some protections in place',
-  '3': 'Few protections in place',
-};
 
 // Ensures that map overlay pane layers are displayed in the correct Z-Order
 function fixZOrder(dataLayers) {
@@ -680,17 +667,31 @@ function handleRentStrikeLayer(geoJson) {
 }
 
 function handleNationsLayer(geojson) {
-  // Scores are bound to range prop of each feature
   const layerOptions = {
     style: feature => {
-      const score = feature.properties.range
+      const { passed } = feature.properties;
+      // If law is passed
+      if (passed) {
+        return {
+          color: '#4dac26',
+          fillColor: '#b8e186',
+          fillOpacity: fillOpacity,
+          weight: strokeWeight,
+        };
+      } 
+      // If not yet passed
+      if (!passed) {
+        return {
+          color: '#d01c8b',
+          fillColor: '#f1b6da',
+          fillOpacity: fillOpacity,
+          weight: strokeWeight,
+        };
+      }
+      // If no value for passed
       return {
-        // Get color from score
-        fillColor: scoreFillColors[score] || '#939393', // fallback color
-        fillOpacity: 0.7,
-        color: '#333',
-        opacity: 0.7,
-        weight: 1.2,
+        stroke: false,
+        fill: false,
       };
     },
   };
@@ -699,12 +700,12 @@ function handleNationsLayer(geojson) {
   const nationsLayer = L.geoJson(geojson, layerOptions);
   
   nationsLayer.bindPopup(function (layer) {
-    const { name_en, range } = layer.feature.properties;
+    const { name_en, passed } = layer.feature.properties;
     const props = {
       jurisdictionName: name_en,
       jurisdictionType: 'Country',
       popupName: name_en,
-      policyStrength: scoreDescription[range],
+      passedText: passed ? 'Yes' : 'No',
       ...layer.feature.properties,
     };
     const renderedInfo = Mustache.render(
