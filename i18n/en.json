@@ -1,0 +1,35 @@
+{
+  "page-title": "COVID-19 Emergency Tenant Protections and Rent Strike Map",
+  "about-title": "COVID-19 Emergency Tenant Protections & Rent Strikes",
+  "about-map": "About the map:",
+  "about-protections": "Emergency Tenant Protections",
+  "about-description": [
+	  "Where government officials <strong class='color-ocurring'>have passed</strong> ",
+	  "(or tenants are <strong class='color-may-be-ocurring'>working to pass</strong>)",
+	  " emergency tenant protections during the COVID-19 crisis."
+  ],
+  "tenant-form-link": "Submit a tenant protection update.",
+  "rent-strikes-title": "Rent Strikes",
+  "rent-strikes-description": [ 
+	  "Where organized rent strikes are <strong class='color-ocurring'>currently occurring</strong>",
+	  " or <strong class='color-may-be-ocurring'>may be occurring</strong>."
+  ],
+  "rent-strikes-link": "Submit a rent strike update.",
+  "resources-title" : "Resources",
+  "resources-description": "Here are some resources to help if you are in need.",
+  "resources-link-1": "Resources and demands from Right To The City Alliance and Homes For All.",
+  "resources-link-2": "Rent Strike resources for #CancelRent.",
+  "infowindow-prot-title": "Emergency Tenant Protections",
+  "infowindow-prot-city": "Municipality:",
+  "infowindow-prot-desc": "Policy Summary:",
+  "infowindow-prot-passed": "Has It Passed Yet? ",
+  "infowindow-prot-effective": "Effective: ",
+  "infowindow-prot-ends": "Ends: ",
+  "infowindow-prot-link": "View more info.",
+  "infowindow-strike-title": "Rent Strike",
+  "infowindow-strike-loc": "Location: ",
+  "infowindow-strike-status": "Status: ",
+  "infowindow-strike-why": "Why? ",
+  "infowindow-strike-start": "Start: ",
+  "infowindow-strike-resources": "Resources: "
+}

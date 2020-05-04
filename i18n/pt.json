@@ -1,0 +1,35 @@
+{
+  "page-title": "COVID-19: Protecao de Emergencia e Mapa da Greve",
+  "about-title": "COVID 19: Mapa das Protecoes de Emergencia e Suspensoes de Aluguel",
+  "about-map": "Sobre o mapa:",
+  "about-protections": "Protecoes de emergencia aos locatarios",
+  "about-description": [
+          "Locais onde o governo <strong class='color-ocurring'>passou</strong>",
+          " (ou locatarios estao <strong class='color-may-be-ocurring'>tentando passar</strong>)",
+          " leis emergenciais de protecao aos locatarios durante a pandemia."
+  ],
+  "tenant-form-link": "Envie noticias sobre a protecao de locatarios da sua regiao.",
+  "rent-strikes-title": "Suspensao de alugueis",
+  "rent-strikes-description": [
+          "Lugares onde a suspensao de alugueis <strong class='color-ocurring'>esta' acontencendo</strong>",
+          " ou <strong class='color-may-be-ocurring'>pode ocorrer</strong>."
+  ],
+  "rent-strikes-link": "Envie noticias sobre a suspensao de alugueis e os despejos em sua localidade.",
+  "resources-title" : "Apoio",
+  "resources-description": "Aqui estao algumas das organizacoes trabalhando pelo garantia a moradia:",
+  "resources-link-1": "Apoio e demandas do MLB.",
+  "resources-link-2": "Apoio e recursos do MTST para a suspensao dos alugueis.",
+  "infowindow-prot-title": "Protecao de Emergencia para Locatarios",
+  "infowindow-prot-city": "Municipio:",
+  "infowindow-prot-desc": "Descricao da politica publica: ",
+  "infowindow-prot-passed": "Tornou-se lei? ",
+  "infowindow-prot-effective": "Efetiva: ",
+  "infowindow-prot-ends": "Termina: ",
+  "infowindow-prot-link": "Clique aqui para maiores informacoes.",
+  "infowindow-strike-title": "Suspensao dos alugueis",
+  "infowindow-strike-loc": "Localizacao: ",
+  "infowindow-strike-status": "Situacao: ",
+  "infowindow-strike-why": "Motivo? ",
+  "infowindow-strike-start": "Inicio: ",
+  "infowindow-strike-resources": "Recursos: "
+}

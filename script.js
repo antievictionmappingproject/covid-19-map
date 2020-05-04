@@ -13,6 +13,19 @@ let IS_DESKTOP =
   document.querySelector("body").offsetWidth > DESKTOP_BREAKPOINT;
 
 /******************************************
+* INTERNATIONALIZATION CONFIG & INIT
+******************************************/
+var translator = new Translator({
+  persist: false,
+  languages: ["en", "es", "jp", "zh", "pt-br", "tr", "de", "ar"],
+  defaultLanguage: "en",
+  detectLanguage: true,
+  filesLocation: "/i18n"
+});
+
+translator.load();
+
+/******************************************
  * DATA SOURCES
  *****************************************/
 // unique id of the sheet that imports desired columns from the form responses sheet

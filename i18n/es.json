@@ -1,0 +1,35 @@
+{
+  "page-title": "Protección de Emergencia para Inquilinos durante COVID-19",
+  "about-title": "Protección de Emergencia para Inquilinos durante COVID-19",
+  "about-map": "Sobre el mapa:",
+  "about-protections": "Protección de Emergencia",
+  "about-description": [
+	  "Lugares donde el gobierno <strong class='color-ocurring'>ha aprobado</strong>",
+	  " (o los inquilinos están <strong class='color-may-be-ocurring'>trabajando para lograr la aprobación</strong>)", 
+	  " de medidas de emergencia que protejan a los inquilinos durante la pandemia."
+  ],
+  "tenant-form-link": "Utiliza este link para enviar actualizaciones.",
+  "rent-strikes-title": "Huelga de alquileres",
+  "rent-strikes-description": [ 
+	  "Sitios donde la suspensión del alquiler está <strong class='color-ocurring'>teniendo lugar</strong>",
+      " o <strong class='color-may-be-ocurring'>puede ocurrir</strong>."
+  ],
+  "rent-strikes-link": "Envíe noticias sobre la suspensión de alquileres y desalojos en su área.",
+  "resources-title" : "Recursos",
+  "resources-description": "Aquí hay algunos recursos para ayudar si usted está en necesidad.",
+  "resources-link-1": "Recursos y demandas de Right To The City Alliance y Homes For All",
+  "resources-link-2": "Recursos de Rent Strike para #CancelRent",
+  "infowindow-prot-title": "Recursos de huelga de alquileres",
+  "infowindow-prot-city": "Municipio: ",
+  "infowindow-prot-desc": "Resumen de la política",
+  "infowindow-prot-passed": "¿Ya ha pasado? ",
+  "infowindow-prot-effective": "Efectivo: ",
+  "infowindow-prot-ends": "Finaliza: ",
+  "infowindow-prot-link": "Ver más información",
+  "infowindow-strike-title": "Huelga de alquileres",
+  "infowindow-strike-loc": "Localización: ",
+  "infowindow-strike-status": "Estado: ",
+  "infowindow-strike-why": "¿Por qué? ",
+  "infowindow-strike-start": "Inicio: ",
+  "infowindow-strike-resources": "Recursos: "
+}

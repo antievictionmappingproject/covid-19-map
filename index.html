@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>COVID-19 Emergency Tenant Protections and Rent Strike Map</title>
+    <title data-i18n="page-title">COVID-19 Emergency Tenant Protections and Rent Strike Map</title>
     <meta name="viewport" content="initial-scale=1.0" />
     <meta charset="utf-8" />
     <meta name="author" content="Anti-Eviction Mapping Project" />
@@ -37,14 +37,14 @@
   <body>
     <div id="root">
       <header id="aemp-titlebox">
-        <h1 id="aemp-title">
+        <h1 id="aemp-title" data-i18n="about-title">
           COVID-19 Emergency Tenant Protections & Rent Strikes
         </h1>
         <details open>
-          <summary>About the map:</summary>
+          <summary data-i18n="about-map">About the map:</summary>
           <div class="title-content-wrapper">
-            <h2>Emergency Tenant Protections</h2>
-            <p>
+            <h2 data-i18n="about-protections">Emergency Tenant Protections</h2>
+            <p data-i18n="about-description">
               Where officials
               <strong class="color-passed">have passed</strong> (or tenants are
               <strong class="color-yet-to-pass">working to pass</strong>)
@@ -53,12 +53,12 @@
             <p>
               <a
                 href="https://docs.google.com/forms/d/e/1FAIpQLSfHzR_SYO-wKfa3Abi9jDvZXCH3dsLgrkDj-9Rwm-3oRjDD9A/viewform"
-                target="_blank"
+                target="_blank" data-i18n="tenant-form-link"
                 >Submit a tenant protection update.</a
               >
             </p>
-            <h2>Rent Strikes</h2>
-            <p>
+            <h2 data-i18n="rent-strikes-title">Rent Strikes</h2>
+            <p data-i18n="rent-strikes-description">
               Where organized rent strikes are
               <strong class="color-ocurring">currently occurring</strong> or
               <strong class="color-may-be-ocurring">may be occurring</strong>.
@@ -66,25 +66,25 @@
             <p>
               <a
                 href="https://docs.google.com/forms/d/e/1FAIpQLSfzMYs_BZYFb601oiAGtotfTX7tjZXvao3F0PHuTlko4rAxKA/viewform"
-                target="_blank"
+                target="_blank" data-i18n="rent-strikes-link"
                 >Submit a rent strike update.</a
               >
             </p>
-            <h2>Resources</h2>
-            <p>
+            <h2 data-i18n="resources-title">Resources</h2>
+            <p data-i18n="resources-description">
               Here are some resources to help if you are in need.
             </p>
             <p>
               <a
                 href="https://cancelrent.us/"
-                 target="_blank"
+                 target="_blank" data-i18n="resources-link-1"
                 >Resources and demands from Right To The City Alliance and Homes For All.</a
               >
             </p>
             <p>
               <a
                 href="https://thenewinquiry.com/rent-strike-2020/"
-                target="_blank"
+                target="_blank" data-i18n="resources-link-2"
                 >Rent Strike resources for #CancelRent.</a
               >
             </p>
@@ -124,35 +124,35 @@
       <div class="aemp-infowindow">
         <a class="aemp-infowindow-close" href="#close" onClick="closeInfo()">×</a>
         <div>
-          <p class="infowindow-title">
+          <p class="infowindow-title" data-i18n="infowindow-prot-title">
             <strong>Emergency Tenant Protections</strong>
           </p>
         </div>
         <div>
-          <p>
+          <p data-i18n="infowindow-prot-city">
             <strong>Municipality: </strong>{{municipality}}
           </p>
         </div>
         <div>
-          <p><strong>Policy Summary:</strong></p>
+          <p data-i18n="infowindow-prot-desc"><strong>Policy Summary:</strong></p>
           <p>{{policy_summary}}</p>
         </div>
         <div>
-          <p><strong>Has It Passed Yet? </strong>{{passed}}</p>
+          <p data-i18n="infowindow-prot-passed"><strong>Has It Passed Yet? </strong>{{passed}}</p>
         </div>
         {{#start}}
         <div>
-          <p><strong>Effective: </strong>{{start}}</p>
+          <p data-i18n="infowindow-prot-effective"><strong>Effective: </strong>{{start}}</p>
         </div>
         {{/start}}
         {{#_end}}
         <div>
-          <p><strong>Ends: </strong>{{_end}}</p>
+          <p data-i18n="infowindow-prot-ends"><strong>Ends: </strong>{{_end}}</p>
         </div>
         {{/_end}}
         {{#link}}
         <div>
-          <p><a target="_blank" href="{{link}}" rel="noopener noreferrer">View more info.</a></p>
+          <p><a target="_blank" href="{{link}}" rel="noopener noreferrer" data-i18n="infowindow-prot-link">View more info.</a></p>
         </div>
         {{/link}}
       </div>
@@ -162,29 +162,29 @@
       <div class="aemp-infowindow">
         <a class="aemp-infowindow-close" href="#close" onClick="closeInfo()">×</a>
         <div>
-          <p class="infowindow-title">
+          <p class="infowindow-title" data-i18n="infowindow-strike-title">
             <strong>Rent Strike</strong>
           </p>
         </div>
         <div>
-          <p>
+          <p data-i18n="infowindow-strike-loc">
             <strong>Location: </strong>{{Location}}
           </p>
-          <p><strong>Status: </strong>{{status}}</p>
+          <p data-i18n="infowindow-strike-status"><strong>Status: </strong>{{status}}</p>
         </div>
         {{#Why}}
         <div>
-          <p><strong>Why? </strong>{{Why}}</p>
+          <p data-i18n="infowindow-strike-why"><strong>Why? </strong>{{Why}}</p>
         </div>
         {{/Why}}
         {{#Start}}
         <div>
-          <p><strong>Start: </strong>{{Start}}</p>
+          <p data-i18n="infowindow-strike-start"><strong>Start: </strong>{{Start}}</p>
         </div>
         {{/Start}}
         {{#Resources}}
         <div>
-          <p><strong>Resources: </strong>{{Resources}}</p>
+          <p data-i18n="infowindow-strike-resources"><strong>Resources: </strong>{{Resources}}</p>
         </div>
         {{/Resources}}
       </div>
@@ -210,6 +210,9 @@
 
     <!-- Load d3-tsv -->
     <script src="https://d3js.org/d3-dsv.v1.min.js"></script>
+
+    <!-- Load i18n module -->
+    <script src="./translator.js"></script>
 
     <!-- Load our JavaScript -->
     <script src="./script.js"></script>
