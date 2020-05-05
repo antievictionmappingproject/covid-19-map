@@ -26,7 +26,7 @@ const rentStrikeSheetURI = `https://docs.google.com/spreadsheets/d/${renStikeShe
 
 // table in CARTO that syncs with the Google sheet data
 const cartoSheetSyncTable =
-  "emergency_tenant_protections_current_do_not_edit_me_sheet1";
+  "public.emergency_tenant_protections_scored";
 
 // the URIs for CARTO counties &s tates layers
 // joined to the moratoriums data
@@ -260,7 +260,7 @@ L.tileLayer(
 
 function createCountiesCartoURI() {
   const query = `SELECT
-  c.the_geom, c.county as municipality, c.state as state_name, m.policy_type, m.policy_summary, m.link,
+  c.the_geom, c.county as municipality, c.state as state_name, m.range, m.policy_type, m.policy_summary, m.link,
   CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
   FROM us_county_boundaries c
   JOIN ${cartoSheetSyncTable} m
@@ -274,10 +274,10 @@ function createCountiesCartoURI() {
 
 function createStatesCartoURI() {
   const query = `SELECT
-  s.the_geom, s.state_name as municipality, m.policy_type, m.policy_summary, m.link,
+  s.the_geom, s.state_name as municipality, m.range, m.policy_type, m.policy_summary, m.link,
   CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
   FROM state_5m s
-  INNER JOIN ${cartoSheetSyncTable} m
+  LEFT JOIN ${cartoSheetSyncTable} m
   ON s.state_name = m.state
   AND m.admin_scale = 'State'`;
 
@@ -347,14 +347,20 @@ function handleData([
   /*
   * Begin mocking scale
   * */
-  const mockScale = obj=>Object.assign(obj.properties,{range:(Math.floor(Math.random()*3)+1).toString()});
-  citiesGeoJson.features.map(mockScale);
-  statesGeoJson.features.map(mockScale);
-  countiesGeoJson.features.map(mockScale);
+  // const mockScale = obj=>Object.assign(obj.properties,{range:(Math.floor(Math.random()*3)+1).toString()});
+  // citiesGeoJson.features.map(mockScale);
+  // statesGeoJson.features.map(mockScale);
+  // countiesGeoJson.features.map(mockScale);
   /*
   * End mocking scale
   * */
 
+  const rangeForNoData = obj=>{
+    if(!obj.properties.range){
+      Object.assign(obj.properties,{range:"1"});
+    }
+  };
+  statesGeoJson.features.map(rangeForNoData);
 
   const rentStrikeRows = d3
     .csvParse(rentStrikeSheetsText, d3.autoType)
