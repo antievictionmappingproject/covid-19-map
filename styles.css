@@ -71,13 +71,8 @@ details p:last-of-type {
   margin-bottom: 0;
 }
 
-/* .icon-rent-strike { */
-  /* fill:  #ff6347; */
-  /* Corresponds to #4d4d4d */
-/* } */
-
 .marker-cluster, .marker-cluster div { 
-  background-color: #ff6347;
+  background-color: #bd3617;
   color: white;
   opacity: 0.9;
 }
