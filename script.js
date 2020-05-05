@@ -291,11 +291,11 @@ function createStatesCartoURI() {
 }
 
 function createNationsCartoURI() {
-  const query = `SELECT c.the_geom, c.iso_a3, c.name_en, 
-  m.policy_type, m.policy_summary, m.link, m.policy_type, m.start, m._end, m.passed
-  FROM countries c 
-  INNER JOIN ${cartoSheetSyncTable} m 
-  ON c.iso_a3 = m.iso 
+  const query = `SELECT c.the_geom, c.adm0_a3, c.name_en,
+  m.policy_type, m.policy_summary, m.link, m.start, m._end, m.passed
+  FROM countries c
+  INNER JOIN ${cartoSheetSyncTable} m
+  ON c.adm0_a3 = m.iso
   AND m.admin_scale = 'Country'`;
 
   return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
