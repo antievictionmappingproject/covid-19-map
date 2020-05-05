@@ -344,17 +344,6 @@ function handleData([
       }
     }))
   };
-  /*
-  * Begin mocking scale
-  * */
-
-  // const mockScale = obj=>Object.assign(obj.properties,{range:(Math.floor(Math.random()*3)+1).toString()});
-  // citiesGeoJson.features.map(mockScale);
-  // statesGeoJson.features.map(mockScale);
-  // countiesGeoJson.features.map(mockScale);
-  /*
-  * End mocking scale
-  * */
 
   const rangeForNoData = obj=>{
     if(!obj.properties.range){
