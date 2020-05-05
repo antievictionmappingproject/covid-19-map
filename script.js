@@ -254,7 +254,7 @@ const rentStrikeInfowindowTemplate = document.getElementById(
 L.tileLayer(
   "https://a.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}@2x.png",
   {
-    minZoom: 3,
+    minZoom: 1,
     maxZoom: 18
   }
 ).addTo(map);
