@@ -95,7 +95,8 @@ module.exports = (env, argv) => {
                 reloadAll: true
               }
             },
-            "css-loader"
+            "css-loader",
+            "postcss-loader"
           ]
         },
 
@@ -217,7 +218,7 @@ module.exports = (env, argv) => {
         // all options are optional
         filename: devMode ? "[name].css" : "[name].[contenthash].css",
         chunkFilename: devMode ? "[id].css" : "[id].[contenthash].css",
-        ignoreOrder: false // Enable to remove warnings about conflicting order
+        ignoreOrder: true // Enable to remove warnings about conflicting order
       }),
 
       // allows for variables to be available in our app code
