@@ -1,3 +1,5 @@
+@import "./variables";
+
 * {
   box-sizing: border-box;
 }
@@ -10,8 +12,8 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-family: Roboto, sans-serif;
-  font-size: 1.2rem;
+  font-family: $fontStack;
+  font-size: $fontSizeDefault;
 }
 
 #root {
@@ -161,7 +163,6 @@ a:hover {
   white-space: nowrap;
 }
 
-
 /* Hide map layers controls on mobile for now, as they get obscured */
 @media (max-width: 640px) {
   #root.aemp-popupopen .leaflet-control-attribution {
@@ -229,7 +230,6 @@ a.aemp-infowindow-close {
   }
 
   .title-content-wrapper {
-   
     max-height: 250px;
     overflow-y: auto;
   }

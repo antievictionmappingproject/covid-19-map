@@ -1,0 +1,9 @@
+/**
+ * APP WIDE VARIABLES
+ * Note: these are not Sass variables but behave similarly
+ * To use them in file you must @import them first
+ */
+
+/* font properties */
+$fontSizeDefault: 1.2rem;
+$fontStack: Roboto, sans-serif;
