@@ -36,9 +36,9 @@ const cartoStatesURI = createStatesCartoURI();
 
 // colorScale comes from this ColorBrewer url:
 // https://colorbrewer2.org/#type=sequential&scheme=YlGn&n=7
-const colorNoData = "#808080";
-const fillColorScale = ["#808080","#d9f0a3","#78c679","#238443"];
-const strokeColorScale = ["#808080","#addd8e","#41ab5d","#005a32"];
+const colorNoData = "#939393";
+const fillColorScale = [colorNoData, "#d9f0a3", "#78c679", "#238443"];
+const strokeColorScale = [colorNoData, "#addd8e", "#41ab5d", "#005a32"];
 
 /******************************************
  * MAP SETUP & MAP CONTROLS
@@ -347,6 +347,7 @@ function handleData([
   /*
   * Begin mocking scale
   * */
+
   // const mockScale = obj=>Object.assign(obj.properties,{range:(Math.floor(Math.random()*3)+1).toString()});
   // citiesGeoJson.features.map(mockScale);
   // statesGeoJson.features.map(mockScale);
@@ -438,8 +439,8 @@ function handleCitiesLayer(geojson) {
   // styling for the cities layer: style cities conditionally according to moratorium rating scale 1 to 3
   const pointToLayer = (feature, latlng) => {
     return L.circleMarker(latlng, {
-      color: strokeColorScale[feature.properties.range]||colorNoData,
-      fillColor: fillColorScale[feature.properties.range]||colorNoData,
+      color: strokeColorScale[feature.properties.range] || colorNoData,
+      fillColor: fillColorScale[feature.properties.range] || colorNoData,
       fillOpacity: fillOpacity,
       radius: pointRadius,
       weight: strokeWeight
@@ -478,8 +479,8 @@ function handleCountiesLayer(geojson) {
     style: feature => {
       // style counties based on whether their moratorium has passed
       return {
-        color: strokeColorScale[feature.properties.range]||colorNoData,
-        fillColor: fillColorScale[feature.properties.range]||colorNoData,
+        color: strokeColorScale[feature.properties.range] || colorNoData,
+        fillColor: fillColorScale[feature.properties.range] || colorNoData,
         fillOpacity: fillOpacity,
         weight: strokeWeight
       };
@@ -508,12 +509,12 @@ function handleStatesLayer(geojson) {
   // styling for the states layer: style states conditionally according to moratorium rating scale 1 to 3
   const layerOptions = {
     style: feature => {
-    return {
-      color: strokeColorScale[feature.properties.range]||colorNoData,
-      fillColor: fillColorScale[feature.properties.range]||colorNoData,
-      fillOpacity: fillOpacity,
-      weight: strokeWeight
-    };
+      return {
+        color: strokeColorScale[feature.properties.range] || colorNoData,
+        fillColor: fillColorScale[feature.properties.range] || colorNoData,
+        fillOpacity: fillOpacity,
+        weight: strokeWeight
+      };
     }
   }
 
