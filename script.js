@@ -277,7 +277,7 @@ function createStatesCartoURI() {
   s.the_geom, s.state_name as municipality, m.range, m.policy_type, m.policy_summary, m.link,
   CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
   FROM state_5m s
-  LEFT JOIN ${cartoSheetSyncTable} m
+  INNER JOIN ${cartoSheetSyncTable} m
   ON s.state_name = m.state
   AND m.admin_scale = 'State'`;
 
@@ -345,12 +345,6 @@ function handleData([
     }))
   };
 
-  const rangeForNoData = obj=>{
-    if(!obj.properties.range){
-      Object.assign(obj.properties,{range:"1"});
-    }
-  };
-  statesGeoJson.features.forEach(rangeForNoData);
 
   const rentStrikeRows = d3
     .csvParse(rentStrikeSheetsText, d3.autoType)
