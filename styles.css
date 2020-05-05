@@ -112,13 +112,10 @@ a:hover {
   color: #d01c8b;
 }
 
-.color-ocurring {
-  color: #1772aa;
+.color-rent-strike {
+  color: #FF6347;
 }
 
-.color-may-be-ocurring {
-  color: #ae5117;
-}
 /* popup styling */
 
 /* override leaflet's <p> element styles */
