@@ -350,7 +350,7 @@ function handleData([
       Object.assign(obj.properties,{range:"1"});
     }
   };
-  statesGeoJson.features.map(rangeForNoData);
+  statesGeoJson.features.forEach(rangeForNoData);
 
   const rentStrikeRows = d3
     .csvParse(rentStrikeSheetsText, d3.autoType)
