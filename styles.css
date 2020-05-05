@@ -72,7 +72,7 @@ details p:last-of-type {
 }
 
 .marker-cluster, .marker-cluster div { 
-  background-color: #bd3617;
+  background-color: #FF6347;
   color: white;
   opacity: 0.9;
 }
