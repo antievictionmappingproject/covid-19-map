@@ -32,6 +32,7 @@ const cartoSheetSyncTable =
 // (all in AEMP CARTO acct)
 const cartoCountiesURI = createCountiesCartoURI();
 const cartoStatesURI = createStatesCartoURI();
+const cartoNationsURI = createNationsCartoURI();
 
 /******************************************
  * MAP SETUP & MAP CONTROLS
@@ -66,6 +67,7 @@ let mapConfig = {
   lat: 40.67,
   lng: -97.23,
   z: initialMapZoom,
+  nations: false,
   states: true,
   cities: true,
   counties: true,
@@ -125,6 +127,14 @@ function inputValues(hash) {
       mapConfig.states = false;
     }
   }
+
+   if (inputVals.nations !== undefined) {
+     if (inputVals.nations === 'true') {
+       mapConfig.nations = true;
+     } else if (inputVals.nations === 'false') {
+       mapConfig.nations = false;
+     }
+   }
 
   if (inputVals.rentstrike !== undefined) {
     if (inputVals.rentstrike === "true") {
@@ -231,6 +241,8 @@ const layersControl = L.control
 const popupTemplate = document.querySelector(".popup-template").innerHTML;
 const infowindowTemplate = document.getElementById("aemp-infowindow-template")
   .innerHTML;
+const nationInfowindowTemplate = document.getElementById('aemp-infowindow-template-nation')
+  .innerHTML;
 
 const rentStrikePopupTemplate = document.querySelector(
   ".rentstrike-popup-template"
@@ -242,8 +254,13 @@ const rentStrikeInfowindowTemplate = document.getElementById(
 L.tileLayer(
   "https://a.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}@2x.png",
   {
+<<<<<<< HEAD
     minZoom: 3,
     maxZoom: 18,
+=======
+    minZoom: 1,
+    maxZoom: 18
+>>>>>>> f28a67fc98e69a49ac9b931e556851ec958554ca
   }
 ).addTo(map);
 
@@ -253,7 +270,7 @@ L.tileLayer(
 
 function createCountiesCartoURI() {
   const query = `SELECT
-  c.the_geom, c.county as municipality, c.state as state_name, m.policy_type, m.policy_summary, m.link,
+  c.the_geom, c.county, c.state, m.policy_type, m.policy_summary, m.link,
   CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
   FROM us_county_boundaries c
   JOIN ${cartoSheetSyncTable} m
@@ -267,16 +284,18 @@ function createCountiesCartoURI() {
 
 function createStatesCartoURI() {
   const query = `SELECT
-  s.the_geom, s.state_name as municipality, m.policy_type, m.policy_summary, m.link,
+  s.the_geom, s.name, s.admin, s.sr_adm0_a3, m.iso, m.policy_type, m.policy_summary, m.link,
   CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
-  FROM state_5m s
+  FROM public.states_and_provinces_global s
   INNER JOIN ${cartoSheetSyncTable} m
-  ON s.state_name = m.state
+  ON s.name = m.state
+  AND s.sr_adm0_a3 = m.iso
   AND m.admin_scale = 'State'`;
 
   return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
 }
 
+<<<<<<< HEAD
 //testing new queries
 function createNationsCartoURI() {
   const query = `SELECT c.the_geom, c.iso_a3, c.name_en, 
@@ -284,15 +303,27 @@ function createNationsCartoURI() {
   FROM countries c 
   INNER JOIN ${cartoSheetSyncTable} m 
   ON c.iso_a3 = m.iso 
+=======
+function createNationsCartoURI() {
+  const query = `SELECT c.the_geom, c.adm0_a3, c.name_en,
+  m.policy_type, m.policy_summary, m.link, m.start, m._end, m.passed
+  FROM countries c
+  INNER JOIN ${cartoSheetSyncTable} m
+  ON c.adm0_a3 = m.iso
+>>>>>>> f28a67fc98e69a49ac9b931e556851ec958554ca
   AND m.admin_scale = 'Country'`;
 
   return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
 }
+<<<<<<< HEAD
 console.log(createNationsCartoURI());
 
 function createGlobalStatesURI(){
   const query = `SELECT g.the_geom `
 }
+=======
+
+>>>>>>> f28a67fc98e69a49ac9b931e556851ec958554ca
 /******************************************
  * FETCH DATA SOURCES
  *****************************************/
@@ -314,6 +345,13 @@ Promise.all([
     if (!res.ok) throw Error("Unable to fetch counties geojson");
     return res.json();
   }),
+<<<<<<< HEAD
+=======
+  fetch(cartoNationsURI).then(res => {
+    if (!res.ok) throw Error("Unable to fetch nations geojson");
+    return res.json();
+  })
+>>>>>>> f28a67fc98e69a49ac9b931e556851ec958554ca
 ])
   .then(handleData)
   .catch((error) => console.log(error));
@@ -327,6 +365,10 @@ function handleData([
   rentStrikeSheetsText,
   statesGeoJson,
   countiesGeoJson,
+<<<<<<< HEAD
+=======
+  nationsGeoJson
+>>>>>>> f28a67fc98e69a49ac9b931e556851ec958554ca
 ]) {
   const moratoriumRows = d3
     .csvParse(moratoriumSheetsText, d3.autoType)
@@ -383,6 +425,7 @@ function handleData([
 
   // add the states, cities, counties, and rentstrikes layers to the map
   // and save the layers output
+  const nations = handleNationsLayer(nationsGeoJson);
   const states = handleStatesLayer(statesGeoJson);
   const counties = handleCountiesLayer(countiesGeoJson);
   const cities = handleCitiesLayer(citiesGeoJson);
@@ -393,16 +436,21 @@ function handleData([
     .addOverlay(rentStrikes, "Rent Strikes")
     .addOverlay(cities, "Cities")
     .addOverlay(counties, "Counties")
-    .addOverlay(states, "States");
+    .addOverlay(states, "States")
+    .addOverlay(nations, "Nations");
 
   // Apply correct relative order of layers when adding from control.
   map.on("overlayadd", function () {
     // Top of list is top layer
-    fixZOrder([cities, counties, states]);
+    fixZOrder([cities, counties, states, nations]);
   });
 
   // if any layers in the map config are set to false,
   // remove them from the map
+  if (!mapConfig.nations) {
+    map.removeLayer(nations);
+  }
+
   if (!mapConfig.states) {
     map.removeLayer(states);
   }
@@ -423,6 +471,15 @@ function handleData([
 /******************************************
  * HANDLE ADDING MAP LAYERS
  *****************************************/
+
+// Ensures that map overlay pane layers are displayed in the correct Z-Order
+function fixZOrder(dataLayers) {
+  dataLayers.forEach(function (layerGroup) {
+    if (map.hasLayer(layerGroup)) {
+      layerGroup.bringToBack();
+    }
+  });
+}
 
 function handleCitiesLayer(geojson) {
   // styling for the cities layer: style cities conditionally according to a presence of a moratorium
@@ -458,14 +515,24 @@ function handleCitiesLayer(geojson) {
 
     // Render the template with all of the properties. Mustache ignores properties
     // that aren't used in the template, so this is fine.
+    const { municipality, state, Country } = layer.feature.properties; 
+    const props = {
+      // Build city name with state and country if supplied
+      jurisdictionName: `${municipality}${state ? `, ${state}`: ''}${Country ? `, ${Country}` : ''}`,
+      jurisdictionType: 'City',
+      popupName: municipality,
+      ...layer.feature.properties,
+    };
+
     const renderedInfo = Mustache.render(
       infowindowTemplate,
-      layer.feature.properties
+      props
     );
     document.getElementById(
       "aemp-infowindow-container"
     ).innerHTML = renderedInfo;
-    return Mustache.render(popupTemplate, layer.feature.properties);
+    // Override jurisdiction name for popup
+    return Mustache.render(popupTemplate, props);
   });
 
   // Add data to the map
@@ -500,14 +567,22 @@ function handleCountiesLayer(geojson) {
   const countiesLayer = L.geoJson(geojson, layerOptions);
 
   countiesLayer.bindPopup(function (layer) {
+    const { county, state } = layer.feature.properties;
+    const props = {
+      // Show county with state if state field is set
+      jurisdictionName: `${county}${state ? `, ${state}`: ''}`,
+      jurisdictionType: 'County',
+      popupName: `${county}${state ? `, ${state}`: ''}`,
+      ...layer.feature.properties,
+    };
     const renderedInfo = Mustache.render(
       infowindowTemplate,
-      layer.feature.properties
+      props
     );
     document.getElementById(
       "aemp-infowindow-container"
     ).innerHTML = renderedInfo;
-    return Mustache.render(popupTemplate, layer.feature.properties);
+    return Mustache.render(popupTemplate, props);
   });
 
   countiesLayer.addTo(map);
@@ -546,14 +621,22 @@ function handleStatesLayer(geojson) {
   const statesLayer = L.geoJson(geojson, layerOptions);
 
   statesLayer.bindPopup(function (layer) {
+    const { name, admin } = layer.feature.properties;
+    const props = {
+      jurisdictionName: `${name}${admin ? `, ${admin}` : ''}`,
+      jurisdictionType: 'State/Province',
+      popupName: name,
+      ...layer.feature.properties,
+    };
     const renderedInfo = Mustache.render(
       infowindowTemplate,
-      layer.feature.properties
+      props
     );
     document.getElementById(
       "aemp-infowindow-container"
     ).innerHTML = renderedInfo;
-    return Mustache.render(popupTemplate, layer.feature.properties);
+    // Overwrite jurisdiction name to remove country
+    return Mustache.render(popupTemplate, props);
   });
 
   statesLayer.addTo(map);
@@ -612,11 +695,59 @@ function handleRentStrikeLayer(geoJson) {
   return rentStrikeLayerMarkers;
 }
 
-// Ensures that map overlay pane layers are displayed in the correct Z-Order
-function fixZOrder(dataLayers) {
-  dataLayers.forEach(function (layerGroup) {
-    if (map.hasLayer(layerGroup)) {
-      layerGroup.bringToBack();
-    }
+function handleNationsLayer(geojson) {
+  const layerOptions = {
+    style: feature => {
+      const { passed } = feature.properties;
+      // If law is passed
+      if (passed) {
+        return {
+          color: '#4dac26',
+          fillColor: '#b8e186',
+          fillOpacity: fillOpacity,
+          weight: strokeWeight,
+        };
+      } 
+      // If not yet passed
+      if (!passed) {
+        return {
+          color: '#d01c8b',
+          fillColor: '#f1b6da',
+          fillOpacity: fillOpacity,
+          weight: strokeWeight,
+        };
+      }
+      // If no value for passed
+      return {
+        stroke: false,
+        fill: false,
+      };
+    },
+  };
+
+  // Create the Leaflet layer for the nations data
+  const nationsLayer = L.geoJson(geojson, layerOptions);
+  
+  nationsLayer.bindPopup(function (layer) {
+    const { name_en, passed } = layer.feature.properties;
+    const props = {
+      jurisdictionName: name_en,
+      jurisdictionType: 'Country',
+      popupName: name_en,
+      passedText: passed ? 'Yes' : 'No',
+      ...layer.feature.properties,
+    };
+    const renderedInfo = Mustache.render(
+      nationInfowindowTemplate,
+      props,
+    );
+    document.getElementById(
+      'aemp-infowindow-container',
+    ).innerHTML = renderedInfo;
+    return Mustache.render(popupTemplate, props);
   });
+
+  map.addLayer(nationsLayer);
+
+  return nationsLayer;
 }

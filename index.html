@@ -7,7 +7,7 @@
     <meta name="author" content="Anti-Eviction Mapping Project" />
     <meta
       name="description"
-      content="Where United States officials have passed, or tenants are working to pass, emergency tenant protections during the COVID-19 crisis, and where organized rent strikes are currently occurring globally or may be occurring."
+      content="Where officials have passed, or tenants are working to pass, emergency tenant protections during the COVID-19 crisis, and where organized rent strikes are currently occurring globally or may be occurring."
     />
 
     <!-- Load Leaflet CSS -->
@@ -45,7 +45,7 @@
           <div class="title-content-wrapper">
             <h2>Emergency Tenant Protections</h2>
             <p>
-              Where United States officials
+              Where officials
               <strong class="color-passed">have passed</strong> (or tenants are
               <strong class="color-yet-to-pass">working to pass</strong>)
               emergency tenant protections during the COVID-19 crisis.
@@ -106,7 +106,7 @@
       <div class="popup-container locality-popup-container">
         <div>
           <p class="popup-title">
-            <strong>{{municipality}}</strong>
+            <strong>{{popupName}}</strong>
           </p>
         </div>
       </div>
@@ -130,7 +130,7 @@
         </div>
         <div>
           <p>
-            <strong>Municipality: </strong>{{municipality}}
+            <strong>{{jurisdictionType}}: </strong>{{jurisdictionName}}
           </p>
         </div>
         <div>
@@ -139,6 +139,44 @@
         </div>
         <div>
           <p><strong>Has It Passed Yet? </strong>{{passed}}</p>
+        </div>
+        {{#start}}
+        <div>
+          <p><strong>Effective: </strong>{{start}}</p>
+        </div>
+        {{/start}}
+        {{#_end}}
+        <div>
+          <p><strong>Ends: </strong>{{_end}}</p>
+        </div>
+        {{/_end}}
+        {{#link}}
+        <div>
+          <p><a target="_blank" href="{{link}}" rel="noopener noreferrer">View more info.</a></p>
+        </div>
+        {{/link}}
+      </div>
+    </script>
+
+    <script id="aemp-infowindow-template-nation" type="x-tmpl-mustache">
+      <div class="aemp-infowindow">
+        <a class="aemp-infowindow-close" href="#close" onClick="closeInfo()">×</a>
+        <div>
+          <p class="infowindow-title">
+            <strong>Emergency Tenant Protections</strong>
+          </p>
+        </div>
+        <div>
+          <p>
+            <strong>{{jurisdictionType}}: </strong>{{jurisdictionName}}
+          </p>
+        </div>
+        <div>
+          <p><strong>Policy Summary:</strong></p>
+          <p>{{policy_summary}}</p>
+        </div>
+        <div>
+          <p><strong>Has It Passed Yet? </strong>{{passedText}}</p>
         </div>
         {{#start}}
         <div>
