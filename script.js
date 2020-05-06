@@ -33,6 +33,7 @@ const cartoSheetSyncTable =
 // (all in AEMP CARTO acct)
 const cartoCountiesURI = createCountiesCartoURI();
 const cartoStatesURI = createStatesCartoURI();
+const cartoCitiesURI = createCitiesCartoURI();
 
 // colorScale comes from this ColorBrewer url:
 // https://colorbrewer2.org/#type=sequential&scheme=YlGn&n=7
@@ -258,9 +259,19 @@ L.tileLayer(
  * URI HELPERS
  *****************************************/
 
+function createCitiesCartoURI() {
+  const query = `https://ampitup.carto.com:443/api/v2/sql?q=SELECT
+  m.municipality, m.range, m.policy_type, m.policy_summary, m.link,
+  CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
+  FROM ${cartoSheetSyncTable} m
+  WHERE m.admin_scale = 'City';`;
+
+  return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
+}
+
 function createCountiesCartoURI() {
   const query = `SELECT
-  c.the_geom, c.county as municipality, c.state as state_name, m.range, m.policy_type, m.policy_summary, m.link,
+  c.the_geom, c.city as municipality, c.state as state_name, m.range, m.policy_type, m.policy_summary, m.link,
   CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
   FROM us_county_boundaries c
   JOIN ${cartoSheetSyncTable} m
@@ -304,7 +315,12 @@ Promise.all([
   fetch(cartoCountiesURI).then(res => {
     if (!res.ok) throw Error("Unable to fetch counties geojson");
     return res.json();
+  }),
+  fetch(cartoCitiesURI).then(res => {
+    if (!res.ok) throw Error("Unable to fetch cities geojson");
+    return res.json();
   })
+
 ])
   .then(handleData)
   .catch(error => console.log(error));
@@ -317,7 +333,8 @@ function handleData([
   moratoriumSheetsText,
   rentStrikeSheetsText,
   statesGeoJson,
-  countiesGeoJson
+  countiesGeoJson,
+  citiesGeoJsonResult
 ]) {
   const moratoriumRows = d3
     .csvParse(moratoriumSheetsText, d3.autoType)
@@ -329,7 +346,11 @@ function handleData([
 
   const citiesData = moratoriumRows.filter(
     row => row.admin_scale === "City" && row.lat !== null && row.lon !== null
-  );
+  ).reduce((newArr,city)=>{
+    let citiesGeoJsonResultMatch=citiesGeoJsonResult.find(item=>item.municipality===city.municipality);
+    return citiesGeoJsonResultMatch?newArr.push(Object.assign(city,citiesGeoJsonResultMatch)):newArr;
+  },[]);
+  ;
 
   // convert the regular cities moratorium JSON into valid GeoJSON
   const citiesGeoJson = {
