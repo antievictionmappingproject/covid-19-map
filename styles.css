@@ -1,3 +1,8 @@
+/* Variables */
+:root {
+  --rent-strike-color: #DB3A1D;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -72,9 +77,8 @@ details p:last-of-type {
 }
 
 .marker-cluster, .marker-cluster div { 
-  background-color: #FF6347;
+  background-color:  var(--rent-strike-color);
   color: white;
-  opacity: 0.9;
 }
 
 @media (max-width: 640px) {
@@ -113,7 +117,7 @@ a:hover {
 }
 
 .color-rent-strike {
-  color: #FF6347;
+  color: var(--rent-strike-color);
 }
 
 /* popup styling */
