@@ -1,7 +1,6 @@
 "use strict";
 console.clear();
 
-//FIXME: whoops did this all in a branch called countryLayer. Check this out to other branch.
 
 /******************************************
  * GLOBAL CONSTANTS & FLAGS
@@ -27,18 +26,20 @@ const rentStrikeSheetURI = `https://docs.google.com/spreadsheets/d/${renStikeShe
 
 // table in CARTO that syncs with the Google sheet data
 const cartoSheetSyncTable =
-  "emergency_tenant_protections_current_do_not_edit_me_sheet1";
+  "public.emergency_tenant_protections_scored";
 
 // the URIs for CARTO counties &s tates layers
 // joined to the moratoriums data
 // (all in AEMP CARTO acct)
 const cartoCountiesURI = createCountiesCartoURI();
 const cartoStatesURI = createStatesCartoURI();
+const cartoCitiesURI = createCitiesCartoURI();
 
 // colorScale comes from this ColorBrewer url:
 // https://colorbrewer2.org/#type=sequential&scheme=YlGn&n=7
-const fillColorScale = ["#d9f0a3","#78c679","#238443"];
-const strokeColorScale = ["#addd8e","#41ab5d","#005a32"];
+const colorNoData = "#939393";
+const fillColorScale = [colorNoData, "#d9f0a3", "#78c679", "#238443"];
+const strokeColorScale = [colorNoData, "#addd8e", "#41ab5d", "#005a32"];
 
 /******************************************
  * MAP SETUP & MAP CONTROLS
@@ -258,9 +259,19 @@ L.tileLayer(
  * URI HELPERS
  *****************************************/
 
+function createCitiesCartoURI() {
+  const query = `SELECT
+  m.municipality, m.range, m.policy_type, m.policy_summary, m.link,
+  CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
+  FROM public.emergency_tenant_protections_scored m
+  WHERE m.admin_scale = 'City'`;
+
+  return `https://ampitup.carto.com/api/v2/sql?q=${query}`;
+}
+
 function createCountiesCartoURI() {
   const query = `SELECT
-  c.the_geom, c.county as municipality, c.state as state_name, m.policy_type, m.policy_summary, m.link,
+  c.the_geom, c.county, c.state, m.policy_type, m.policy_summary, m.link,
   CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
   FROM us_county_boundaries c
   JOIN ${cartoSheetSyncTable} m
@@ -274,7 +285,7 @@ function createCountiesCartoURI() {
 
 function createStatesCartoURI() {
   const query = `SELECT
-  s.the_geom, s.state_name as municipality, m.policy_type, m.policy_summary, m.link,
+  s.the_geom, s.state_name as municipality, m.range, m.policy_type, m.policy_summary, m.link,
   CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
   FROM state_5m s
   INNER JOIN ${cartoSheetSyncTable} m
@@ -305,6 +316,12 @@ Promise.all([
     if (!res.ok) throw Error("Unable to fetch counties geojson");
     return res.json();
   })
+  ,
+  fetch(cartoCitiesURI).then(res => {
+    if (!res.ok) throw Error("Unable to fetch cities geojson");
+    return res.json();
+  })
+
 ])
   .then(handleData)
   .catch(error => console.log(error));
@@ -316,8 +333,9 @@ Promise.all([
 function handleData([
   moratoriumSheetsText,
   rentStrikeSheetsText,
-  statesGeoJson,//mock this by adding rank property
-  countiesGeoJson//mock this by adding rank propery
+  statesGeoJson,
+  countiesGeoJson,
+  citiesCartoResult
 ]) {
   const moratoriumRows = d3
     .csvParse(moratoriumSheetsText, d3.autoType)
@@ -327,9 +345,15 @@ function handleData([
     }));
 
 
+  // This uses a reduce to do an inner join of the cities in the moratorium rows to the
+  // cities from Carto, because the first has the lat & lon & the second has the range score
   const citiesData = moratoriumRows.filter(
     row => row.admin_scale === "City" && row.lat !== null && row.lon !== null
-  );
+  ).reduce((newArr,city)=>{
+    let citiesCartoResultMatch=citiesCartoResult.rows.find(item=>item.municipality===city.municipality);
+    return citiesCartoResultMatch?newArr.concat([Object.assign(city,citiesCartoResultMatch)]):newArr;
+  },[]);
+
 
   // convert the regular cities moratorium JSON into valid GeoJSON
   const citiesGeoJson = {
@@ -344,16 +368,6 @@ function handleData([
       }
     }))
   };
-  /*
-  * Begin mocking scale
-  * */
-  const mockScale = obj=>Object.assign(obj.properties,{scale:Math.floor(Math.random()*3)});
-  citiesGeoJson.features.map(mockScale);
-  statesGeoJson.features.map(mockScale);
-  countiesGeoJson.features.map(mockScale);
-  /*
-  * End mocking scale
-  * */
 
 
   const rentStrikeRows = d3
@@ -432,30 +446,12 @@ function handleCitiesLayer(geojson) {
   // styling for the cities layer: style cities conditionally according to moratorium rating scale 1 to 3
   const pointToLayer = (feature, latlng) => {
     return L.circleMarker(latlng, {
-      color: strokeColorScale[feature.properties.scale],
-      fillColor: fillColorScale[feature.properties.scale],
+      color: strokeColorScale[feature.properties.range] || colorNoData,
+      fillColor: fillColorScale[feature.properties.range] || colorNoData,
       fillOpacity: fillOpacity,
       radius: pointRadius,
       weight: strokeWeight
     });
-      // style cities based on whether their moratorium has passed
-    // if (feature.properties.passed === "Yes") {
-    //   return L.circleMarker(latlng, {
-    //     color: "#4dac26",
-    //     fillColor: "#b8e186",
-    //     fillOpacity: fillOpacity,
-    //     radius: pointRadius,
-    //     weight: strokeWeight
-    //   });
-    // } else {
-    //   return L.circleMarker(latlng, {
-    //     color: "#d01c8b",
-    //     fillColor: "#f1b6da",
-    //     fillOpacity: fillOpacity,
-    //     radius: pointRadius,
-    //     weight: strokeWeight
-    //   });
-    // }
   };
 
   // Create the Leaflet layer for the cities data
@@ -484,34 +480,17 @@ function handleCitiesLayer(geojson) {
 
   return citiesLayer;
 }
-//FIXME: city colors are working but the states and counties are not.
 
 function handleCountiesLayer(geojson) {
   const layerOptions = {
     style: feature => {
       // style counties based on whether their moratorium has passed
       return {
-        color: strokeColorScale[feature.properties.scale],
-        fillColor: fillColorScale[feature.properties.scale],
+        color: strokeColorScale[feature.properties.range] || colorNoData,
+        fillColor: fillColorScale[feature.properties.range] || colorNoData,
         fillOpacity: fillOpacity,
         weight: strokeWeight
       };
-
-      // if (feature.properties.passed === "Yes") {
-      //   return {
-      //     color: "#4dac26",
-      //     fillColor: "#b8e186",
-      //     fillOpacity: fillOpacity,
-      //     weight: strokeWeight
-      //   };
-      // } else {
-      //   return {
-      //     color: "#d01c8b",
-      //     fillColor: "#f1b6da",
-      //     fillOpacity: fillOpacity,
-      //     weight: strokeWeight
-      //   };
-      // }
     }
   };
 
@@ -537,36 +516,13 @@ function handleStatesLayer(geojson) {
   // styling for the states layer: style states conditionally according to moratorium rating scale 1 to 3
   const layerOptions = {
     style: feature => {
-    return {
-      color: strokeColorScale[feature.properties.scale],
-      fillColor: fillColorScale[feature.properties.scale],
-      fillOpacity: fillOpacity,
-      weight: strokeWeight
-    };
-
-      // style states based on whether their moratorium has passed
-      //colors url: https://colorbrewer2.org/#type=sequential&scheme=YlGn&n=7
-//       if (feature.properties.passed === "Yes") {
-//     return {
-//       color: "#4dac26",
-//       fillColor: "#b8e186",
-//       fillOpacity: fillOpacity,
-//       weight: strokeWeight
-//     };
-//   } else if (feature.properties.passed === "No") {
-//     return {
-//       color: "#d01c8b",
-//       fillColor: "#f1b6da",
-//       fillOpacity: fillOpacity,
-//       weight: strokeWeight
-//     };
-//   } else {
-//     return {
-//       stroke: false,
-//       fill: false
-//     };
-//   }
-   }
+      return {
+        color: strokeColorScale[feature.properties.range] || colorNoData,
+        fillColor: fillColorScale[feature.properties.range] || colorNoData,
+        fillOpacity: fillOpacity,
+        weight: strokeWeight
+      };
+    }
   }
 
   // Create the Leaflet layer for the states data
