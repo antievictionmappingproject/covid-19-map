@@ -269,14 +269,14 @@ function createCitiesCartoURI() {
 
 function createCountiesCartoURI() {
   const query = `SELECT
-  c.the_geom, c.county, c.state, m.policy_type, m.policy_summary, m.link,
+  c.the_geom, c.county, c.state, m.policy_type, m.policy_summary, m.link, m.range,
   CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
   FROM us_county_boundaries c
   JOIN ${cartoSheetSyncTable} m
   ON ST_Intersects(c.the_geom, m.the_geom)
   WHERE m.the_geom IS NOT NULL
   AND m.admin_scale = 'County'
-  OR m.admin_scale = 'City and County'`; // how should we handle cases with city and county?
+  OR m.admin_scale = 'City and County'`;
 
   return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
 }
