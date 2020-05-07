@@ -260,11 +260,10 @@ L.tileLayer(
  *****************************************/
 
 function createCitiesCartoURI() {
-  const query = `SELECT
-  m.municipality, m.range, m.policy_type, m.policy_summary, m.link,
-  CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
-  FROM public.emergency_tenant_protections_scored m
-  WHERE m.admin_scale = 'City'`;
+  const query = `SELECT municipality, range, policy_type, policy_summary, link, 
+  lat, lng as lon, CASE passed WHEN true THEN 'Yes' ELSE 'No' END as passed 
+  FROM public.emergency_tenant_protections_scored 
+  WHERE the_geom is not null and admin_scale = 'City'`;
 
   return `https://ampitup.carto.com/api/v2/sql?q=${query}`;
 }
@@ -337,28 +336,13 @@ function handleData([
   countiesGeoJson,
   citiesCartoResult
 ]) {
-  const moratoriumRows = d3
-    .csvParse(moratoriumSheetsText, d3.autoType)
-    .map(({ passed, ...rest }) => ({
-      passed: passed === "TRUE" ? "Yes" : "No",
-      ...rest
-    }));
 
-
-  // This uses a reduce to do an inner join of the cities in the moratorium rows to the
-  // cities from Carto, because the first has the lat & lon & the second has the range score
-  const citiesData = moratoriumRows.filter(
-    row => row.admin_scale === "City" && row.lat !== null && row.lon !== null
-  ).reduce((newArr,city)=>{
-    let citiesCartoResultMatch=citiesCartoResult.rows.find(item=>item.municipality===city.municipality);
-    return citiesCartoResultMatch?newArr.concat([Object.assign(city,citiesCartoResultMatch)]):newArr;
-  },[]);
 
 
   // convert the regular cities moratorium JSON into valid GeoJSON
   const citiesGeoJson = {
     type: "FeatureCollection",
-    features: citiesData.map(({ cartodb_id, lat, lon, ...rest }) => ({
+    features: citiesCartoResult.rows.map(({ cartodb_id, lat, lon, ...rest }) => ({
       type: "Feature",
       id: cartodb_id,
       properties: rest,
