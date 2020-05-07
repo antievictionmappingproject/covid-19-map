@@ -261,7 +261,7 @@ L.tileLayer(
 function createCitiesCartoURI() {
   const query = `SELECT municipality, range, policy_type, policy_summary, link, 
   lat, lng as lon, CASE passed WHEN true THEN 'Yes' ELSE 'No' END as passed 
-  FROM public.emergency_tenant_protections_scored 
+  FROM ${cartoSheetSyncTable} 
   WHERE the_geom is not null and admin_scale = 'City'`;
 
   return `https://ampitup.carto.com/api/v2/sql?q=${query}`;
@@ -269,7 +269,7 @@ function createCitiesCartoURI() {
 
 function createCountiesCartoURI() {
   const query = `SELECT
-  c.the_geom, c.county, c.state, m.policy_type, m.policy_summary, m.link, m.range,
+  c.the_geom, c.county, c.state, m.range, m.policy_type, m.policy_summary, m.link, m.range,
   CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
   FROM us_county_boundaries c
   JOIN ${cartoSheetSyncTable} m
