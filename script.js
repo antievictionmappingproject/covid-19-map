@@ -254,13 +254,8 @@ const rentStrikeInfowindowTemplate = document.getElementById(
 L.tileLayer(
   "https://a.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}@2x.png",
   {
-<<<<<<< HEAD
-    minZoom: 3,
-    maxZoom: 18,
-=======
     minZoom: 1,
     maxZoom: 18
->>>>>>> f28a67fc98e69a49ac9b931e556851ec958554ca
   }
 ).addTo(map);
 
@@ -295,35 +290,16 @@ function createStatesCartoURI() {
   return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
 }
 
-<<<<<<< HEAD
-//testing new queries
-function createNationsCartoURI() {
-  const query = `SELECT c.the_geom, c.iso_a3, c.name_en, 
-  m.policy_type, m.policy_summary, m.link, m.range, m.policy_type, m.start, m._end, m.link 
-  FROM countries c 
-  INNER JOIN ${cartoSheetSyncTable} m 
-  ON c.iso_a3 = m.iso 
-=======
 function createNationsCartoURI() {
   const query = `SELECT c.the_geom, c.adm0_a3, c.name_en,
   m.policy_type, m.policy_summary, m.link, m.start, m._end, m.passed
   FROM countries c
   INNER JOIN ${cartoSheetSyncTable} m
   ON c.adm0_a3 = m.iso
->>>>>>> f28a67fc98e69a49ac9b931e556851ec958554ca
   AND m.admin_scale = 'Country'`;
 
   return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
 }
-<<<<<<< HEAD
-console.log(createNationsCartoURI());
-
-function createGlobalStatesURI(){
-  const query = `SELECT g.the_geom `
-}
-=======
-
->>>>>>> f28a67fc98e69a49ac9b931e556851ec958554ca
 /******************************************
  * FETCH DATA SOURCES
  *****************************************/
@@ -345,13 +321,10 @@ Promise.all([
     if (!res.ok) throw Error("Unable to fetch counties geojson");
     return res.json();
   }),
-<<<<<<< HEAD
-=======
   fetch(cartoNationsURI).then(res => {
     if (!res.ok) throw Error("Unable to fetch nations geojson");
     return res.json();
   })
->>>>>>> f28a67fc98e69a49ac9b931e556851ec958554ca
 ])
   .then(handleData)
   .catch((error) => console.log(error));
@@ -365,10 +338,7 @@ function handleData([
   rentStrikeSheetsText,
   statesGeoJson,
   countiesGeoJson,
-<<<<<<< HEAD
-=======
   nationsGeoJson
->>>>>>> f28a67fc98e69a49ac9b931e556851ec958554ca
 ]) {
   const moratoriumRows = d3
     .csvParse(moratoriumSheetsText, d3.autoType)
