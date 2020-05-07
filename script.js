@@ -21,7 +21,6 @@ const moratoriumSheetId = "1AkYjbnLbWW83LTm6jcsRjg78hRVxWsSKQv1eSssDHSM";
 const renStikeSheetId = "1rCZfNXO3gbl5H3cKhGXKIv3samJ1KC4nLhCwwZqrHvU";
 
 // the URI that grabs the sheet text formatted as a CSV
-const moratoriumSheetURI = `https://docs.google.com/spreadsheets/d/${moratoriumSheetId}/export?format=csv&id=${moratoriumSheetId}`;
 const rentStrikeSheetURI = `https://docs.google.com/spreadsheets/d/${renStikeSheetId}/export?format=csv&id=${renStikeSheetId}`;
 
 // table in CARTO that syncs with the Google sheet data
@@ -299,10 +298,6 @@ function createStatesCartoURI() {
  *****************************************/
 
 Promise.all([
-  fetch(moratoriumSheetURI).then(res => {
-    if (!res.ok) throw Error("Unable to fetch moratoriums sheet data");
-    return res.text();
-  }),
   fetch(rentStrikeSheetURI).then(res => {
     if (!res.ok) throw Error("Unable to fetch rent strike sheet data");
     return res.text();
@@ -330,7 +325,6 @@ Promise.all([
  *****************************************/
 
 function handleData([
-  moratoriumSheetsText,
   rentStrikeSheetsText,
   statesGeoJson,
   countiesGeoJson,
