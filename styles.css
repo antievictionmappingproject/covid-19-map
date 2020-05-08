@@ -76,9 +76,18 @@ details p:last-of-type {
   margin-bottom: 0;
 }
 
-.marker-cluster, .marker-cluster div { 
+.marker-cluster, .marker-cluster > div {
   background-color:  var(--rent-strike-color);
   color: white;
+}
+
+.marker-cluster {
+  border: 1px solid white;
+}
+
+.marker-cluster > div {
+  margin-left: 4px;
+  margin-top: 4px;
 }
 
 @media (max-width: 640px) {
