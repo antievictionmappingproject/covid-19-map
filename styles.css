@@ -1,3 +1,8 @@
+/* Variables */
+:root {
+  --rent-strike-color: #DB3A1D;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -71,10 +76,18 @@ details p:last-of-type {
   margin-bottom: 0;
 }
 
-/* marker cluster override */
-.marker-cluster-small div {
-  background-color: #ff8c1a !important;
-  opacity: 0.6;
+.marker-cluster, .marker-cluster > div {
+  background-color:  var(--rent-strike-color);
+  color: white;
+}
+
+.marker-cluster {
+  border: 1px solid white;
+}
+
+.marker-cluster > div {
+  margin-left: 4px;
+  margin-top: 4px;
 }
 
 @media (max-width: 640px) {
@@ -112,13 +125,10 @@ a:hover {
   color: #d01c8b;
 }
 
-.color-ocurring {
-  color: #1772aa;
+.color-rent-strike {
+  color: var(--rent-strike-color);
 }
 
-.color-may-be-ocurring {
-  color: #ae5117;
-}
 /* popup styling */
 
 /* override leaflet's <p> element styles */
