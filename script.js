@@ -308,7 +308,7 @@ function createStatesCartoURI() {
 }
 
 function createNationsCartoURI() {
-  const query = `SELECT c.the_geom, c.adm0_a3, c.name_en,
+  const query = `SELECT c.the_geom, c.adm0_a3, c.name_en, m.range,
   m.policy_type, m.policy_summary, m.link, m.passed
   FROM countries c
   INNER JOIN ${cartoSheetSyncTable} m
@@ -638,29 +638,11 @@ function handleRentStrikeLayer(geoJson) {
 function handleNationsLayer(geojson) {
   const layerOptions = {
     style: feature => {
-      const { passed } = feature.properties;
-      // If law is passed
-      if (passed) {
-        return {
-          color: '#4dac26',
-          fillColor: '#b8e186',
-          fillOpacity: fillOpacity,
-          weight: strokeWeight,
-        };
-      }
-      // If not yet passed
-      if (!passed) {
-        return {
-          color: '#d01c8b',
-          fillColor: '#f1b6da',
-          fillOpacity: fillOpacity,
-          weight: strokeWeight,
-        };
-      }
-      // If no value for passed
       return {
-        stroke: false,
-        fill: false,
+        color: strokeColorScale[feature.properties.range] || colorNoData,
+        fillColor: fillColorScale[feature.properties.range] || colorNoData,
+        fillOpacity: fillOpacity,
+        weight: strokeWeight
       };
     },
   };
