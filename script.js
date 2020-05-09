@@ -39,10 +39,10 @@ const cartoNationsURI = createNationsCartoURI();
 // colorScale comes from this ColorBrewer url:
 // https://colorbrewer2.org/#type=sequential&scheme=YlGn&n=7
 const colorNoData = "#939393";
-const fillColorScale = [colorNoData, "#d9f0a3", "#78c679", "#238443"];
-const strokeColorScale = [colorNoData, "#addd8e", "#41ab5d", "#005a32"];
+const fillColorScale = [undefined, "#d9f0a3", "#78c679", "#238443"];
+const strokeColorScale = [undefined, "#addd8e", "#41ab5d", "#005a32"];
 
-const policyStrengthLanguage = ["","Few protections in place", "Some protections in place", "Many protections in place"]
+const policyStrengthLanguage = ["", "Few protections in place", "Some protections in place", "Many protections in place"]
 
 /******************************************
  * MAP SETUP & MAP CONTROLS
