@@ -274,12 +274,12 @@ L.tileLayer(
  *****************************************/
 
 function createCitiesCartoURI() {
-  const query = `SELECT municipality, range, policy_type, policy_summary, link, 
-  lat, lng as lon 
+  const query = `SELECT
+  municipality, range, policy_type, policy_summary, link, the_geom
   FROM ${cartoSheetSyncTable} 
   WHERE the_geom is not null and admin_scale = 'City'`;
 
-  return `https://ampitup.carto.com/api/v2/sql?q=${query}`;
+  return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
 }
 
 function createCountiesCartoURI() {
@@ -359,25 +359,8 @@ function handleData([
   statesGeoJson,
   countiesGeoJson,
   nationsGeoJson,
-  citiesCartoResult
+  citiesGeoJson
 ]) {
-
-
-
-  // convert the regular cities moratorium JSON into valid GeoJSON
-  const citiesGeoJson = {
-    type: "FeatureCollection",
-    features: citiesCartoResult.rows.map(({ cartodb_id, lat, lon, ...rest }) => ({
-      type: "Feature",
-      id: cartodb_id,
-      properties: rest,
-      geometry: {
-        type: "Point",
-        coordinates: [lon, lat]
-      }
-    }))
-  };
-
 
   const rentStrikeRows = d3
     .csvParse(rentStrikeSheetsText, d3.autoType)
