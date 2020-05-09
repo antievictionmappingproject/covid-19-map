@@ -364,7 +364,9 @@ function handleData([
 
   const rentStrikeRows = d3
     .csvParse(rentStrikeSheetsText, d3.autoType)
-    .filter(row => row.Strike_Status !== null)
+    .filter(({ Strike_Status, Latitude, Longitude }) =>
+      Strike_Status !== null && Longitude !== null && Latitude !== null
+    )
     .map(({ Strike_Status, ...rest }) => ({
       status:
         Strike_Status === "Yes / Sí / 是 / Oui" || Strike_Status === "Yes"
@@ -374,13 +376,9 @@ function handleData([
       ...rest
     }));
 
-  const rentStrikeData = rentStrikeRows.filter(
-    row => row.Latitude !== null && row.Longitude !== null
-  );
-
   const rentStrikeGeoJson = {
     type: "FeatureCollection",
-    features: rentStrikeData.map(({ Longitude, Latitude, ...rest }, index) => ({
+    features: rentStrikeRows.map(({ Longitude, Latitude, ...rest }, index) => ({
       type: "Feature",
       id: index,
       properties: rest,
