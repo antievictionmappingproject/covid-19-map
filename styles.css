@@ -231,11 +231,34 @@ a:hover {
 }
 
 a.aemp-infowindow-close {
-  display: inline-block;
+  display: block;
   float: right;
   font-size: 2.4rem;
   font-style: normal;
   font-weight: bold;
+}
+
+a.aemp-infowindow-close:hover {
+  text-decoration: none;
+}
+
+.aemp-infowindow .policy-strength-color {
+  display: inline-block;
+  padding: 2px 6px;
+  font-weight: bold;
+}
+
+.aemp-infowindow .policy-strength-color--1 {
+  background-color: var(--policy-color-bg-1);
+}
+
+.aemp-infowindow .policy-strength-color--2 {
+  background-color: var(--policy-color-bg-2);
+}
+
+.aemp-infowindow .policy-strength-color--3 {
+  color: #fff;
+  background-color: var(--policy-color-bg-3);
 }
 
 
@@ -273,15 +296,18 @@ div.legendpair {
 }
 
 .scale1 {
-  background-color: #d9f0a3; border-color: #addd8e;
+  background-color: var(--policy-color-bg-1);
+  border-color: var(--policy-color-str-1);
 }
 
 .scale2 {
-  background-color: #78c679; border-color: #41ab5d;
+  background-color: var(--policy-color-bg-2);
+  border-color: var(--policy-color-str-2);
 }
 
 .scale3 {
-  background-color: #238443; border-color: #005a32;
+  background-color: var(--policy-color-bg-3);
+  border-color: var(--policy-color-str-3);
 }
 
 /*end legend styles*/
