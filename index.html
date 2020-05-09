@@ -142,7 +142,10 @@
         </div>
         {{#policyStrength}}
         <div>
-          <p><strong>Policy Strength: </strong>{{policyStrength}}</p>
+          <p>
+            <strong>Policy Strength: </strong>
+            <span class="policy-strength-color policy-strength-color--{{range}}">{{policyStrength}}</span>
+          </p>
         </div>
         {{/policyStrength}}
         <div>
