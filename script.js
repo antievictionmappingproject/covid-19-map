@@ -314,7 +314,7 @@ function createNationsCartoURI() {
   INNER JOIN ${cartoSheetSyncTable} m
   ON c.adm0_a3 = m.iso
   AND m.admin_scale = 'Country'
-   ORDER BY m.range`;
+  ORDER BY m.range`;
 
   return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
 }
