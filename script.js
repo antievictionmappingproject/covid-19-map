@@ -42,6 +42,8 @@ const colorNoData = "#939393";
 const fillColorScale = [colorNoData, "#d9f0a3", "#78c679", "#238443"];
 const strokeColorScale = [colorNoData, "#addd8e", "#41ab5d", "#005a32"];
 
+const policyStrengthLanguage = ["","Few protections in place", "Some protections in place", "Many protections in place"]
+
 /******************************************
  * MAP SETUP & MAP CONTROLS
  *****************************************/
@@ -249,7 +251,7 @@ const layersControl = L.control
 const popupTemplate = document.querySelector(".popup-template").innerHTML;
 const infowindowTemplate = document.getElementById("aemp-infowindow-template")
   .innerHTML;
-const nationInfowindowTemplate = document.getElementById('aemp-infowindow-template-nation')
+const nationInfowindowTemplate = document.getElementById('aemp-infowindow-template')
   .innerHTML;
 
 const rentStrikePopupTemplate = document.querySelector(
@@ -273,7 +275,7 @@ L.tileLayer(
 
 function createCitiesCartoURI() {
   const query = `SELECT municipality, range, policy_type, policy_summary, link, 
-  lat, lng as lon, CASE passed WHEN true THEN 'Yes' ELSE 'No' END as passed 
+  lat, lng as lon 
   FROM ${cartoSheetSyncTable} 
   WHERE the_geom is not null and admin_scale = 'City'`;
 
@@ -282,8 +284,7 @@ function createCitiesCartoURI() {
 
 function createCountiesCartoURI() {
   const query = `SELECT
-  c.the_geom, c.county, c.state, m.range, m.policy_type, m.policy_summary, m.link, m.range,
-  CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
+  c.the_geom, c.county, c.state, m.range, m.policy_type, m.policy_summary, m.link, m.range
   FROM us_county_boundaries c
   JOIN ${cartoSheetSyncTable} m
   ON ST_Intersects(c.the_geom, m.the_geom)
@@ -296,8 +297,7 @@ function createCountiesCartoURI() {
 
 function createStatesCartoURI() {
   const query = `SELECT
-  s.the_geom, s.name, s.admin, s.sr_adm0_a3, m.range, m.iso, m.policy_type, m.policy_summary, m.link,
-  CASE m.passed WHEN true THEN 'Yes' ELSE 'No' END as passed
+  s.the_geom, s.name, s.admin, s.sr_adm0_a3, m.range, m.iso, m.policy_type, m.policy_summary, m.link
   FROM public.states_and_provinces_global s
   INNER JOIN ${cartoSheetSyncTable} m
   ON s.name = m.state
@@ -309,9 +309,10 @@ function createStatesCartoURI() {
 
 function createNationsCartoURI() {
   const query = `SELECT c.the_geom, c.adm0_a3, c.name_en, m.range,
-  m.policy_type, m.policy_summary, m.link, m.passed
+  m.policy_type, m.policy_summary, m.link
   FROM countries c
   INNER JOIN ${cartoSheetSyncTable} m
+  ORDER BY m.range
   ON c.adm0_a3 = m.iso
   AND m.admin_scale = 'Country'`;
 
@@ -494,6 +495,7 @@ function handleCitiesLayer(geojson) {
       jurisdictionName: `${municipality}${state ? `, ${state}`: ''}${Country ? `, ${Country}` : ''}`,
       jurisdictionType: 'City',
       popupName: municipality,
+      policyStrength: policyStrengthLanguage[layer.feature.properties.range],
       ...layer.feature.properties,
     };
 
@@ -517,7 +519,7 @@ function handleCitiesLayer(geojson) {
 function handleCountiesLayer(geojson) {
   const layerOptions = {
     style: feature => {
-      // style counties based on whether their moratorium has passed
+      // style counties based on strength of protections
       return {
         color: strokeColorScale[feature.properties.range] || colorNoData,
         fillColor: fillColorScale[feature.properties.range] || colorNoData,
@@ -537,6 +539,7 @@ function handleCountiesLayer(geojson) {
       jurisdictionName: `${county}${state ? `, ${state}`: ''}`,
       jurisdictionType: 'County',
       popupName: `${county}${state ? `, ${state}`: ''}`,
+      policyStrength: policyStrengthLanguage[layer.feature.properties.range],
       ...layer.feature.properties,
     };
     const renderedInfo = Mustache.render(
@@ -575,6 +578,7 @@ function handleStatesLayer(geojson) {
       jurisdictionName: `${name}${admin ? `, ${admin}` : ''}`,
       jurisdictionType: 'State/Province',
       popupName: name,
+      policyStrength: policyStrengthLanguage[layer.feature.properties.range],
       ...layer.feature.properties,
     };
     const renderedInfo = Mustache.render(
@@ -651,12 +655,12 @@ function handleNationsLayer(geojson) {
   const nationsLayer = L.geoJson(geojson, layerOptions);
 
   nationsLayer.bindPopup(function (layer) {
-    const { name_en, passed } = layer.feature.properties;
+    const { name_en } = layer.feature.properties;
     const props = {
       jurisdictionName: name_en,
       jurisdictionType: 'Country',
       popupName: name_en,
-      passedText: passed ? 'Yes' : 'No',
+      policyStrength: policyStrengthLanguage[layer.feature.properties.range],
       ...layer.feature.properties,
     };
     const renderedInfo = Mustache.render(
