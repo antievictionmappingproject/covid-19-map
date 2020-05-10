@@ -475,12 +475,12 @@ function handleCitiesLayer(geojson) {
     // that aren't used in the template, so this is fine.
     const { municipality, state, Country } = layer.feature.properties;
     const props = {
+      ...layer.feature.properties,
       // Build city name with state and country if supplied
-      jurisdictionName: `${municipality}${state ? `, ${state}`: ''}${Country ? `, ${Country}` : ''}`,
+      jurisdictionName: `${municipality}${state ? `, ${state}` : ''}${Country ? `, ${Country}` : ''}`,
       jurisdictionType: 'City',
       popupName: municipality,
       policyStrength: policyStrengthLanguage[layer.feature.properties.range],
-      ...layer.feature.properties,
     };
 
     const renderedInfo = Mustache.render(
@@ -519,12 +519,12 @@ function handleCountiesLayer(geojson) {
   countiesLayer.bindPopup(function (layer) {
     const { county, state } = layer.feature.properties;
     const props = {
-      // Show county with state if state field is set
-      jurisdictionName: `${county}${state ? `, ${state}`: ''}`,
-      jurisdictionType: 'County',
-      popupName: `${county}${state ? `, ${state}`: ''}`,
-      policyStrength: policyStrengthLanguage[layer.feature.properties.range],
       ...layer.feature.properties,
+      // Show county with state if state field is set
+      jurisdictionName: `${county}${state ? `, ${state}` : ''}`,
+      jurisdictionType: 'County',
+      popupName: `${county}${state ? `, ${state}` : ''}`,
+      policyStrength: policyStrengthLanguage[layer.feature.properties.range],
     };
     const renderedInfo = Mustache.render(
       infowindowTemplate,
@@ -559,11 +559,11 @@ function handleStatesLayer(geojson) {
   statesLayer.bindPopup(function (layer) {
     const { name, admin } = layer.feature.properties;
     const props = {
+      ...layer.feature.properties,
       jurisdictionName: `${name}${admin ? `, ${admin}` : ''}`,
       jurisdictionType: 'State/Province',
       popupName: name,
       policyStrength: policyStrengthLanguage[layer.feature.properties.range],
-      ...layer.feature.properties,
     };
     const renderedInfo = Mustache.render(
       infowindowTemplate,
@@ -641,11 +641,11 @@ function handleNationsLayer(geojson) {
   nationsLayer.bindPopup(function (layer) {
     const { name_en } = layer.feature.properties;
     const props = {
+      ...layer.feature.properties,
       jurisdictionName: name_en,
       jurisdictionType: 'Country',
       popupName: name_en,
       policyStrength: policyStrengthLanguage[layer.feature.properties.range],
-      ...layer.feature.properties,
     };
     const renderedInfo = Mustache.render(
       nationInfowindowTemplate,
