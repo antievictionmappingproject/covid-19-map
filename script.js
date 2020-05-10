@@ -277,7 +277,8 @@ function createCitiesCartoURI() {
   const query = `SELECT
   municipality, range, policy_type, policy_summary, link, the_geom
   FROM ${cartoSheetSyncTable} 
-  WHERE the_geom is not null and admin_scale = 'City'`;
+  WHERE the_geom is not null and admin_scale = 'City'
+  ORDER BY range`;
 
   return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
 }
@@ -290,7 +291,8 @@ function createCountiesCartoURI() {
   ON ST_Intersects(c.the_geom, m.the_geom)
   WHERE m.the_geom IS NOT NULL
   AND m.admin_scale = 'County'
-  OR m.admin_scale = 'City and County'`;
+  OR m.admin_scale = 'City and County'
+  ORDER BY m.range`;
 
   return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
 }
@@ -302,7 +304,8 @@ function createStatesCartoURI() {
   INNER JOIN ${cartoSheetSyncTable} m
   ON s.name = m.state
   AND s.sr_adm0_a3 = m.iso
-  AND m.admin_scale = 'State'`;
+  AND m.admin_scale = 'State'
+  ORDER BY m.range`;
 
   return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
 }
