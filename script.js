@@ -1,7 +1,6 @@
 "use strict";
 console.clear();
 
-
 /******************************************
  * GLOBAL CONSTANTS & FLAGS
  *****************************************/
@@ -24,8 +23,7 @@ const renStikeSheetId = "1rCZfNXO3gbl5H3cKhGXKIv3samJ1KC4nLhCwwZqrHvU";
 const rentStrikeSheetURI = `https://docs.google.com/spreadsheets/d/${renStikeSheetId}/export?format=csv&id=${renStikeSheetId}`;
 
 // table in CARTO that syncs with the Google sheet data
-const cartoSheetSyncTable =
-  "public.emergency_tenant_protections_scored";
+const cartoSheetSyncTable = "public.emergency_tenant_protections_scored";
 
 // the URIs for CARTO counties &s tates layers
 // joined to the moratoriums data
@@ -35,14 +33,18 @@ const cartoStatesURI = createStatesCartoURI();
 const cartoCitiesURI = createCitiesCartoURI();
 const cartoNationsURI = createNationsCartoURI();
 
-
 // colorScale comes from this ColorBrewer url:
 // https://colorbrewer2.org/#type=sequential&scheme=YlGn&n=7
 const colorNoData = "#939393";
 const fillColorScale = [undefined, "#d9f0a3", "#78c679", "#238443"];
 const strokeColorScale = [undefined, "#addd8e", "#41ab5d", "#005a32"];
 
-const policyStrengthLanguage = ["", "Few protections in place", "Some protections in place", "Many protections in place"]
+const policyStrengthLanguage = [
+  "",
+  "Few protections in place",
+  "Some protections in place",
+  "Many protections in place",
+];
 
 /******************************************
  * MAP SETUP & MAP CONTROLS
@@ -55,8 +57,8 @@ const mapOptions = {
   attributionControl: false,
   maxBounds: [
     [-85.05, -190], // lower left
-    [85.05, 200] // upper right
-  ]
+    [85.05, 200], // upper right
+  ],
 };
 
 // global map layer styling variables
@@ -81,7 +83,7 @@ let mapConfig = {
   states: true,
   cities: true,
   counties: true,
-  rentStrikes: true
+  rentStrikes: true,
 };
 
 // read url hash input
@@ -138,13 +140,13 @@ function inputValues(hash) {
     }
   }
 
-   if (inputVals.nations !== undefined) {
-     if (inputVals.nations === 'true') {
-       mapConfig.nations = true;
-     } else if (inputVals.nations === 'false') {
-       mapConfig.nations = false;
-     }
-   }
+  if (inputVals.nations !== undefined) {
+    if (inputVals.nations === "true") {
+      mapConfig.nations = true;
+    } else if (inputVals.nations === "false") {
+      mapConfig.nations = false;
+    }
+  }
 
   if (inputVals.rentstrike !== undefined) {
     if (inputVals.rentstrike === "true") {
@@ -251,8 +253,9 @@ const layersControl = L.control
 const popupTemplate = document.querySelector(".popup-template").innerHTML;
 const infowindowTemplate = document.getElementById("aemp-infowindow-template")
   .innerHTML;
-const nationInfowindowTemplate = document.getElementById('aemp-infowindow-template')
-  .innerHTML;
+const nationInfowindowTemplate = document.getElementById(
+  "aemp-infowindow-template"
+).innerHTML;
 
 const rentStrikePopupTemplate = document.querySelector(
   ".rentstrike-popup-template"
@@ -265,7 +268,7 @@ L.tileLayer(
   "https://a.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}@2x.png",
   {
     minZoom: 1,
-    maxZoom: 18
+    maxZoom: 18,
   }
 ).addTo(map);
 
@@ -327,31 +330,29 @@ function createNationsCartoURI() {
  *****************************************/
 
 Promise.all([
-  fetch(rentStrikeSheetURI).then(res => {
+  fetch(rentStrikeSheetURI).then((res) => {
     if (!res.ok) throw Error("Unable to fetch rent strike sheet data");
     return res.text();
   }),
-  fetch(cartoStatesURI).then(res => {
+  fetch(cartoStatesURI).then((res) => {
     if (!res.ok) throw Error("Unable to fetch states geojson");
     return res.json();
   }),
-  fetch(cartoCountiesURI).then(res => {
+  fetch(cartoCountiesURI).then((res) => {
     if (!res.ok) throw Error("Unable to fetch counties geojson");
     return res.json();
   }),
-  fetch(cartoNationsURI).then(res => {
+  fetch(cartoNationsURI).then((res) => {
     if (!res.ok) throw Error("Unable to fetch nations geojson");
     return res.json();
-  })
-  ,
-  fetch(cartoCitiesURI).then(res => {
+  }),
+  fetch(cartoCitiesURI).then((res) => {
     if (!res.ok) throw Error("Unable to fetch cities geojson");
     return res.json();
-  })
-
+  }),
 ])
   .then(handleData)
-  .catch(error => console.log(error));
+  .catch((error) => console.log(error));
 
 /******************************************
  * HANDLE DATA ASYNC RESPONSES
@@ -362,13 +363,13 @@ function handleData([
   statesGeoJson,
   countiesGeoJson,
   nationsGeoJson,
-  citiesGeoJson
+  citiesGeoJson,
 ]) {
-
   const rentStrikeRows = d3
     .csvParse(rentStrikeSheetsText, d3.autoType)
-    .filter(({ Strike_Status, Latitude, Longitude }) =>
-      Strike_Status !== null && Longitude !== null && Latitude !== null
+    .filter(
+      ({ Strike_Status, Latitude, Longitude }) =>
+        Strike_Status !== null && Longitude !== null && Latitude !== null
     )
     .map(({ Strike_Status, ...rest }) => ({
       status:
@@ -376,7 +377,7 @@ function handleData([
           ? "Yes"
           : "Unsure",
 
-      ...rest
+      ...rest,
     }));
 
   const rentStrikeGeoJson = {
@@ -387,9 +388,9 @@ function handleData([
       properties: rest,
       geometry: {
         type: "Point",
-        coordinates: [Longitude, Latitude]
-      }
-    }))
+        coordinates: [Longitude, Latitude],
+      },
+    })),
   };
 
   // add the states, cities, counties, and rentstrikes layers to the map
@@ -458,13 +459,13 @@ function handleCitiesLayer(geojson) {
       fillColor: fillColorScale[feature.properties.range] || colorNoData,
       fillOpacity: fillOpacity,
       radius: pointRadius,
-      weight: strokeWeight
+      weight: strokeWeight,
     });
   };
 
   // Create the Leaflet layer for the cities data
   const citiesLayer = L.geoJson(geojson, {
-    pointToLayer: pointToLayer
+    pointToLayer: pointToLayer,
   });
 
   // Add popups to the layer
@@ -477,16 +478,15 @@ function handleCitiesLayer(geojson) {
     const props = {
       ...layer.feature.properties,
       // Build city name with state and country if supplied
-      jurisdictionName: `${municipality}${state ? `, ${state}` : ''}${Country ? `, ${Country}` : ''}`,
-      jurisdictionType: 'City',
+      jurisdictionName: `${municipality}${state ? `, ${state}` : ""}${
+        Country ? `, ${Country}` : ""
+      }`,
+      jurisdictionType: "City",
       popupName: municipality,
       policyStrength: policyStrengthLanguage[layer.feature.properties.range],
     };
 
-    const renderedInfo = Mustache.render(
-      infowindowTemplate,
-      props
-    );
+    const renderedInfo = Mustache.render(infowindowTemplate, props);
     document.getElementById(
       "aemp-infowindow-container"
     ).innerHTML = renderedInfo;
@@ -502,15 +502,15 @@ function handleCitiesLayer(geojson) {
 
 function handleCountiesLayer(geojson) {
   const layerOptions = {
-    style: feature => {
+    style: (feature) => {
       // style counties based on strength of protections
       return {
         color: strokeColorScale[feature.properties.range] || colorNoData,
         fillColor: fillColorScale[feature.properties.range] || colorNoData,
         fillOpacity: fillOpacity,
-        weight: strokeWeight
+        weight: strokeWeight,
       };
-    }
+    },
   };
 
   // Create the Leaflet layer for the counties data
@@ -521,15 +521,12 @@ function handleCountiesLayer(geojson) {
     const props = {
       ...layer.feature.properties,
       // Show county with state if state field is set
-      jurisdictionName: `${county}${state ? `, ${state}` : ''}`,
-      jurisdictionType: 'County',
-      popupName: `${county}${state ? `, ${state}` : ''}`,
+      jurisdictionName: `${county}${state ? `, ${state}` : ""}`,
+      jurisdictionType: "County",
+      popupName: `${county}${state ? `, ${state}` : ""}`,
       policyStrength: policyStrengthLanguage[layer.feature.properties.range],
     };
-    const renderedInfo = Mustache.render(
-      infowindowTemplate,
-      props
-    );
+    const renderedInfo = Mustache.render(infowindowTemplate, props);
     document.getElementById(
       "aemp-infowindow-container"
     ).innerHTML = renderedInfo;
@@ -543,15 +540,15 @@ function handleCountiesLayer(geojson) {
 function handleStatesLayer(geojson) {
   // styling for the states layer: style states conditionally according to moratorium rating scale 1 to 3
   const layerOptions = {
-    style: feature => {
+    style: (feature) => {
       return {
         color: strokeColorScale[feature.properties.range] || colorNoData,
         fillColor: fillColorScale[feature.properties.range] || colorNoData,
         fillOpacity: fillOpacity,
-        weight: strokeWeight
+        weight: strokeWeight,
       };
-    }
-  }
+    },
+  };
 
   // Create the Leaflet layer for the states data
   const statesLayer = L.geoJson(geojson, layerOptions);
@@ -560,15 +557,12 @@ function handleStatesLayer(geojson) {
     const { name, admin } = layer.feature.properties;
     const props = {
       ...layer.feature.properties,
-      jurisdictionName: `${name}${admin ? `, ${admin}` : ''}`,
-      jurisdictionType: 'State/Province',
+      jurisdictionName: `${name}${admin ? `, ${admin}` : ""}`,
+      jurisdictionType: "State/Province",
       popupName: name,
       policyStrength: policyStrengthLanguage[layer.feature.properties.range],
     };
-    const renderedInfo = Mustache.render(
-      infowindowTemplate,
-      props
-    );
+    const renderedInfo = Mustache.render(infowindowTemplate, props);
     document.getElementById(
       "aemp-infowindow-container"
     ).innerHTML = renderedInfo;
@@ -583,24 +577,24 @@ function handleStatesLayer(geojson) {
 
 function handleRentStrikeLayer(geoJson) {
   const rentStrikeIcon = new L.Icon({
-    iconUrl: './assets/mapIcons/rent-strike.svg',
+    iconUrl: "./assets/mapIcons/rent-strike.svg",
     iconSize: [40, 40],
     iconAnchor: [20, 20],
-    className: 'icon-rent-strike',
+    className: "icon-rent-strike",
   });
 
   // add custom marker icons
   const rentStrikeLayer = L.geoJson(geoJson, {
     pointToLayer: function (feature, latlng) {
       return L.marker(latlng, {
-        icon: rentStrikeIcon
+        icon: rentStrikeIcon,
       });
-    }
+    },
   });
 
   //add markers to cluster with options
   const rentStrikeLayerMarkers = L.markerClusterGroup({
-    maxClusterRadius: 40
+    maxClusterRadius: 40,
   }).on("clusterclick", function () {
     if (IS_MOBILE) {
       titleDetails.open = false;
@@ -625,12 +619,12 @@ function handleRentStrikeLayer(geoJson) {
 
 function handleNationsLayer(geojson) {
   const layerOptions = {
-    style: feature => {
+    style: (feature) => {
       return {
         color: strokeColorScale[feature.properties.range] || colorNoData,
         fillColor: fillColorScale[feature.properties.range] || colorNoData,
         fillOpacity: fillOpacity,
-        weight: strokeWeight
+        weight: strokeWeight,
       };
     },
   };
@@ -643,16 +637,13 @@ function handleNationsLayer(geojson) {
     const props = {
       ...layer.feature.properties,
       jurisdictionName: name_en,
-      jurisdictionType: 'Country',
+      jurisdictionType: "Country",
       popupName: name_en,
       policyStrength: policyStrengthLanguage[layer.feature.properties.range],
     };
-    const renderedInfo = Mustache.render(
-      nationInfowindowTemplate,
-      props,
-    );
+    const renderedInfo = Mustache.render(nationInfowindowTemplate, props);
     document.getElementById(
-      'aemp-infowindow-container',
+      "aemp-infowindow-container"
     ).innerHTML = renderedInfo;
     return Mustache.render(popupTemplate, props);
   });
