@@ -43,7 +43,7 @@ module.exports = (env, argv) => {
      * The key (e.g. "index") can be referenced elsewhere in the configuration
      ******************************************************************************/
     entry: {
-      index: "./src/index.js"
+      index: "./src/index.js",
     },
 
     /******************************************************************************
@@ -55,7 +55,7 @@ module.exports = (env, argv) => {
       filename: devMode ? "[name].js" : "[name].[contenthash].js",
 
       // tell webpack to put our processed files in a directory called "dist"
-      path: path.resolve(__dirname, "dist")
+      path: path.resolve(__dirname, "dist"),
     },
 
     /******************************************************************************
@@ -70,7 +70,7 @@ module.exports = (env, argv) => {
       contentBase: "./dist",
       // use webpack's hot module replacement
       // see: https://webpack.js.org/guides/hot-module-replacement/
-      hot: true
+      hot: true,
     },
 
     /******************************************************************************
@@ -92,12 +92,12 @@ module.exports = (env, argv) => {
                 // enables hot module replacement for css files
                 hmr: devMode,
                 // fallback to a full page reload if hmr is not present
-                reloadAll: true
-              }
+                reloadAll: true,
+              },
             },
             "css-loader",
-            "postcss-loader"
-          ]
+            "postcss-loader",
+          ],
         },
 
         // this "rule" tells webpack what "loader(s)" to use to process our JS
@@ -120,31 +120,27 @@ module.exports = (env, argv) => {
                   {
                     useBuiltIns: "entry",
                     targets: "> 0.25%, not dead",
-                    corejs: { version: 3, proposals: true }
-                  }
-                ]
+                    corejs: { version: 3, proposals: true },
+                  },
+                ],
               ],
-              plugins: ["@babel/plugin-proposal-object-rest-spread"]
-            }
-          }
+              plugins: ["@babel/plugin-proposal-object-rest-spread"],
+            },
+          },
         },
 
         // rule to handle loading images
         {
           test: /\.(png|svg|jpg|gif)$/,
-          use: [
-            "file-loader"
-          ]
+          use: ["file-loader"],
         },
 
         // rule to handle loading fonts
         {
           test: /\.(woff|woff2|eot|ttf|otf)$/,
-          use: [
-            "file-loader"
-          ]
-        }
-      ]
+          use: ["file-loader"],
+        },
+      ],
     },
 
     /******************************************************************************
@@ -162,13 +158,13 @@ module.exports = (env, argv) => {
           exclude: /node_modules/,
           terserOptions: {
             output: {
-              comments: /@license/i
-            }
+              comments: /@license/i,
+            },
           },
           extractComments: true,
-          sourceMap: true
+          sourceMap: true,
         }),
-        new OptimizeCSSAssetsPlugin({})
+        new OptimizeCSSAssetsPlugin({}),
       ],
 
       // how webpack should split our code compiled into separate files for production
@@ -181,7 +177,7 @@ module.exports = (env, argv) => {
           vendor: {
             test: /[\\/]node_modules[\\/]/,
             name: "vendors",
-            chunks: "all"
+            chunks: "all",
           },
 
           // group any css
@@ -189,10 +185,10 @@ module.exports = (env, argv) => {
             name: "styles",
             test: /\.css$/,
             chunks: "all",
-            enforce: true
-          }
-        }
-      }
+            enforce: true,
+          },
+        },
+      },
     },
 
     /******************************************************************************
@@ -208,8 +204,7 @@ module.exports = (env, argv) => {
 
       // handles copying files that aren't "imported" into our JS to the output directory
       new CopyPlugin([
-        "./data/states.geojson",
-        { from: "public/assets/mapIcons", to: "assets/mapIcons" }
+        { from: "public/assets/mapIcons", to: "assets/mapIcons" },
       ]),
 
       // handles extracting our CSS into a file(s)
@@ -218,16 +213,16 @@ module.exports = (env, argv) => {
         // all options are optional
         filename: devMode ? "[name].css" : "[name].[contenthash].css",
         chunkFilename: devMode ? "[id].css" : "[id].[contenthash].css",
-        ignoreOrder: true // Enable to remove warnings about conflicting order
+        ignoreOrder: true, // Enable to remove warnings about conflicting order
       }),
 
       // allows for variables to be available in our app code
       // helpful for enabling certain things when in development that you might not
       // want in production, such as logging
       new webpack.DefinePlugin({
-        "process.env.NODE_ENV": JSON.stringify(argv.env.NODE_ENV)
-      })
-    ]
+        "process.env.NODE_ENV": JSON.stringify(argv.env.NODE_ENV),
+      }),
+    ],
   };
 
   return config;
