@@ -1,12 +1,12 @@
-# Emergency Tenants Protections Map
+# COVID-19 Emergency Tenants Protections Map
 
-Mapping states, counties, and municipalities that are enacting emergency tenant protections due to the corona virus pandemic, as well as where organized rent strikes are taking place.
+Mapping states, counties, and municipalities that are enacting emergency tenant protections due to COVID-19 (the novel corona virus) pandemic, as well as where organized rent strikes are taking place.
 
 ## Data Source
 
-Data sourcing is being provided by the [Anti-Eviction Mapping Project](https://www.antievictionmap.com/).
+Data sourcing and maintenance is being provided by the [Anti-Eviction Mapping Project](https://www.antievictionmap.com/).
 
-**Disclaimer:** This data is by no means perfect or exhaustive of all emergency tenant protection policies in the United States and elsewhere. It has been crowdsourced and is maintained by a team of dedicated volunteers. If you notice something missing or incorrect in the data, please [reach out to us](mailto:antievictionmap@riseup.net) to let us know so we may update it accordingly!
+**DISCLAIMER:** This data is by no means perfect or exhaustive of all emergency tenant protection policies in the United States and elsewhere. It has been crowdsourced and is maintained by a team of dedicated volunteers. If you notice something missing or incorrect in the data, please [reach out to us](mailto:antievictionmap@riseup.net) to let us know so we may update it accordingly!
 
 ## Developer Instructions
 
