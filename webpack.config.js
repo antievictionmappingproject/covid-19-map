@@ -6,6 +6,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const TerserJSPlugin = require("terser-webpack-plugin");
+const StylelintPlugin = require("stylelint-webpack-plugin");
 
 // `module.exports` is NodeJS's way of exporting code from a file,
 // so that it can be made available in other files. It's what
@@ -227,6 +228,14 @@ module.exports = (env, argv) => {
         filename: devMode ? "[name].css" : "[name].[contenthash].css",
         chunkFilename: devMode ? "[id].css" : "[id].[contenthash].css",
         ignoreOrder: true, // Enable to remove warnings about conflicting order
+      }),
+
+      // Use stylelint (https://stylelint.io/) to lint Sass (.scss) files
+      new StylelintPlugin({
+        fix: true,
+        lintDirtyModulesOnly: true,
+        emitErrors: true,
+        emitWarning: true
       }),
 
       // allows for variables to be available in our app code
