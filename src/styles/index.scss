@@ -44,17 +44,6 @@ header {
   z-index: 500;
 }
 
-.title-content-wrapper {
-  max-height: 50vh;
-  overflow-y: auto;
-}
-
-@media (max-width: 640px) {
-  .title-content-wrapper {
-    max-height: 250px;
-  }
-}
-
 header > h1 {
   margin: 0 0 1.2rem 0;
 }
@@ -71,6 +60,17 @@ details p {
 
 details p:last-of-type {
   margin-bottom: 0;
+}
+
+.title-content-wrapper {
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+@media (max-width: 640px) {
+  .title-content-wrapper {
+    max-height: 250px;
+  }
 }
 
 .marker-cluster,
@@ -243,7 +243,7 @@ a.aemp-infowindow-close:hover {
   background-color: $policy-color-bg-3;
 }
 
-/*begin legend styles*/
+/* begin legend styles */
 
 div.legend {
   width: 100%;
@@ -291,7 +291,7 @@ div.legendpair {
   border-color: $policy-color-str-3;
 }
 
-/*end legend styles*/
+/* end legend styles */
 
 @media (max-width: 640px) {
   #root.aemp-popupopen #map {
