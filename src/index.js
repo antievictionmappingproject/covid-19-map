@@ -15,8 +15,7 @@ let IS_DESKTOP =
 /******************************************
  * DATA SOURCES
  *****************************************/
-// unique id of the sheet that imports desired columns from the form responses sheet
-const moratoriumSheetId = "1AkYjbnLbWW83LTm6jcsRjg78hRVxWsSKQv1eSssDHSM";
+// unique id of the Google sheet that imports desired columns from the rent-strike form responses public sheet
 const renStikeSheetId = "1rCZfNXO3gbl5H3cKhGXKIv3samJ1KC4nLhCwwZqrHvU";
 
 // the URI that grabs the sheet text formatted as a CSV
@@ -86,9 +85,8 @@ let mapConfig = {
   rentStrikes: true,
 };
 
-// read url hash input
-let hash = location.hash;
-let input = inputValues(hash);
+// read url hash input & maybe override mapConfig props
+inputValues(location.hash);
 
 // check the url hash for params then
 // override map default settings if any are present
@@ -206,7 +204,7 @@ map.on("popupopen", function (e) {
   map.setView(e.popup._latlng, map.getZoom(), { animate: true });
 });
 
-map.on("popupclose", function (e) {
+map.on("popupclose", function () {
   document.getElementById("root").classList.remove("aemp-popupopen");
   document.getElementById("aemp-infowindow-container").innerHTML = "";
   if (IS_MOBILE)
@@ -232,7 +230,7 @@ function handleWindowResize() {
   map.invalidateSize();
 }
 
-const attribution = L.control
+L.control
   .attribution({ prefix: "Data sources by: " })
   .addAttribution(
     "<a href='https://www.antievictionmap.com/' target='_blank'>Anti-Eviction Mapping Project</a>"
@@ -242,7 +240,7 @@ const attribution = L.control
   )
   .addTo(map);
 
-const zoomControl = L.control.zoom({ position: "bottomright" }).addTo(map);
+L.control.zoom({ position: "bottomright" }).addTo(map);
 
 // Map layers control: add the layers later after their data has been fetched
 const layersControl = L.control
