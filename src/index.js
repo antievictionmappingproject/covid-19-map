@@ -1,5 +1,5 @@
 // this tells webpack to use our CSS
-import "./styles/index.css";
+import "./styles/index.scss";
 
 /******************************************
  * GLOBAL CONSTANTS & FLAGS
