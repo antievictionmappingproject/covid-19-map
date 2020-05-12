@@ -112,7 +112,7 @@ module.exports = (env, argv) => {
           // many options in webpack's config can take a value as an array or object
           // here we're specify an object with additonal properties, such as
           // plugins for babel to use
-          use: {
+          use: [{
             loader: "babel-loader",
             options: {
               presets: [
@@ -128,6 +128,13 @@ module.exports = (env, argv) => {
               plugins: ["@babel/plugin-proposal-object-rest-spread"],
             },
           },
+          {
+            loader: "eslint-loader",
+            options: {
+              cache: true,
+              emitWarning: true
+            }
+          }],
         },
 
         // rule to handle loading images
