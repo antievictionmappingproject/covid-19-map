@@ -1,16 +1,5 @@
 @import "variables";
 
-/* Variables */
-:root {
-  --rent-strike-color: #db3a1d;
-  --policy-color-bg-1: #d9f0a3;
-  --policy-color-bg-2: #78c679;
-  --policy-color-bg-3: #238443;
-  --policy-color-str-1: #addd8e;
-  --policy-color-str-2: #41ab5d;
-  --policy-color-str-3: #005a32;
-}
-
 * {
   box-sizing: border-box;
 }
@@ -86,7 +75,7 @@ details p:last-of-type {
 
 .marker-cluster,
 .marker-cluster > div {
-  background-color: var(--rent-strike-color);
+  background-color: $rent-strike-color;
   color: white;
 }
 
@@ -125,17 +114,8 @@ a:hover {
   text-decoration: underline;
 }
 
-/* custom classes */
-.color-passed {
-  color: #4dac26;
-}
-
-.color-yet-to-pass {
-  color: #d01c8b;
-}
-
 .color-rent-strike {
-  color: var(--rent-strike-color);
+  color: $rent-strike-color;
 }
 
 /* popup styling */
@@ -251,16 +231,16 @@ a.aemp-infowindow-close:hover {
 }
 
 .aemp-infowindow .policy-strength-color--1 {
-  background-color: var(--policy-color-bg-1);
+  background-color: $policy-color-bg-1;
 }
 
 .aemp-infowindow .policy-strength-color--2 {
-  background-color: var(--policy-color-bg-2);
+  background-color: $policy-color-bg-2;
 }
 
 .aemp-infowindow .policy-strength-color--3 {
   color: #fff;
-  background-color: var(--policy-color-bg-3);
+  background-color: $policy-color-bg-3;
 }
 
 /*begin legend styles*/
@@ -297,18 +277,18 @@ div.legendpair {
 }
 
 .scale1 {
-  background-color: var(--policy-color-bg-1);
-  border-color: var(--policy-color-str-1);
+  background-color: $policy-color-bg-1;
+  border-color: $policy-color-str-1;
 }
 
 .scale2 {
-  background-color: var(--policy-color-bg-2);
-  border-color: var(--policy-color-str-2);
+  background-color: $policy-color-bg-2;
+  border-color: $policy-color-str-2;
 }
 
 .scale3 {
-  background-color: var(--policy-color-bg-3);
-  border-color: var(--policy-color-str-3);
+  background-color: $policy-color-bg-3;
+  border-color: $policy-color-str-3;
 }
 
 /*end legend styles*/

@@ -1,9 +1,17 @@
 /**
  * APP WIDE VARIABLES
- * Note: these are not Sass variables but behave similarly
  * To use them in file you must @import them first
  */
 
-/* font properties */
-$fontSizeDefault: 1.2rem;
+// font defaults
+$fontSizeDefault: 1.2rem; // = 12px
 $fontStack: Roboto, sans-serif;
+
+// colors
+$rent-strike-color: #db3a1d;
+$policy-color-bg-1: #d9f0a3;
+$policy-color-bg-2: #78c679;
+$policy-color-bg-3: #238443;
+$policy-color-str-1: #addd8e;
+$policy-color-str-2: #41ab5d;
+$policy-color-str-3: #005a32;
