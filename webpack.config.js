@@ -82,7 +82,7 @@ module.exports = (env, argv) => {
         // this "rule" tells webpack what "loaders" to use to process our CSS
         {
           // use a Regular Expression to tell webpack what type of file(s) this rule targets
-          test: /\.css$/,
+          test: /\.(s)css$/,
           // tell webpack what "loaders" to use to process this file type
           use: [
             {
@@ -97,6 +97,7 @@ module.exports = (env, argv) => {
             },
             "css-loader",
             "postcss-loader",
+            "sass-loader",
           ],
         },
 
