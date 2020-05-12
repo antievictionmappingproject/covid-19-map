@@ -199,6 +199,11 @@ module.exports = (env, argv) => {
       },
     },
 
+    // what bundle information gets output to the CLI
+    // "minimal" means "Only output when errors or new compilation happen"
+    // https://webpack.js.org/configuration/stats/
+    stats: 'minimal',
+
     /******************************************************************************
      * What plugins Webpack should use for more advanced & customized configuration
      * see: https://webpack.js.org/plugins/
