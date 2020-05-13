@@ -6,6 +6,7 @@
   "main": "src/main.js",
   "scripts": {
     "start": "webpack-dev-server --mode=development --env.NODE_ENV=development",
+    "start:prod": "npm run build && http-server dist",
     "build": "webpack --mode=production --env.NODE_ENV=production",
     "deploy": "npm run build && gh-pages -d dist",
     "lint:js": "eslint 'src/**/*.js' --ext .js",
