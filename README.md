@@ -74,20 +74,10 @@ npm run deploy
 
 You will need to have write privileges to this repository on Github to be able to do this.
 
-**NOTE: Use caution when doing this**, *before deploying you should make sure your build is successful and runs as expected. You may do this by running another webserver, for example using Python, in the `dist` directory after a build, and then viewing the site in your browser:*
+**NOTE: Use caution when doing this**, *before deploying you should make sure your build is successful and runs as expected. You may do this by running the script `start:prod` which will create a production build then start a local server in the dist directory.*
 
-``` bash
-# first create a production build
-yarn build
+View the site using the output / bundled files from Webpack using `http-server`:
 
-# assuming the build was successful,
-# change directories to the output directory:
-cd dist
-
-# run a local server using python and view your changes on localhost:8000
-python -m SimpleHTTPServer 8000
-
-# if all looks good, deploy!
-cd ..
-yarn deploy
+```
+yarn start:prod
 ```
