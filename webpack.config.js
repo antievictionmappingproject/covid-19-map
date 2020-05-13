@@ -75,6 +75,19 @@ module.exports = (env, argv) => {
     },
 
     /******************************************************************************
+     * "resolve" handles how Webpack looks for things when `require`ing or `importing` them
+     * see https://webpack.js.org/concepts/module-resolution/
+     ******************************************************************************/
+     resolve: {
+       // "alias" just means you can require/import a module using the name
+       // rather the full path, e.g. import "styles/my.scss" vs. import "../styles/my.scss"
+       alias: {
+         styles: path.resolve(__dirname, "src/styles"),
+         public: path.resolve(__dirname, "public")
+       }
+     },
+
+    /******************************************************************************
      * "module" is where we tell webpack how to handle our various modules / files
      ******************************************************************************/
     module: {
