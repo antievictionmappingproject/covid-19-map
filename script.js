@@ -278,7 +278,7 @@ L.tileLayer(
 
 function createCitiesCartoURI() {
   const query = `SELECT
-  municipality, range, policy_type, policy_summary, link, the_geom
+  municipality, state, country, range, policy_type, policy_summary, link, the_geom
   FROM ${cartoSheetSyncTable} 
   WHERE the_geom is not null and admin_scale = 'City'
   ORDER BY range`;
@@ -474,12 +474,12 @@ function handleCitiesLayer(geojson) {
 
     // Render the template with all of the properties. Mustache ignores properties
     // that aren't used in the template, so this is fine.
-    const { municipality, state, Country } = layer.feature.properties;
+    const { municipality, state, country } = layer.feature.properties;
     const props = {
       ...layer.feature.properties,
       // Build city name with state and country if supplied
       jurisdictionName: `${municipality}${state ? `, ${state}` : ""}${
-        Country ? `, ${Country}` : ""
+        country ? `, ${country}` : ""
       }`,
       jurisdictionType: "City",
       popupName: municipality,
