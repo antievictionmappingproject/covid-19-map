@@ -1,13 +1,4 @@
-/* Variables */
-:root {
-  --rent-strike-color: #DB3A1D;
-  --policy-color-bg-1: #d9f0a3;
-  --policy-color-bg-2: #78c679;
-  --policy-color-bg-3: #238443;
-  --policy-color-str-1: #addd8e;
-  --policy-color-str-2: #41ab5d;
-  --policy-color-str-3: #005a32;
-}
+@import "variables";
 
 * {
   box-sizing: border-box;
@@ -21,8 +12,8 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-family: Roboto, sans-serif;
-  font-size: 1.2rem;
+  font-family: $fontStack;
+  font-size: $fontSizeDefault;
 }
 
 #root {
@@ -53,17 +44,6 @@ header {
   z-index: 500;
 }
 
-.title-content-wrapper {
-  max-height: 50vh;
-  overflow-y: auto;
-}
-
-@media (max-width: 640px) {
-  .title-content-wrapper {
-    max-height: 250px;
-  }
-}
-
 header > h1 {
   margin: 0 0 1.2rem 0;
 }
@@ -82,8 +62,20 @@ details p:last-of-type {
   margin-bottom: 0;
 }
 
-.marker-cluster, .marker-cluster > div {
-  background-color:  var(--rent-strike-color);
+.title-content-wrapper {
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+@media (max-width: 640px) {
+  .title-content-wrapper {
+    max-height: 250px;
+  }
+}
+
+.marker-cluster,
+.marker-cluster > div {
+  background-color: $rent-strike-color;
   color: white;
 }
 
@@ -122,17 +114,8 @@ a:hover {
   text-decoration: underline;
 }
 
-/* custom classes */
-.color-passed {
-  color: #4dac26;
-}
-
-.color-yet-to-pass {
-  color: #d01c8b;
-}
-
 .color-rent-strike {
-  color: var(--rent-strike-color);
+  color: $rent-strike-color;
 }
 
 /* popup styling */
@@ -187,7 +170,6 @@ a:hover {
   background: transparent;
   white-space: nowrap;
 }
-
 
 /* Hide map layers controls on mobile for now, as they get obscured */
 @media (max-width: 640px) {
@@ -249,22 +231,21 @@ a.aemp-infowindow-close:hover {
 }
 
 .aemp-infowindow .policy-strength-color--1 {
-  background-color: var(--policy-color-bg-1);
+  background-color: $policy-color-bg-1;
 }
 
 .aemp-infowindow .policy-strength-color--2 {
-  background-color: var(--policy-color-bg-2);
+  background-color: $policy-color-bg-2;
 }
 
 .aemp-infowindow .policy-strength-color--3 {
   color: #fff;
-  background-color: var(--policy-color-bg-3);
+  background-color: $policy-color-bg-3;
 }
 
+/* begin legend styles */
 
-/*begin legend styles*/
-
-div.legend{
+div.legend {
   width: 100%;
 }
 
@@ -279,7 +260,7 @@ div.legendpair {
 
 .legendbox {
   width: 12px;
-  height:12px;
+  height: 12px;
   background-color: #d9f0a3;
   border-color: #addd8e;
   display: inline-block;
@@ -288,29 +269,29 @@ div.legendpair {
   margin: 2px 5px 0 0;
 }
 
-.legendtext{
+.legendtext {
   width: 50px;
-  font-size:12px;
+  font-size: 12px;
   display: inline-block;
   margin: 0 2px 7px 0;
 }
 
 .scale1 {
-  background-color: var(--policy-color-bg-1);
-  border-color: var(--policy-color-str-1);
+  background-color: $policy-color-bg-1;
+  border-color: $policy-color-str-1;
 }
 
 .scale2 {
-  background-color: var(--policy-color-bg-2);
-  border-color: var(--policy-color-str-2);
+  background-color: $policy-color-bg-2;
+  border-color: $policy-color-str-2;
 }
 
 .scale3 {
-  background-color: var(--policy-color-bg-3);
-  border-color: var(--policy-color-str-3);
+  background-color: $policy-color-bg-3;
+  border-color: $policy-color-str-3;
 }
 
-/*end legend styles*/
+/* end legend styles */
 
 @media (max-width: 640px) {
   #root.aemp-popupopen #map {

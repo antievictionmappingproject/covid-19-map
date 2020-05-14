@@ -1,5 +1,5 @@
-"use strict";
-console.clear();
+// this tells webpack to use our CSS
+import "styles/index.scss";
 
 /******************************************
  * GLOBAL CONSTANTS & FLAGS
@@ -15,8 +15,7 @@ let IS_DESKTOP =
 /******************************************
  * DATA SOURCES
  *****************************************/
-// unique id of the sheet that imports desired columns from the form responses sheet
-const moratoriumSheetId = "1AkYjbnLbWW83LTm6jcsRjg78hRVxWsSKQv1eSssDHSM";
+// unique id of the Google sheet that imports desired columns from the rent-strike form responses public sheet
 const renStikeSheetId = "1rCZfNXO3gbl5H3cKhGXKIv3samJ1KC4nLhCwwZqrHvU";
 
 // the URI that grabs the sheet text formatted as a CSV
@@ -86,9 +85,8 @@ let mapConfig = {
   rentStrikes: true,
 };
 
-// read url hash input
-let hash = location.hash;
-let input = inputValues(hash);
+// read url hash input & maybe override mapConfig props
+inputValues(location.hash);
 
 // check the url hash for params then
 // override map default settings if any are present
@@ -189,6 +187,7 @@ function toggleTitleDetails() {
 }
 
 // used by infowindow-template
+window.closeInfo = closeInfo;
 function closeInfo() {
   map.closePopup();
   map.invalidateSize();
@@ -205,7 +204,7 @@ map.on("popupopen", function (e) {
   map.setView(e.popup._latlng, map.getZoom(), { animate: true });
 });
 
-map.on("popupclose", function (e) {
+map.on("popupclose", function () {
   document.getElementById("root").classList.remove("aemp-popupopen");
   document.getElementById("aemp-infowindow-container").innerHTML = "";
   if (IS_MOBILE)
@@ -231,7 +230,7 @@ function handleWindowResize() {
   map.invalidateSize();
 }
 
-const attribution = L.control
+L.control
   .attribution({ prefix: "Data sources by: " })
   .addAttribution(
     "<a href='https://www.antievictionmap.com/' target='_blank'>Anti-Eviction Mapping Project</a>"
@@ -241,7 +240,7 @@ const attribution = L.control
   )
   .addTo(map);
 
-const zoomControl = L.control.zoom({ position: "bottomright" }).addTo(map);
+L.control.zoom({ position: "bottomright" }).addTo(map);
 
 // Map layers control: add the layers later after their data has been fetched
 const layersControl = L.control
@@ -278,8 +277,8 @@ L.tileLayer(
 
 function createCitiesCartoURI() {
   const query = `SELECT
-  municipality, range, policy_type, policy_summary, link, the_geom
-  FROM ${cartoSheetSyncTable} 
+  municipality, state, country, range, policy_type, policy_summary, link, the_geom
+  FROM ${cartoSheetSyncTable}
   WHERE the_geom is not null and admin_scale = 'City'
   ORDER BY range`;
 
@@ -474,12 +473,12 @@ function handleCitiesLayer(geojson) {
 
     // Render the template with all of the properties. Mustache ignores properties
     // that aren't used in the template, so this is fine.
-    const { municipality, state, Country } = layer.feature.properties;
+    const { municipality, state, country } = layer.feature.properties;
     const props = {
       ...layer.feature.properties,
       // Build city name with state and country if supplied
       jurisdictionName: `${municipality}${state ? `, ${state}` : ""}${
-        Country ? `, ${Country}` : ""
+        country ? `, ${country}` : ""
       }`,
       jurisdictionType: "City",
       popupName: municipality,
