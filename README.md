@@ -58,6 +58,9 @@ or
 npm run build
 ```
 
+To view the productionized site / bundle, use the `start:prod` script.  
+(see the [Deploying](#deploying) section below).
+
 ### Deploying
 
 To deploy the site to Github Pages on the `gh-pages` branch (this will also run the `build` script above prior to publishing) do:
@@ -76,8 +79,15 @@ You will need to have write privileges to this repository on Github to be able t
 
 **NOTE: Use caution when doing this**, *before deploying you should make sure your build is successful and runs as expected. You may do this by running the script `start:prod` which will create a production build then start a local server in the dist directory.*
 
-View the site using the output / bundled files from Webpack using `http-server`:
+Assuming you have already run the `build` script, you may view the site using the output / bundled files from Webpack by doing:
 
 ```
 yarn start:prod
 ```
+or
+
+```
+npm run start:prod
+```
+
+You may now view the site on `http://localhost:5000`
