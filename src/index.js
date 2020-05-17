@@ -1,32 +1,26 @@
 // this tells webpack to use our CSS
 import "styles/index.scss";
-
 import { getAllData } from "utils/data";
 import { paseUriHash } from "utils/parse-hash";
+import {
+  colorNoData,
+  fillColorScale,
+  strokeColorScale,
+  strokeWeight,
+  pointRadius,
+  fillOpacity,
+  policyStrengthLanguage,
+  MOBILE_BREAKPOINT,
+  DESKTOP_BREAKPOINT,
+} from "utils/constants";
 
 /******************************************
  * GLOBAL CONSTANTS & FLAGS
  *****************************************/
 // note: this matches the breakpoint in styles.css
-const MOBILE_BREAKPOINT = 640;
 let IS_MOBILE = document.querySelector("body").offsetWidth < MOBILE_BREAKPOINT;
-
-const DESKTOP_BREAKPOINT = 1200;
 let IS_DESKTOP =
   document.querySelector("body").offsetWidth > DESKTOP_BREAKPOINT;
-
-// colorScale comes from this ColorBrewer url:
-// https://colorbrewer2.org/#type=sequential&scheme=YlGn&n=7
-const colorNoData = "#939393";
-const fillColorScale = [undefined, "#d9f0a3", "#78c679", "#238443"];
-const strokeColorScale = [undefined, "#addd8e", "#41ab5d", "#005a32"];
-
-const policyStrengthLanguage = [
-  "",
-  "Few protections in place",
-  "Some protections in place",
-  "Many protections in place",
-];
 
 /******************************************
  * MAP SETUP & MAP CONTROLS
@@ -42,11 +36,6 @@ const mapOptions = {
     [85.05, 200], // upper right
   ],
 };
-
-// global map layer styling variables
-const strokeWeight = 1.5;
-const pointRadius = 8;
-const fillOpacity = 0.7;
 
 // setting the initial zoom settings
 let initialMapZoom = 4;
