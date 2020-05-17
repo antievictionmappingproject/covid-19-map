@@ -131,6 +131,7 @@ module.exports = (env, argv) => {
             {
               loader: "babel-loader",
               options: {
+                cacheDirectory: true,
                 presets: [
                   [
                     "@babel/preset-env",
