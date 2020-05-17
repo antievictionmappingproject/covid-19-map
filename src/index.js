@@ -360,14 +360,14 @@ Promise.all([
     })
     .then((j) => handleCitiesLayer(j)),
 ])
-  .then(handleData)
+  .then(handleOverlays)
   .catch((error) => console.log(error));
 
 /******************************************
  * HANDLE DATA ASYNC RESPONSES
  *****************************************/
 
-function handleData([rentStrikes, states, counties, nations, cities]) {
+function handleOverlays([rentStrikes, states, counties, nations, cities]) {
   // add layers to map layers control UI
   layersControl
     .addOverlay(rentStrikes, "Rent Strikes")
