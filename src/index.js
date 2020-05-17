@@ -1,6 +1,14 @@
 // this tells webpack to use our CSS
 import "styles/index.scss";
 
+import {
+  citiesCartoQuery,
+  countiesCartoQuery,
+  statesCartoQuery,
+  nationsCartoQuery,
+  createCartoURIFromQuery,
+} from "./queries";
+
 /******************************************
  * GLOBAL CONSTANTS & FLAGS
  *****************************************/
@@ -20,17 +28,6 @@ const renStikeSheetId = "1rCZfNXO3gbl5H3cKhGXKIv3samJ1KC4nLhCwwZqrHvU";
 
 // the URI that grabs the sheet text formatted as a CSV
 const rentStrikeSheetURI = `https://docs.google.com/spreadsheets/d/${renStikeSheetId}/export?format=csv&id=${renStikeSheetId}`;
-
-// table in CARTO that syncs with the Google sheet data
-const cartoSheetSyncTable = "public.emergency_tenant_protections_scored";
-
-// the URIs for CARTO counties &s tates layers
-// joined to the moratoriums data
-// (all in AEMP CARTO acct)
-const cartoCountiesURI = createCountiesCartoURI();
-const cartoStatesURI = createStatesCartoURI();
-const cartoCitiesURI = createCitiesCartoURI();
-const cartoNationsURI = createNationsCartoURI();
 
 // colorScale comes from this ColorBrewer url:
 // https://colorbrewer2.org/#type=sequential&scheme=YlGn&n=7
@@ -272,81 +269,40 @@ L.tileLayer(
 ).addTo(map);
 
 /******************************************
- * URI HELPERS
- *****************************************/
-
-function createCitiesCartoURI() {
-  const query = `SELECT
-  municipality, state, country, range, policy_type, policy_summary, link, the_geom
-  FROM ${cartoSheetSyncTable}
-  WHERE the_geom is not null and admin_scale = 'City'
-  ORDER BY range`;
-
-  return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
-}
-
-function createCountiesCartoURI() {
-  const query = `SELECT
-  c.the_geom, c.county, c.state, m.range, m.policy_type, m.policy_summary, m.link, m.range
-  FROM us_county_boundaries c
-  JOIN ${cartoSheetSyncTable} m
-  ON ST_Intersects(c.the_geom, m.the_geom)
-  WHERE m.the_geom IS NOT NULL
-  AND m.admin_scale = 'County'
-  OR m.admin_scale = 'City and County'
-  ORDER BY m.range`;
-
-  return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
-}
-
-function createStatesCartoURI() {
-  const query = `SELECT
-  s.the_geom, s.name, s.admin, s.sr_adm0_a3, m.range, m.iso, m.policy_type, m.policy_summary, m.link
-  FROM public.states_and_provinces_global s
-  INNER JOIN ${cartoSheetSyncTable} m
-  ON s.name = m.state
-  AND s.sr_adm0_a3 = m.iso
-  AND m.admin_scale = 'State'
-  ORDER BY m.range`;
-
-  return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
-}
-
-function createNationsCartoURI() {
-  const query = `SELECT c.the_geom, c.adm0_a3, c.name_en, m.range,
-  m.policy_type, m.policy_summary, m.link
-  FROM countries c
-  INNER JOIN ${cartoSheetSyncTable} m
-  ON c.adm0_a3 = m.iso
-  AND m.admin_scale = 'Country'
-  ORDER BY m.range`;
-
-  return `https://ampitup.carto.com/api/v2/sql?q=${query}&format=geojson`;
-}
-
-/******************************************
  * FETCH DATA SOURCES
  *****************************************/
+
+const statesQueryURI = createCartoURIFromQuery(statesCartoQuery);
+console.log(statesCartoQuery);
+const countiesQueryURI = createCartoURIFromQuery(countiesCartoQuery);
+console.log(countiesQueryURI);
+
+const nationsQueryURI = createCartoURIFromQuery(nationsCartoQuery);
+console.log(nationsQueryURI);
+
+const citiesQueryURI = createCartoURIFromQuery(citiesCartoQuery);
+console.log(citiesQueryURI);
 
 Promise.all([
   fetch(rentStrikeSheetURI).then((res) => {
     if (!res.ok) throw Error("Unable to fetch rent strike sheet data");
     return res.text();
   }),
-  fetch(cartoStatesURI).then((res) => {
+  fetch(statesQueryURI).then((res) => {
+    res.json().then((json) => console.log(json));
     if (!res.ok) throw Error("Unable to fetch states geojson");
     return res.json();
   }),
-  fetch(cartoCountiesURI).then((res) => {
+  fetch(countiesQueryURI).then((res) => {
     if (!res.ok) throw Error("Unable to fetch counties geojson");
     return res.json();
   }),
-  fetch(cartoNationsURI).then((res) => {
+  fetch(nationsQueryURI).then((res) => {
     if (!res.ok) throw Error("Unable to fetch nations geojson");
     return res.json();
   }),
-  fetch(cartoCitiesURI).then((res) => {
-    if (!res.ok) throw Error("Unable to fetch cities geojson");
+  fetch(citiesQueryURI).then((res) => {
+    if (!res.ok) throw Error("Unable to fetch cities geojson", res);
     return res.json();
   }),
 ])
