@@ -329,26 +329,36 @@ function createNationsCartoURI() {
  *****************************************/
 
 Promise.all([
-  fetch(rentStrikeSheetURI).then((res) => {
-    if (!res.ok) throw Error("Unable to fetch rent strike sheet data");
-    return res.text();
-  }),
-  fetch(cartoStatesURI).then((res) => {
-    if (!res.ok) throw Error("Unable to fetch states geojson");
-    return res.json();
-  }),
-  fetch(cartoCountiesURI).then((res) => {
-    if (!res.ok) throw Error("Unable to fetch counties geojson");
-    return res.json();
-  }),
-  fetch(cartoNationsURI).then((res) => {
-    if (!res.ok) throw Error("Unable to fetch nations geojson");
-    return res.json();
-  }),
-  fetch(cartoCitiesURI).then((res) => {
-    if (!res.ok) throw Error("Unable to fetch cities geojson");
-    return res.json();
-  }),
+  fetch(rentStrikeSheetURI)
+    .then((res) => {
+      if (!res.ok) throw Error("Unable to fetch rent strike sheet data");
+      return res.text();
+    })
+    .then((j) => handleRentStrikeLayer(j)),
+  fetch(cartoStatesURI)
+    .then((res) => {
+      if (!res.ok) throw Error("Unable to fetch states geojson");
+      return res.json();
+    })
+    .then((j) => handleStatesLayer(j)),
+  fetch(cartoCountiesURI)
+    .then((res) => {
+      if (!res.ok) throw Error("Unable to fetch counties geojson");
+      return res.json();
+    })
+    .then((j) => handleCountiesLayer(j)),
+  fetch(cartoNationsURI)
+    .then((res) => {
+      if (!res.ok) throw Error("Unable to fetch nations geojson");
+      return res.json();
+    })
+    .then((j) => handleNationsLayer(j)),
+  fetch(cartoCitiesURI)
+    .then((res) => {
+      if (!res.ok) throw Error("Unable to fetch cities geojson");
+      return res.json();
+    })
+    .then((j) => handleCitiesLayer(j)),
 ])
   .then(handleData)
   .catch((error) => console.log(error));
@@ -357,49 +367,7 @@ Promise.all([
  * HANDLE DATA ASYNC RESPONSES
  *****************************************/
 
-function handleData([
-  rentStrikeSheetsText,
-  statesGeoJson,
-  countiesGeoJson,
-  nationsGeoJson,
-  citiesGeoJson,
-]) {
-  const rentStrikeRows = d3
-    .csvParse(rentStrikeSheetsText, d3.autoType)
-    .filter(
-      ({ Strike_Status, Latitude, Longitude }) =>
-        Strike_Status !== null && Longitude !== null && Latitude !== null
-    )
-    .map(({ Strike_Status, ...rest }) => ({
-      status:
-        Strike_Status === "Yes / Sí / 是 / Oui" || Strike_Status === "Yes"
-          ? "Yes"
-          : "Unsure",
-
-      ...rest,
-    }));
-
-  const rentStrikeGeoJson = {
-    type: "FeatureCollection",
-    features: rentStrikeRows.map(({ Longitude, Latitude, ...rest }, index) => ({
-      type: "Feature",
-      id: index,
-      properties: rest,
-      geometry: {
-        type: "Point",
-        coordinates: [Longitude, Latitude],
-      },
-    })),
-  };
-
-  // add the states, cities, counties, and rentstrikes layers to the map
-  // and save the layers output
-  const nations = handleNationsLayer(nationsGeoJson);
-  const states = handleStatesLayer(statesGeoJson);
-  const counties = handleCountiesLayer(countiesGeoJson);
-  const cities = handleCitiesLayer(citiesGeoJson);
-  const rentStrikes = handleRentStrikeLayer(rentStrikeGeoJson);
-
+function handleData([rentStrikes, states, counties, nations, cities]) {
   // add layers to map layers control UI
   layersControl
     .addOverlay(rentStrikes, "Rent Strikes")
@@ -574,7 +542,34 @@ function handleStatesLayer(geojson) {
   return statesLayer;
 }
 
-function handleRentStrikeLayer(geoJson) {
+function handleRentStrikeLayer(rentStrikeSheetsText) {
+  const rentStrikeRows = d3
+    .csvParse(rentStrikeSheetsText, d3.autoType)
+    .filter(
+      ({ Strike_Status, Latitude, Longitude }) =>
+        Strike_Status !== null && Longitude !== null && Latitude !== null
+    )
+    .map(({ Strike_Status, ...rest }) => ({
+      status:
+        Strike_Status === "Yes / Sí / 是 / Oui" || Strike_Status === "Yes"
+          ? "Yes"
+          : "Unsure",
+
+      ...rest,
+    }));
+
+  const rentStrikeGeoJson = {
+    type: "FeatureCollection",
+    features: rentStrikeRows.map(({ Longitude, Latitude, ...rest }, index) => ({
+      type: "Feature",
+      id: index,
+      properties: rest,
+      geometry: {
+        type: "Point",
+        coordinates: [Longitude, Latitude],
+      },
+    })),
+  };
   const rentStrikeIcon = new L.Icon({
     iconUrl: "./assets/mapIcons/rent-strike.svg",
     iconSize: [40, 40],
@@ -583,7 +578,7 @@ function handleRentStrikeLayer(geoJson) {
   });
 
   // add custom marker icons
-  const rentStrikeLayer = L.geoJson(geoJson, {
+  const rentStrikeLayer = L.geoJson(rentStrikeGeoJson, {
     pointToLayer: function (feature, latlng) {
       return L.marker(latlng, {
         icon: rentStrikeIcon,
