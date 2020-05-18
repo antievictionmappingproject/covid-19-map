@@ -1,0 +1,45 @@
+div.legend {
+  width: 100%;
+}
+
+div.legendpair {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  font-size: 1.2em;
+  padding: 2px 0 0 0;
+  width: 100%;
+}
+
+.legendbox {
+  width: 12px;
+  height: 12px;
+  background-color: #d9f0a3;
+  border-color: #addd8e;
+  display: inline-block;
+  border-style: solid;
+  border-width: 2px;
+  margin: 2px 5px 0 0;
+}
+
+.legendtext {
+  width: 50px;
+  font-size: 12px;
+  display: inline-block;
+  margin: 0 2px 7px 0;
+}
+
+.scale1 {
+  background-color: $policy-color-bg-1;
+  border-color: $policy-color-str-1;
+}
+
+.scale2 {
+  background-color: $policy-color-bg-2;
+  border-color: $policy-color-str-2;
+}
+
+.scale3 {
+  background-color: $policy-color-bg-3;
+  border-color: $policy-color-str-3;
+}
