@@ -1,3 +1,7 @@
+.popup-container p {
+  padding-top: 1.2rem;
+}
+
 /* override leaflet's <p> element styles */
 .leaflet-popup-content > .popup-container p {
   margin: 0;
@@ -5,6 +9,9 @@
 }
 
 .popup-container {
+  position: absolute;
+  background: transparent;
+  white-space: nowrap;
   padding: 0;
   z-index: 7000;
 }
@@ -14,10 +21,6 @@
   border-radius: 10px;
   font-size: 1.5rem;
   background: white;
-}
-
-.popup-container p {
-  padding-top: 1.2rem;
 }
 
 .popup-container > div {
@@ -41,10 +44,4 @@
 
 .leaflet-popup-close-button {
   display: none;
-}
-
-.popup-container {
-  position: absolute;
-  background: transparent;
-  white-space: nowrap;
 }
