@@ -1,3 +1,5 @@
+@import "variables";
+
 * {
   box-sizing: border-box;
 }
@@ -10,8 +12,8 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-family: Roboto, sans-serif;
-  font-size: 1.2rem;
+  font-family: $fontStack;
+  font-size: $fontSizeDefault;
 }
 
 #root {
@@ -42,17 +44,6 @@ header {
   z-index: 500;
 }
 
-.title-content-wrapper {
-  max-height: 50vh; 
-  overflow-y: auto;
-}
-
-@media (max-width: 640px) {
-  .title-content-wrapper {
-    max-height: 250px;
-  }
-}
-
 header > h1 {
   margin: 0 0 1.2rem 0;
 }
@@ -71,10 +62,30 @@ details p:last-of-type {
   margin-bottom: 0;
 }
 
-/* marker cluster override */
-.marker-cluster-small div {
-  background-color: #ff8c1a !important;
-  opacity: 0.6;
+.title-content-wrapper {
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+@media (max-width: 640px) {
+  .title-content-wrapper {
+    max-height: 250px;
+  }
+}
+
+.marker-cluster,
+.marker-cluster > div {
+  background-color: $rent-strike-color;
+  color: white;
+}
+
+.marker-cluster {
+  border: 1px solid white;
+}
+
+.marker-cluster > div {
+  margin-left: 4px;
+  margin-top: 4px;
 }
 
 @media (max-width: 640px) {
@@ -103,22 +114,10 @@ a:hover {
   text-decoration: underline;
 }
 
-/* custom classes */
-.color-passed {
-  color: #4dac26;
+.color-rent-strike {
+  color: $rent-strike-color;
 }
 
-.color-yet-to-pass {
-  color: #d01c8b;
-}
-
-.color-ocurring {
-  color: #1772aa;
-}
-
-.color-may-be-ocurring {
-  color: #ae5117;
-}
 /* popup styling */
 
 /* override leaflet's <p> element styles */
@@ -172,7 +171,6 @@ a:hover {
   white-space: nowrap;
 }
 
-
 /* Hide map layers controls on mobile for now, as they get obscured */
 @media (max-width: 640px) {
   #root.aemp-popupopen .leaflet-control-attribution {
@@ -215,12 +213,85 @@ a:hover {
 }
 
 a.aemp-infowindow-close {
-  display: inline-block;
+  display: block;
   float: right;
   font-size: 2.4rem;
   font-style: normal;
   font-weight: bold;
 }
+
+a.aemp-infowindow-close:hover {
+  text-decoration: none;
+}
+
+.aemp-infowindow .policy-strength-color {
+  display: inline-block;
+  padding: 2px 6px;
+  font-weight: bold;
+}
+
+.aemp-infowindow .policy-strength-color--1 {
+  background-color: $policy-color-bg-1;
+}
+
+.aemp-infowindow .policy-strength-color--2 {
+  background-color: $policy-color-bg-2;
+}
+
+.aemp-infowindow .policy-strength-color--3 {
+  color: #fff;
+  background-color: $policy-color-bg-3;
+}
+
+/* begin legend styles */
+
+div.legend {
+  width: 100%;
+}
+
+div.legendpair {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  font-size: 1.2em;
+  padding: 2px 0 0 0;
+  width: 100%;
+}
+
+.legendbox {
+  width: 12px;
+  height: 12px;
+  background-color: #d9f0a3;
+  border-color: #addd8e;
+  display: inline-block;
+  border-style: solid;
+  border-width: 2px;
+  margin: 2px 5px 0 0;
+}
+
+.legendtext {
+  width: 50px;
+  font-size: 12px;
+  display: inline-block;
+  margin: 0 2px 7px 0;
+}
+
+.scale1 {
+  background-color: $policy-color-bg-1;
+  border-color: $policy-color-str-1;
+}
+
+.scale2 {
+  background-color: $policy-color-bg-2;
+  border-color: $policy-color-str-2;
+}
+
+.scale3 {
+  background-color: $policy-color-bg-3;
+  border-color: $policy-color-str-3;
+}
+
+/* end legend styles */
 
 @media (max-width: 640px) {
   #root.aemp-popupopen #map {

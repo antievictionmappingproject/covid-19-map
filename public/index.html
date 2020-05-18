@@ -7,7 +7,7 @@
     <meta name="author" content="Anti-Eviction Mapping Project" />
     <meta
       name="description"
-      content="Where officials have passed, or tenants are working to pass, emergency tenant protections during the COVID-19 crisis, and where organized rent strikes are currently occurring globally or may be occurring."
+      content="Where officials have passed, or tenants are working to pass, emergency tenant protections during the COVID-19 crisis, and where organized rent strikes are currently occurring globally."
     />
 
     <!-- Load Leaflet CSS -->
@@ -30,9 +30,6 @@
       href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap"
       rel="stylesheet"
     />
-
-    <!-- Load our styles -->
-    <link href="./styles.css" rel="stylesheet" />
   </head>
   <body>
     <div id="root">
@@ -43,25 +40,32 @@
         <details open>
           <summary>About the map:</summary>
           <div class="title-content-wrapper">
-            <h2>Emergency Tenant Protections</h2>
-            <p>
-              Where officials
-              <strong class="color-passed">have passed</strong> (or tenants are
-              <strong class="color-yet-to-pass">working to pass</strong>)
-              emergency tenant protections during the COVID-19 crisis.
-            </p>
+            <h2>Emergency Tenant Protections </h2>
+            <p>Where United States officials have passed (or tenants are working to pass) emergency
+              tenant protections during the COVID-19 crisis.</p>
             <p>
               <a
-                href="https://docs.google.com/forms/d/e/1FAIpQLSfHzR_SYO-wKfa3Abi9jDvZXCH3dsLgrkDj-9Rwm-3oRjDD9A/viewform"
-                target="_blank"
-                >Submit a tenant protection update.</a
+                      href="https://docs.google.com/forms/d/e/1FAIpQLSfHzR_SYO-wKfa3Abi9jDvZXCH3dsLgrkDj-9Rwm-3oRjDD9A/viewform"
+                      target="_blank"
+              >Submit a tenant protection update.</a
               >
             </p>
+
+            <div class = "legend">
+              <div class = "legendpair">
+               <div class = "legendbox scale1">&nbsp;</div> Few protections in place
+              </div>
+            <div class = "legendpair">
+              <div class = "legendbox scale2">&nbsp;</div> Some protections in place
+            </div>
+            <div class = "legendpair">
+              <div class = "legendbox scale3">&nbsp;</div> Many protections in place
+            </div>
+
+            </div>
             <h2>Rent Strikes</h2>
             <p>
-              Where organized rent strikes are
-              <strong class="color-ocurring">currently occurring</strong> or
-              <strong class="color-may-be-ocurring">may be occurring</strong>.
+              Where <strong class="color-rent-strike">organized rent strikes</strong> are currently occurring or may be occurring.
             </p>
             <p>
               <a
@@ -133,12 +137,17 @@
             <strong>{{jurisdictionType}}: </strong>{{jurisdictionName}}
           </p>
         </div>
+        {{#policyStrength}}
+        <div>
+          <p>
+            <strong>Policy Strength: </strong>
+            <span class="policy-strength-color policy-strength-color--{{range}}">{{policyStrength}}</span>
+          </p>
+        </div>
+        {{/policyStrength}}
         <div>
           <p><strong>Policy Summary:</strong></p>
           <p>{{policy_summary}}</p>
-        </div>
-        <div>
-          <p><strong>Has It Passed Yet? </strong>{{passed}}</p>
         </div>
         {{#start}}
         <div>
@@ -158,43 +167,6 @@
       </div>
     </script>
 
-    <script id="aemp-infowindow-template-nation" type="x-tmpl-mustache">
-      <div class="aemp-infowindow">
-        <a class="aemp-infowindow-close" href="#close" onClick="closeInfo()">×</a>
-        <div>
-          <p class="infowindow-title">
-            <strong>Emergency Tenant Protections</strong>
-          </p>
-        </div>
-        <div>
-          <p>
-            <strong>{{jurisdictionType}}: </strong>{{jurisdictionName}}
-          </p>
-        </div>
-        <div>
-          <p><strong>Policy Summary:</strong></p>
-          <p>{{policy_summary}}</p>
-        </div>
-        <div>
-          <p><strong>Has It Passed Yet? </strong>{{passedText}}</p>
-        </div>
-        {{#start}}
-        <div>
-          <p><strong>Effective: </strong>{{start}}</p>
-        </div>
-        {{/start}}
-        {{#_end}}
-        <div>
-          <p><strong>Ends: </strong>{{_end}}</p>
-        </div>
-        {{/_end}}
-        {{#link}}
-        <div>
-          <p><a target="_blank" href="{{link}}" rel="noopener noreferrer">View more info.</a></p>
-        </div>
-        {{/link}}
-      </div>
-    </script>
 
     <script id="aemp-rentstrike-infowindow-template" type="x-tmpl-mustache">
       <div class="aemp-infowindow">
@@ -248,8 +220,5 @@
 
     <!-- Load d3-tsv -->
     <script src="https://d3js.org/d3-dsv.v1.min.js"></script>
-
-    <!-- Load our JavaScript -->
-    <script src="./script.js"></script>
   </body>
 </html>
