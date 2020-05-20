@@ -246,6 +246,41 @@ L.control.zoom({ position: "bottomright" }).addTo(map);
 const layersControl = L.control
   .layers(null, null, { position: "topright", collapsed: false })
   .addTo(map);
+const pointToLayer = (feature, latlng) => {
+  return L.circleMarker(latlng, {
+    color: strokeColorScale[feature.properties.range] || colorNoData,
+    fillColor: fillColorScale[feature.properties.range] || colorNoData,
+    fillOpacity: fillOpacity,
+    radius: pointRadius,
+    weight: strokeWeight,
+  });
+};
+
+// Create the Leaflet layer for the cities data
+const citiesLayer = L.geoJson(null, {
+  pointToLayer: pointToLayer,
+});
+
+const layerOptions = {
+  style: (feature) => {
+    // style counties based on strength of protections
+    return {
+      color: strokeColorScale[feature.properties.range] || colorNoData,
+      fillColor: fillColorScale[feature.properties.range] || colorNoData,
+      fillOpacity: fillOpacity,
+      weight: strokeWeight,
+    };
+  },
+};
+
+// Create the Leaflet layer for the counties data
+const countiesLayer = L.geoJson(null, layerOptions);
+
+// Create the Leaflet layer for the states data
+const statesLayer = L.geoJson(null, layerOptions);
+
+// Create the Leaflet layer for the nations data
+const nationsLayer = L.geoJson(null, layerOptions);
 
 // Get the popup & infowindow templates from the HTML.
 // We can do this here because the template will never change.
@@ -375,7 +410,7 @@ function handleOverlays([rentStrikes, states, counties, nations, cities]) {
     .addOverlay(counties, "Counties")
     .addOverlay(states, "States")
     .addOverlay(nations, "Nations");
-
+  fixZOrder([cities, counties, states, nations]);
   // Apply correct relative order of layers when adding from control.
   map.on("overlayadd", function () {
     // Top of list is top layer
@@ -420,20 +455,8 @@ function fixZOrder(dataLayers) {
 
 function handleCitiesLayer(geojson) {
   // styling for the cities layer: style cities conditionally according to moratorium rating scale 1 to 3
-  const pointToLayer = (feature, latlng) => {
-    return L.circleMarker(latlng, {
-      color: strokeColorScale[feature.properties.range] || colorNoData,
-      fillColor: fillColorScale[feature.properties.range] || colorNoData,
-      fillOpacity: fillOpacity,
-      radius: pointRadius,
-      weight: strokeWeight,
-    });
-  };
 
-  // Create the Leaflet layer for the cities data
-  const citiesLayer = L.geoJson(geojson, {
-    pointToLayer: pointToLayer,
-  });
+  citiesLayer.addData(geojson);
 
   // Add popups to the layer
   citiesLayer.bindPopup(function (layer) {
@@ -468,20 +491,7 @@ function handleCitiesLayer(geojson) {
 }
 
 function handleCountiesLayer(geojson) {
-  const layerOptions = {
-    style: (feature) => {
-      // style counties based on strength of protections
-      return {
-        color: strokeColorScale[feature.properties.range] || colorNoData,
-        fillColor: fillColorScale[feature.properties.range] || colorNoData,
-        fillOpacity: fillOpacity,
-        weight: strokeWeight,
-      };
-    },
-  };
-
-  // Create the Leaflet layer for the counties data
-  const countiesLayer = L.geoJson(geojson, layerOptions);
+  countiesLayer.addData(geojson);
 
   countiesLayer.bindPopup(function (layer) {
     const { county, state } = layer.feature.properties;
@@ -505,20 +515,7 @@ function handleCountiesLayer(geojson) {
 }
 
 function handleStatesLayer(geojson) {
-  // styling for the states layer: style states conditionally according to moratorium rating scale 1 to 3
-  const layerOptions = {
-    style: (feature) => {
-      return {
-        color: strokeColorScale[feature.properties.range] || colorNoData,
-        fillColor: fillColorScale[feature.properties.range] || colorNoData,
-        fillOpacity: fillOpacity,
-        weight: strokeWeight,
-      };
-    },
-  };
-
-  // Create the Leaflet layer for the states data
-  const statesLayer = L.geoJson(geojson, layerOptions);
+  statesLayer.addData(geojson);
 
   statesLayer.bindPopup(function (layer) {
     const { name, admin } = layer.feature.properties;
@@ -612,19 +609,7 @@ function handleRentStrikeLayer(rentStrikeSheetsText) {
 }
 
 function handleNationsLayer(geojson) {
-  const layerOptions = {
-    style: (feature) => {
-      return {
-        color: strokeColorScale[feature.properties.range] || colorNoData,
-        fillColor: fillColorScale[feature.properties.range] || colorNoData,
-        fillOpacity: fillOpacity,
-        weight: strokeWeight,
-      };
-    },
-  };
-
-  // Create the Leaflet layer for the nations data
-  const nationsLayer = L.geoJson(geojson, layerOptions);
+  nationsLayer.addData(geojson);
 
   nationsLayer.bindPopup(function (layer) {
     const { name_en } = layer.feature.properties;
