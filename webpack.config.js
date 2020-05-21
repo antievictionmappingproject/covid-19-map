@@ -44,7 +44,7 @@ module.exports = (env, argv) => {
      * The key (e.g. "index") can be referenced elsewhere in the configuration
      ******************************************************************************/
     entry: {
-      index: "./src/index.js",
+      index: "./src/index2.js",
     },
 
     /******************************************************************************
