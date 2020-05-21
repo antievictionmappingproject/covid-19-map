@@ -20,3 +20,17 @@ export const policyStrengthLanguage = [
 // note: this matches the breakpoint in styles.css
 export const MOBILE_BREAKPOINT = 640;
 export const DESKTOP_BREAKPOINT = 1200;
+
+export const defaultMapConfig = {
+  lat: 40.67,
+  lng: -97.23,
+  z: 4,
+  nations: false,
+  states: true,
+  cities: true,
+  counties: true,
+  rentStrikes: true,
+};
+
+export const isMobile = () =>
+  document.querySelector("body").offsetWidth < MOBILE_BREAKPOINT;
