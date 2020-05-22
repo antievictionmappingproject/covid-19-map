@@ -1,3 +1,5 @@
+import { mapLayersConfig } from "../map-layers";
+
 // color values come from this ColorBrewer url:
 // https://colorbrewer2.org/#type=sequential&scheme=YlGn&n=7
 export const colorNoData = "#939393";
@@ -31,6 +33,8 @@ export const defaultMapConfig = {
   counties: true,
   rentStrikes: true,
 };
+
+export const TOTAL_NUMBER_OF_MAP_LAYERS = Object.keys(mapLayersConfig).length;
 
 export const isMobile = () =>
   document.querySelector("body").offsetWidth < MOBILE_BREAKPOINT;

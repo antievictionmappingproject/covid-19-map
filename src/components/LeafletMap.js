@@ -1,21 +1,16 @@
 import { dispatch } from "utils/dispatch";
 import {
   defaultMapConfig,
-  colorNoData,
-  fillColorScale,
-  strokeColorScale,
-  strokeWeight,
-  pointRadius,
-  fillOpacity,
-  policyStrengthLanguage,
   isMobile,
+  TOTAL_NUMBER_OF_MAP_LAYERS,
 } from "utils/constants";
 
-// the total number of map layers
-const NUMBER_OF_MAP_LAYERS = 5;
-
 export class LeafletMap {
+  // dataLayers: look up table to store layer groups in the form of
+  // { layerGroup: <Leaflet layer group>, zIndex: <integer> }
   dataLayers = new Map();
+
+  // Mustache templates for popup HTML
   popupTemplate = document.querySelector(".popup-template").innerHTML;
   rentStrikePopupTemplate = document.querySelector(".rentstrike-popup-template")
     .innerHTML;
@@ -107,191 +102,55 @@ export class LeafletMap {
     }
   };
 
-  handleCitiesLayer(geojson) {
+  handleAddLayer(layerConfig, key) {
     const self = this;
-    const pointToLayer = (feature, latlng) => {
-      return L.circleMarker(latlng, this.getLayerStyle(feature));
-    };
+    let layerGroup;
 
-    const citiesLayer = L.geoJson(geojson, {
-      pointToLayer: pointToLayer,
-    });
+    switch (layerConfig.type) {
+      case "point":
+        layerGroup = handlePointLayer();
+        break;
 
-    citiesLayer.bindPopup(function (layer) {
-      // This function is called whenever a feature on the layer is clicked
+      case "polygon":
+        layerGroup = handlePolygonLayer();
+        break;
 
-      // Render the template with all of the properties. Mustache ignores properties
-      // that aren't used in the template, so this is fine.
-      const { municipality, state, country } = layer.feature.properties;
-      const props = {
-        ...layer.feature.properties,
-        // Build city name with state and country if supplied
-        jurisdictionName: `${municipality}${state ? `, ${state}` : ""}${
-          country ? `, ${country}` : ""
-        }`,
-        jurisdictionType: "City",
-        popupName: municipality,
-        policyStrength: policyStrengthLanguage[layer.feature.properties.range],
-      };
+      case "marker-cluster":
+        layerGroup = handleMarkerCluster();
+        break;
 
-      dispatch.call("render-infowindow", null, {
-        template: "protections",
-        data: props,
-      });
-
-      return Mustache.render(self.popupTemplate, props);
-    });
-
-    this.dataLayers.set("cities", citiesLayer);
-
-    if (this.config.cities) {
-      citiesLayer.addTo(this.map);
+      default:
+        throw Error("Unrecognized map layer type");
     }
 
-    this.handleAllLayersAdded();
-  }
-
-  handleCountiesLayer(geojson) {
-    const self = this;
-    const layerOptions = {
-      style(feature) {
-        return self.getLayerStyle(feature);
-      },
-    };
-
-    const countiesLayer = L.geoJson(geojson, layerOptions);
-    countiesLayer.bindPopup(function (layer) {
-      const { county, state } = layer.feature.properties;
-      const props = {
-        ...layer.feature.properties,
-        // Show county with state if state field is set
-        jurisdictionName: `${county}${state ? `, ${state}` : ""}`,
-        jurisdictionType: "County",
-        popupName: `${county}${state ? `, ${state}` : ""}`,
-        policyStrength: policyStrengthLanguage[layer.feature.properties.range],
-      };
-
-      dispatch.call("render-infowindow", null, {
-        template: "protections",
-        data: props,
+    function handlePointLayer() {
+      return L.geoJson(layerConfig.data, {
+        pointToLayer: layerConfig.pointToLayer,
       });
-
-      return Mustache.render(self.popupTemplate, props);
-    });
-
-    this.dataLayers.set("counties", countiesLayer);
-
-    if (this.config.counties) {
-      countiesLayer.addTo(this.map);
     }
 
-    this.handleAllLayersAdded();
-  }
-
-  handleStatesLayer(geojson) {
-    const self = this;
-    const layerOptions = {
-      style(feature) {
-        return self.getLayerStyle(feature);
-      },
-    };
-
-    const statesLayer = L.geoJson(geojson, layerOptions);
-    statesLayer.bindPopup(function (layer) {
-      const { name, admin } = layer.feature.properties;
-      const props = {
-        ...layer.feature.properties,
-        jurisdictionName: `${name}${admin ? `, ${admin}` : ""}`,
-        jurisdictionType: "State/Province",
-        popupName: name,
-        policyStrength: policyStrengthLanguage[layer.feature.properties.range],
-      };
-
-      dispatch.call("render-infowindow", null, {
-        template: "protections",
-        data: props,
+    function handlePolygonLayer() {
+      return L.geoJson(layerConfig.data, {
+        style(feature) {
+          return layerConfig.style(feature);
+        },
       });
-
-      // Overwrite jurisdiction name to remove country
-      return Mustache.render(self.popupTemplate, props);
-    });
-
-    this.dataLayers.set("states", statesLayer);
-
-    if (this.config.states) {
-      statesLayer.addTo(this.map);
     }
 
-    this.handleAllLayersAdded();
-  }
-
-  handleNationsLayer(geojson) {
-    const self = this;
-    const layerOptions = {
-      style(feature) {
-        return self.getLayerStyle(feature);
-      },
-    };
-    const nationsLayer = L.geoJson(geojson, layerOptions);
-
-    nationsLayer.bindPopup(function (layer) {
-      const { name_en } = layer.feature.properties;
-      const props = {
-        ...layer.feature.properties,
-        jurisdictionName: name_en,
-        jurisdictionType: "Country",
-        popupName: name_en,
-        policyStrength: policyStrengthLanguage[layer.feature.properties.range],
-      };
-
-      dispatch.call("render-infowindow", null, {
-        template: "protections",
-        data: props,
+    function handleMarkerCluster() {
+      const markerLayer = L.geoJson(layerConfig.data, {
+        pointToLayer: layerConfig.pointToLayer,
       });
 
-      return Mustache.render(self.popupTemplate, props);
-    });
+      const markerClusterGroup = L.markerClusterGroup({
+        maxClusterRadius: 40,
+      }).on("clusterclick", function () {
+        if (isMobile()) {
+          dispatch.call("title-details-close");
+        }
+      });
 
-    this.dataLayers.set("nations", nationsLayer);
-
-    if (this.config.nations) {
-      this.map.addLayer(nationsLayer);
-    }
-
-    this.handleAllLayersAdded();
-  }
-
-  handleRentStrikeLayer(geojson) {
-    const self = this;
-
-    const rentStrikeIcon = new L.Icon({
-      iconUrl: "./assets/mapIcons/rent-strike.svg",
-      iconSize: [40, 40],
-      iconAnchor: [20, 20],
-      className: "icon-rent-strike",
-    });
-
-    // add custom marker icons
-    const rentStrikeLayer = L.geoJson(geojson, {
-      pointToLayer: function (feature, latlng) {
-        return L.marker(latlng, {
-          icon: rentStrikeIcon,
-        });
-      },
-    });
-
-    //add markers to cluster with options
-    const rentStrikeLayerMarkers = L.markerClusterGroup({
-      maxClusterRadius: 40,
-    }).on("clusterclick", function () {
-      if (isMobile()) {
-        dispatch.call("title-details-close");
-      }
-    });
-
-    rentStrikeLayerMarkers
-      .addLayer(rentStrikeLayer)
-      .bindPopup(function (layer) {
+      markerClusterGroup.addLayer(markerLayer).bindPopup(function (layer) {
         dispatch.call("render-infowindow", null, {
           template: "rentstrikes",
           data: layer.feature.properties,
@@ -299,54 +158,62 @@ export class LeafletMap {
 
         return Mustache.render(
           self.rentStrikePopupTemplate,
-          layer.feature.properties
+          layerConfig.props(layer)
         );
       });
 
-    this.dataLayers.set("rentStrikes", rentStrikeLayerMarkers);
+      return markerClusterGroup;
+    }
 
-    if (this.config.rentStrikes) {
-      this.map.addLayer(rentStrikeLayerMarkers);
+    if (layerConfig.type !== "marker-cluster") {
+      layerGroup.bindPopup(function (layer) {
+        const props = layerConfig.props(layer);
+        dispatch.call("render-infowindow", null, {
+          template: "protections",
+          data: props,
+        });
+        return Mustache.render(self.popupTemplate, props);
+      });
+    }
+
+    this.dataLayers.set(layerConfig.name, {
+      layerGroup,
+      zIndex: layerConfig.zIndex,
+    });
+
+    if (this.config[key]) {
+      layerGroup.addTo(this.map);
     }
 
     this.handleAllLayersAdded();
   }
 
-  handleAllLayersAdded() {
-    if (this.dataLayers.size !== NUMBER_OF_MAP_LAYERS) {
+  handleAllLayersAdded = () => {
+    // if all layers have been added to this.dataLayers add the layers toggle UI
+    if (this.dataLayers.size !== TOTAL_NUMBER_OF_MAP_LAYERS) {
       return;
     }
 
-    const self = this;
-
-    this.dataLayers.forEach(function (layerGroup, name) {
-      self.layersControl.addOverlay(layerGroup, name);
+    this.dataLayers.forEach(({ layerGroup }, name) => {
+      this.layersControl.addOverlay(layerGroup, name);
     });
 
     // Apply correct relative order of layers when adding from control.
-    this.map.on("overlayadd", function () {
-      self.fixZOrder(this.dataLayers);
+    this.map.on("overlayadd", () => {
+      this.fixZOrder(this.dataLayers);
     });
-  }
+  };
 
-  getLayerStyle(feature) {
-    return {
-      color: strokeColorScale[feature.properties.range] || colorNoData,
-      fillColor: fillColorScale[feature.properties.range] || colorNoData,
-      fillOpacity: fillOpacity,
-      radius: pointRadius,
-      weight: strokeWeight,
-    };
-  }
-
-  // helper methods
-  fixZOrder() {
-    this.dataLayers.forEach(function (layerGroup) {
+  fixZOrder = () => {
+    const layers = Array.from(this.dataLayers.values()).sort(
+      (a, b) => b.zIndex - a.zIndex
+    );
+    layers.forEach(({ layerGroup }) => {
       if (this.map.hasLayer(layerGroup)) {
-        layerGroup.bringToBack();
+        layerGroup.bringToFront();
       }
     });
-  }
+  };
 
   invalidateSize() {
     this.map.invalidateSize();
