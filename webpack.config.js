@@ -44,7 +44,7 @@ module.exports = (env, argv) => {
      * The key (e.g. "index") can be referenced elsewhere in the configuration
      ******************************************************************************/
     entry: {
-      index: "./src/index2.js",
+      index: "./src/index.js",
     },
 
     /******************************************************************************
@@ -146,7 +146,7 @@ module.exports = (env, argv) => {
                   "@babel/plugin-proposal-object-rest-spread",
                   "@babel/plugin-transform-runtime",
                   "@babel/plugin-transform-async-to-generator",
-                  "@babel/plugin-proposal-class-properties"
+                  "@babel/plugin-proposal-class-properties",
                 ],
               },
             },
