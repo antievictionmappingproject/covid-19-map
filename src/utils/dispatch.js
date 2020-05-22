@@ -12,4 +12,12 @@ const events = [
   "title-details-open",
 ];
 
+/**
+ * dispatch usage:
+ * dispatch.call("<event-name>", <optional this context>, <optional value>);
+ * dispatch.on("<event-name>", <callback function>)
+ * dispatch.on("<event-name.sub-name>", <second callback function>)
+ * dispatch.on("<event-name.sub-other-name>", <third callback function>)
+ * etc...
+ */
 export const dispatch = d3.dispatch(...events);
