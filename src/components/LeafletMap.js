@@ -211,6 +211,8 @@ export class LeafletMap {
     this.map.on("overlayadd", () => {
       this.fixZOrder(this.dataLayers);
     });
+
+    this.fixZOrder(this.dataLayers);
   };
 
   fixZOrder = () => {
