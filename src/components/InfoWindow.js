@@ -6,12 +6,6 @@ export class InfoWindow {
   infowindowTemplate = document.getElementById("aemp-infowindow-template")
     .innerHTML;
 
-  nationInfowindowTemplate = document.getElementById("aemp-infowindow-template")
-    .innerHTML;
-
-  rentStrikePopupTemplate = document.querySelector(".rentstrike-popup-template")
-    .innerHTML;
-
   rentStrikeInfowindowTemplate = document.getElementById(
     "aemp-rentstrike-infowindow-template"
   ).innerHTML;
@@ -22,7 +16,7 @@ export class InfoWindow {
 
   bindListeners() {
     dispatch.on("render-infowindow", this.render);
-    dispatch.on("close-infowindow", this.closeInfoWindow);
+    dispatch.on("close-infowindow.self", this.closeInfoWindow);
   }
 
   closeInfoWindow = () => {
@@ -48,6 +42,9 @@ export class InfoWindow {
       default:
         break;
     }
+    this.infowindowContainer
+      .querySelector(".aemp-infowindow-close")
+      .addEventListener("click", () => dispatch.call("close-infowindow"));
     document.getElementById("root").classList.add("aemp-popupopen");
   };
 }

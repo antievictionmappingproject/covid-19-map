@@ -94,9 +94,18 @@ export class LeafletMap {
       clearTimeout(resizeWindow);
       resizeWindow = setTimeout(self.handleWindowResize, 250);
     });
+
+    dispatch.on("close-infowindow.map", this.handleInfoWindowClose);
   }
 
   handleWindowResize = () => {
+    if (isMobile()) {
+      this.map.invalidateSize();
+    }
+  };
+
+  handleInfoWindowClose = () => {
+    this.map.closePopup();
     if (isMobile()) {
       this.map.invalidateSize();
     }
@@ -214,12 +223,4 @@ export class LeafletMap {
       }
     });
   };
-
-  invalidateSize() {
-    this.map.invalidateSize();
-  }
-
-  closePopup() {
-    this.map.closePopup();
-  }
 }

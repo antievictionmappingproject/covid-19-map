@@ -14,13 +14,6 @@ const infoWindow = new InfoWindow();
 // eslint-disable-next-line
 const titleDetails = new TitleDetails();
 
-// used by infowindow-template
-window.closeInfo = closeInfo;
-function closeInfo() {
-  leafletMap.closePopup();
-  leafletMap.invalidateSize();
-}
-
 // handle adding the map layers once all async responses have resolved
 function handleData(data) {
   const [rentStrikes, cities, counties, states, nations] = data;
