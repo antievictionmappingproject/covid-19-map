@@ -5,7 +5,7 @@
  * #lat=<float>&lng=<float>&z=<integer>&states=<boolean>&cities=<boolean>&counties=<boolean>&rentstrike=<boolean>
  * @param {*} mapConfig
  */
-export function paseUriHash(mapConfig) {
+export function parseUriHash(mapConfig) {
   let input = window.location.hash.slice(1).split("&");
   let inputVals = {};
   let i = 0;
