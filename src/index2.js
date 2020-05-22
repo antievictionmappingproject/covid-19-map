@@ -3,10 +3,12 @@ import { LeafletMap } from "./components/LeafletMap";
 import { InfoWindow } from "./components/InfoWindow";
 import { TitleDetails } from "./components/TitleDetails";
 import { getAllData } from "utils/data";
-
+import { parseUriHash } from "utils/parse-hash";
+import { defaultMapConfig } from "utils/constants";
 import { mapLayersConfig } from "./map-layers";
 
-const leafletMap = new LeafletMap();
+const leafletMap = new LeafletMap(parseUriHash(defaultMapConfig));
+
 // eslint-disable-next-line
 const infoWindow = new InfoWindow();
 // eslint-disable-next-line
