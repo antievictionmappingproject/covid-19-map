@@ -20,15 +20,15 @@ export class InfoWindow {
     this.bindListeners();
   }
 
-  closeInfoWindow = () => {
-    document.getElementById("root").classList.remove("aemp-popupopen");
-    this.infowindowContainer.innerHTML = null;
-  };
-
   bindListeners() {
     dispatch.on("render-infowindow", this.render);
     dispatch.on("close-infowindow", this.closeInfoWindow);
   }
+
+  closeInfoWindow = () => {
+    document.getElementById("root").classList.remove("aemp-popupopen");
+    this.infowindowContainer.innerHTML = null;
+  };
 
   render = (props) => {
     const { template, data } = props;
@@ -39,7 +39,7 @@ export class InfoWindow {
           data
         );
         break;
-      case "rentstrike":
+      case "rentstrikes":
         this.infowindowContainer.innerHTML = Mustache.render(
           this.rentStrikeInfowindowTemplate,
           data
