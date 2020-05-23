@@ -4,6 +4,8 @@
 // using dispatch.on() or dispatch.call() with one of the
 // following strings will respond or invoke an event
 const events = [
+  "fetch-map-data-resolve",
+  "fetch-map-data-reject",
   "viewport-size",
   "render-infowindow",
   "close-infowindow",

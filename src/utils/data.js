@@ -1,12 +1,16 @@
-import { aempCartoAccount, renStikeSheetId } from "./config";
-import {
-  citiesCartoQuery,
-  countiesCartoQuery,
-  statesCartoQuery,
-  countriesCartoQuery,
-} from "./queries";
+import { aempCartoAccount, renStrikeSheetId } from "./config";
+import { mapLayersConfig } from "../map-layers";
+import { dispatch } from "./dispatch";
 
 const cartoSqlApiBaseUri = `https://${aempCartoAccount}.carto.com/api/v2/sql`;
+
+function handleFetchSuccess(name, data) {
+  dispatch.call(name, null, data);
+}
+
+function handleFetchFailure(name, error) {
+  dispatch.call(name, null, error);
+}
 
 export async function getCartoData(query, format = "geojson") {
   const res = await fetch(
@@ -31,19 +35,20 @@ export async function getGoogleSheetAsCsvText(sheetId) {
     throw Error("Unable to fetch sheets data");
   }
 
-  return res.text();
+  const text = await res.text();
+  return d3.csvParse(text, d3.autoType);
 }
 
-export async function getAllData() {
-  const queries = [
-    citiesCartoQuery,
-    countiesCartoQuery,
-    statesCartoQuery,
-    countriesCartoQuery,
-  ];
-
-  return await Promise.all([
-    getGoogleSheetAsCsvText(renStikeSheetId),
-    ...queries.map(async (query) => await getCartoData(query)),
-  ]);
+export async function getData() {
+  for (let [key, layerConfig] of Object.entries(mapLayersConfig)) {
+    try {
+      const data =
+        layerConfig.query !== null
+          ? await getCartoData(layerConfig.query)
+          : await getGoogleSheetAsCsvText(renStrikeSheetId);
+      handleFetchSuccess("fetch-map-data-resolve", { key, layerConfig, data });
+    } catch (error) {
+      handleFetchFailure("fetch-map-data-reject", error);
+    }
+  }
 }

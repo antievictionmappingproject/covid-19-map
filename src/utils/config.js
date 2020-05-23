@@ -1,8 +1,5 @@
 // unique id of the Google sheet that imports desired columns from the rent-strike form responses public sheet
-export const renStikeSheetId = "1rCZfNXO3gbl5H3cKhGXKIv3samJ1KC4nLhCwwZqrHvU";
-
-// the URI that grabs the sheet text formatted as a CSV
-export const rentStrikeSheetURI = `https://docs.google.com/spreadsheets/d/${renStikeSheetId}/export?format=csv&id=${renStikeSheetId}`;
+export const renStrikeSheetId = "1rCZfNXO3gbl5H3cKhGXKIv3samJ1KC4nLhCwwZqrHvU";
 
 // name of AEMP's CARTO account
 export const aempCartoAccount = "ampitup";
