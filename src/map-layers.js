@@ -7,7 +7,7 @@ import {
   fillOpacity,
   policyStrengthLanguage,
 } from "utils/constants";
-
+import { renStrikeSheetId } from "./utils/config";
 import * as queries from "./utils/queries";
 
 const rentStrikeIcon = new L.Icon({
@@ -135,6 +135,7 @@ export const mapLayersConfig = {
     name: "Rent Strikes",
     type: "marker-cluster",
     query: null,
+    sheetId: renStrikeSheetId,
     zIndex: 0, // markers have their very own layer pane in Leaflet so don't need a z-index value
     props(layer) {
       return layer.feature.properties;

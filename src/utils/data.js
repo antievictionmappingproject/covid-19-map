@@ -26,7 +26,7 @@ export async function getCartoData(query, format = "geojson") {
   return res.json();
 }
 
-export async function getGoogleSheetAsCsvText(sheetId) {
+export async function getSheetsData(sheetId) {
   const res = await fetch(
     `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&id=${sheetId}`
   );
@@ -45,7 +45,7 @@ export async function getData() {
       const data =
         layerConfig.query !== null
           ? await getCartoData(layerConfig.query)
-          : await getGoogleSheetAsCsvText(renStrikeSheetId);
+          : await getSheetsData(layerConfig.sheetId);
       handleFetchSuccess("fetch-map-data-resolve", { key, layerConfig, data });
     } catch (error) {
       handleFetchFailure("fetch-map-data-reject", error);
