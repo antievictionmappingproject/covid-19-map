@@ -8,6 +8,8 @@ import {
   policyStrengthLanguage,
 } from "utils/constants";
 
+import * as queries from "./utils/queries";
+
 const rentStrikeIcon = new L.Icon({
   iconUrl: "./assets/mapIcons/rent-strike.svg",
   iconSize: [40, 40],
@@ -19,7 +21,7 @@ export const mapLayersConfig = {
   cities: {
     name: "Cities",
     type: "point",
-    data: null,
+    query: queries.citiesCartoQuery,
     zIndex: 1,
     props(layer) {
       const { municipality, state, country } = layer.feature.properties;
@@ -51,7 +53,7 @@ export const mapLayersConfig = {
   counties: {
     name: "Counties",
     type: "polygon",
-    data: null,
+    query: queries.countiesCartoQuery,
     zIndex: 2,
     props(layer) {
       const { state, county } = layer.feature.properties;
@@ -78,7 +80,7 @@ export const mapLayersConfig = {
   states: {
     name: "States",
     type: "polygon",
-    data: null,
+    query: queries.statesCartoQuery,
     zIndex: 3,
     props(layer) {
       const { name, admin } = layer.feature.properties;
@@ -105,7 +107,7 @@ export const mapLayersConfig = {
   nations: {
     name: "Nations",
     type: "polygon",
-    data: null,
+    query: queries.countriesCartoQuery,
     zIndex: 4,
     props(layer) {
       const { name_en } = layer.feature.properties;
@@ -132,7 +134,7 @@ export const mapLayersConfig = {
   rentStrikes: {
     name: "Rent Strikes",
     type: "marker-cluster",
-    data: null,
+    query: null,
     zIndex: 0, // markers have their very own layer pane in Leaflet so don't need a z-index value
     props(layer) {
       return layer.feature.properties;
