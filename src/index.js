@@ -7,7 +7,7 @@ import { parseUriHash } from "utils/parse-hash";
 import { defaultMapConfig } from "utils/constants";
 import { dispatch } from "./utils/dispatch";
 
-if (process.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== "production") {
   dispatch.on("fetch-map-data-resolve.debug", console.log);
   dispatch.on("fetch-map-data-reject.debug", console.error);
 }
