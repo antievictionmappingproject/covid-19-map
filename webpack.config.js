@@ -136,7 +136,7 @@ module.exports = (env, argv) => {
                   [
                     "@babel/preset-env",
                     {
-                      useBuiltIns: "entry",
+                      useBuiltIns: "usage",
                       corejs: { version: 3, proposals: true },
                     },
                   ],
