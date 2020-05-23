@@ -1,4 +1,4 @@
-import { aempCartoAccount, renStrikeSheetId } from "./config";
+import { aempCartoAccount } from "./config";
 import { mapLayersConfig } from "../map-layers";
 import { dispatch } from "./dispatch";
 
