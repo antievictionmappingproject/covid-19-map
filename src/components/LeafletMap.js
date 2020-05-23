@@ -89,6 +89,11 @@ export class LeafletMap {
       }
     });
 
+    // Apply correct relative order of layers when adding from control.
+    this.map.on("overlayadd", () => {
+      this.fixZOrder();
+    });
+
     let resizeWindow;
     window.addEventListener("resize", function () {
       clearTimeout(resizeWindow);
@@ -96,6 +101,8 @@ export class LeafletMap {
     });
 
     dispatch.on("close-infowindow.map", this.handleInfoWindowClose);
+    dispatch.on("fetch-map-data-resolve.map", this.handleAddLayer);
+    dispatch.on("fetch-map-data-reject.map", this.handleLayerError);
   }
 
   handleWindowResize = () => {
@@ -111,7 +118,11 @@ export class LeafletMap {
     }
   };
 
-  handleAddLayer(layerConfig, key) {
+  handleAddLayerError = (error) => {
+    console.error(error);
+  };
+
+  handleAddLayer = ({ key, layerConfig, data }) => {
     const self = this;
     let layerGroup;
 
@@ -133,13 +144,13 @@ export class LeafletMap {
     }
 
     function handlePointLayer() {
-      return L.geoJson(layerConfig.data, {
+      return L.geoJson(data, {
         pointToLayer: layerConfig.pointToLayer,
       });
     }
 
     function handlePolygonLayer() {
-      return L.geoJson(layerConfig.data, {
+      return L.geoJson(data, {
         style(feature) {
           return layerConfig.style(feature);
         },
@@ -147,7 +158,34 @@ export class LeafletMap {
     }
 
     function handleMarkerCluster() {
-      const markerLayer = L.geoJson(layerConfig.data, {
+      // rent strikes data is regular JSON & requires additional parsing for conversion to GeoJSON
+      const geojson = {
+        type: "FeatureCollection",
+        features: data
+          .filter(
+            ({ Strike_Status, Latitude, Longitude }) =>
+              Strike_Status !== null && Longitude !== null && Latitude !== null
+          )
+          .map(({ Strike_Status, ...rest }) => ({
+            status:
+              Strike_Status === "Yes / Sí / 是 / Oui" || Strike_Status === "Yes"
+                ? "Yes"
+                : "Unsure",
+
+            ...rest,
+          }))
+          .map(({ Longitude, Latitude, ...rest }, index) => ({
+            type: "Feature",
+            id: index,
+            properties: rest,
+            geometry: {
+              type: "Point",
+              coordinates: [Longitude, Latitude],
+            },
+          })),
+      };
+
+      const markerLayer = L.geoJson(geojson, {
         pointToLayer: layerConfig.pointToLayer,
       });
 
@@ -194,8 +232,9 @@ export class LeafletMap {
       layerGroup.addTo(this.map);
     }
 
+    this.fixZOrder();
     this.handleAllLayersAdded();
-  }
+  };
 
   handleAllLayersAdded = () => {
     // if all layers have been added to this.dataLayers add the layers toggle UI
@@ -206,13 +245,6 @@ export class LeafletMap {
     this.dataLayers.forEach(({ layerGroup }, name) => {
       this.layersControl.addOverlay(layerGroup, name);
     });
-
-    // Apply correct relative order of layers when adding from control.
-    this.map.on("overlayadd", () => {
-      this.fixZOrder(this.dataLayers);
-    });
-
-    this.fixZOrder(this.dataLayers);
   };
 
   fixZOrder = () => {
