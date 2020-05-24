@@ -1,0 +1,14 @@
+.marker-cluster,
+.marker-cluster > div {
+  background-color: $rent-strike-color;
+  color: white;
+}
+
+.marker-cluster {
+  border: 1px solid white;
+}
+
+.marker-cluster > div {
+  margin-left: 4px;
+  margin-top: 4px;
+}

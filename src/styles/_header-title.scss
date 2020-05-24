@@ -1,0 +1,62 @@
+header {
+  width: 30%;
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 12px;
+  background: #fff;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  background-clip: padding-box;
+  z-index: 500;
+}
+
+@media (max-width: 640px) {
+  header {
+    top: 0;
+    left: 0;
+    width: 70%;
+    margin: 1rem;
+  }
+}
+
+header > h1 {
+  margin: 0 0 1.2rem 0;
+}
+
+@media (max-width: 640px) {
+  header > h1 {
+    font-size: 1.8rem;
+  }
+}
+
+details > summary {
+  font-size: 1.6rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+details p {
+  font-size: 1.6rem;
+}
+
+@media (max-width: 640px) {
+  details p {
+    font-size: 1.4rem;
+  }
+}
+
+details p:last-of-type {
+  margin-bottom: 0;
+}
+
+.title-content-wrapper {
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+@media (max-width: 640px) {
+  .title-content-wrapper {
+    max-height: 250px;
+  }
+}

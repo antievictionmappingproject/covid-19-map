@@ -1,0 +1,47 @@
+.popup-container p {
+  padding-top: 1.2rem;
+}
+
+/* override leaflet's <p> element styles */
+.leaflet-popup-content > .popup-container p {
+  margin: 0;
+  padding: 0;
+}
+
+.popup-container {
+  position: absolute;
+  background: transparent;
+  white-space: nowrap;
+  padding: 0;
+  z-index: 7000;
+}
+
+.popup-container p.popup-title {
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-size: 1.5rem;
+  background: white;
+}
+
+.popup-container > div {
+  padding-bottom: 1.2rem;
+}
+
+.popup-container > div:last-of-type {
+  padding-bottom: 0;
+}
+
+/* override leaflet popup styling */
+.leaflet-popup-content-wrapper {
+  background: transparent;
+  box-shadow: none;
+}
+
+.leaflet-popup-tip-container {
+  position: relative;
+  top: 25px;
+}
+
+.leaflet-popup-close-button {
+  display: none;
+}
