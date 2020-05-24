@@ -59,6 +59,8 @@ export class LeafletMap {
         maxZoom: 18,
       }
     ).addTo(this.map);
+
+    this.toggleLoadingIndicator(true);
   }
 
   bindListeners() {
@@ -120,6 +122,7 @@ export class LeafletMap {
 
   handleAddLayerError = (error) => {
     console.error(error);
+    this.toggleLoadingIndicator(true); //show loading indicator
   };
 
   handleAddLayer = ({ key, layerConfig, data }) => {
@@ -245,6 +248,9 @@ export class LeafletMap {
     this.dataLayers.forEach(({ layerGroup }, name) => {
       this.layersControl.addOverlay(layerGroup, name);
     });
+
+    //fire the loading layer event
+    this.toggleLoadingIndicator(false);
   };
 
   fixZOrder = () => {
@@ -256,5 +262,13 @@ export class LeafletMap {
         layerGroup.bringToFront();
       }
     });
+  };
+
+  toggleLoadingIndicator = (isLoading) => {
+    if (isLoading) {
+      dispatch.call("show-loading-indicator");
+      return;
+    }
+    dispatch.call("hide-loading-indicator");
   };
 }
