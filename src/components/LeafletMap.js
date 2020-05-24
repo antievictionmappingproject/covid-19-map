@@ -59,8 +59,6 @@ export class LeafletMap {
         maxZoom: 18,
       }
     ).addTo(this.map);
-
-    this.toggleLoadingIndicator(true);
   }
 
   bindListeners() {
@@ -249,7 +247,7 @@ export class LeafletMap {
       this.layersControl.addOverlay(layerGroup, name);
     });
 
-    //fire the loading layer event
+    //hide the loading indicator
     this.toggleLoadingIndicator(false);
   };
 
