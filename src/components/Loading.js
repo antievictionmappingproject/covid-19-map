@@ -5,6 +5,7 @@ import {
 } from "utils/constants";
 
 export class Loading {
+  //laodng screen container
   loadingScreen = document.getElementById("loading-container");
 
   // loaded layers counter
@@ -18,12 +19,15 @@ export class Loading {
   }
 
   bindListeners() {
-    //layer can be passed in here to keep track of which layers are loaded
+    //layer can be passed in here to keep track of
+    //which layers have loaded
     dispatch.on("fetch-map-data-resolve", (/*layer*/) => {
       this.registerLayer(/*layer*/);
     });
   }
 
+  //this can be built out more with
+  //regards to which layers have loaded
   registerLayer(/*layer*/) {
     this.layersLoaded += 1;
     if (this.layersLoaded === TOTAL_NUMBER_OF_MAP_LAYERS) {
