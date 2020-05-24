@@ -78,14 +78,15 @@ module.exports = (env, argv) => {
      * "resolve" handles how Webpack looks for things when `require`ing or `importing` them
      * see https://webpack.js.org/concepts/module-resolution/
      ******************************************************************************/
-     resolve: {
-       // "alias" just means you can require/import a module using the name
-       // rather the full path, e.g. import "styles/my.scss" vs. import "../styles/my.scss"
-       alias: {
-         styles: path.resolve(__dirname, "src/styles"),
-         public: path.resolve(__dirname, "public")
-       }
-     },
+    resolve: {
+      // "alias" just means you can require/import a module using the name
+      // rather the full path, e.g. import "styles/my.scss" vs. import "../styles/my.scss"
+      alias: {
+        styles: path.resolve(__dirname, "src/styles"),
+        utils: path.resolve(__dirname, "src/utils"),
+        public: path.resolve(__dirname, "public"),
+      },
+    },
 
     /******************************************************************************
      * "module" is where we tell webpack how to handle our various modules / files
@@ -126,29 +127,36 @@ module.exports = (env, argv) => {
           // many options in webpack's config can take a value as an array or object
           // here we're specify an object with additonal properties, such as
           // plugins for babel to use
-          use: [{
-            loader: "babel-loader",
-            options: {
-              presets: [
-                [
-                  "@babel/preset-env",
-                  {
-                    useBuiltIns: "entry",
-                    targets: "> 0.25%, not dead",
-                    corejs: { version: 3, proposals: true },
-                  },
+          use: [
+            {
+              loader: "babel-loader",
+              options: {
+                cacheDirectory: true,
+                presets: [
+                  [
+                    "@babel/preset-env",
+                    {
+                      useBuiltIns: "usage",
+                      corejs: { version: 3, proposals: true },
+                    },
+                  ],
                 ],
-              ],
-              plugins: ["@babel/plugin-proposal-object-rest-spread"],
+                plugins: [
+                  "@babel/plugin-proposal-object-rest-spread",
+                  "@babel/plugin-transform-runtime",
+                  "@babel/plugin-transform-async-to-generator",
+                  "@babel/plugin-proposal-class-properties",
+                ],
+              },
             },
-          },
-          {
-            loader: "eslint-loader",
-            options: {
-              cache: true,
-              emitWarning: true
-            }
-          }],
+            {
+              loader: "eslint-loader",
+              options: {
+                cache: true,
+                emitWarning: true,
+              },
+            },
+          ],
         },
 
         // rule to handle loading images
@@ -216,7 +224,7 @@ module.exports = (env, argv) => {
     // what bundle information gets output to the CLI
     // "minimal" means "Only output when errors or new compilation happen"
     // https://webpack.js.org/configuration/stats/
-    stats: 'minimal',
+    stats: "minimal",
 
     /******************************************************************************
      * What plugins Webpack should use for more advanced & customized configuration
@@ -248,7 +256,7 @@ module.exports = (env, argv) => {
         fix: true,
         lintDirtyModulesOnly: true,
         emitErrors: true,
-        emitWarning: true
+        emitWarning: true,
       }),
 
       // allows for variables to be available in our app code
