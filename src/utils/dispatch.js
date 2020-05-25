@@ -12,6 +12,8 @@ const events = [
   "title-details-toggle",
   "title-details-close",
   "title-details-open",
+  "show-loading-indicator",
+  "hide-loading-indicator",
 ];
 
 /**
