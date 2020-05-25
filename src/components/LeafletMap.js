@@ -265,8 +265,8 @@ export class LeafletMap {
   toggleLoadingIndicator = (isLoading) => {
     if (isLoading) {
       dispatch.call("show-loading-indicator");
-      return;
+    } else {
+      dispatch.call("hide-loading-indicator");
     }
-    dispatch.call("hide-loading-indicator");
   };
 }
