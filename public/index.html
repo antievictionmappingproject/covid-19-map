@@ -12,7 +12,7 @@
 
     <!-- Load Leaflet CSS -->
     <link
-      href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
+      href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
       rel="stylesheet"
     />
     <!-- Load the Marker Cluster CSS -->
@@ -40,32 +40,38 @@
         <details open>
           <summary>About the map:</summary>
           <div class="title-content-wrapper">
-            <h2>Emergency Tenant Protections </h2>
-            <p>Where United States officials have passed (or tenants are working to pass) emergency
-              tenant protections during the COVID-19 crisis.</p>
+            <h2>Emergency Tenant Protections</h2>
+            <p>
+              Where United States officials have passed (or tenants are working
+              to pass) emergency tenant protections during the COVID-19 crisis.
+            </p>
             <p>
               <a
-                      href="https://docs.google.com/forms/d/e/1FAIpQLSfHzR_SYO-wKfa3Abi9jDvZXCH3dsLgrkDj-9Rwm-3oRjDD9A/viewform"
-                      target="_blank"
-              >Submit a tenant protection update.</a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSfHzR_SYO-wKfa3Abi9jDvZXCH3dsLgrkDj-9Rwm-3oRjDD9A/viewform"
+                target="_blank"
+                >Submit a tenant protection update.</a
               >
             </p>
 
-            <div class = "legend">
-              <div class = "legendpair">
-               <div class = "legendbox scale1">&nbsp;</div> Few protections in place
+            <div class="legend">
+              <div class="legendpair">
+                <div class="legendbox scale1">&nbsp;</div>
+                Few protections in place
               </div>
-            <div class = "legendpair">
-              <div class = "legendbox scale2">&nbsp;</div> Some protections in place
-            </div>
-            <div class = "legendpair">
-              <div class = "legendbox scale3">&nbsp;</div> Many protections in place
-            </div>
-
+              <div class="legendpair">
+                <div class="legendbox scale2">&nbsp;</div>
+                Some protections in place
+              </div>
+              <div class="legendpair">
+                <div class="legendbox scale3">&nbsp;</div>
+                Many protections in place
+              </div>
             </div>
             <h2>Rent Strikes</h2>
             <p>
-              Where <strong class="color-rent-strike">organized rent strikes</strong> are currently occurring or may be occurring.
+              Where
+              <strong class="color-rent-strike">organized rent strikes</strong>
+              are currently occurring or may be occurring.
             </p>
             <p>
               <a
@@ -79,10 +85,9 @@
               Here are some resources to help if you are in need.
             </p>
             <p>
-              <a
-                href="https://cancelrent.us/"
-                 target="_blank"
-                >Resources and demands from Right To The City Alliance and Homes For All.</a
+              <a href="https://cancelrent.us/" target="_blank"
+                >Resources and demands from Right To The City Alliance and Homes
+                For All.</a
               >
             </p>
             <p>
@@ -101,10 +106,15 @@
 
       <!-- the infowindow popup container -->
       <div id="aemp-infowindow-container"></div>
+
+      <!-- the loading container -->
+      <div id="loading-container">
+        <div id="loader"></div>
+      </div>
     </div>
 
     <!--
-      This script element will not be displayed, it just holds our Leaflet popup template
+      This script element will not be displayed, it just                                                                                                                holds our Leaflet popup template
     -->
     <script class="popup-template" type="x-tmpl-mustache">
       <div class="popup-container locality-popup-container">
@@ -202,22 +212,19 @@
     </script>
 
     <!-- Load Leaflet library -->
-    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
 
     <!-- Load Leaflet Marker Cluster plugin -->
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster-src.js"></script>
 
-    <!-- Load Promises polyfill -->
-    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"></script>
-
     <!-- Load Fetch polyfill -->
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.4/fetch.js"></script>
+    <script src="https://unpkg.com/whatwg-fetch@3.0.0/dist/fetch.umd.js"></script>
 
     <!-- <details> element polyfill for IE -->
     <script src="//cdn.jsdelivr.net/npm/details-polyfill@1/index.min.js"></script>
 
     <!-- import the Mustache library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.0/mustache.min.js"></script>
+    <script src="https://unpkg.com/mustache@4.0.1/mustache.min.js"></script>
 
     <!-- Load d3-tsv -->
     <script src="https://d3js.org/d3-dsv.v1.min.js"></script>
