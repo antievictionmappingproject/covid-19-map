@@ -1,6 +1,8 @@
 import { dispatch } from "utils/dispatch";
 
 export class LoadingIndicator {
+  loadingContainer = document.getElementById("loading-container");
+
   constructor() {
     this.bindListeners();
   }
@@ -10,12 +12,12 @@ export class LoadingIndicator {
     dispatch.on("hide-loading-indicator", this.hide);
   }
 
-  show() {
+  show = () => {
     // the default for the corresponding DOM element is false
-    document.getElementById("loading-container").setAttribute("hidden", false);
-  }
+    this.loadingContainer.hidden = false;
+  };
 
-  hide() {
-    document.getElementById("loading-container").setAttribute("hidden", true);
-  }
+  hide = () => {
+    this.loadingContainer.hidden = true;
+  };
 }
