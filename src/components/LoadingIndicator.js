@@ -11,6 +11,7 @@ export class LoadingIndicator {
   }
 
   show() {
+    // the default for the corresponding DOM element is false
     document.getElementById("loading-container").setAttribute("hidden", false);
   }
 
