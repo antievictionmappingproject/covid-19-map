@@ -120,7 +120,7 @@ export class LeafletMap {
 
   handleAddLayerError = (error) => {
     console.error(error);
-    this.toggleLoadingIndicator(true); //show loading indicator
+    this.toggleLoadingIndicator(false); //hide loading indicator
   };
 
   handleAddLayer = ({ key, layerConfig, data }) => {
