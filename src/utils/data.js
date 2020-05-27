@@ -20,6 +20,8 @@ export async function getCartoData(query, bounds, format = "geojson") {
   );
 
   if (!res || !res.ok) {
+    console.log(query(bounds));
+    console.log(JSON.stringify(await res.json()));
     throw Error("Unable to fetch Carto data");
   }
 
