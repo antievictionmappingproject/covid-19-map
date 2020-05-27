@@ -15,9 +15,18 @@ if (process.env.NODE_ENV !== "production") {
 
 const mapConfig = parseUriHash(defaultMapConfig);
 
-new LeafletMap(mapConfig);
+const mapContainer = new LeafletMap(mapConfig);
 new InfoWindow();
 new TitleDetails();
 new LoadingIndicator();
 
-getData();
+const {
+  _northEast: topRight,
+  _southWest: bottomLeft,
+} = mapContainer.map.getBounds();
+
+// Only load data in the map view
+getData([
+  [bottomLeft.lat, bottomLeft.lng],
+  [topRight.lat, topRight.lng],
+]);

@@ -12,10 +12,10 @@ function handleFetchFailure(name, error) {
   dispatch.call(name, null, error);
 }
 
-export async function getCartoData(query, format = "geojson") {
+export async function getCartoData(query, bounds, format = "geojson") {
   const res = await fetch(
     `${cartoSqlApiBaseUri}?q=${window.encodeURIComponent(
-      query
+      query(bounds)
     )}&format=${format}`
   );
 
@@ -39,12 +39,12 @@ export async function getSheetsData(sheetId) {
   return d3.csvParse(text, d3.autoType);
 }
 
-export async function getData() {
+export async function getData(bounds) {
   for (let [key, layerConfig] of Object.entries(mapLayersConfig)) {
     try {
       const data =
         layerConfig.query !== null
-          ? await getCartoData(layerConfig.query)
+          ? await getCartoData(layerConfig.query, bounds)
           : await getSheetsData(layerConfig.sheetId);
       handleFetchSuccess("fetch-map-data-resolve", { key, layerConfig, data });
     } catch (error) {
