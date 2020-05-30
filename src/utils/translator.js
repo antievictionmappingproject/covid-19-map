@@ -48,7 +48,7 @@ class Translator {
       })
       .catch((err) => {
         console.error(
-          `Could not load ${path}.json. Please make sure that the path is correct.`,
+          `Could not load ${path}. Please make sure that the path is correct.`,
           err
         );
       });
@@ -62,7 +62,8 @@ class Translator {
 
   translate(translation) {
     function replace(element) {
-      var text = element.dataset.i18n
+      const translationId = element.getAttribute("i18n");
+      const text = translationId
         .split(".")
         .reduce((obj, i) => obj[i], translation);
 
