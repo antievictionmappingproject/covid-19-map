@@ -40,7 +40,7 @@ export async function getSheetsData(sheetId) {
 }
 
 export async function getData() {
-  for (let [key, layerConfig] of Object.entries(mapLayersConfig)) {
+  Object.entries(mapLayersConfig).forEach(async ([key, layerConfig]) => {
     try {
       const data =
         layerConfig.query !== null
@@ -50,5 +50,5 @@ export async function getData() {
     } catch (error) {
       handleFetchFailure("fetch-map-data-reject", error);
     }
-  }
+  });
 }
