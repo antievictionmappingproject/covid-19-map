@@ -19,6 +19,7 @@ var translator = new Translator({
   persist: false,
   languages: ["en", "pt"],
   defaultLanguage: mapConfig.lang,
+  detectLanguage: true,
   filesLocation: "/i18n",
 });
 

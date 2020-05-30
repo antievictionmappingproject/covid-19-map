@@ -41,10 +41,13 @@ export async function getSheetsData(sheetId) {
 }
 
 export async function getData(config) {
+  // TODO: Get the translation language based on the translator class instance
+  // TODO: Get translations based on this language, currently only getting from query params
   const translations = await Translator.getTranslation("i18n", config.lang);
   for (let [key, layerConfig] of Object.entries(mapLayersConfig)) {
     // Get localized values
     const localizedName = translations[`layer-select-${key}`];
+    console.log(localizedName);
 
     // Join localized name to existing configuration
     const localizedLayerConfig = {
