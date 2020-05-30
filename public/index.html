@@ -151,25 +151,25 @@
       <div class="aemp-infowindow">
         <a class="aemp-infowindow-close" href="#close">×</a>
         <div>
-          <p class="infowindow-title">
+          <p class="infowindow.title">
             <strong>Housing Protection Legislation</strong>
           </p>
         </div>
         <div>
           <p>
-            <strong>{{jurisdictionType}}: </strong>{{jurisdictionName}}
+            <strong i18n="infowindow.location-label">{{jurisdictionType}}: </strong>{{jurisdictionName}}
           </p>
         </div>
         {{#policyStrength}}
         <div>
           <p>
-            <strong>Policy Strength: </strong>
+            <strong i18n="infowindow.policy-strength-label">Policy Strength: </strong>
             <span class="policy-strength-color policy-strength-color--{{range}}">{{policyStrength}}</span>
           </p>
         </div>
         {{/policyStrength}}
         <div>
-          <p><strong>Policy Summary:</strong></p>
+          <p><strong i18n="infowindow.policy-summary-label">Policy Summary:</strong></p>
           <p>{{policy_summary}}</p>
         </div>
         {{#start}}

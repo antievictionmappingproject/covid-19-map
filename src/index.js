@@ -23,9 +23,9 @@ var translator = new Translator({
 });
 
 new LeafletMap(mapConfig);
-new InfoWindow();
+new InfoWindow(translator);
 new TitleDetails();
 new LoadingIndicator();
 
 translator.load();
-getData();
+getData({ lang: mapConfig.lang });

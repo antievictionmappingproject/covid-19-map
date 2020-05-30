@@ -25,7 +25,7 @@ class Translator {
     return lang.substr(0, 2);
   }
 
-  load(lang = null) {
+  async load(lang = null) {
     if (lang) {
       if (!this._options.languages.includes(lang)) {
         return;
@@ -34,24 +34,17 @@ class Translator {
       this._lang = lang;
     }
 
-    var path = `${this._options.filesLocation}/${this._lang}.json`;
+    const translation = await Translator.getTranslation(
+      this._options.filesLocation,
+      this._lang
+    );
 
-    fetch(path)
-      .then((res) => res.json())
-      .then((translation) => {
-        this.translate(translation);
-        this.toggleLangTag();
+    this.translate(translation);
+    this.toggleLangTag();
 
-        if (this._options.persist) {
-          localStorage.setItem("language", this._lang);
-        }
-      })
-      .catch((err) => {
-        console.error(
-          `Could not load ${path}. Please make sure that the path is correct.`,
-          err
-        );
-      });
+    if (this._options.persist) {
+      localStorage.setItem("language", this._lang);
+    }
   }
 
   toggleLangTag() {
@@ -82,6 +75,17 @@ class Translator {
       defaultLanguage: "en",
       filesLocation: "/i18n",
     };
+  }
+
+  static async getTranslation(filesLocation, lang) {
+    var path = `${filesLocation}/${lang}.json`;
+
+    const res = await fetch(path);
+    if (res.ok) {
+      const body = await res.json();
+      return body;
+    }
+    throw Error("Error fetching data");
   }
 }
 

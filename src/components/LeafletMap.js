@@ -123,7 +123,7 @@ export class LeafletMap {
     this.toggleLoadingIndicator(false); //hide loading indicator
   };
 
-  handleAddLayer = ({ key, layerConfig, data }) => {
+  handleAddLayer = ({ key, localizedLayerConfig: layerConfig, data }) => {
     const self = this;
     let layerGroup;
 

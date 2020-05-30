@@ -38,5 +38,10 @@
   "infowindow-action-status": "Status: ",
   "infowindow-action-why": "Why? ",
   "infowindow-action-start": "Start: ",
-  "infowindow-action-resources": "Resources: "
+  "infowindow-action-resources": "Resources: ",
+  "layer-select-cities": "Cities",
+  "layer-select-counties": "Counties",
+  "layer-select-states": "States",
+  "layer-select-nations": "Nations",
+  "layer-select-rentStrikes": "Housing justice actions"
 }

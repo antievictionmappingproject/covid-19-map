@@ -38,5 +38,15 @@
   "infowindow-action-status": "Situação: ",
   "infowindow-action-why": "Por quê? ",
   "infowindow-action-start": "Início: ",
-  "infowindow-action-resources": "Recursos: "
+  "infowindow-action-resources": "Recursos: ",
+  "layer-select-cities": "Cidades",
+  "layer-select-counties": "Condados",
+  "layer-select-states": "Estados",
+  "layer-select-nations": "Naçiãos",
+  "infowindow": {
+    "layer-select-rentStrikes": "Açoes prol moradia",
+    "policy-strength-label": "Nível de proteção: ",
+    "policy-summary-label": "Resumo de lei:",
+    "location-label": "Localização: "
+  }
 }

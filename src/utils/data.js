@@ -1,6 +1,7 @@
 import { aempCartoAccount } from "./config";
 import { mapLayersConfig } from "../map-layers";
 import { dispatch } from "./dispatch";
+import Translator from "./translator";
 
 const cartoSqlApiBaseUri = `https://${aempCartoAccount}.carto.com/api/v2/sql`;
 
@@ -39,14 +40,28 @@ export async function getSheetsData(sheetId) {
   return d3.csvParse(text, d3.autoType);
 }
 
-export async function getData() {
+export async function getData(config) {
+  const translations = await Translator.getTranslation("i18n", config.lang);
   for (let [key, layerConfig] of Object.entries(mapLayersConfig)) {
+    // Get localized values
+    const localizedName = translations[`layer-select-${key}`];
+
+    // Join localized name to existing configuration
+    const localizedLayerConfig = {
+      ...layerConfig,
+      name: localizedName,
+    };
+
     try {
       const data =
-        layerConfig.query !== null
-          ? await getCartoData(layerConfig.query)
-          : await getSheetsData(layerConfig.sheetId);
-      handleFetchSuccess("fetch-map-data-resolve", { key, layerConfig, data });
+        localizedLayerConfig.query !== null
+          ? await getCartoData(localizedLayerConfig.query)
+          : await getSheetsData(localizedLayerConfig.sheetId);
+      handleFetchSuccess("fetch-map-data-resolve", {
+        key,
+        localizedLayerConfig,
+        data,
+      });
     } catch (error) {
       handleFetchFailure("fetch-map-data-reject", error);
     }

@@ -10,8 +10,9 @@ export class InfoWindow {
     "aemp-rentstrike-infowindow-template"
   ).innerHTML;
 
-  constructor() {
+  constructor(translator) {
     this.bindListeners();
+    this.translator = translator;
   }
 
   bindListeners() {
@@ -46,5 +47,10 @@ export class InfoWindow {
       .querySelector(".aemp-infowindow-close")
       .addEventListener("click", () => dispatch.call("close-infowindow"));
     document.getElementById("root").classList.add("aemp-popupopen");
+
+    // Query elements again
+    this.translator._elements = document.querySelectorAll("[i18n]");
+    // Run localisation again
+    this.translator.load();
   };
 }
