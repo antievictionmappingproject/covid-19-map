@@ -1,0 +1,42 @@
+{
+  "page-title": "COVID-19: Legislação de Proteção e Ações de Justiça ao Acesso à Moradia",
+  "about-title": "COVID-19: Legislação de Proteção e Ações de Justiça ao Acesso à Moradia",
+  "about-map": "Sobre o mapa:",
+  "about-protections": "Legislação de Proteção à Moradia",
+  "about-description": [
+	  "Lugares onde foram aprovadas (ou onde estão lutando para que sejam aprovadas) ",
+	  "leis de proteção à moradia durante a crise do coronavírus."
+  ],
+  "legislation-form-link": "https://docs.google.com/forms/d/e/1FAIpQLSfHzR_SYO-wKfa3Abi9jDvZXCH3dsLgrkDj-9Rwm-3oRjDD9A/viewform",
+  "legislation-form-link-title": "Envie informações sobre legislação de proteção da sua localidade.",
+  "legendbox_scale1": "Poucas proteções efetivas",
+  "legendbox_scale2:": "Algumas proteções efetivas",
+  "legendbox_scale3:": "Muitas proteções efetivas",
+  "housing-action-title": "Ações de Justiça no Acesso à Moradia",
+  "housing-action-description": [ 
+	  "Onde <strong class='color-rent-strike'>ações de acesso à moradia</strong>",
+	  " estão ocorrendo ou ocorreram."
+  ],
+  "housing-action-link": "https://docs.google.com/forms/d/e/1FAIpQLSfzMYs_BZYFb601oiAGtotfTX7tjZXvao3F0PHuTlko4rAxKA/viewform",
+  "housing-action-link-description": "Envie informações sobre ações de justiça no acesso a moradia da sua região (como ocupações, suspensão de alugueis, etc.)",
+  "resources-title" : "Sites de ajuda",
+  "resources-description": "Eis alguns dos links de organizações que estão ajudando na luta pelo acesso à moradia.",
+  "resources-link-1-url": "https://mtst.org",
+  "resources-link-1-title": "MTST: Movimento dos Trabalhadores Sem Teto.",
+  "resources-link-2-url": "https://www.mlbbrasil.org",
+  "resources-link-2-title": "Movimento de Luta nos Bairros, Vilas e Favelas.", 
+  "resources-link-3-url": "https://www.mdm.org.br/category/noticias",
+  "resources-link-3-title": "Movimento de Direito à Moradia",
+  "infowindow-prot-title": "Legislação de Proteção à Moradia",
+  "infowindow-prot-strenght": "Nível de proteção:",
+  "infowindow-prot-desc": "Resumo da lei:",
+  "infowindow-prot-effective": "Início: ",
+  "infowindow-prot-ends": "Fim: ",
+  "infowindow-prot-link": "Acesse maiores informações.",
+  "infowindow-action-title": "Ações pela Justiça no Acesso à Moradia",
+  "infowindow-action-loc": "Localização: ",
+  "infowindow-action-status": "Situação: ",
+  "infowindow-action-why": "Por quê? ",
+  "infowindow-action-start": "Início: ",
+  "infowindow-action-resources": "Recursos: "
+}

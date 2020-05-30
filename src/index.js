@@ -1,5 +1,6 @@
 import "styles/index.scss";
 import { LeafletMap } from "./components/LeafletMap";
+import Translator from "./utils/translator";
 import { InfoWindow } from "./components/InfoWindow";
 import { TitleDetails } from "./components/TitleDetails";
 import { LoadingIndicator } from "./components/LoadingIndicator";
@@ -14,10 +15,18 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 const mapConfig = parseUriHash(defaultMapConfig);
+var translator = new Translator({
+  persist: false,
+  languages: ["en", "pt"],
+  defaultLanguage: "en",
+  detectLanguage: true,
+  filesLocation: "/i18n",
+});
 
 new LeafletMap(mapConfig);
 new InfoWindow();
 new TitleDetails();
 new LoadingIndicator();
 
+translator.load();
 getData();

@@ -1,0 +1,42 @@
+{
+  "page-title": "COVID-19 Housing Protection Legislation and Housing Justice Action Map",
+  "about-title": "COVID-19 Housing Protection Legislation & Housing Justice Action",
+  "about-map": "About the map:",
+  "about-protections": "Housing Protection Legislation",
+  "about-description": [
+	  "Where officials have passed (or tenants are working to pass) ",
+	  "housing protection legislation during the COVID-19 crisis."
+  ],
+  "legislation-form-link": "https://docs.google.com/forms/d/e/1FAIpQLSfHzR_SYO-wKfa3Abi9jDvZXCH3dsLgrkDj-9Rwm-3oRjDD9A/viewform",
+  "legislation-form-link-title": "Submit housing protection legislation for locations outside of the United States.",
+  "legendbox_scale1": "Few protections in place",
+  "legendbox_scale2:": "Some protections in place",
+  "legendbox_scale3:": "Many protections in place",
+  "housing-action-title": "Housing Justice Action",
+  "housing-action-description": [ 
+	  "Where <strong class='color-rent-strike'>housing justice actions</strong>",
+	  " are occurring or have occured."
+  ],
+  "housing-action-link": "https://docs.google.com/forms/d/e/1FAIpQLSfzMYs_BZYFb601oiAGtotfTX7tjZXvao3F0PHuTlko4rAxKA/viewform",
+  "housing-action-link-description": "Fill out to submit information about housing justice action (such as rent strikes, occupations, mutual aid).",
+  "resources-title" : "Resources",
+  "resources-description": "Here are some resources to help if you are in need.",
+  "resources-link-1-url": "https://cancelrent.us",
+  "resources-link-1-title": "Resources and demands from Right To The City Alliance and Homes For All.",
+  "resources-link-2-url": "https://housingnotprofit.org",
+  "resources-link-2-title": "Resources and demands from the European Action Coalition for the Right to Housing.", 
+  "resources-link-3-url": "https://thenewinquiry.com/rent-strike-2020",
+  "resources-link-3-title": "Rent Strike resources for #CancelRent.",
+  "infowindow-prot-title": "Housing Protection Legislation",
+  "infowindow-prot-strenght": "Policy Strength:",
+  "infowindow-prot-desc": "Policy Summary:",
+  "infowindow-prot-effective": "Effective: ",
+  "infowindow-prot-ends": "Ends: ",
+  "infowindow-prot-link": "View more info.",
+  "infowindow-action-title": "Housing Justice Action",
+  "infowindow-action-loc": "Location: ",
+  "infowindow-action-status": "Status: ",
+  "infowindow-action-why": "Why? ",
+  "infowindow-action-start": "Start: ",
+  "infowindow-action-resources": "Resources: "
+}
