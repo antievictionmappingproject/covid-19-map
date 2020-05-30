@@ -32,6 +32,7 @@ export const defaultMapConfig = {
   cities: true,
   counties: true,
   rentStrikes: true,
+  lang: "en",
 };
 
 export const TOTAL_NUMBER_OF_MAP_LAYERS = Object.keys(mapLayersConfig).length;

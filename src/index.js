@@ -18,8 +18,7 @@ const mapConfig = parseUriHash(defaultMapConfig);
 var translator = new Translator({
   persist: false,
   languages: ["en", "pt"],
-  defaultLanguage: "en",
-  detectLanguage: true,
+  defaultLanguage: mapConfig.lang,
   filesLocation: "/i18n",
 });
 

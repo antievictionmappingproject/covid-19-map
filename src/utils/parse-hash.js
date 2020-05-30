@@ -66,4 +66,10 @@ export function parseUriHash(mapConfig) {
       mapConfig.rentStrikes = false;
     }
   }
+
+  if (inputVals.lang !== undefined) {
+    mapConfig.lang = inputVals.lang;
+  }
+
+  return mapConfig;
 }
