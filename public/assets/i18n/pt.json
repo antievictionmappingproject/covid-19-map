@@ -4,10 +4,10 @@
   "about-map": "Sobre o mapa:",
   "about-protections": "Legislação de Proteção à Moradia",
   "about-description": [
-	  "Lugares onde foram aprovadas (ou onde estão lutando para que sejam aprovadas) ",
-	  "leis de proteção à moradia durante a crise do coronavírus."
+	  "Lugares onde foram aprovadas (ou onde estão lutando para que sejam aprovadas)",
+	  " leis de proteção à moradia durante a crise do coronavírus."
   ],
-  "legislation-form-link": "https://docs.google.com/forms/d/e/1FAIpQLSfHzR_SYO-wKfa3Abi9jDvZXCH3dsLgrkDj-9Rwm-3oRjDD9A/viewform",
+  "legislation-form-link": "https://test.com",
   "legislation-form-link-title": "Envie informações sobre legislação de proteção da sua localidade.",
   "legendbox_scale1": "Poucas proteções efetivas",
   "legendbox_scale2:": "Algumas proteções efetivas",
@@ -40,13 +40,13 @@
   "infowindow-action-start": "Início: ",
   "infowindow-action-resources": "Recursos: ",
   "layer-select-cities": "Cidades",
-  "layer-select-counties": "Condados",
+  "layer-select-counties": "Regiões",
   "layer-select-states": "Estados",
-  "layer-select-nations": "Naçiãos",
+  "layer-select-nations": "Nações",
   "infowindow": {
-    "layer-select-rentStrikes": "Açoes prol moradia",
+    "layer-select-rentStrikes": "Açoes pela moradia",
     "policy-strength-label": "Nível de proteção: ",
-    "policy-summary-label": "Resumo de lei:",
+    "policy-summary-label": "Resumo da política:",
     "location-label": "Localização: "
   }
 }
