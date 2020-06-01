@@ -3,6 +3,7 @@ import { LeafletMap } from "./components/LeafletMap";
 import { InfoWindow } from "./components/InfoWindow";
 import { TitleDetails } from "./components/TitleDetails";
 import { LoadingIndicator } from "./components/LoadingIndicator";
+import i18nextify from "utils/i18nextify.js";
 import { getData } from "utils/data";
 import { parseUriHash } from "utils/parse-hash";
 import { defaultMapConfig } from "utils/constants";

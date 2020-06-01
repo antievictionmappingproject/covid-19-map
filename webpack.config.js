@@ -240,6 +240,7 @@ module.exports = (env, argv) => {
       // handles copying files that aren't "imported" into our JS to the output directory
       new CopyPlugin([
         { from: "public/assets/mapIcons", to: "assets/mapIcons" },
+        { from: "public/locales", to: "locales" },
       ]),
 
       // handles extracting our CSS into a file(s)
