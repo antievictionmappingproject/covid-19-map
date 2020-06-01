@@ -42,10 +42,7 @@ export async function getSheetsData(sheetId) {
 export async function getData() {
   Object.entries(mapLayersConfig).forEach(async ([key, layerConfig]) => {
     try {
-      const data =
-        layerConfig.query !== null
-          ? await getCartoData(layerConfig.query)
-          : await getSheetsData(layerConfig.sheetId);
+      const data = await getCartoData(layerConfig.query);
       handleFetchSuccess("fetch-map-data-resolve", { key, layerConfig, data });
     } catch (error) {
       handleFetchFailure("fetch-map-data-reject", error);
