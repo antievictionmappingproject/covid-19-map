@@ -2,7 +2,7 @@
  * parseUriHash
  * Check the url hash for params then override map default settings if any are present.
  * assumes params are as follows:
- * #lat=<float>&lng=<float>&z=<integer>&states=<boolean>&cities=<boolean>&counties=<boolean>&rentstrike=<boolean>
+ * #lat=<float>&long=<float>&z=<integer>&states=<boolean>&cities=<boolean>&counties=<boolean>&rentstrike=<boolean>
  * @param {*} mapConfig
  */
 export function parseUriHash(mapConfig) {
@@ -23,8 +23,8 @@ export function parseUriHash(mapConfig) {
     mapConfig.lat = parseFloat(inputVals.lat);
   }
 
-  if (!isNaN(inputVals.lng)) {
-    mapConfig.lng = parseFloat(inputVals.lng);
+  if (!isNaN(inputVals.long)) {
+    mapConfig.lng = parseFloat(inputVals.long);
   }
 
   if (inputVals.cities !== undefined) {
