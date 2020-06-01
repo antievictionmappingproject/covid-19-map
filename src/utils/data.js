@@ -46,6 +46,7 @@ export async function getData() {
       handleFetchSuccess("fetch-map-data-resolve", { key, layerConfig, data });
     } catch (error) {
       handleFetchFailure("fetch-map-data-reject", error);
+      dispatch.call("hide-loading-indicator");
     }
   });
 }
