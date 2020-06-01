@@ -54,7 +54,12 @@ ORDER BY m.range`;
 
 export const housingActionsCartoQuery = `
   SELECT
-    the_geom, strike_status, start, location, why, resources
+    CASE 
+      WHEN strike_status IN ('Yes / Sí / 是 / Oui', 'Yes') THEN 'Yes'
+      WHEN strike_status IN ('Unsure / No estoy segurx / 不确定 / Pas sûr.e.s.', 'No') THEN 'No'
+      ELSE 'Unsure' 
+    END AS status,
+    the_geom, start, location, why, resources
   FROM ${cartoHousingActionsTable}
   WHERE the_geom IS NOT NULL;
 `;
