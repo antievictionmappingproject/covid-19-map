@@ -1,4 +1,5 @@
 import {
+  cartoHousingActionsTable,
   cartoSheetSyncTable,
   cartoCountiesTable,
   cartoStatesTable,
@@ -50,3 +51,10 @@ INNER JOIN ${cartoSheetSyncTable} m
   ON c.adm0_a3 = m.iso
   AND m.admin_scale = 'Country'
 ORDER BY m.range`;
+
+export const housingActionsCartoQuery = `
+  SELECT
+    the_geom, strike_status, start, location, why, resources
+  FROM ${cartoHousingActionsTable}
+  WHERE the_geom IS NOT NULL;
+`;
