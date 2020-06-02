@@ -1,3 +1,10 @@
+import Mustache from "mustache";
+const L = Object.assign(
+  {},
+  require("leaflet"),
+  require("leaflet.markercluster")
+);
+
 import { dispatch } from "utils/dispatch";
 import {
   defaultMapConfig,

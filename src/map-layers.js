@@ -1,3 +1,4 @@
+import * as L from "leaflet";
 import {
   colorNoData,
   fillColorScale,
