@@ -13,7 +13,7 @@ import {
 
 export const citiesCartoQuery = `
 SELECT
-  municipality, state, country, range, 
+  municipality, state, country, range,
   policy_type, policy_summary, link, the_geom
 FROM ${cartoSheetSyncTable}
 WHERE the_geom is not null and admin_scale = 'City'
@@ -21,7 +21,7 @@ ORDER BY range`;
 
 export const countiesCartoQuery = `
 SELECT
-  c.the_geom, c.county, c.state, m.range, 
+  c.the_geom, c.county, c.state, m.range,
   m.policy_type, m.policy_summary, m.link, m.range
 FROM ${cartoCountiesTable} c
 JOIN ${cartoSheetSyncTable} m
@@ -43,7 +43,7 @@ INNER JOIN ${cartoSheetSyncTable} m
 ORDER BY m.range`;
 
 export const countriesCartoQuery = `
-SELECT 
+SELECT
   c.the_geom, c.adm0_a3, c.name_en, m.range,
   m.policy_type, m.policy_summary, m.link
 FROM ${cartoNationsTable} c
@@ -54,12 +54,13 @@ ORDER BY m.range`;
 
 export const housingActionsCartoQuery = `
   SELECT
-    CASE 
+    CASE
       WHEN strike_status IN ('Yes / Sí / 是 / Oui', 'Yes') THEN 'Yes'
       WHEN strike_status IN ('Unsure / No estoy segurx / 不确定 / Pas sûr.e.s.', 'No') THEN 'No'
-      ELSE 'Unsure' 
+      ELSE 'Unsure'
     END AS status,
-    the_geom, start, location, why, resources
+    TO_CHAR(start :: DATE, 'Month d, yyyy') as start,
+    the_geom, location, why, resources
   FROM ${cartoHousingActionsTable}
   WHERE the_geom IS NOT NULL;
 `;
