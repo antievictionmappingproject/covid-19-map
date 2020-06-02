@@ -1,3 +1,5 @@
+// fetch polyfill for IE
+import "whatwg-fetch";
 import { autoType, csvParse } from "d3-dsv";
 import { aempCartoAccount } from "./config";
 import { mapLayersConfig } from "../map-layers";
