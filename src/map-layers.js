@@ -18,7 +18,7 @@ const rentStrikeIcon = new L.Icon({
 
 export const mapLayersConfig = {
   cities: {
-    name: "Cities",
+    name: "City Protections",
     type: "point",
     query: queries.citiesCartoQuery,
     zIndex: 1,
@@ -50,7 +50,7 @@ export const mapLayersConfig = {
   },
 
   counties: {
-    name: "Counties",
+    name: "County Protections",
     type: "polygon",
     query: queries.countiesCartoQuery,
     zIndex: 2,
@@ -76,7 +76,7 @@ export const mapLayersConfig = {
   },
 
   states: {
-    name: "States",
+    name: "State/Province Protections",
     type: "polygon",
     query: queries.statesCartoQuery,
     zIndex: 3,
@@ -102,7 +102,7 @@ export const mapLayersConfig = {
   },
 
   nations: {
-    name: "Nations",
+    name: "National Protections",
     type: "polygon",
     query: queries.countriesCartoQuery,
     zIndex: 4,
@@ -127,7 +127,7 @@ export const mapLayersConfig = {
   },
 
   rentStrikes: {
-    name: "Rent Strikes",
+    name: "Housing Justice Actions",
     type: "marker-cluster",
     query: queries.housingActionsCartoQuery,
     zIndex: 0, // markers have their very own layer pane in Leaflet so don't need a z-index value
