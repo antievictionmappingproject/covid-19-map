@@ -70,7 +70,6 @@ export const mapLayersConfig = {
         color: strokeColorScale[feature.properties.range] || colorNoData,
         fillColor: fillColorScale[feature.properties.range] || colorNoData,
         fillOpacity: fillOpacity,
-        radius: pointRadius,
         weight: strokeWeight,
       };
     },
@@ -97,7 +96,6 @@ export const mapLayersConfig = {
         color: strokeColorScale[feature.properties.range] || colorNoData,
         fillColor: fillColorScale[feature.properties.range] || colorNoData,
         fillOpacity: fillOpacity,
-        radius: pointRadius,
         weight: strokeWeight,
       };
     },
@@ -118,13 +116,11 @@ export const mapLayersConfig = {
         policyStrength: policyStrengthLanguage[layer.feature.properties.range],
       };
     },
-
     style(feature) {
       return {
         color: strokeColorScale[feature.properties.range] || colorNoData,
         fillColor: fillColorScale[feature.properties.range] || colorNoData,
         fillOpacity: fillOpacity,
-        radius: pointRadius,
         weight: strokeWeight,
       };
     },
