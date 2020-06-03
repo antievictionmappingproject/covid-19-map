@@ -1,3 +1,6 @@
+// fetch polyfill for IE
+import "whatwg-fetch";
+import { autoType, csvParse } from "d3-dsv";
 import { aempCartoAccount } from "./config";
 import { mapLayersConfig } from "../map-layers";
 import { dispatch } from "./dispatch";
@@ -36,7 +39,7 @@ export async function getSheetsData(sheetId) {
   }
 
   const text = await res.text();
-  return d3.csvParse(text, d3.autoType);
+  return csvParse(text, autoType);
 }
 
 export async function getData() {

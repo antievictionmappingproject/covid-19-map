@@ -1,3 +1,4 @@
+import L, { rentStrikeIcon } from "lib/leaflet";
 import {
   colorNoData,
   fillColorScale,
@@ -9,13 +10,6 @@ import {
 } from "utils/constants";
 import { renStrikeSheetId } from "./utils/config";
 import * as queries from "./utils/queries";
-
-const rentStrikeIcon = new L.Icon({
-  iconUrl: "./assets/mapIcons/rent-strike.svg",
-  iconSize: [40, 40],
-  iconAnchor: [20, 20],
-  className: "icon-rent-strike",
-});
 
 export const mapLayersConfig = {
   cities: {
