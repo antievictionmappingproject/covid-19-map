@@ -1,9 +1,5 @@
 import Mustache from "mustache";
-const L = Object.assign(
-  {},
-  require("leaflet"),
-  require("leaflet.markercluster")
-);
+import L from "lib/leaflet";
 
 import { dispatch } from "utils/dispatch";
 import {

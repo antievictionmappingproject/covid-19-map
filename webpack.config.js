@@ -82,10 +82,11 @@ module.exports = (env, argv) => {
       // "alias" just means you can require/import a module using the name
       // rather the full path, e.g. import "styles/my.scss" vs. import "../styles/my.scss"
       alias: {
+        lib: path.resolve(__dirname, "src/lib"),
         styles: path.resolve(__dirname, "src/styles"),
         utils: path.resolve(__dirname, "src/utils"),
         public: path.resolve(__dirname, "public"),
-      },
+      }
     },
 
     /******************************************************************************
