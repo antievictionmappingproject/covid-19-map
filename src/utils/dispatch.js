@@ -16,6 +16,7 @@ const events = [
   "hide-loading-indicator",
   "search-bar-autocomplete",
   "choose-autocomplete-element",
+  "remove-autocompete-dropdown",
 ];
 
 /**

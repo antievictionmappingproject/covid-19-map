@@ -6,11 +6,23 @@ export class SearchBar {
   autoCompleteElement = document.getElementById("search-bar-autocomplete");
 
   constructor() {
-    this.searchBar.addEventListener("input", (evt) => {
+    this.searchBar.addEventListener("input", () => {
       dispatch.call("search-bar-autocomplete", this, this.searchBar.value);
     });
+    this.searchBar.addEventListener("blur", () => {
+      dispatch.call("remove-autocompete-dropdown", this);
+    });
     dispatch.on("search-bar-autocomplete", this.autoComplete);
+    dispatch.on("remove-autocompete-dropdown", this.removeAutocomplete);
   }
+
+  removeAutocomplete() {
+    setTimeout(() => {
+      this.autoCompleteElement.innerHTML = "";
+      this.searchBar.value = "";
+    }, 400);
+  }
+
   async autoComplete(str) {
     console.log("running autocomplete on string " + str);
     if (str.length > 3) {
