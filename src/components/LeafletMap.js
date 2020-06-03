@@ -33,7 +33,6 @@ export class LeafletMap {
       ],
     });
     this.map.setView([lat, lng], z);
-
     this.attributionControl = L.control
       .attribution({ prefix: "Data sources by: " })
       .addAttribution(
@@ -103,6 +102,7 @@ export class LeafletMap {
     dispatch.on("close-infowindow.map", this.handleInfoWindowClose);
     dispatch.on("fetch-map-data-resolve.map", this.handleAddLayer);
     dispatch.on("fetch-map-data-reject.map", this.handleLayerError);
+    dispatch.on("choose-autocomplete-element", this.findAutocompletLocation);
   }
 
   handleWindowResize = () => {
@@ -269,4 +269,10 @@ export class LeafletMap {
       dispatch.call("hide-loading-indicator");
     }
   };
+  findAutocompletLocation(bbox) {
+    this.map.fitBounds([
+      [bbox[1], bbox[0]],
+      [bbox[3], bbox[2]],
+    ]);
+  }
 }

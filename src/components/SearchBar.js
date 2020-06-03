@@ -10,7 +10,6 @@ export class SearchBar {
       dispatch.call("search-bar-autocomplete", this, this.searchBar.value);
     });
     dispatch.on("search-bar-autocomplete", this.autoComplete);
-    dispatch.on("select-autocomplete-element", this.findLocation);
   }
   async autoComplete(str) {
     console.log("running autocomplete on string " + str);
@@ -20,16 +19,24 @@ export class SearchBar {
       this.autoCompleteElement.innerHTML = features
         .map((feature) => this.autocompleteElement(feature))
         .join("");
+      features.forEach((feature) => {
+        document
+          .getElementById(feature.id)
+          .addEventListener("click", () =>
+            dispatch.call(
+              "choose-autocomplete-element",
+              Window.lmap,
+              feature.bbox
+            )
+          );
+      });
     }
-  }
-  async findLocation(id) {
-    const res = await getSearchData(id);
   }
 
   autocompleteElement(feature) {
     return `
         <div class = "autocompleteElement">
-            <a onclick="dispatch.call('select-autocomplete-element',this,${feature.id})">${feature.text}</a>
+            <a id = "${feature.id}">${feature.text}</a>
         </div>
     `;
   }

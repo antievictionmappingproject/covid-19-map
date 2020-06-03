@@ -16,7 +16,7 @@ if (process.env.NODE_ENV !== "production") {
 
 const mapConfig = parseUriHash(defaultMapConfig);
 
-new LeafletMap(mapConfig);
+Window.lmap = new LeafletMap(mapConfig);
 new InfoWindow();
 new TitleDetails();
 new LoadingIndicator();
