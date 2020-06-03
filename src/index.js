@@ -7,6 +7,7 @@ import { getData } from "utils/data";
 import { parseUriHash } from "utils/parse-hash";
 import { defaultMapConfig } from "utils/constants";
 import { dispatch } from "./utils/dispatch";
+import { SearchBar } from "./components/SearchBar";
 
 if (process.env.NODE_ENV !== "production") {
   dispatch.on("fetch-map-data-resolve.debug", console.log);
@@ -19,5 +20,6 @@ new LeafletMap(mapConfig);
 new InfoWindow();
 new TitleDetails();
 new LoadingIndicator();
+new SearchBar();
 
 getData();
