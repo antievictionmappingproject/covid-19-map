@@ -1,3 +1,6 @@
+import Mustache from "mustache";
+import L from "lib/leaflet";
+
 import { dispatch } from "utils/dispatch";
 import {
   defaultMapConfig,

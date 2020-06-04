@@ -1,3 +1,4 @@
+import Mustache from "mustache";
 import { dispatch } from "utils/dispatch";
 
 export class InfoWindow {

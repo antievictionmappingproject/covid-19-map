@@ -11,27 +11,21 @@
       name="description"
       content="Where officials have passed, or tenants are working to pass, housing protection legislation during the COVID-19 crisis, and where housing justice actions are occurring globally."
     />
-
-    <!-- Load Leaflet CSS -->
-    <link
-      href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
-      rel="stylesheet"
-    />
-    <!-- Load the Marker Cluster CSS -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css"
-    />
-
     <!-- Load the Roboto font family -->
-    <link
-      href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap"
-      rel="stylesheet"
-    />
+    <!-- see: https://csswizardry.com/2020/05/the-fastest-google-fonts/ -->
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin />
+    <link rel="preload"
+          as="style"
+          href="https://fonts.googleapis.com/css?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap" />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+          media="print" onload="this.media='all'" />
+    <noscript>
+      <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap" />
+    </noscript>
   </head>
   <body>
     <div id="root">
@@ -229,24 +223,5 @@
         {{/resources}}
       </div>
     </script>
-
-    <!-- Load Leaflet library -->
-    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
-
-    <!-- Load Leaflet Marker Cluster plugin -->
-    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster-src.js"></script>
-
-    <!-- Load Fetch polyfill -->
-    <script src="https://unpkg.com/whatwg-fetch@3.0.0/dist/fetch.umd.js"></script>
-
-    <!-- <details> element polyfill for IE -->
-    <script src="//cdn.jsdelivr.net/npm/details-polyfill@1/index.min.js"></script>
-
-    <!-- import the Mustache library -->
-    <script src="https://unpkg.com/mustache@4.0.1/mustache.min.js"></script>
-
-    <!-- Load d3-tsv -->
-    <script src="https://d3js.org/d3-dsv.v1.min.js"></script>
-    <script src="https://d3js.org/d3-dispatch.v1.min.js"></script>
   </body>
 </html>

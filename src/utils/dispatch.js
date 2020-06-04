@@ -1,3 +1,4 @@
+import { dispatch as d3Dispatch } from "d3-dispatch";
 // d3-dispatch is a lightweight pub/sub module
 // for more see: https://github.com/d3/d3-dispatch
 
@@ -24,4 +25,4 @@ const events = [
  * dispatch.on("<event-name.sub-other-name>", <third callback function>)
  * etc...
  */
-export const dispatch = d3.dispatch(...events);
+export const dispatch = d3Dispatch(...events);
