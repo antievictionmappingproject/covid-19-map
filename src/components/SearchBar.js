@@ -24,10 +24,11 @@ export class SearchBar {
   }
 
   async autoComplete(str) {
-    console.log("running autocomplete on string " + str);
     if (str.length > 3) {
       const res = await getSearchData(str);
-      const features = res.features;
+      const features = res.features.filter(
+        (feature) => feature.bbox !== undefined
+      );
       this.autoCompleteElement.innerHTML = features
         .map((feature) => this.autocompleteElement(feature))
         .join("");
@@ -45,10 +46,11 @@ export class SearchBar {
     }
   }
 
+  //todo: move this to a moustache template
   autocompleteElement(feature) {
     return `
         <div class = "autocompleteElement">
-            <a id = "${feature.id}">${feature.text}</a>
+            <a id = "${feature.id}">${feature.place_name}</a>
         </div>
     `;
   }

@@ -1,18 +1,45 @@
 #search-bar-div {
   position: absolute;
-  left: 400px;
+  left: 35%;
   top: 15px;
+  width: 25%;
+  z-index: 600;
+}
+
+@media (max-width: 640px) {
+  #search-bar-div {
+    left: 2%;
+    width: 70%;
+  }
 }
 
 #search-bar {
-  width: 200px;
+  width: 100%;
   font-size: 1.2em;
   display: block;
   float: left;
 }
 
 #search-bar-autocomplete {
-  width: 200px;
+  width: 100%;
   background-color: white;
   border: 1px solid black;
+  margin-top: 20px;
+}
+
+.autocompleteElement {
+  font-size: 1.2em;
+  border-top: solid 1px #999;
+}
+
+.autocompleteElement a {
+  font-style: normal;
+  padding: 10px 10px 10px 10px;
+  display: block;
+  height: 100%;
+}
+
+.autocompleteElement a:hover {
+  background-color: #ccc;
+  text-decoration: none;
 }

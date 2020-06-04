@@ -56,7 +56,7 @@ export async function getData() {
 export async function getSearchData(str) {
   console.log("getting search data");
   let res = await fetch(
-    `https://api.mapbox.com/geocoding/v5/mapbox.places/${str}.json?access_token=pk.eyJ1IjoibWFwcGluZ2FjdGlvbiIsImEiOiJjazZrMTQ4bW4wMXpxM251cnllYnR6NjMzIn0.9KhQIoSfLvYrGCl3Hf_9Bw`
+    `https://api.mapbox.com/geocoding/v5/mapbox.places/${str}.json?types=country,region,postcode,district,place&access_token=pk.eyJ1IjoibWFwcGluZ2FjdGlvbiIsImEiOiJjazZrMTQ4bW4wMXpxM251cnllYnR6NjMzIn0.9KhQIoSfLvYrGCl3Hf_9Bw`
   );
   return await res.json();
 }

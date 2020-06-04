@@ -33,6 +33,7 @@
   </head>
   <body>
     <div id="root">
+
       <header id="aemp-titlebox">
         <h1 id="aemp-title">
           COVID-19 Housing Protection Legislation & Housing Justice Action
@@ -115,6 +116,10 @@
       <!-- the Leaflet map container -->
       <div id="map"></div>
 
+      <div id="search-bar-div">
+        <input type = "text" name="search" id="search-bar" aria-label="search">
+        <div id="search-bar-autocomplete"></div>
+      </div>
       <!-- the infowindow popup container -->
       <div id="aemp-infowindow-container"></div>
 
@@ -122,13 +127,9 @@
       <div id="loading-container">
         <div id="loader"></div>
       </div>
+      <!--The search bar-->
     </div>
 
-    <!--The search bar-->
-    <div id="search-bar-div">
-      <input type = "text" name="search" id="search-bar" aria-label="search">
-      <div id="search-bar-autocomplete"></div>
-    </div>
 
     <!--
       This script element will not be displayed, it just                                                                                                                holds our Leaflet popup template
