@@ -17,6 +17,7 @@ const events = [
   "search-bar-autocomplete",
   "choose-autocomplete-element",
   "remove-autocompete-dropdown",
+  "search-fetch-data-reject",
 ];
 
 /**

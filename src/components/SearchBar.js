@@ -12,14 +12,19 @@ export class SearchBar {
     this.searchBar.addEventListener("blur", () => {
       dispatch.call("remove-autocompete-dropdown", this);
     });
+    this.searchBar.addEventListener("focus", () => {
+      this.searchBar.value = "";
+    });
     dispatch.on("search-bar-autocomplete", this.autoComplete);
     dispatch.on("remove-autocompete-dropdown", this.removeAutocomplete);
+    dispatch.on("search-fetch-data-reject", (err) => console.error(err));
   }
 
   removeAutocomplete() {
     setTimeout(() => {
       this.autoCompleteElement.innerHTML = "";
-      this.searchBar.value = "";
+      this.searchBar.value =
+        "\u{01f50d}  Enter Nation, state, province, city or zipcode";
     }, 400);
   }
 
