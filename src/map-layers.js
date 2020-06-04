@@ -8,12 +8,11 @@ import {
   fillOpacity,
   policyStrengthLanguage,
 } from "utils/constants";
-import { renStrikeSheetId } from "./utils/config";
 import * as queries from "./utils/queries";
 
 export const mapLayersConfig = {
   cities: {
-    name: "Cities",
+    name: "City Protections",
     type: "point",
     query: queries.citiesCartoQuery,
     zIndex: 1,
@@ -45,7 +44,7 @@ export const mapLayersConfig = {
   },
 
   counties: {
-    name: "Counties",
+    name: "County Protections",
     type: "polygon",
     query: queries.countiesCartoQuery,
     zIndex: 2,
@@ -65,14 +64,13 @@ export const mapLayersConfig = {
         color: strokeColorScale[feature.properties.range] || colorNoData,
         fillColor: fillColorScale[feature.properties.range] || colorNoData,
         fillOpacity: fillOpacity,
-        radius: pointRadius,
         weight: strokeWeight,
       };
     },
   },
 
   states: {
-    name: "States",
+    name: "State/Province Protections",
     type: "polygon",
     query: queries.statesCartoQuery,
     zIndex: 3,
@@ -92,14 +90,13 @@ export const mapLayersConfig = {
         color: strokeColorScale[feature.properties.range] || colorNoData,
         fillColor: fillColorScale[feature.properties.range] || colorNoData,
         fillOpacity: fillOpacity,
-        radius: pointRadius,
         weight: strokeWeight,
       };
     },
   },
 
   nations: {
-    name: "Nations",
+    name: "National Protections",
     type: "polygon",
     query: queries.countriesCartoQuery,
     zIndex: 4,
@@ -113,23 +110,20 @@ export const mapLayersConfig = {
         policyStrength: policyStrengthLanguage[layer.feature.properties.range],
       };
     },
-
     style(feature) {
       return {
         color: strokeColorScale[feature.properties.range] || colorNoData,
         fillColor: fillColorScale[feature.properties.range] || colorNoData,
         fillOpacity: fillOpacity,
-        radius: pointRadius,
         weight: strokeWeight,
       };
     },
   },
 
   rentStrikes: {
-    name: "Rent Strikes",
+    name: "Housing Justice Actions",
     type: "marker-cluster",
-    query: null,
-    sheetId: renStrikeSheetId,
+    query: queries.housingActionsCartoQuery,
     zIndex: 0, // markers have their very own layer pane in Leaflet so don't need a z-index value
     props(layer) {
       return layer.feature.properties;

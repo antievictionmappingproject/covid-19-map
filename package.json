@@ -96,7 +96,6 @@
   "dependencies": {
     "core-js": "^3.6.4",
     "d3-dispatch": "^1.0.6",
-    "d3-dsv": "^1.2.0",
     "details-polyfill": "^1.1.0",
     "leaflet": "^1.6.0",
     "leaflet.markercluster": "^1.4.1",
