@@ -117,16 +117,18 @@
       <div id="map"></div>
 
       <!--The search bar-->
-      <div id="search-bar-div">
-        <input type = "text"
-               name="search"
-               id="search-bar"
-               aria-label="search"
-               value = "&#128269; &nbsp; &nbsp; Enter Nation, state, province, city or zipcode"
-        >
-        <div id="search-bar-autocomplete"></div>
-      </div>
-
+      <form name="autocomplete-form">
+        <div id="search-bar-div">
+          <input type = "text"
+                 name="search"
+                 id="search-bar"
+                 aria-label="search"
+                 value = "&#128269; &nbsp; &nbsp; Enter Nation, state, province, city or zipcode"
+                 list="search-bar-autocomplete"
+          >
+          <datalist id="search-bar-autocomplete"></datalist>
+        </div>
+      </form>
       <!-- the infowindow popup container -->
       <div id="aemp-infowindow-container"></div>
 

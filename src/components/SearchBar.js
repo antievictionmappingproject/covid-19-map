@@ -4,6 +4,7 @@ import { dispatch } from "utils/dispatch";
 export class SearchBar {
   searchBar = document.getElementById("search-bar");
   autoCompleteElement = document.getElementById("search-bar-autocomplete");
+  autoCompleteResultBounds = new Map();
 
   constructor() {
     this.searchBar.addEventListener("input", () => {
@@ -15,9 +16,28 @@ export class SearchBar {
     this.searchBar.addEventListener("focus", () => {
       this.searchBar.value = "";
     });
+    this.searchBar.addEventListener("change", () => {
+      if (
+        [...document.getElementsByClassName("autocompleteElement")].indexOf(
+          this.autocompleteElement(this.searchBar.value)
+        ) < 0
+      ) {
+        let val = this.searchBar.value;
+        let bounds = this.autoCompleteResultBounds.get(val);
+        dispatch.call("choose-autocomplete-element", Window.lmap, bounds);
+      }
+    });
     dispatch.on("search-bar-autocomplete", this.autoComplete);
     dispatch.on("remove-autocompete-dropdown", this.removeAutocomplete);
     dispatch.on("search-fetch-data-reject", (err) => console.error(err));
+    dispatch.on("search-bar-no-data", (searchBarText) =>
+      this.noDataFound(searchBarText)
+    );
+  }
+
+  noDataFound() {
+    //todo: popup on screen somehow
+    console.log("no data found");
   }
 
   removeAutocomplete() {
@@ -29,7 +49,7 @@ export class SearchBar {
   }
 
   async autoComplete(str) {
-    if (str.length > 3) {
+    if (str.length > 1) {
       const res = await getSearchData(str);
       const features = res.features.filter(
         (feature) => feature.bbox !== undefined
@@ -37,26 +57,15 @@ export class SearchBar {
       this.autoCompleteElement.innerHTML = features
         .map((feature) => this.autocompleteElement(feature))
         .join("");
-      features.forEach((feature) => {
-        document
-          .getElementById(feature.id)
-          .addEventListener("click", () =>
-            dispatch.call(
-              "choose-autocomplete-element",
-              Window.lmap,
-              feature.bbox
-            )
-          );
-      });
+      this.autoCompleteResultBounds = features.reduce(
+        (map, feature) => map.set(feature.place_name, feature.bbox),
+        new Map()
+      );
     }
   }
-
-  //todo: move this to a moustache template
   autocompleteElement(feature) {
     return `
-        <div class = "autocompleteElement">
-            <a id = "${feature.id}">${feature.place_name}</a>
-        </div>
+        <option value="${feature.place_name}" class = "autocompleteElement" data-text=${feature.id}>
     `;
   }
 }
