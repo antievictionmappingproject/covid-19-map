@@ -8,7 +8,7 @@ export const strokeColorScale = [undefined, "#addd8e", "#41ab5d", "#005a32"];
 
 // global map layer styling variables
 export const strokeWeight = 1.5;
-export const pointRadius = 8;
+export const pointRadius = 10;
 export const fillOpacity = 0.7;
 
 // corresponds to fill & stroke color scales above

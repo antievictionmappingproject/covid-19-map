@@ -7,6 +7,7 @@ import {
   pointRadius,
   fillOpacity,
   policyStrengthLanguage,
+  policyStrengthLayerClassNames,
 } from "utils/constants";
 import * as queries from "./utils/queries";
 
@@ -33,13 +34,20 @@ export const mapLayersConfig = {
       return {
         color: strokeColorScale[feature.properties.range] || colorNoData,
         fillColor: fillColorScale[feature.properties.range] || colorNoData,
-        fillOpacity: fillOpacity,
+        fillOpacity: 0.85,
         radius: pointRadius,
         weight: strokeWeight,
       };
     },
     pointToLayer(feature, latlng) {
       return L.circleMarker(latlng, mapLayersConfig.cities.style(feature));
+    },
+    onEachFeature(feature, layer) {
+      // class name is used for applying pattern fills to polygons
+      if (feature.properties.has_expired_protections) {
+        layer.options.className =
+          policyStrengthLayerClassNames[feature.properties.range];
+      }
     },
   },
 
@@ -67,6 +75,13 @@ export const mapLayersConfig = {
         weight: strokeWeight,
       };
     },
+    onEachFeature(feature, layer) {
+      // class name is used for applying pattern fills to polygons
+      if (feature.properties.has_expired_protections) {
+        layer.options.className =
+          policyStrengthLayerClassNames[feature.properties.range];
+      }
+    },
   },
 
   states: {
@@ -93,6 +108,13 @@ export const mapLayersConfig = {
         weight: strokeWeight,
       };
     },
+    onEachFeature(feature, layer) {
+      // class name is used for applying pattern fills to polygons
+      if (feature.properties.has_expired_protections) {
+        layer.options.className =
+          policyStrengthLayerClassNames[feature.properties.range];
+      }
+    },
   },
 
   nations: {
@@ -117,6 +139,13 @@ export const mapLayersConfig = {
         fillOpacity: fillOpacity,
         weight: strokeWeight,
       };
+    },
+    onEachFeature(feature, layer) {
+      // class name is used for applying pattern fills to polygons
+      if (feature.properties.has_expired_protections) {
+        layer.options.className =
+          policyStrengthLayerClassNames[feature.properties.range];
+      }
     },
   },
 
