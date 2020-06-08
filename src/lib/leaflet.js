@@ -1,9 +1,9 @@
 // NOTE: use this module for referencing Leaflet,
 // so that any Leaflet plugins are also available
 const L = Object.assign(
+  {},
   require("leaflet"),
-  require("leaflet.markercluster"),
-  require("leaflet.pattern")
+  require("leaflet.markercluster")
 );
 
 export const rentStrikeIcon = new L.Icon({

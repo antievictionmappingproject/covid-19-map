@@ -99,7 +99,6 @@
     "details-polyfill": "^1.1.0",
     "leaflet": "^1.6.0",
     "leaflet.markercluster": "^1.4.1",
-    "leaflet.pattern": "^0.1.0",
     "mustache": "^4.0.1",
     "regenerator-runtime": "^0.13.5",
     "whatwg-fetch": "^3.0.0"
