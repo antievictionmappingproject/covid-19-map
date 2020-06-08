@@ -6,6 +6,7 @@ import {
   defaultMapConfig,
   isMobile,
   TOTAL_NUMBER_OF_MAP_LAYERS,
+  policyStrengthLayerClassNames,
 } from "utils/constants";
 
 export class LeafletMap {
@@ -157,6 +158,13 @@ export class LeafletMap {
       return L.geoJson(data, {
         style(feature) {
           return layerConfig.style(feature);
+        },
+        onEachFeature(feature, layer) {
+          // class name is used for applying pattern fills to polygons
+          if (feature.properties.has_expired_protections) {
+            layer.options.className =
+              policyStrengthLayerClassNames[feature.properties.range];
+          }
         },
       });
     }

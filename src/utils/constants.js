@@ -1,14 +1,10 @@
 import { mapLayersConfig } from "../map-layers";
-import L from "../lib/leaflet";
 
 // color values come from this ColorBrewer url:
 // https://colorbrewer2.org/#type=sequential&scheme=YlGn&n=7
 export const colorNoData = "#939393";
 export const fillColorScale = [undefined, "#d9f0a3", "#78c679", "#238443"];
 export const strokeColorScale = [undefined, "#addd8e", "#41ab5d", "#005a32"];
-export const patternColorScale = fillColorScale.map((color) =>
-  color ? new L.StripePattern({ opacity: 0.7, angle: 45, color }) : undefined
-);
 
 // global map layer styling variables
 export const strokeWeight = 1.5;
@@ -21,6 +17,13 @@ export const policyStrengthLanguage = [
   "Few protections in place",
   "Some protections in place",
   "Many protections in place",
+];
+
+export const policyStrengthLayerClassNames = [
+  undefined,
+  "few-protections",
+  "some-protections",
+  "many-protections",
 ];
 
 // note: this matches the breakpoint in styles.css

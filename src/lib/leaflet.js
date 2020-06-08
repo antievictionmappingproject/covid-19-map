@@ -13,4 +13,5 @@ export const rentStrikeIcon = new L.Icon({
   className: "icon-rent-strike",
 });
 
+window.L = L;
 export default L;

@@ -3,21 +3,12 @@ import {
   colorNoData,
   fillColorScale,
   strokeColorScale,
-  patternColorScale,
   strokeWeight,
   pointRadius,
   fillOpacity,
   policyStrengthLanguage,
 } from "utils/constants";
 import * as queries from "./utils/queries";
-
-const getFillColorOrPattern = (props) => {
-  if (props.has_expired_protections) {
-    return { fillPattern: patternColorScale[props.range] };
-  } else {
-    return { fillColor: fillColorScale[props.range] || colorNoData };
-  }
-};
 
 export const mapLayersConfig = {
   cities: {
@@ -95,14 +86,12 @@ export const mapLayersConfig = {
       };
     },
     style(feature) {
-      const o = {
-        ...getFillColorOrPattern(feature.properties),
+      return {
+        fillColor: fillColorScale[feature.properties.range] || colorNoData,
         color: strokeColorScale[feature.properties.range] || colorNoData,
         fillOpacity: fillOpacity,
         weight: strokeWeight,
       };
-      console.log(o);
-      return o;
     },
   },
 

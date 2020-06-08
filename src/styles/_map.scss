@@ -7,6 +7,22 @@
   bottom: 0;
   right: 0;
   z-index: 0;
+
+  .leaflet-pane.leaflet-overlay-pane svg {
+    path {
+      &.few-protections {
+        fill: url("#pattern-few-protections");
+      }
+
+      &.some-protections {
+        fill: url("#pattern-some-protections");
+      }
+
+      &.many-protections {
+        fill: url("#pattern-many-protections");
+      }
+    }
+  }
 }
 
 @media (max-width: 640px) {
