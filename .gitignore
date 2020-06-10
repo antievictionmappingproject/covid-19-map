@@ -4,3 +4,4 @@ node_modules/
 .env
 .idea
 yarn-error.log
+package-lock.json
