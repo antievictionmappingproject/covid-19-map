@@ -6,10 +6,10 @@
   "about-description": "Where officials have passed (or tenants are working to pass) housing protection legislation during the COVID-19 crisis.",
   "legislation-form-usa": "Submit housing protection legislation for locations outside of the United States.",
   "legislation-form-intl": "Submit housing protection legislation for locations outside of the United States.",
-  "legend": {
-    "scale1": "Few protections in place",
-    "scale2": "Some protections in place",
-    "scale3": "Many protections in place"
+  "policyStrength": {
+    "few": "Few protections in place",
+    "some": "Some protections in place",
+    "many": "Many protections in place"
   },
   "housing-action-title": "Housing Justice Action",
   "housing-action-description": "Where <strong class='color-rent-strike'>housing justice actions</strong> are occurring or have occured.",

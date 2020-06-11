@@ -6,7 +6,7 @@ import {
   strokeWeight,
   pointRadius,
   fillOpacity,
-  policyStrengthLanguage,
+  policyStrengthI18nKeys,
 } from "utils/constants";
 import * as queries from "./utils/queries";
 
@@ -28,7 +28,8 @@ export const mapLayersConfig = {
         jurisdictionType: "City",
         jurisdictionTypeI18n: "city",
         popupName: municipality,
-        policyStrength: policyStrengthLanguage[layer.feature.properties.range],
+        policyStrengthI18n:
+          policyStrengthI18nKeys[layer.feature.properties.range],
       };
     },
     style(feature) {
@@ -60,7 +61,8 @@ export const mapLayersConfig = {
         jurisdictionType: "County",
         jurisdictionTypeI18n: "county",
         popupName: `${county}${state ? `, ${state}` : ""}`,
-        policyStrength: policyStrengthLanguage[layer.feature.properties.range],
+        policyStrengthI18n:
+          policyStrengthI18nKeys[layer.feature.properties.range],
       };
     },
     style(feature) {
@@ -88,7 +90,8 @@ export const mapLayersConfig = {
         jurisdictionType: "State/Province",
         jurisdictionTypeI18n: "state-province",
         popupName: name,
-        policyStrength: policyStrengthLanguage[layer.feature.properties.range],
+        policyStrengthI18n:
+          policyStrengthI18nKeys[layer.feature.properties.range],
       };
     },
     style(feature) {
@@ -115,7 +118,8 @@ export const mapLayersConfig = {
         jurisdictionType: "Country",
         jurisdictionTypeI18n: "nation",
         popupName: name_en,
-        policyStrength: policyStrengthLanguage[layer.feature.properties.range],
+        policyStrengthI18n:
+          policyStrengthI18nKeys[layer.feature.properties.range],
       };
     },
     style(feature) {

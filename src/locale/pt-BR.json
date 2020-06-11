@@ -6,10 +6,10 @@
   "about-description": "Lugares onde foram aprovadas (ou onde estão lutando para que sejam aprovadas) leis de proteção à moradia durante a crise do coronavírus.",
   "legislation-form-usa": "TODO",
   "legislation-form-intl": "Envie informações sobre legislação de proteção da sua localidade.",
-  "legend": {
-    "scale1": "Poucas proteções efetivas",
-    "scale2": "Algumas proteções efetivas",
-    "scale3": "Muitas proteções efetivas"
+  "policyStrength": {
+    "few": "Poucas proteções efetivas",
+    "some": "Algumas proteções efetivas",
+    "many": "Muitas proteções efetivas"
   },
   "housing-action-title": "Ações de Justiça no Acesso à Moradia",
   "housing-action-description": "Onde <strong class='color-rent-strike'>ações de acesso à moradia</strong> estão ocorrendo ou ocorreram.",

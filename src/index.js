@@ -16,7 +16,7 @@ if (process.env.NODE_ENV !== "production") {
   // dispatch.on("fetch-map-data-resolve.debug", console.log);
   dispatch.on("fetch-map-data-reject.debug", console.error);
 }
-// Setup i18n
+
 i18next
   .use(LanguageDetector)
   .init({

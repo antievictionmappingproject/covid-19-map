@@ -11,13 +11,8 @@ export const strokeWeight = 1.5;
 export const pointRadius = 8;
 export const fillOpacity = 0.7;
 
-// corresponds to fill & stroke color scales above
-export const policyStrengthLanguage = [
-  "",
-  "Few protections in place",
-  "Some protections in place",
-  "Many protections in place",
-];
+// Keys for i18n for the policy strength text
+export const policyStrengthI18nKeys = ["", "few", "some", "many"];
 
 // note: this matches the breakpoint in styles.css
 export const MOBILE_BREAKPOINT = 640;
