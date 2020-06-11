@@ -26,6 +26,7 @@ export const mapLayersConfig = {
           country ? `, ${country}` : ""
         }`,
         jurisdictionType: "City",
+        jurisdictionTypeI18n: "city",
         popupName: municipality,
         policyStrength: policyStrengthLanguage[layer.feature.properties.range],
       };
@@ -57,6 +58,7 @@ export const mapLayersConfig = {
         // Show county with state if state field is set
         jurisdictionName: `${county}${state ? `, ${state}` : ""}`,
         jurisdictionType: "County",
+        jurisdictionTypeI18n: "county",
         popupName: `${county}${state ? `, ${state}` : ""}`,
         policyStrength: policyStrengthLanguage[layer.feature.properties.range],
       };
@@ -84,6 +86,7 @@ export const mapLayersConfig = {
         ...layer.feature.properties,
         jurisdictionName: `${name}${admin ? `, ${admin}` : ""}`,
         jurisdictionType: "State/Province",
+        jurisdictionTypeI18n: "state-province",
         popupName: name,
         policyStrength: policyStrengthLanguage[layer.feature.properties.range],
       };
@@ -110,6 +113,7 @@ export const mapLayersConfig = {
         ...layer.feature.properties,
         jurisdictionName: name_en,
         jurisdictionType: "Country",
+        jurisdictionTypeI18n: "nation",
         popupName: name_en,
         policyStrength: policyStrengthLanguage[layer.feature.properties.range],
       };
