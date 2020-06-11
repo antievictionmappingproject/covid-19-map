@@ -1,4 +1,5 @@
 import Mustache from "mustache";
+import i18next from "i18next";
 import L from "lib/leaflet";
 
 import { dispatch } from "utils/dispatch";
@@ -7,8 +8,6 @@ import {
   isMobile,
   TOTAL_NUMBER_OF_MAP_LAYERS,
 } from "utils/constants";
-import { translateContent } from "../utils/translations";
-import i18next from "i18next";
 
 export class LeafletMap {
   // dataLayers: look up table to store layer groups in the form of

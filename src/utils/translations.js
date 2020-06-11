@@ -11,8 +11,6 @@ const getElementsWithI18n = () => {
 };
 
 export const translateContent = () => {
-  console.log("start translation");
-  console.log(i18next.language);
   // Get all elements that have "data-i18n" attribute
   const translationElements = getElementsWithI18n();
 

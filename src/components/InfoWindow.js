@@ -1,5 +1,6 @@
 import Mustache from "mustache";
 import { dispatch } from "utils/dispatch";
+import { translateContent } from "utils/translations";
 
 export class InfoWindow {
   infowindowContainer = document.getElementById("aemp-infowindow-container");
@@ -47,5 +48,8 @@ export class InfoWindow {
       .querySelector(".aemp-infowindow-close")
       .addEventListener("click", () => dispatch.call("close-infowindow"));
     document.getElementById("root").classList.add("aemp-popupopen");
+
+    // Translate the page after showing the info window
+    translateContent();
   };
 }
