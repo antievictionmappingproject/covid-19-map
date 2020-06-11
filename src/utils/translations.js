@@ -16,8 +16,8 @@ export const translateContent = () => {
   const translationElements = getElementsWithI18n();
 
   translationElements.forEach((el) => {
-    const text = i18next.t("page-title");
-    console.log(text);
+    console.log(i18next.t(el[1]));
+    // Translate content inside each element
     el[0].innerHTML = i18next.t(el[1]);
   });
 };

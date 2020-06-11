@@ -1,11 +1,11 @@
 import en from "./en.json";
-import ptBr from "./pt-br.json";
+import ptBr from "./pt-BR.json";
 
 export const locales = {
   en: {
     translation: en,
   },
-  "pt-br": {
+  "pt-BR": {
     translation: ptBr,
   },
 };

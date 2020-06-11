@@ -3,15 +3,11 @@
   "about-title": "COVID-19: Legislação de Proteção e Ações de Justiça ao Acesso à Moradia",
   "about-map": "Sobre o mapa:",
   "about-protections": "Legislação de Proteção à Moradia",
-  "about-description": [
-    "Lugares onde foram aprovadas (ou onde estão lutando para que sejam aprovadas)",
-    " leis de proteção à moradia durante a crise do coronavírus."
-  ],
-  "legislation-form-link": "https://test.com",
-  "legislation-form-link-title": "Envie informações sobre legislação de proteção da sua localidade.",
-  "legendbox_scale1": "Poucas proteções efetivas",
-  "legendbox_scale2:": "Algumas proteções efetivas",
-  "legendbox_scale3:": "Muitas proteções efetivas",
+  "about-description": "Lugares onde foram aprovadas (ou onde estão lutando para que sejam aprovadas) leis de proteção à moradia durante a crise do coronavírus.",
+  "legislation-form-intl": "Envie informações sobre legislação de proteção da sua localidade.",
+  "legendbox-scale1": "Poucas proteções efetivas",
+  "legendbox-scale2:": "Algumas proteções efetivas",
+  "legendbox-scale3:": "Muitas proteções efetivas",
   "housing-action-title": "Ações de Justiça no Acesso à Moradia",
   "housing-action-description": [
     "Onde <strong class='color-rent-strike'>ações de acesso à moradia</strong>",

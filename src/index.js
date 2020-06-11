@@ -18,8 +18,9 @@ if (process.env.NODE_ENV !== "production") {
 // Setup i18n
 i18next
   .init({
-    lng: "en",
-    debug: true,
+    lng: "pt-BR",
+    // fallbackLng: ["en"],
+    debug: process.env.NODE_ENV !== "production",
     resources: locales,
   })
   .then(() => {
