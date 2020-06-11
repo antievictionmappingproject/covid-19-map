@@ -99,6 +99,7 @@
     "d3-dispatch": "^1.0.6",
     "details-polyfill": "^1.1.0",
     "i18next": "^19.4.5",
+    "i18next-browser-languagedetector": "^4.2.0",
     "leaflet": "^1.6.0",
     "leaflet.markercluster": "^1.4.1",
     "mustache": "^4.0.1",

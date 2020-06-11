@@ -1,4 +1,5 @@
 import i18next from "i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
 import "styles/index.scss";
 import { LeafletMap } from "./components/LeafletMap";
 import { InfoWindow } from "./components/InfoWindow";
@@ -17,9 +18,9 @@ if (process.env.NODE_ENV !== "production") {
 }
 // Setup i18n
 i18next
+  .use(LanguageDetector)
   .init({
     lng: "pt-BR",
-    // fallbackLng: ["en"],
     debug: process.env.NODE_ENV !== "production",
     resources: locales,
   })
