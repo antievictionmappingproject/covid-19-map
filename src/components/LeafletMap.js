@@ -7,6 +7,8 @@ import {
   isMobile,
   TOTAL_NUMBER_OF_MAP_LAYERS,
 } from "utils/constants";
+import { translateContent } from "../utils/translations";
+import i18next from "i18next";
 
 export class LeafletMap {
   // dataLayers: look up table to store layer groups in the form of
@@ -200,7 +202,10 @@ export class LeafletMap {
       });
     }
 
-    this.dataLayers.set(layerConfig.name, {
+    const nameKey = layerConfig.nameI18n;
+    const localizedName = i18next.t(nameKey);
+
+    this.dataLayers.set(localizedName || layerConfig.name, {
       layerGroup,
       zIndex: layerConfig.zIndex,
     });
