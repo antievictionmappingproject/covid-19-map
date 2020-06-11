@@ -9,7 +9,7 @@ import { parseUriHash } from "utils/parse-hash";
 import { defaultMapConfig } from "utils/constants";
 import { dispatch } from "./utils/dispatch";
 import { translateContent } from "./utils/translations";
-import en from "./locale/en.json";
+import { locales } from "./locale/locales";
 
 if (process.env.NODE_ENV !== "production") {
   // dispatch.on("fetch-map-data-resolve.debug", console.log);
@@ -20,9 +20,7 @@ i18next
   .init({
     lng: "en",
     debug: true,
-    resources: {
-      en,
-    },
+    resources: locales,
   })
   .then(() => {
     // First pass of translation
