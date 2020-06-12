@@ -4,6 +4,15 @@ import translations from "../locale";
 
 const I18N_ATTRIBUTE = "data-i18n";
 
+export const translateContent = () => {
+  // Get all elements that have "data-i18n" attribute
+  const elements = document.querySelectorAll(`[${I18N_ATTRIBUTE}]`);
+  // Return list of lists, where first item is the element and the second is the value of the attribute
+  elements.forEach((el) => {
+    el.innerHTML = i18next.t(el.getAttribute(I18N_ATTRIBUTE));
+  });
+};
+
 // Default values for i18next config
 const i18nOptions = {
   whitelist: ["en", "pt-BR"],
@@ -33,13 +42,4 @@ export const i18nInit = () => {
       // First pass of translation
       translateContent();
     });
-};
-
-export const translateContent = () => {
-  // Get all elements that have "data-i18n" attribute
-  const elements = document.querySelectorAll(`[${I18N_ATTRIBUTE}]`);
-  // Return list of lists, where first item is the element and the second is the value of the attribute
-  elements.forEach((el) => {
-    el.innerHTML = i18next.t(el.getAttribute(I18N_ATTRIBUTE));
-  });
 };
