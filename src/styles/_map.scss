@@ -10,29 +10,12 @@
 
   .leaflet-pane.leaflet-overlay-pane svg {
     path {
-      &.few-protections {
-        fill: url("#pattern-few-protections");
-      }
-
-      &.few-protections--city-level {
-        fill: url("#pattern-few-protections--city-level");
-      }
-
-      &.some-protections {
-        fill: url("#pattern-some-protections");
-      }
-
-      &.some-protections--city-level {
-        fill: url("#pattern-some-protections--city-level");
-      }
-
-      &.many-protections {
-        fill: url("#pattern-many-protections");
-      }
-
-      &.many-protections--city-level {
-        fill: url("#pattern-many-protections--city-level");
-      }
+      @include use-svg-pattern("few");
+      @include use-svg-pattern("few", true);
+      @include use-svg-pattern("some");
+      @include use-svg-pattern("some", true);
+      @include use-svg-pattern("many");
+      @include use-svg-pattern("many", true);
     }
   }
 }
