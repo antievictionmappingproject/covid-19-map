@@ -1,6 +1,6 @@
 import Mustache from "mustache";
 import { dispatch } from "utils/dispatch";
-import { translateContent } from "utils/translations";
+import { translateContent } from "utils/i18n";
 
 export class InfoWindow {
   infowindowContainer = document.getElementById("aemp-infowindow-container");

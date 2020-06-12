@@ -6,7 +6,6 @@ import {
   strokeWeight,
   pointRadius,
   fillOpacity,
-  policyStrengthI18nKeys,
 } from "utils/constants";
 import * as queries from "./utils/queries";
 

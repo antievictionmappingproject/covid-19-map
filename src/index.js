@@ -1,5 +1,3 @@
-import i18next from "i18next";
-import LanguageDetector from "i18next-browser-languagedetector";
 import "styles/index.scss";
 import { LeafletMap } from "./components/LeafletMap";
 import { InfoWindow } from "./components/InfoWindow";
@@ -9,8 +7,7 @@ import { getData } from "utils/data";
 import { parseUriHash } from "utils/parse-hash";
 import { defaultMapConfig } from "utils/constants";
 import { dispatch } from "./utils/dispatch";
-import { translateContent } from "./utils/translations";
-import { locales } from "./locale/locales";
+import { i18nInit } from "./utils/i18n";
 
 if (process.env.NODE_ENV !== "production") {
   // dispatch.on("fetch-map-data-resolve.debug", console.log);
@@ -19,17 +16,7 @@ if (process.env.NODE_ENV !== "production") {
 
 const mapConfig = parseUriHash(defaultMapConfig);
 
-i18next
-  .use(LanguageDetector)
-  .init({
-    debug: process.env.NODE_ENV !== "production",
-    resources: locales,
-  })
-  .then(() => {
-    // First pass of translation
-    translateContent();
-  });
-
+i18nInit();
 new LeafletMap(mapConfig);
 new InfoWindow();
 new TitleDetails();

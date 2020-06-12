@@ -1,7 +1,7 @@
 import en from "./en.json";
 import ptBr from "./pt-BR.json";
 
-export const locales = {
+export default {
   en: {
     translation: en,
   },
