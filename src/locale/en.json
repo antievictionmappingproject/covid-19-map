@@ -7,9 +7,9 @@
   "legislation-form-usa": "Submit housing protection legislation for locations outside of the United States.",
   "legislation-form-intl": "Submit housing protection legislation for locations outside of the United States.",
   "policyStrength": {
-    "few": "Few protections in place",
-    "some": "Some protections in place",
-    "many": "Many protections in place"
+    "1": "Few protections in place",
+    "2": "Some protections in place",
+    "3": "Many protections in place"
   },
   "housing-action-title": "Housing Justice Action",
   "housing-action-description": "Where <strong class='color-rent-strike'>housing justice actions</strong> are occurring or have occured.",
