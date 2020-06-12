@@ -14,12 +14,24 @@
         fill: url("#pattern-few-protections");
       }
 
+      &.few-protections--city-level {
+        fill: url("#pattern-few-protections--city-level");
+      }
+
       &.some-protections {
         fill: url("#pattern-some-protections");
       }
 
+      &.some-protections--city-level {
+        fill: url("#pattern-some-protections--city-level");
+      }
+
       &.many-protections {
         fill: url("#pattern-many-protections");
+      }
+
+      &.many-protections--city-level {
+        fill: url("#pattern-many-protections--city-level");
       }
     }
   }

@@ -46,7 +46,8 @@ export const mapLayersConfig = {
       // class name is used for applying pattern fills to polygons
       if (feature.properties.has_expired_protections) {
         layer.options.className =
-          policyStrengthLayerClassNames[feature.properties.range];
+          policyStrengthLayerClassNames[feature.properties.range] +
+          "--city-level";
       }
     },
   },
