@@ -20,15 +20,10 @@ const i18nOptions = {
   debug: process.env.NODE_ENV !== "production",
   resources: translations,
   detection: {
-    // order and from where user language should be detected
-    order: ["querystring", "localStorage", "navigator"],
-
+    order: ["querystring", "localStorage"],
     lookupQuerystring: "lng",
     lookupLocalStorage: "i18nextLng",
-
-    // cache user language on
     caches: ["localStorage"],
-    // languages to not persist (cookie, localStorage)
     excludeCacheFor: ["cookie", "cimode"],
   },
 };
