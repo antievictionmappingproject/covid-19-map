@@ -134,7 +134,7 @@ export const mapLayersConfig = {
 
   rentStrikes: {
     name: "Housing Justice Actions",
-    nameI18n: "layer-select.rentStrikes",
+    nameI18n: "layer-select.housingJusticeAction",
     type: "marker-cluster",
     query: queries.housingActionsCartoQuery,
     zIndex: 0, // markers have their very own layer pane in Leaflet so don't need a z-index value

@@ -201,10 +201,9 @@ export class LeafletMap {
       });
     }
 
-    const nameKey = layerConfig.nameI18n;
-    const localizedName = i18next.t(nameKey);
-
-    this.dataLayers.set(localizedName || layerConfig.name, {
+    // Create layer group with localised name
+    const localizedName = i18next.t(layerConfig.nameI18n) || layerConfig.name;
+    this.dataLayers.set(localizedName, {
       layerGroup,
       zIndex: layerConfig.zIndex,
     });

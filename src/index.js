@@ -17,10 +17,11 @@ if (process.env.NODE_ENV !== "production") {
   dispatch.on("fetch-map-data-reject.debug", console.error);
 }
 
+const mapConfig = parseUriHash(defaultMapConfig);
+
 i18next
   .use(LanguageDetector)
   .init({
-    lng: "pt-BR",
     debug: process.env.NODE_ENV !== "production",
     resources: locales,
   })
@@ -28,8 +29,6 @@ i18next
     // First pass of translation
     translateContent();
   });
-
-const mapConfig = parseUriHash(defaultMapConfig);
 
 new LeafletMap(mapConfig);
 new InfoWindow();
