@@ -11,6 +11,16 @@ import {
 } from "utils/constants";
 import * as queries from "./utils/queries";
 
+const formatDate = (date) =>
+  date
+    ? new Date(date).toLocaleString("en-US", {
+        timeZone: "UTC",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : null;
+
 export const mapLayersConfig = {
   cities: {
     name: "City Protections",
@@ -18,16 +28,27 @@ export const mapLayersConfig = {
     query: queries.citiesCartoQuery,
     zIndex: 1,
     props(layer) {
-      const { municipality, state, country } = layer.feature.properties;
+      const {
+        municipality,
+        state,
+        country,
+        end_date_legist,
+        end_date_rent_relief,
+        end_date_court,
+        ...rest
+      } = layer.feature.properties;
       return {
-        ...layer.feature.properties,
         // Build city name with state and country if supplied
         jurisdictionName: `${municipality}${state ? `, ${state}` : ""}${
           country ? `, ${country}` : ""
         }`,
         jurisdictionType: "City",
         popupName: municipality,
+        endDateLegist: formatDate(end_date_legist),
+        endDateRentRelief: formatDate(end_date_rent_relief),
+        endDateCourt: formatDate(end_date_court),
         policyStrength: policyStrengthLanguage[layer.feature.properties.range],
+        ...rest,
       };
     },
     style(feature) {
@@ -58,14 +79,24 @@ export const mapLayersConfig = {
     query: queries.countiesCartoQuery,
     zIndex: 2,
     props(layer) {
-      const { state, county } = layer.feature.properties;
+      const {
+        state,
+        county,
+        end_date_legist,
+        end_date_rent_relief,
+        end_date_court,
+        ...rest
+      } = layer.feature.properties;
       return {
-        ...layer.feature.properties,
         // Show county with state if state field is set
         jurisdictionName: `${county}${state ? `, ${state}` : ""}`,
         jurisdictionType: "County",
         popupName: `${county}${state ? `, ${state}` : ""}`,
+        endDateLegist: formatDate(end_date_legist),
+        endDateRentRelief: formatDate(end_date_rent_relief),
+        endDateCourt: formatDate(end_date_court),
         policyStrength: policyStrengthLanguage[layer.feature.properties.range],
+        ...rest,
       };
     },
     style(feature) {
@@ -91,14 +122,23 @@ export const mapLayersConfig = {
     query: queries.statesCartoQuery,
     zIndex: 3,
     props(layer) {
-      const { name, admin } = layer.feature.properties;
+      const {
+        name,
+        admin,
+        end_date_legist,
+        end_date_rent_relief,
+        end_date_court,
+        ...rest
+      } = layer.feature.properties;
       return {
-        ...layer.feature.properties,
-        ...layer.feature.properties,
         jurisdictionName: `${name}${admin ? `, ${admin}` : ""}`,
         jurisdictionType: "State/Province",
         popupName: name,
+        endDateLegist: formatDate(end_date_legist),
+        endDateRentRelief: formatDate(end_date_rent_relief),
+        endDateCourt: formatDate(end_date_court),
         policyStrength: policyStrengthLanguage[layer.feature.properties.range],
+        ...rest,
       };
     },
     style(feature) {
@@ -124,13 +164,14 @@ export const mapLayersConfig = {
     query: queries.countriesCartoQuery,
     zIndex: 4,
     props(layer) {
-      const { name_en } = layer.feature.properties;
+      const { name_en, end_date_earliest, ...rest } = layer.feature.properties;
       return {
-        ...layer.feature.properties,
+        endDateEarliest: formatDate(end_date_earliest),
         jurisdictionName: name_en,
         jurisdictionType: "Country",
         popupName: name_en,
         policyStrength: policyStrengthLanguage[layer.feature.properties.range],
+        ...rest,
       };
     },
     style(feature) {
