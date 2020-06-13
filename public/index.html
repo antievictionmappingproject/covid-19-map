@@ -182,26 +182,29 @@
         </div>
         {{/policyStrength}}
 
-        {{#end_date_legist}}
+        {{#endDateEarliest}}
         <div>
-          <p><strong>Legislation Protections End Date:</strong></p>
-          <p>{{end_date_legist}}</p>
+          <p><strong>Protections End Date:</strong> {{endDateEarliest}}</p>
         </div>
-        {{/end_date_legist}}
+        {{/endDateEarliest}}
 
-        {{#end_date_rent_relief}}
+        {{#endDateLegist}}
         <div>
-          <p><strong>Rent Relief Protections End Date:</strong></p>
-          <p>{{end_date_rent_relief}}</p>
+          <p><strong>Legislation Protections End Date:</strong> {{endDateLegist}}</p>
         </div>
-        {{/end_date_rent_relief}}
+        {{/endDateLegist}}
 
-        {{#end_date_court}}
+        {{#endDateRentRelief}}
         <div>
-          <p><strong>Court Closures End Date:</strong></p>
-          <p>{{end_date_court}}</p>
+          <p><strong>Rent Relief Protections End Date:</strong> {{endDateRentRelief}}</p>
         </div>
-        {{/end_date_court}}
+        {{/endDateRentRelief}}
+
+        {{#endDateCourt}}
+        <div>
+          <p><strong>Court Closures End Date:</strong> {{endDateCourt}}</p>
+        </div>
+        {{/endDateCourt}}
 
         <div>
           <p><strong>Policy Summary:</strong></p>
