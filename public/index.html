@@ -160,16 +160,19 @@
     <script id="aemp-infowindow-template" type="x-tmpl-mustache">
       <div class="aemp-infowindow">
         <a class="aemp-infowindow-close" href="#close">×</a>
+
         <div>
           <p class="infowindow-title">
             <strong>Housing Protection Legislation</strong>
           </p>
         </div>
+
         <div>
           <p>
             <strong>{{jurisdictionType}}: </strong>{{jurisdictionName}}
           </p>
         </div>
+
         {{#policyStrength}}
         <div>
           <p>
@@ -178,20 +181,45 @@
           </p>
         </div>
         {{/policyStrength}}
+
+        {{#end_date_legist}}
+        <div>
+          <p><strong>Legislation Protections End Date:</strong></p>
+          <p>{{end_date_legist}}</p>
+        </div>
+        {{/end_date_legist}}
+
+        {{#end_date_rent_relief}}
+        <div>
+          <p><strong>Rent Relief Protections End Date:</strong></p>
+          <p>{{end_date_rent_relief}}</p>
+        </div>
+        {{/end_date_rent_relief}}
+
+        {{#end_date_court}}
+        <div>
+          <p><strong>Court Closures End Date:</strong></p>
+          <p>{{end_date_court}}</p>
+        </div>
+        {{/end_date_court}}
+
         <div>
           <p><strong>Policy Summary:</strong></p>
           <p>{{policy_summary}}</p>
         </div>
+
         {{#start}}
         <div>
           <p><strong>Effective: </strong>{{start}}</p>
         </div>
         {{/start}}
+
         {{#_end}}
         <div>
           <p><strong>Ends: </strong>{{_end}}</p>
         </div>
         {{/_end}}
+
         {{#link}}
         <div>
           <p><a target="_blank" href="{{link}}" rel="noopener noreferrer">View more info.</a></p>
