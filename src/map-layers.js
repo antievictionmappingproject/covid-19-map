@@ -10,16 +10,7 @@ import {
   policyStrengthLayerClassNames,
 } from "utils/constants";
 import * as queries from "./utils/queries";
-
-const formatDate = (date) =>
-  date
-    ? new Date(date).toLocaleString("en-US", {
-        timeZone: "UTC",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
-    : null;
+import { formatDate } from "./utils/datetime";
 
 export const mapLayersConfig = {
   cities: {
