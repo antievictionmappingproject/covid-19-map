@@ -16,7 +16,7 @@ export class SearchBar {
     this.searchBar.addEventListener("focus", () => {
       this.searchBar.value = "";
     });
-    this.searchBar.addEventListener("change", () => {
+    this.searchBar.addEventListener("change", (e) => {
       if (
         [...document.getElementsByClassName("autocompleteElement")].indexOf(
           this.autocompleteElement(this.searchBar.value)
@@ -58,14 +58,14 @@ export class SearchBar {
         .map((feature) => this.autocompleteElement(feature))
         .join("");
       this.autoCompleteResultBounds = features.reduce(
-        (map, feature) => map.set(feature.place_name, feature.bbox),
+        (map, feature) => map.set(feature.place_name, feature),
         new Map()
       );
     }
   }
   autocompleteElement(feature) {
     return `
-        <option value="${feature.place_name}" class = "autocompleteElement" data-text=${feature.id}>
+        <option value="${feature.place_name}" class = "autocompleteElement"}>
     `;
   }
 }

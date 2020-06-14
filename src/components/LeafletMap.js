@@ -69,7 +69,6 @@ export class LeafletMap {
         dispatch.call("title-details-close");
         self.map.invalidateSize();
       }
-
       self.map.setView(e.popup._latlng, self.map.getZoom(), { animate: true });
     });
 
@@ -269,10 +268,20 @@ export class LeafletMap {
       dispatch.call("hide-loading-indicator");
     }
   };
-  findAutocompletLocation(bbox) {
+  findAutocompletLocation(feature) {
+    let center = [feature.center[1], feature.center[0]];
+    const markerIcon = L.icon({ iconUrl: "assets/empty-icon.svg" });
+    const marker = new L.marker(center, { icon: markerIcon }).addTo(this.map);
+    let markerContent = `
+        <div class="popup-container locality-popup-container">
+            <p class="popup-title"><strong>${feature.place_name}</strong></p>
+        </div>
+    `;
+    let bbox = feature.bbox;
     this.map.fitBounds([
       [bbox[1], bbox[0]],
       [bbox[3], bbox[2]],
     ]);
+    marker.bindPopup(markerContent).openPopup();
   }
 }

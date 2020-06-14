@@ -43,3 +43,12 @@
   background-color: #ccc;
   text-decoration: none;
 }
+
+#search-box-marker-content {
+  border: 1px solid black;
+  background-color: #fff;
+  font-size: 1.5em;
+  text-align: center;
+  padding: 10px;
+  transform: translate(0, 40px);
+}
