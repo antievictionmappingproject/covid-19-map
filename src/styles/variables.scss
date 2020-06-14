@@ -5,7 +5,9 @@
 
 // font defaults
 $fontSizeDefault: 1.2rem; // = 12px
-$fontStack: roboto, sans-serif;
+
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Open+Sans&display=swap");
+$fontStack: "Noto Sans", sans-serif;
 
 // colors
 $rent-strike-color: #db3a1d;
