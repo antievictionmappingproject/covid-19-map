@@ -4,6 +4,7 @@ import translations from "../locale";
 
 const I18N_ATTRIBUTE = "data-i18n";
 
+// Fallbacks to the existing content, but if a translation is found override content with translation
 export const translateContent = () => {
   const elements = document.querySelectorAll(`[${I18N_ATTRIBUTE}]`);
   elements.forEach((el) => {
