@@ -29,12 +29,6 @@ a {
   width: 100vw;
 }
 
-#map-pattern-fills {
-  // the svg for the map's pattern fills should be hidden in the UI
-  position: absolute;
-  left: -1000000px;
-}
-
 // helper classes
 .color-rent-strike {
   color: $rent-strike-color;

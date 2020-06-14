@@ -20,6 +20,12 @@
   }
 }
 
+#map-pattern-fills {
+  // the svg used for the map's pattern fills should be hidden in the UI
+  position: absolute;
+  left: -1000000px;
+}
+
 @media (max-width: 640px) {
   // when the infowindow & popup are open, reduce map height
   #root.aemp-popupopen #map {
