@@ -7,7 +7,10 @@ const I18N_ATTRIBUTE = "data-i18n";
 export const translateContent = () => {
   const elements = document.querySelectorAll(`[${I18N_ATTRIBUTE}]`);
   elements.forEach((el) => {
-    el.innerHTML = i18next.t(el.getAttribute(I18N_ATTRIBUTE));
+    const i18nKey = el.getAttribute(I18N_ATTRIBUTE);
+    const translation = i18next.t(i18nKey);
+    // i18next returns the key if no translation found, so only override content if key found.
+    if (translation !== i18nKey) el.innerHTML = translation;
   });
 };
 
