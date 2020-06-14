@@ -11,18 +11,19 @@ export const translateContent = () => {
   });
 };
 
+// List of all languages we have translations for.
+const whitelist = ["en", "pt-BR"];
+
 // Default values for i18next config
 const i18nOptions = {
-  whitelist: ["en", "pt-BR"],
+  whitelist,
   fallbackLng: "en",
   debug: process.env.NODE_ENV !== "production",
   resources: translations,
   detection: {
-    order: ["querystring", "localStorage"],
-    lookupQuerystring: "lng",
-    lookupLocalStorage: "i18nextLng",
-    caches: ["localStorage"],
-    excludeCacheFor: ["cookie", "cimode"],
+    order: ["querystring", "navigator"],
+    lookupQuerystring: "lang",
+    checkForSimilarInWhitelist: true,
   },
 };
 
