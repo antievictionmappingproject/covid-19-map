@@ -1,6 +1,5 @@
 import i18next from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
-// import translations from "../locale";
 
 const I18N_ATTRIBUTE = "data-i18n";
 
