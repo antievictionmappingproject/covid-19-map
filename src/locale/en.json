@@ -46,10 +46,10 @@
     }
   },
   "layer-select": {
-    "cities": "Cities",
-    "counties": "Counties",
-    "states": "States",
-    "nations": "Nations",
-    "housingJusticeAction": "Housing justice actions"
+    "cities": "City Protections",
+    "counties": "County Protections",
+    "states": "State/Province Protections",
+    "nations": "National Protections",
+    "housingJusticeAction": "Housing Justice Actions"
   }
 }
