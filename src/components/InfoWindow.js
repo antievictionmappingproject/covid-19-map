@@ -1,6 +1,7 @@
 import Mustache from "mustache";
+import i18next from "i18next";
 import { dispatch } from "utils/dispatch";
-import { translateContent } from "utils/i18n";
+import { I18N_ATTRIBUTE } from "utils/i18n";
 
 export class InfoWindow {
   infowindowContainer = document.getElementById("aemp-infowindow-container");
@@ -24,6 +25,17 @@ export class InfoWindow {
   closeInfoWindow = () => {
     document.getElementById("root").classList.remove("aemp-popupopen");
     this.infowindowContainer.innerHTML = null;
+  };
+
+  translateInfoWindowContent = () => {
+    const i18nEls = this.infowindowContainer.querySelectorAll(
+      `[${I18N_ATTRIBUTE}]`
+    );
+    i18nEls.forEach((el) => {
+      const key = el.dataset.i18n;
+      const t = i18next.t(key);
+      if (t !== key) el.innerHTML = t;
+    });
   };
 
   render = (props) => {
@@ -50,6 +62,6 @@ export class InfoWindow {
     document.getElementById("root").classList.add("aemp-popupopen");
 
     // Translate the page after showing the info window
-    translateContent();
+    this.translateInfoWindowContent();
   };
 }
