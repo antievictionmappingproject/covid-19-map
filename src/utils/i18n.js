@@ -1,6 +1,6 @@
 import i18next from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
-import translations from "../locale";
+// import translations from "../locale";
 
 const I18N_ATTRIBUTE = "data-i18n";
 
@@ -23,7 +23,6 @@ const i18nOptions = {
   whitelist,
   fallbackLng: "en",
   debug: process.env.NODE_ENV !== "production",
-  resources: translations,
   detection: {
     order: ["querystring", "navigator"],
     lookupQuerystring: "lang",
@@ -33,11 +32,17 @@ const i18nOptions = {
 
 // Initialize i18n next
 export const i18nInit = () => {
-  i18next
-    .use(LanguageDetector)
-    .init(i18nOptions)
-    .then(() => {
-      // First pass of translation
-      translateContent();
-    });
+  // this code splits the locales JSON imports so that they're not included with the index bundle
+  import(/* webpackChunkName: "locales" */ "../locale").then(
+    ({ default: translations }) => {
+      i18nOptions.resources = translations;
+      i18next
+        .use(LanguageDetector)
+        .init(i18nOptions)
+        .then(() => {
+          // First pass of translation
+          translateContent();
+        });
+    }
+  );
 };
