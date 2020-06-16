@@ -16,10 +16,23 @@ if (process.env.NODE_ENV !== "production") {
 
 const mapConfig = parseUriHash(defaultMapConfig);
 
-i18nInit();
-new LeafletMap(mapConfig);
-new InfoWindow();
-new TitleDetails();
-new LoadingIndicator();
+async function main() {
+  let t;
 
-getData();
+  try {
+    t = await i18nInit();
+  } catch (e) {
+    console.error(e);
+  }
+
+  // "t" is now ready to pass to class instances
+
+  new LeafletMap(mapConfig);
+  new InfoWindow();
+  new TitleDetails();
+  new LoadingIndicator();
+
+  getData();
+}
+
+main();
