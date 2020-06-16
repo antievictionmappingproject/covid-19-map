@@ -30,18 +30,18 @@ const i18nOptions = {
 };
 
 // Initialize i18n next
-export const i18nInit = () => {
+export const i18nInit = () =>
   // this code splits the locales JSON imports so that they're not included with the index bundle
   import(/* webpackChunkName: "locales" */ "../locale").then(
     ({ default: translations }) => {
       i18nOptions.resources = translations;
-      i18next
+      return i18next
         .use(LanguageDetector)
         .init(i18nOptions)
-        .then(() => {
+        .then((t) => {
           // First pass of translation
           translateContent();
+          return t;
         });
     }
   );
-};
