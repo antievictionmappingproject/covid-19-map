@@ -57,7 +57,7 @@ export async function getSearchData(str) {
   try {
     console.log("getting search data");
     let res = await fetch(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${str}.json?types=country,region,postcode,district,place&access_token=pk.eyJ1IjoibWFwcGluZ2FjdGlvbiIsImEiOiJjazZrMTQ4bW4wMXpxM251cnllYnR6NjMzIn0.9KhQIoSfLvYrGCl3Hf_9Bw`
+      `http://dev.virtualearth.net/REST/v1/Locations/${str}?key=Al2-1GXrd8GzwtSAID3J3LJn-flLLgNWzNtsT5nnSKW8dA2ClgaXXXMQR6WfE6wE`
     );
     return await res.json();
   } catch (e) {

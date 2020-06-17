@@ -50,22 +50,22 @@ export class SearchBar {
 
   async autoComplete(str) {
     if (str.length > 1) {
-      const res = await getSearchData(str);
-      const features = res.features.filter(
-        (feature) => feature.bbox !== undefined
+      const res = await getSearchData(str.trim());
+      const features = res.resourceSets[0].resources.filter(
+        (resource) => resource.bbox !== undefined
       );
       this.autoCompleteElement.innerHTML = features
-        .map((feature) => this.autocompleteElement(feature))
+        .map((resource) => this.autocompleteElement(resource))
         .join("");
       this.autoCompleteResultBounds = features.reduce(
-        (map, feature) => map.set(feature.place_name, feature),
+        (map, resource) => map.set(resource.name, resource),
         new Map()
       );
     }
   }
   autocompleteElement(feature) {
     return `
-        <option value="${feature.place_name}" class = "autocompleteElement"}>
+        <option value="${feature.name}" class = "autocompleteElement"}>
     `;
   }
 }

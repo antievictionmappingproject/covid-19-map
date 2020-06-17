@@ -268,16 +268,16 @@ export class LeafletMap {
       dispatch.call("hide-loading-indicator");
     }
   };
-  findAutocompletLocation(feature) {
-    let center = [feature.center[1], feature.center[0]];
+  findAutocompletLocation(resource) {
+    let center = resource.point.coordinates;
     const markerIcon = L.icon({ iconUrl: "assets/empty-icon.svg" });
     const marker = new L.marker(center, { icon: markerIcon }).addTo(this.map);
     let markerContent = `
         <div class="popup-container locality-popup-container">
-            <p class="popup-title"><strong>${feature.place_name}</strong></p>
+            <p class="popup-title"><strong>${resource.name}</strong></p>
         </div>
     `;
-    let bbox = feature.bbox;
+    let bbox = resource.bbox;
     this.map.fitBounds([
       [bbox[1], bbox[0]],
       [bbox[3], bbox[2]],
