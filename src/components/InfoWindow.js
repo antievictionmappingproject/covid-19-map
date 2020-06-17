@@ -44,12 +44,13 @@ export class InfoWindow {
       default:
         break;
     }
+
+    // Translate the page after showing the info window
+    translateContent(this.infowindowContainer);
+
     this.infowindowContainer
       .querySelector(".aemp-infowindow-close")
       .addEventListener("click", () => dispatch.call("close-infowindow"));
     document.getElementById("root").classList.add("aemp-popupopen");
-
-    // Translate the page after showing the info window
-    translateContent(this.infowindowContainer);
   };
 }
