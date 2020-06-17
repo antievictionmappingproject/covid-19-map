@@ -83,6 +83,14 @@
                   >Many protections in place</span
                 >
               </div>
+              <div class="legendpair">
+                <div class="legendbox-svg">
+                  <svg width="14" height="14">
+                    <rect x="2" y="2" width="10" height="10"></rect>
+                  </svg>
+                </div>
+                <em>Stripes indicate expired protections</em>
+              </div>
             </div>
             <h2 data-i18n="housing-action-title">Housing Justice Action</h2>
             <p data-i18n="housing-action-description">
@@ -173,38 +181,68 @@
     <script id="aemp-infowindow-template" type="x-tmpl-mustache">
       <div class="aemp-infowindow">
         <a class="aemp-infowindow-close" href="#close">×</a>
+
         <div>
           <p class="infowindow-title">
             <strong data-i18n="infowindow.policy.title">Housing Protection Legislation</strong>
           </p>
         </div>
+
         <div>
           <p>
             <strong data-i18n="infowindow.policy.jurisdictionType.{{jurisdictionTypeI18n}}"></strong><strong>: </strong>{{jurisdictionName}}
           </p>
         </div>
-        {{#policyStrengthI18n}}
+
+        {{#range}}
         <div>
           <p>
             <strong data-i18n="infowindow.policy.strength-label">Policy Strength: </strong>
             <span class="policy-strength-color policy-strength-color--{{range}}" data-i18n="policyStrength.{{range}}"></span>
           </p>
         </div>
-        {{/policyStrengthI18n}}
+        {{/range}}
+
+        {{#endDateEarliest}}
+        <div>
+          <p><strong>Protections End Date:</strong> {{endDateEarliest}}</p>
+        </div>
+        {{/endDateEarliest}}
+
+        {{#endDateLegist}}
+        <div>
+          <p><strong>Legislation Protections End Date:</strong> {{endDateLegist}}</p>
+        </div>
+        {{/endDateLegist}}
+
+        {{#endDateRentRelief}}
+        <div>
+          <p><strong>Rent Relief Protections End Date:</strong> {{endDateRentRelief}}</p>
+        </div>
+        {{/endDateRentRelief}}
+
+        {{#endDateCourt}}
+        <div>
+          <p><strong>Court Closures End Date:</strong> {{endDateCourt}}</p>
+        </div>
+        {{/endDateCourt}}
         <div>
           <p><strong data-i18n="infowindow.policy.summary-label">Policy Summary:</strong></p>
           <p>{{policy_summary}}</p>
         </div>
+
         {{#start}}
         <div>
           <p><strong data-i18n="infowindow.policy.start-date-label">Effective: </strong>{{start}}</p>
         </div>
         {{/start}}
+
         {{#_end}}
         <div>
           <p><strong data-i18n="infowindow.policy.end-date-label">Ends: </strong>{{_end}}</p>
         </div>
         {{/_end}}
+
         {{#link}}
         <div>
           <p><a target="_blank" href="{{link}}" rel="noopener noreferrer" data-i18n="infowindow.policy.link">View more info.</a></p>
@@ -244,5 +282,198 @@
         {{/resources}}
       </div>
     </script>
+    <!-- Leaflet map SVG patterns -->
+    <svg id="map-pattern-fills" width="0" height="0" aria-hidden="true">
+      <defs>
+        <pattern
+          id="pattern-few-protections"
+          x="0"
+          y="0"
+          width="8"
+          height="8"
+          patternUnits="userSpaceOnUse"
+          patternContentUnits="userSpaceOnUse"
+          patternTransform="rotate(45)"
+        >
+          <path
+            stroke="#d9f0a3"
+            stroke-opacity="1"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+            pointer-events="none"
+            d="M0 2 H 8"
+          ></path>
+          <path
+            stroke="#ffffff"
+            stroke-opacity="0"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+            pointer-events="none"
+            d="M0 6 H 8"
+          ></path>
+        </pattern>
+        <pattern
+          id="pattern-some-protections"
+          x="0"
+          y="0"
+          width="8"
+          height="8"
+          patternUnits="userSpaceOnUse"
+          patternContentUnits="userSpaceOnUse"
+          patternTransform="rotate(45)"
+        >
+          <path
+            stroke="#78c679"
+            stroke-opacity="1"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+            pointer-events="none"
+            d="M0 2 H 8"
+          ></path>
+          <path
+            stroke="#ffffff"
+            stroke-opacity="0"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+            pointer-events="none"
+            d="M0 6 H 8"
+          ></path>
+        </pattern>
+        <pattern
+          id="pattern-many-protections"
+          x="0"
+          y="0"
+          width="8"
+          height="8"
+          patternUnits="userSpaceOnUse"
+          patternContentUnits="userSpaceOnUse"
+          patternTransform="rotate(45)"
+        >
+          <path
+            stroke="#238443"
+            stroke-opacity="1"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+            pointer-events="none"
+            d="M0 2 H 8"
+          ></path>
+          <path
+            stroke="#ffffff"
+            stroke-opacity="0"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+            pointer-events="none"
+            d="M0 6 H 8"
+          ></path>
+        </pattern>
+
+        <!-- city protections have a slightly modified pattern to better differentiate them -->
+        <pattern
+          id="pattern-few-protections--city-level"
+          x="0"
+          y="0"
+          width="8"
+          height="8"
+          patternUnits="userSpaceOnUse"
+          patternContentUnits="userSpaceOnUse"
+          patternTransform="rotate(135)"
+        >
+          <path
+            stroke="#d9f0a3"
+            stroke-opacity="1"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+            pointer-events="none"
+            d="M0 2 H 8"
+          ></path>
+          <path
+            stroke="#ffffff"
+            stroke-opacity="0"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+            pointer-events="none"
+            d="M0 6 H 8"
+          ></path>
+        </pattern>
+        <pattern
+          id="pattern-some-protections--city-level"
+          x="0"
+          y="0"
+          width="8"
+          height="8"
+          patternUnits="userSpaceOnUse"
+          patternContentUnits="userSpaceOnUse"
+          patternTransform="rotate(135)"
+        >
+          <path
+            stroke="#78c679"
+            stroke-opacity="1"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+            pointer-events="none"
+            d="M0 2 H 8"
+          ></path>
+          <path
+            stroke="#ffffff"
+            stroke-opacity="0"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+            pointer-events="none"
+            d="M0 6 H 8"
+          ></path>
+        </pattern>
+        <pattern
+          id="pattern-many-protections--city-level"
+          x="0"
+          y="0"
+          width="8"
+          height="8"
+          patternUnits="userSpaceOnUse"
+          patternContentUnits="userSpaceOnUse"
+          patternTransform="rotate(135)"
+        >
+          <path
+            stroke="#238443"
+            stroke-opacity="1"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+            pointer-events="none"
+            d="M0 2 H 8"
+          ></path>
+          <path
+            stroke="#ffffff"
+            stroke-opacity="0"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+            pointer-events="none"
+            d="M0 6 H 8"
+          ></path>
+        </pattern>
+      </defs>
+    </svg>
   </body>
 </html>

@@ -151,6 +151,7 @@ export class LeafletMap {
     function handlePointLayer() {
       return L.geoJson(data, {
         pointToLayer: layerConfig.pointToLayer,
+        onEachFeature: layerConfig.onEachFeature,
       });
     }
 
@@ -159,6 +160,7 @@ export class LeafletMap {
         style(feature) {
           return layerConfig.style(feature);
         },
+        onEachFeature: layerConfig.onEachFeature,
       });
     }
 
