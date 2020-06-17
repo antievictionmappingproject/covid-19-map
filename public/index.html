@@ -82,7 +82,7 @@
                 data-i18n="titlebox.housing-action-form"
               ></a>
             </p>
-            <h2 data-i18n="titlebox.resources.title">Resources</h2>
+            <h2 data-i18n="titlebox.resources.title"></h2>
             <p data-i18n="titlebox.resources.description"></p>
             <p>
               <a
@@ -193,10 +193,12 @@
         </div>
         {{/endDateCourt}}
 
+        {{#policy_summary}}
         <div>
           <p><strong data-i18n="infowindow.policy.summary-label"></strong></p>
           <p>{{policy_summary}}</p>
         </div>
+        {{/policy_summary}}
 
         {{#start}}
         <div>
