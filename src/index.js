@@ -10,6 +10,7 @@ import { dispatch } from "./utils/dispatch";
 import { i18nInit } from "./utils/i18n";
 
 if (process.env.NODE_ENV !== "production") {
+  dispatch.on("fetch-map-data-resolve.debug", console.log);
   dispatch.on("fetch-map-data-reject.debug", console.error);
 }
 
