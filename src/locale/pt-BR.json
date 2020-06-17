@@ -6,7 +6,7 @@
   "about-description": "Lugares onde foram aprovadas (ou onde estão lutando para que sejam aprovadas) leis de proteção à moradia durante a crise do coronavírus.",
   "legislation-form-usa": "TODO",
   "legislation-form-intl": "Envie informações sobre legislação de proteção da sua localidade.",
-  "policyStrength": {
+  "policy-strength": {
     "1": "Poucas proteções efetivas",
     "2": "Algumas proteções efetivas",
     "3": "Muitas proteções efetivas"

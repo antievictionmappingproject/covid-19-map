@@ -3,14 +3,17 @@ import LanguageDetector from "i18next-browser-languagedetector";
 
 export const I18N_ATTRIBUTE = "data-i18n";
 
-// Fallbacks to the existing content, but if a translation is found override content with translation
-export const translateContent = () => {
-  const elements = document.querySelectorAll(`[${I18N_ATTRIBUTE}]`);
+export const translateContent = (element) => {
+  const selectedDomTree = element || document;
+  const elements = selectedDomTree.querySelectorAll(`[${I18N_ATTRIBUTE}]`);
   elements.forEach((el) => {
     const key = el.dataset.i18n;
     const t = i18next.t(key);
-    // i18next returns the key if no translation found, so only override content if key found.
+    console.log(t, key);
+    // If translation found set element content as translation.
     if (t !== key) el.innerHTML = t;
+    // Otherwise use english as fallback
+    else el.innerHTML = i18next.t(key, { lng: "en" });
   });
 };
 

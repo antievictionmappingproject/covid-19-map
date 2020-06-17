@@ -6,14 +6,15 @@
   "about-description": "Where officials have passed (or tenants are working to pass) housing protection legislation during the COVID-19 crisis.",
   "legislation-form-usa": "Submit housing protection legislation for locations in the United States.",
   "legislation-form-intl": "Submit housing protection legislation for locations outside of the United States.",
-  "policyStrength": {
+  "policy-strength": {
     "1": "Few protections in place",
     "2": "Some protections in place",
-    "3": "Many protections in place"
+    "3": "Many protections in place",
+    "expired": "Stripes indicate expired protections"
   },
   "housing-action-title": "Housing Justice Action",
   "housing-action-description": "Where <strong class='color-rent-strike'>housing justice actions</strong> are occurring or have occured.",
-  "housing-action-form": "Fill out to submit information about housing justice action (such as rent strikes, occupations, mutual aid).",
+  "housing-action-form": "Fill out to submit information about: Organizing, resistance, and mutual aid in the form of rent strikes, housing reclamation, solidarity work, squats, and more. Also fill out if you are looking for solidarity and resources to help cancel rent.",
   "resources-title": "Resources",
   "resources-description": "Here are some resources to get help if you are in need.",
   "resources": {
@@ -24,25 +25,29 @@
   "infowindow": {
     "policy": {
       "title": "Housing Protection Legislation",
-      "strength-label": "Policy Strength:",
-      "summary-label": "Policy Summary:",
-      "start-date-label": "Effective: ",
-      "end-date-label": "Ends: ",
-      "link": "View more info.",
       "jurisdictionType": {
         "city": "City",
         "county": "County",
         "state-province": "State/Province",
         "nation": "Nation"
-      }
+      },
+      "strength-label": "Policy Strength:",
+      "protections-end-label": "Protections End Date:",
+      "legislative-end-label": "Legislation Protections End Date:",
+      "rent-relief-end-label": "Rent Relief Protections End Date:",
+      "court-closure-end-label": "Court Closures End Date:",
+      "start-date-label": "Effective:",
+      "end-date-label": "Ends:",
+      "summary-label": "Policy Summary:",
+      "link": "View more info."
     },
     "action": {
       "title": "Housing Justice Action",
-      "loc-label": "Location: ",
-      "status-label": "Status: ",
-      "why-label": "Why? ",
-      "start-date-label": "Start: ",
-      "resources-label": "Resources: "
+      "loc-label": "Location:",
+      "status-label": "Status:",
+      "why-label": "Why?",
+      "start-date-label": "Start:",
+      "resources-label": "Resources:"
     }
   },
   "layer-select": {
