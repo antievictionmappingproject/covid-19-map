@@ -107,3 +107,14 @@ To add translations:
 If you're comfortable with javascript, you can also add the language to the i18n configuration.
 
 4. Add the language code to the value of `whitelist` in the file `src/utils/i18n.js`. For example: `const whitelist = ['en', 'pt-BR', 'es-MX']`
+5. Add the following to the file `src/locale/index.js`, substituting `de` for the language code you are working with:
+
+```js
+// In imports
+import de from './de.json'
+
+// Inside of the exported object
+de: {
+  translation: de,
+},
+```
