@@ -50,17 +50,23 @@ export class SearchBar {
 
   async autoComplete(str) {
     if (str.length > 1) {
-      const res = await getSearchData(str.trim());
-      const features = res.resourceSets[0].resources.filter(
-        (resource) => resource.bbox !== undefined
-      );
-      this.autoCompleteElement.innerHTML = features
-        .map((resource) => this.autocompleteElement(resource))
-        .join("");
-      this.autoCompleteResultBounds = features.reduce(
-        (map, resource) => map.set(resource.name, resource),
-        new Map()
-      );
+      try {
+        const res = await getSearchData(str.trim());
+        if (res) {
+          const features = res.resourceSets[0].resources.filter(
+            (resource) => resource.bbox !== undefined
+          );
+          this.autoCompleteElement.innerHTML = features
+            .map((resource) => this.autocompleteElement(resource))
+            .join("");
+          this.autoCompleteResultBounds = features.reduce(
+            (map, resource) => map.set(resource.name, resource),
+            new Map()
+          );
+        }
+      } catch (e) {
+        dispatch.call("search-fetch-data-reject", this, e);
+      }
     }
   }
   autocompleteElement(feature) {
