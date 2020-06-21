@@ -1,3 +1,5 @@
+// fetch polyfill for IE
+import "whatwg-fetch";
 import { aempCartoAccount } from "./config";
 import { mapLayersConfig } from "../map-layers";
 import { dispatch } from "./dispatch";
@@ -26,29 +28,14 @@ export async function getCartoData(query, format = "geojson") {
   return res.json();
 }
 
-export async function getSheetsData(sheetId) {
-  const res = await fetch(
-    `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&id=${sheetId}`
-  );
-
-  if (!res || !res.ok) {
-    throw Error("Unable to fetch sheets data");
-  }
-
-  const text = await res.text();
-  return d3.csvParse(text, d3.autoType);
-}
-
 export async function getData() {
   Object.entries(mapLayersConfig).forEach(async ([key, layerConfig]) => {
     try {
-      const data =
-        layerConfig.query !== null
-          ? await getCartoData(layerConfig.query)
-          : await getSheetsData(layerConfig.sheetId);
+      const data = await getCartoData(layerConfig.query);
       handleFetchSuccess("fetch-map-data-resolve", { key, layerConfig, data });
     } catch (error) {
       handleFetchFailure("fetch-map-data-reject", error);
+      dispatch.call("hide-loading-indicator");
     }
   });
 }

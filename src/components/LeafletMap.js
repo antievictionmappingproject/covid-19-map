@@ -1,3 +1,6 @@
+import Mustache from "mustache";
+import L from "lib/leaflet";
+
 import { dispatch } from "utils/dispatch";
 import {
   defaultMapConfig,
@@ -146,6 +149,7 @@ export class LeafletMap {
     function handlePointLayer() {
       return L.geoJson(data, {
         pointToLayer: layerConfig.pointToLayer,
+        onEachFeature: layerConfig.onEachFeature,
       });
     }
 
@@ -154,38 +158,12 @@ export class LeafletMap {
         style(feature) {
           return layerConfig.style(feature);
         },
+        onEachFeature: layerConfig.onEachFeature,
       });
     }
 
     function handleMarkerCluster() {
-      // rent strikes data is regular JSON & requires additional parsing for conversion to GeoJSON
-      const geojson = {
-        type: "FeatureCollection",
-        features: data
-          .filter(
-            ({ Strike_Status, Latitude, Longitude }) =>
-              Strike_Status !== null && Longitude !== null && Latitude !== null
-          )
-          .map(({ Strike_Status, ...rest }) => ({
-            status:
-              Strike_Status === "Yes / Sí / 是 / Oui" || Strike_Status === "Yes"
-                ? "Yes"
-                : "Unsure",
-
-            ...rest,
-          }))
-          .map(({ Longitude, Latitude, ...rest }, index) => ({
-            type: "Feature",
-            id: index,
-            properties: rest,
-            geometry: {
-              type: "Point",
-              coordinates: [Longitude, Latitude],
-            },
-          })),
-      };
-
-      const markerLayer = L.geoJson(geojson, {
+      const markerLayer = L.geoJson(data, {
         pointToLayer: layerConfig.pointToLayer,
       });
 
