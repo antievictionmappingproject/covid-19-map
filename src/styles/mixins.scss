@@ -1,0 +1,34 @@
+/*
+  @mixin use-svg-pattern:
+  Applies an SVG pattern fill to an SVG shape, such as a path.
+
+  Usage:
+  ```scss
+  path {
+    @include use-svg-pattern("some", true);
+  }
+  ```
+
+  will output:
+  ```css
+  path {
+    &.some-protections--city-level {
+      fill: url("#pattern-some-protections--city-level");
+    }
+  }
+  ```
+*/
+@mixin use-svg-pattern($level: few, $isCity: false) {
+  $selector: "#{$level}-protections";
+  $url: "#pattern-#{$level}-protections";
+  $suffix: "--city-level";
+
+  @if $isCity {
+    $selector: $selector + $suffix;
+    $url: $url + $suffix;
+  }
+
+  &.#{$selector} {
+    fill: url($url);
+  }
+}

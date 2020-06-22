@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>COVID-19 Housing Protection Legislation and Housing Justice Action Map</title>
+    <title>
+      COVID-19 Housing Protection Legislation and Housing Justice Action Map
+    </title>
     <meta name="viewport" content="initial-scale=1.0" />
     <meta charset="utf-8" />
     <meta name="author" content="Anti-Eviction Mapping Project" />
@@ -9,27 +11,21 @@
       name="description"
       content="Where officials have passed, or tenants are working to pass, housing protection legislation during the COVID-19 crisis, and where housing justice actions are occurring globally."
     />
-
-    <!-- Load Leaflet CSS -->
-    <link
-      href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
-      rel="stylesheet"
-    />
-    <!-- Load the Marker Cluster CSS -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css"
-    />
-
     <!-- Load the Roboto font family -->
-    <link
-      href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap"
-      rel="stylesheet"
-    />
+    <!-- see: https://csswizardry.com/2020/05/the-fastest-google-fonts/ -->
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin />
+    <link rel="preload"
+          as="style"
+          href="https://fonts.googleapis.com/css?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap" />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+          media="print" onload="this.media='all'" />
+    <noscript>
+      <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap" />
+    </noscript>
   </head>
   <body>
     <div id="root">
@@ -42,21 +38,23 @@
           <div class="title-content-wrapper">
             <h2>Housing Protection Legislation</h2>
             <p>
-              Where officials have passed (or tenants are working
-              to pass) housing protection legislation during the COVID-19 crisis.
+              Where officials have passed (or tenants are working to pass)
+              housing protection legislation during the COVID-19 crisis.
             </p>
             <p>
               <a
                 href="https://docs.google.com/forms/d/e/1FAIpQLSfHzR_SYO-wKfa3Abi9jDvZXCH3dsLgrkDj-9Rwm-3oRjDD9A/viewform"
                 target="_blank"
-                >Submit housing protection legislation for locations outside of the United States.</a
+                >Submit housing protection legislation for locations outside of
+                the United States.</a
               >
             </p>
             <p>
               <a
                 href="https://docs.google.com/forms/d/e/1FAIpQLSdhYpQa66snIwgbF8OiATpAvNayhQHTZcke4wDK4JazehzEmQ/viewform"
                 target="_blank"
-                >Submit housing protection legislation for locations within the United States.</a
+                >Submit housing protection legislation for locations within the
+                United States.</a
               >
             </p>
             <div class="legend">
@@ -72,6 +70,14 @@
                 <div class="legendbox scale3">&nbsp;</div>
                 Many protections in place
               </div>
+              <div class="legendpair">
+                <div class="legendbox-svg">
+                  <svg width="14" height="14">
+                    <rect x="2" y="2" width="10" height="10"></rect>
+                  </svg>
+                </div>
+                <em>Stripes indicate expired protections</em>
+              </div>
             </div>
             <h2>Housing Justice Action</h2>
             <p>
@@ -83,7 +89,10 @@
               <a
                 href="https://docs.google.com/forms/d/e/1FAIpQLSfzMYs_BZYFb601oiAGtotfTX7tjZXvao3F0PHuTlko4rAxKA/viewform"
                 target="_blank"
-                >Fill out to submit information about: Organizing, resistance, and mutual aid in the form of rent strikes, housing reclamation, solidarity work, squats, and more. Also fill out if you are looking for solidarity and resources to help cancel rent.</a
+                >Fill out to submit information about: Organizing, resistance,
+                and mutual aid in the form of rent strikes, housing reclamation,
+                solidarity work, squats, and more. Also fill out if you are
+                looking for solidarity and resources to help cancel rent.</a
               >
             </p>
             <h2>Resources</h2>
@@ -96,9 +105,10 @@
                 For All.</a
               >
             </p>
-             <p>
+            <p>
               <a href="https://housingnotprofit.org/" target="_blank"
-                >Resources and demands from the European Action Coalition for the Right to Housing.</a
+                >Resources and demands from the European Action Coalition for
+                the Right to Housing.</a
               >
             </p>
             <p>
@@ -141,7 +151,7 @@
       <div class="popup-container locality-popup-container">
         <div>
           <p class="popup-title">
-            <strong>{{Location}}</strong>
+            <strong>{{location}}</strong>
           </p>
         </div>
       </div>
@@ -150,16 +160,19 @@
     <script id="aemp-infowindow-template" type="x-tmpl-mustache">
       <div class="aemp-infowindow">
         <a class="aemp-infowindow-close" href="#close">×</a>
+
         <div>
           <p class="infowindow-title">
             <strong>Housing Protection Legislation</strong>
           </p>
         </div>
+
         <div>
           <p>
             <strong>{{jurisdictionType}}: </strong>{{jurisdictionName}}
           </p>
         </div>
+
         {{#policyStrength}}
         <div>
           <p>
@@ -168,20 +181,48 @@
           </p>
         </div>
         {{/policyStrength}}
+
+        {{#endDateEarliest}}
+        <div>
+          <p><strong>Protections End Date:</strong> {{endDateEarliest}}</p>
+        </div>
+        {{/endDateEarliest}}
+
+        {{#endDateLegist}}
+        <div>
+          <p><strong>Legislation Protections End Date:</strong> {{endDateLegist}}</p>
+        </div>
+        {{/endDateLegist}}
+
+        {{#endDateRentRelief}}
+        <div>
+          <p><strong>Rent Relief Protections End Date:</strong> {{endDateRentRelief}}</p>
+        </div>
+        {{/endDateRentRelief}}
+
+        {{#endDateCourt}}
+        <div>
+          <p><strong>Court Closures End Date:</strong> {{endDateCourt}}</p>
+        </div>
+        {{/endDateCourt}}
+
         <div>
           <p><strong>Policy Summary:</strong></p>
           <p>{{policy_summary}}</p>
         </div>
+
         {{#start}}
         <div>
           <p><strong>Effective: </strong>{{start}}</p>
         </div>
         {{/start}}
+
         {{#_end}}
         <div>
           <p><strong>Ends: </strong>{{_end}}</p>
         </div>
         {{/_end}}
+
         {{#link}}
         <div>
           <p><a target="_blank" href="{{link}}" rel="noopener noreferrer">View more info.</a></p>
@@ -200,45 +241,219 @@
         </div>
         <div>
           <p>
-            <strong>Location: </strong>{{Location}}
+            <strong>Location: </strong>{{location}}
           </p>
           <p><strong>Status: </strong>{{status}}</p>
         </div>
-        {{#Why}}
+        {{#why}}
         <div>
-          <p><strong>Why? </strong>{{Why}}</p>
+          <p><strong>Why? </strong>{{why}}</p>
         </div>
-        {{/Why}}
-        {{#Start}}
+        {{/why}}
+        {{#start}}
         <div>
-          <p><strong>Start: </strong>{{Start}}</p>
+          <p><strong>Start: </strong>{{start}}</p>
         </div>
-        {{/Start}}
-        {{#Resources}}
+        {{/start}}
+        {{#resources}}
         <div>
-          <p><strong>Resources: </strong>{{Resources}}</p>
+          <p><strong>Resources: </strong>{{resources}}</p>
         </div>
-        {{/Resources}}
+        {{/resources}}
       </div>
     </script>
+    <!-- Leaflet map SVG patterns -->
+    <svg id="map-pattern-fills" width="0" height="0" aria-hidden="true">
+      <defs>
+        <pattern
+          id="pattern-few-protections"
+          x="0"
+          y="0"
+          width="8"
+          height="8"
+          patternUnits="userSpaceOnUse"
+          patternContentUnits="userSpaceOnUse"
+          patternTransform="rotate(45)"
+        >
+          <path
+            stroke="#d9f0a3"
+            stroke-opacity="1"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+            pointer-events="none"
+            d="M0 2 H 8"
+          ></path>
+          <path
+            stroke="#ffffff"
+            stroke-opacity="0"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+            pointer-events="none"
+            d="M0 6 H 8"
+          ></path>
+        </pattern>
+        <pattern
+          id="pattern-some-protections"
+          x="0"
+          y="0"
+          width="8"
+          height="8"
+          patternUnits="userSpaceOnUse"
+          patternContentUnits="userSpaceOnUse"
+          patternTransform="rotate(45)"
+        >
+          <path
+            stroke="#78c679"
+            stroke-opacity="1"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+            pointer-events="none"
+            d="M0 2 H 8"
+          ></path>
+          <path
+            stroke="#ffffff"
+            stroke-opacity="0"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+            pointer-events="none"
+            d="M0 6 H 8"
+          ></path>
+        </pattern>
+        <pattern
+          id="pattern-many-protections"
+          x="0"
+          y="0"
+          width="8"
+          height="8"
+          patternUnits="userSpaceOnUse"
+          patternContentUnits="userSpaceOnUse"
+          patternTransform="rotate(45)"
+        >
+          <path
+            stroke="#238443"
+            stroke-opacity="1"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+            pointer-events="none"
+            d="M0 2 H 8"
+          ></path>
+          <path
+            stroke="#ffffff"
+            stroke-opacity="0"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+            pointer-events="none"
+            d="M0 6 H 8"
+          ></path>
+        </pattern>
 
-    <!-- Load Leaflet library -->
-    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
-
-    <!-- Load Leaflet Marker Cluster plugin -->
-    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster-src.js"></script>
-
-    <!-- Load Fetch polyfill -->
-    <script src="https://unpkg.com/whatwg-fetch@3.0.0/dist/fetch.umd.js"></script>
-
-    <!-- <details> element polyfill for IE -->
-    <script src="//cdn.jsdelivr.net/npm/details-polyfill@1/index.min.js"></script>
-
-    <!-- import the Mustache library -->
-    <script src="https://unpkg.com/mustache@4.0.1/mustache.min.js"></script>
-
-    <!-- Load d3-tsv -->
-    <script src="https://d3js.org/d3-dsv.v1.min.js"></script>
-    <script src="https://d3js.org/d3-dispatch.v1.min.js"></script>
+        <!-- city protections have a slightly modified pattern to better differentiate them -->
+        <pattern
+          id="pattern-few-protections--city-level"
+          x="0"
+          y="0"
+          width="8"
+          height="8"
+          patternUnits="userSpaceOnUse"
+          patternContentUnits="userSpaceOnUse"
+          patternTransform="rotate(135)"
+        >
+          <path
+            stroke="#d9f0a3"
+            stroke-opacity="1"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+            pointer-events="none"
+            d="M0 2 H 8"
+          ></path>
+          <path
+            stroke="#ffffff"
+            stroke-opacity="0"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+            pointer-events="none"
+            d="M0 6 H 8"
+          ></path>
+        </pattern>
+        <pattern
+          id="pattern-some-protections--city-level"
+          x="0"
+          y="0"
+          width="8"
+          height="8"
+          patternUnits="userSpaceOnUse"
+          patternContentUnits="userSpaceOnUse"
+          patternTransform="rotate(135)"
+        >
+          <path
+            stroke="#78c679"
+            stroke-opacity="1"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+            pointer-events="none"
+            d="M0 2 H 8"
+          ></path>
+          <path
+            stroke="#ffffff"
+            stroke-opacity="0"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+            pointer-events="none"
+            d="M0 6 H 8"
+          ></path>
+        </pattern>
+        <pattern
+          id="pattern-many-protections--city-level"
+          x="0"
+          y="0"
+          width="8"
+          height="8"
+          patternUnits="userSpaceOnUse"
+          patternContentUnits="userSpaceOnUse"
+          patternTransform="rotate(135)"
+        >
+          <path
+            stroke="#238443"
+            stroke-opacity="1"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+            pointer-events="none"
+            d="M0 2 H 8"
+          ></path>
+          <path
+            stroke="#ffffff"
+            stroke-opacity="0"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+            pointer-events="none"
+            d="M0 6 H 8"
+          ></path>
+        </pattern>
+      </defs>
+    </svg>
   </body>
 </html>

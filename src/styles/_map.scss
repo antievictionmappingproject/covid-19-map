@@ -1,3 +1,5 @@
+@import "~leaflet/dist/leaflet.css";
+
 #map {
   position: absolute;
   top: 0;
@@ -5,6 +7,23 @@
   bottom: 0;
   right: 0;
   z-index: 0;
+
+  .leaflet-pane.leaflet-overlay-pane svg {
+    path {
+      @include use-svg-pattern("few");
+      @include use-svg-pattern("few", true);
+      @include use-svg-pattern("some");
+      @include use-svg-pattern("some", true);
+      @include use-svg-pattern("many");
+      @include use-svg-pattern("many", true);
+    }
+  }
+}
+
+#map-pattern-fills {
+  // the svg used for the map's pattern fills should be hidden in the UI
+  position: absolute;
+  left: -1000000px;
 }
 
 @media (max-width: 640px) {
