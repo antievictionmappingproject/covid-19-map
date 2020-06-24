@@ -16,24 +16,28 @@ export class SearchBar {
     this.searchBar.addEventListener("focus", () => {
       this.searchBar.value = "";
     });
-    this.searchBar.addEventListener("change", (e) => {
-      if (this.autoCompleteResultBounds.size > 0) {
-        dispatch.call(
-          "choose-autocomplete-element",
-          Window.lmap,
-          this.autoCompleteResultBounds.entries().next().value[1]
-        );
-      } else {
-        console.log("search results not found");
-      }
-      e.stopPropagation();
-    });
+    this.searchBar.addEventListener("change", (e) => {});
     dispatch.on("search-bar-autocomplete", this.autoComplete);
     dispatch.on("remove-autocompete-dropdown", this.removeAutocomplete);
     dispatch.on("search-fetch-data-reject", (err) => console.error(err));
     dispatch.on("search-bar-no-data", (searchBarText) =>
       this.noDataFound(searchBarText)
     );
+    document
+      .getElementById("search-bar-form")
+      .addEventListener("submit", (e) => {
+        if (this.autoCompleteResultBounds.size > 0) {
+          dispatch.call(
+            "choose-autocomplete-element",
+            Window.lmap,
+            this.autoCompleteResultBounds.entries().next().value[1]
+          );
+        } else {
+          dispatch.call("search-bar-no-data");
+        }
+        e.stopPropagation();
+        e.preventDefault();
+      });
   }
 
   noDataFound() {
