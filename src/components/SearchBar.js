@@ -16,7 +16,7 @@ export class SearchBar {
     this.searchBar.addEventListener("focus", () => {
       this.searchBar.value = "";
     });
-    this.searchBar.addEventListener("change", (e) => {
+    this.searchBar.addEventListener("change", () => {
       if (
         [...document.getElementsByClassName("autocompleteElement")].indexOf(
           this.autocompleteElement(this.searchBar.value)

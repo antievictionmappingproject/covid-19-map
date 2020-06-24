@@ -104,7 +104,10 @@ export class LeafletMap {
     dispatch.on("close-infowindow.map", this.handleInfoWindowClose);
     dispatch.on("fetch-map-data-resolve.map", this.handleAddLayer);
     dispatch.on("fetch-map-data-reject.map", this.handleLayerError);
-    dispatch.on("choose-autocomplete-element", this.findAutocompletLocation);
+    dispatch.on(
+      "choose-autocomplete-element.map",
+      this.findAutocompletLocation
+    );
   }
 
   handleWindowResize = () => {
