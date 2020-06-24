@@ -16,16 +16,17 @@ export class SearchBar {
     this.searchBar.addEventListener("focus", () => {
       this.searchBar.value = "";
     });
-    this.searchBar.addEventListener("change", () => {
-      if (
-        [...document.getElementsByClassName("autocompleteElement")].indexOf(
-          this.autocompleteElement(this.searchBar.value)
-        ) < 0
-      ) {
-        let val = this.searchBar.value;
-        let bounds = this.autoCompleteResultBounds.get(val);
-        dispatch.call("choose-autocomplete-element", Window.lmap, bounds);
+    this.searchBar.addEventListener("change", (e) => {
+      if (this.autoCompleteResultBounds.size > 0) {
+        dispatch.call(
+          "choose-autocomplete-element",
+          Window.lmap,
+          this.autoCompleteResultBounds.entries().next().value[1]
+        );
+      } else {
+        console.log("search results not found");
       }
+      e.stopPropagation();
     });
     dispatch.on("search-bar-autocomplete", this.autoComplete);
     dispatch.on("remove-autocompete-dropdown", this.removeAutocomplete);
@@ -36,8 +37,7 @@ export class SearchBar {
   }
 
   noDataFound() {
-    //todo: popup on screen somehow
-    console.log("no data found");
+    document.getElementById("search-bar").classList.add("search-bar-no-data");
   }
 
   removeAutocomplete() {
@@ -49,6 +49,10 @@ export class SearchBar {
   }
 
   async autoComplete(str) {
+    const searchBarInput = document.getElementById("search-bar");
+    if (searchBarInput.classList.contains("search-bar-no-data")) {
+      searchBarInput.classList.remove("search-bar-no-data");
+    }
     if (str.length > 1) {
       try {
         const res = await getSearchData(str.trim());
