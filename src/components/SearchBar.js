@@ -4,7 +4,6 @@ import { dispatch } from "utils/dispatch";
 export class SearchBar {
   searchBar = document.getElementById("search-bar");
   autoCompleteElement = document.getElementById("search-bar-autocomplete");
-  autoCompleteResultBounds = new Map();
 
   constructor() {
     this.searchBar.addEventListener("input", () => {
@@ -26,12 +25,10 @@ export class SearchBar {
     document
       .getElementById("search-bar-form")
       .addEventListener("submit", (e) => {
-        if (this.autoCompleteResultBounds.size > 0) {
-          dispatch.call(
-            "choose-autocomplete-element",
-            Window.lmap,
-            this.autoCompleteResultBounds.entries().next().value[1]
-          );
+        if (
+          [...document.getElementsByClassName("autocompletElement")].length > 0
+        ) {
+          //todo: query the first item in the list
         } else {
           dispatch.call("search-bar-no-data");
         }
@@ -60,17 +57,15 @@ export class SearchBar {
     if (str.length > 1) {
       try {
         const res = await getSearchData(str.trim());
-        if (res) {
-          const features = res.resourceSets[0].resources.filter(
-            (resource) => resource.bbox !== undefined
+        if (res && res.resourceSets && res.resourceSets[0].resources) {
+          const values = res.resourceSets[0].resources[0].value.filter(
+            (value) => value.__type === "Place"
           );
-          this.autoCompleteElement.innerHTML = features
-            .map((resource) => this.autocompleteElement(resource))
+          this.autoCompleteElement.innerHTML = values
+            .map((value) =>
+              this.autocompleteElement(value.address.formattedAddress)
+            )
             .join("");
-          this.autoCompleteResultBounds = features.reduce(
-            (map, resource) => map.set(resource.name, resource),
-            new Map()
-          );
         }
       } catch (e) {
         dispatch.call("search-fetch-data-reject", this, e);

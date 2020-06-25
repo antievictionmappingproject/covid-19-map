@@ -39,12 +39,11 @@ export async function getData() {
     }
   });
 }
-
 export async function getSearchData(str) {
   try {
     console.log("getting search data");
     let res = await fetch(
-      `http://dev.virtualearth.net/REST/v1/Locations/${str}?key=Al2-1GXrd8GzwtSAID3J3LJn-flLLgNWzNtsT5nnSKW8dA2ClgaXXXMQR6WfE6wE`
+      `http://dev.virtualearth.net/REST/v1/Autosuggest?query=${str}&userMapView=-90,-180,90,180&key=Al2-1GXrd8GzwtSAID3J3LJn-flLLgNWzNtsT5nnSKW8dA2ClgaXXXMQR6WfE6wE`
     );
     return await res.json();
   } catch (e) {
