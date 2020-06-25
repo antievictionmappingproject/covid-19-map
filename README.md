@@ -106,7 +106,7 @@ To add translations:
 **Optional: implement the translation**
 If you're comfortable with javascript, you can also add the language to the i18n configuration.
 
-4. Add the language code to the value of `whitelist` in the file `src/utils/i18n.js`. For example: `const whitelist = ['en', 'pt-BR', 'es-MX']`
+4. Add the language code to the value of `languages` in the file `src/utils/constants.js`. For example: `const languages = ['en', 'pt-BR', 'es-MX']`
 5. Add the following to the file `src/locale/index.js`, substituting `de` for the language code you are working with:
 
 ```js
@@ -118,3 +118,7 @@ de: {
   translation: de,
 },
 ```
+
+6. To test that you new language works, run the development environment, and add `?lang=<your-lang>` to the url. Make sure that all the expected text is displayed as expected.
+
+Thank you for contributing!

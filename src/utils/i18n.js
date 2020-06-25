@@ -1,6 +1,8 @@
 import i18next from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 
+import { languages } from "./constants";
+
 export const I18N_ATTRIBUTE = "data-i18n";
 
 export const translateContent = (element) => {
@@ -9,7 +11,6 @@ export const translateContent = (element) => {
   elements.forEach((el) => {
     const key = el.dataset.i18n;
     const t = i18next.t(key);
-    console.log(t, key);
     // If translation found set element content as translation.
     if (t !== key) el.innerHTML = t;
     // Otherwise use english as fallback
@@ -17,12 +18,9 @@ export const translateContent = (element) => {
   });
 };
 
-// List of all languages we have translations for.
-const whitelist = ["en", "pt-BR"];
-
 // Default values for i18next config
 const i18nOptions = {
-  whitelist,
+  whitelist: languages,
   fallbackLng: "en",
   debug: process.env.NODE_ENV !== "production",
   detection: {
