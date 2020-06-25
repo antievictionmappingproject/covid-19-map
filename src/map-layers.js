@@ -6,7 +6,6 @@ import {
   strokeWeight,
   pointRadius,
   fillOpacity,
-  policyStrengthLanguage,
   policyStrengthLayerClassNames,
 } from "utils/constants";
 import * as queries from "./utils/queries";
@@ -15,6 +14,7 @@ import { formatDate } from "./utils/datetime";
 export const mapLayersConfig = {
   cities: {
     name: "City Protections",
+    nameI18n: "layer-select.cities",
     type: "point",
     query: queries.citiesCartoQuery,
     zIndex: 1,
@@ -34,11 +34,11 @@ export const mapLayersConfig = {
           country ? `, ${country}` : ""
         }`,
         jurisdictionType: "City",
+        jurisdictionTypeI18n: "city",
         popupName: municipality,
         endDateLegist: formatDate(end_date_legist),
         endDateRentRelief: formatDate(end_date_rent_relief),
         endDateCourt: formatDate(end_date_court),
-        policyStrength: policyStrengthLanguage[layer.feature.properties.range],
         ...rest,
       };
     },
@@ -66,6 +66,7 @@ export const mapLayersConfig = {
 
   counties: {
     name: "County Protections",
+    nameI18n: "layer-select.counties",
     type: "polygon",
     query: queries.countiesCartoQuery,
     zIndex: 2,
@@ -82,11 +83,11 @@ export const mapLayersConfig = {
         // Show county with state if state field is set
         jurisdictionName: `${county}${state ? `, ${state}` : ""}`,
         jurisdictionType: "County",
+        jurisdictionTypeI18n: "county",
         popupName: `${county}${state ? `, ${state}` : ""}`,
         endDateLegist: formatDate(end_date_legist),
         endDateRentRelief: formatDate(end_date_rent_relief),
         endDateCourt: formatDate(end_date_court),
-        policyStrength: policyStrengthLanguage[layer.feature.properties.range],
         ...rest,
       };
     },
@@ -109,6 +110,7 @@ export const mapLayersConfig = {
 
   states: {
     name: "State/Province Protections",
+    nameI18n: "layer-select.states",
     type: "polygon",
     query: queries.statesCartoQuery,
     zIndex: 3,
@@ -124,11 +126,11 @@ export const mapLayersConfig = {
       return {
         jurisdictionName: `${name}${admin ? `, ${admin}` : ""}`,
         jurisdictionType: "State/Province",
+        jurisdictionTypeI18n: "state-province",
         popupName: name,
         endDateLegist: formatDate(end_date_legist),
         endDateRentRelief: formatDate(end_date_rent_relief),
         endDateCourt: formatDate(end_date_court),
-        policyStrength: policyStrengthLanguage[layer.feature.properties.range],
         ...rest,
       };
     },
@@ -151,6 +153,7 @@ export const mapLayersConfig = {
 
   nations: {
     name: "National Protections",
+    nameI18n: "layer-select.nations",
     type: "polygon",
     query: queries.countriesCartoQuery,
     zIndex: 4,
@@ -160,8 +163,8 @@ export const mapLayersConfig = {
         endDateEarliest: formatDate(end_date_earliest),
         jurisdictionName: name_en,
         jurisdictionType: "Country",
+        jurisdictionTypeI18n: "nation",
         popupName: name_en,
-        policyStrength: policyStrengthLanguage[layer.feature.properties.range],
         ...rest,
       };
     },
@@ -184,6 +187,7 @@ export const mapLayersConfig = {
 
   rentStrikes: {
     name: "Housing Justice Actions",
+    nameI18n: "layer-select.housingJusticeAction",
     type: "marker-cluster",
     query: queries.housingActionsCartoQuery,
     zIndex: 0, // markers have their very own layer pane in Leaflet so don't need a z-index value

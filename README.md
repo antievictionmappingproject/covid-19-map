@@ -77,13 +77,14 @@ npm run deploy
 
 You will need to have write privileges to this repository on Github to be able to do this.
 
-**NOTE: Use caution when doing this**, *before deploying you should make sure your build is successful and runs as expected. You may do this by running the script `start:prod` which will create a production build then start a local server in the dist directory.*
+**NOTE: Use caution when doing this**, _before deploying you should make sure your build is successful and runs as expected. You may do this by running the script `start:prod` which will create a production build then start a local server in the dist directory._
 
 Assuming you have already run the `build` script, you may view the site using the output / bundled files from Webpack by doing:
 
 ```
 yarn start:prod
 ```
+
 or
 
 ```
@@ -91,3 +92,33 @@ npm run start:prod
 ```
 
 You may now view the site on `http://localhost:5000`
+
+### Translations
+
+To add translations:
+
+1. Copy the file `src/locale/en.json`
+2. Rename the file to using the [IETF language tag standard](https://gist.github.com/traysr/2001377) followed by `.json`. For example: `de.json`
+3. Replace the existing text with the translated text.
+
+- Do not change the keys. For example `{"do-not-change": "This text should be changed"}`
+
+**Optional: implement the translation**
+If you're comfortable with javascript, you can also add the language to the i18n configuration.
+
+4. Add the language code to the value of `languages` in the file `src/utils/constants.js`. For example: `const languages = ['en', 'pt-BR', 'es-MX']`
+5. Add the following to the file `src/locale/index.js`, substituting `de` for the language code you are working with:
+
+```js
+// In imports
+import de from './de.json'
+
+// Inside of the exported object
+de: {
+  translation: de,
+},
+```
+
+6. To test that you new language works, run the development environment, and add `?lang=<your-lang>` to the url. Make sure that all the expected text is displayed as expected.
+
+Thank you for contributing!

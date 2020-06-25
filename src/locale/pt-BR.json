@@ -1,0 +1,62 @@
+{
+  "page-title": "COVID-19: Legislação de Proteção e Mobilização pelo Acesso à Moradia",
+  "titlebox": {
+    "title": "COVID-19: Legislação de Proteção e Mobilização pelo Acesso à Moradia",
+    "about-map": "Sobre o mapa:",
+    "about-protections": "Legislação de Proteção à Moradia",
+    "about-description": "Lugares onde foram aprovadas (ou tramitam) leis de proteção à moradia durante a crise do coronavírus.",
+    "legislation-form-usa": "",
+    "legislation-form-intl": "Envie informações sobre novas leis de garantia à moradia de sua localidade.",
+    "housing-action-title": "Mobilização pelo Acesso à Moradia",
+    "housing-action-description": "Onde <strong class='color-rent-strike'>ações de acesso à moradia</strong> estão ocorrendo ou ocorreram.",
+    "housing-action-form": "Envie informações sobre ações pelo acesso à moradia de sua região (como ocupações, suspensão de alugueis, etc.)",
+    "resources": {
+      "title": "",
+      "description": "",
+      "right-to-the-city": "",
+      "european-action-coalition": "",
+      "hashtag-cancel-rent": ""
+    }
+  },
+  "infowindow": {
+    "policy": {
+      "title": "Legislação de Proteção à Moradia",
+      "jurisdictionType": {
+        "city": "Cidade",
+        "county": "Região",
+        "state-province": "Estado",
+        "nation": "Nações"
+      },
+      "strength-label": "Nível de proteção:",
+      "protections-end-label": "Data do fim da proteção:",
+      "legislative-end-label": "Data de fim da legislação:",
+      "rent-relief-end-label": "Data de fim da suspensão de aluguel:",
+      "court-closure-end-label": "Data do fim do impedimento legal de despejos:",
+      "start-date-label": "Inicio efetivo:",
+      "end-date-label": "Fim:",
+      "summary-label": "Resumo da política:",
+      "link": "Acesse maiores informacoes."
+    },
+    "action": {
+      "title": "Ação em defesa do direito de acesso à moradia",
+      "loc-label": "Localização:",
+      "status-label": "Situação:",
+      "why-label": "Por quê?",
+      "start-date-label": "Início:",
+      "resources-label": "Recursos de apoio:"
+    }
+  },
+  "layer-select": {
+    "cities": "Proteção municipal",
+    "counties": "Proteção regional",
+    "states": "Proteção estadual",
+    "nations": "Proteção federal",
+    "housingJusticeAction": "Ações em defesa da moradia"
+  },
+  "policy-strength": {
+    "1": "Poucas proteções aprovadas",
+    "2": "Algumas proteções aprovadas",
+    "3": "Muitas proteções aprovadas",
+    "expired": "Indica proteções que não são mais válidas"
+  }
+}
