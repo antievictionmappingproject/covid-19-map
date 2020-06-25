@@ -39,6 +39,16 @@ export class SearchBar {
     document
       .getElementById("search-bar-form")
       .addEventListener("submit", (e) => {
+        if (this.autoCompleteResultBounds.size > 0) {
+          dispatch.call(
+            "choose-autocomplete-element",
+            Window.lmap,
+            this.autoCompleteResultBounds.entries().next().value[1]
+          );
+        } else {
+          dispatch.call("search-bar-no-data");
+        }
+        e.stopPropagation();
         e.preventDefault();
       });
   }
