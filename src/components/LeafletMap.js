@@ -7,6 +7,7 @@ import {
   isMobile,
   TOTAL_NUMBER_OF_MAP_LAYERS,
 } from "utils/constants";
+import { getAutocompleteMapLocation } from "utils/data";
 
 export class LeafletMap {
   // dataLayers: look up table to store layer groups in the form of
@@ -106,7 +107,7 @@ export class LeafletMap {
     dispatch.on("fetch-map-data-reject.map", this.handleLayerError);
     dispatch.on(
       "choose-autocomplete-element.map",
-      this.findAutocompletLocation
+      this.findAutocompleteLocation
     );
   }
 
@@ -249,20 +250,26 @@ export class LeafletMap {
       dispatch.call("hide-loading-indicator");
     }
   };
-  findAutocompletLocation(resource) {
-    let center = resource.point.coordinates;
-    const markerIcon = L.icon({ iconUrl: "assets/empty-icon.svg" });
-    const marker = new L.marker(center, { icon: markerIcon }).addTo(this.map);
-    let markerContent = `
-        <div class="popup-container locality-popup-container">
-            <p class="popup-title"><strong>${resource.name}</strong></p>
-        </div>
-    `;
-    let bbox = resource.bbox;
-    this.map.fitBounds([
-      [bbox[1], bbox[0]],
-      [bbox[3], bbox[2]],
-    ]);
-    marker.bindPopup(markerContent).openPopup();
+  async findAutocompleteLocation(value) {
+    try {
+      let location = await getAutocompleteMapLocation(value.trim());
+      let resource = location.resourceSets[0].resources[0];
+      let center = resource.point.coordinates;
+      const markerIcon = L.icon({ iconUrl: "assets/empty-icon.svg" });
+      const marker = new L.marker(center, { icon: markerIcon }).addTo(this.map);
+      let markerContent = `
+          <div class="popup-container locality-popup-container">
+              <p class="popup-title"><strong>${resource.name}</strong></p>
+          </div>
+      `;
+      let bbox = resource.bbox;
+      this.map.fitBounds([
+        [bbox[1], bbox[0]],
+        [bbox[3], bbox[2]],
+      ]);
+      marker.bindPopup(markerContent).openPopup();
+    } catch (e) {
+      dispatch.call("search-bar-no-data", this, e);
+    }
   }
 }
