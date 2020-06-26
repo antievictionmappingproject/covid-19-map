@@ -15,7 +15,16 @@ export class SearchBar {
     this.searchBar.addEventListener("focus", () => {
       this.searchBar.value = "";
     });
-    this.searchBar.addEventListener("change", (e) => {});
+    this.searchBar.addEventListener("change", (e) => {
+      if (
+        [...document.getElementsByClassName("autocompleteElement")].indexOf(
+          this.autocompleteElement(this.searchBar.value)
+        ) < 0
+      ) {
+        let val = this.searchBar.value;
+        dispatch.call("choose-autocomplete-element", Window.lmap, val);
+      }
+    });
     dispatch.on("search-bar-autocomplete", this.autoComplete);
     dispatch.on("remove-autocompete-dropdown", this.removeAutocomplete);
     dispatch.on("search-fetch-data-reject", (err) => console.error(err));
@@ -72,9 +81,10 @@ export class SearchBar {
       }
     }
   }
-  autocompleteElement(feature) {
+
+  autocompleteElement(location) {
     return `
-        <option value="${feature.name}" class = "autocompleteElement"}>
+        <option value="${location}" class = "autocompleteElement"}>
     `;
   }
 }
