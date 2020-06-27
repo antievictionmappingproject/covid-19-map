@@ -262,11 +262,7 @@ export class LeafletMap {
               <p class="popup-title"><strong>${resource.name}</strong></p>
           </div>
       `;
-      let bbox = resource.bbox;
-      this.map.fitBounds([
-        [bbox[1], bbox[0]],
-        [bbox[3], bbox[2]],
-      ]);
+      this.map.setZoomAround(center, 5);
       marker.bindPopup(markerContent).openPopup();
     } catch (e) {
       dispatch.call("search-bar-no-data", this, e);
