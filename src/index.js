@@ -7,10 +7,8 @@ import { getData } from "utils/data";
 import { parseUriHash } from "utils/parse-hash";
 import { defaultMapConfig } from "utils/constants";
 import { dispatch } from "./utils/dispatch";
-
+import { i18nInit } from "./utils/i18n";
 import { SearchBar } from "./components/SearchBar";
-
-
 
 if (process.env.NODE_ENV !== "production") {
   dispatch.on("fetch-map-data-resolve.debug", console.log);
@@ -19,17 +17,15 @@ if (process.env.NODE_ENV !== "production") {
 
 const mapConfig = parseUriHash(defaultMapConfig);
 
-
-Window.lmap = new LeafletMap(mapConfig);
 new InfoWindow();
 new TitleDetails();
 new LoadingIndicator();
 
 i18nInit().then(() => {
-  new LeafletMap(mapConfig);
+  Window.lmap = new LeafletMap(mapConfig);
   new InfoWindow();
   new TitleDetails();
-
+  new SearchBar();
 
   getData();
 });
