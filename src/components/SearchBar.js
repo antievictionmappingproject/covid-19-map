@@ -91,7 +91,7 @@ export class SearchBar {
 
   autocompleteElement(location) {
     return `
-        <option value="${location}" class = "autocompleteElement"}>
+        <option value="${location}" class = "autocompleteElement">
     `;
   }
 }
