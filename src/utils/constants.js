@@ -1,5 +1,8 @@
 import { mapLayersConfig } from "../map-layers";
 
+// List of all languages we have translations for.
+export const languages = ["en", "pt-BR"];
+
 // color values come from this ColorBrewer url:
 // https://colorbrewer2.org/#type=sequential&scheme=YlGn&n=7
 export const colorNoData = "#939393";
@@ -12,13 +15,6 @@ export const pointRadius = 10;
 export const fillOpacity = 0.7;
 
 // corresponds to fill & stroke color scales above
-export const policyStrengthLanguage = [
-  "",
-  "Few protections in place",
-  "Some protections in place",
-  "Many protections in place",
-];
-
 export const policyStrengthLayerClassNames = [
   undefined,
   "few-protections",

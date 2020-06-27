@@ -10,7 +10,8 @@
     "SharedArrayBuffer": "readonly"
   },
   "plugins": [
-    "babel"
+    "babel",
+    "json"
   ],
   "parser": "babel-eslint",
   "parserOptions": {
