@@ -17,13 +17,14 @@ export class SearchBar {
     });
     this.searchBar.addEventListener("change", (e) => {
       if (
-        [...document.getElementsByClassName("autocompleteElement")].indexOf(
-          this.autocompleteElement(this.searchBar.value)
-        ) < 0
+        [...document.getElementsByClassName("autocompleteElement")]
+          .map((a) => a.value)
+          .indexOf(this.searchBar.value) >= 0
       ) {
         let val = this.searchBar.value;
         dispatch.call("choose-autocomplete-element", Window.lmap, val);
       }
+      e.stopPropagation();
     });
     dispatch.on("search-bar-autocomplete", this.autoComplete);
     dispatch.on("remove-autocompete-dropdown", this.removeAutocomplete);
@@ -31,13 +32,19 @@ export class SearchBar {
     dispatch.on("search-bar-no-data", (searchBarText) =>
       this.noDataFound(searchBarText)
     );
+
     document
       .getElementById("search-bar-form")
       .addEventListener("submit", (e) => {
-        if (
-          [...document.getElementsByClassName("autocompletElement")].length > 0
-        ) {
-          //todo: query the first item in the list
+        var autoselectSuggestions = [
+          ...document.getElementsByClassName("autocompleteElement"),
+        ].map((a) => a.value);
+        if (autoselectSuggestions.length > 0) {
+          dispatch.call(
+            "choose-autocomplete-element",
+            Window.lmap,
+            autoselectSuggestions[0]
+          );
         } else {
           dispatch.call("search-bar-no-data");
         }
