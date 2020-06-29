@@ -259,13 +259,15 @@ export class LeafletMap {
       let resource = location.resourceSets[0].resources[0];
       let center = resource.point.coordinates;
       const markerIcon = L.icon({ iconUrl: "assets/empty-icon.svg" });
-      const marker = new L.marker(center, { icon: markerIcon }).addTo(this.map);
+      this.map.setView(center, 5);
+      const marker = new L.marker(center, { icon: markerIcon });
+      //marker.onAdd = ()=>setTimeout( ()=>this.map.setZoomAround(center,5),500);
+      marker.addTo(this.map);
       let markerContent = `
           <div class="popup-container locality-popup-container">
               <p class="popup-title"><strong>${resource.name}</strong></p>
           </div>
       `;
-      this.map.setZoomAround(center, 5);
       marker.bindPopup(markerContent).openPopup();
     } catch (e) {
       dispatch.call("search-bar-no-data", this, e);
