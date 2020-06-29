@@ -6,9 +6,9 @@ export class SearchBar {
   autoCompleteElement = document.getElementById("search-bar-autocomplete");
 
   constructor() {
-    this.searchBar.addEventListener("input", () => {
-      dispatch.call("search-bar-autocomplete", this, this.searchBar.value);
-    });
+    this.searchBar.addEventListener("input", () =>
+      this.autoComplete(this.searchBar.value)
+    );
     this.searchBar.addEventListener("blur", () => {
       dispatch.call("remove-autocompete-dropdown", this);
     });
@@ -26,7 +26,6 @@ export class SearchBar {
       }
       e.stopPropagation();
     });
-    dispatch.on("search-bar-autocomplete", this.autoComplete);
     dispatch.on("remove-autocompete-dropdown", this.removeAutocomplete);
     dispatch.on("search-fetch-data-reject", (err) => console.error(err));
     dispatch.on("search-bar-no-data", (searchBarText) =>

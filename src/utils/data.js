@@ -1,6 +1,6 @@
 // fetch polyfill for IE
 import "whatwg-fetch";
-import { aempCartoAccount } from "./config";
+import { aempCartoAccount, bingApiKey } from "./config";
 import { mapLayersConfig } from "../map-layers";
 import { dispatch } from "./dispatch";
 
@@ -42,7 +42,7 @@ export async function getData() {
 export async function getSearchData(str) {
   try {
     let res = await fetch(
-      `https://dev.virtualearth.net/REST/v1/Autosuggest?query=${str}&userMapView=-90,-180,90,180&key=Al2-1GXrd8GzwtSAID3J3LJn-flLLgNWzNtsT5nnSKW8dA2ClgaXXXMQR6WfE6wE`
+      `https://dev.virtualearth.net/REST/v1/Autosuggest?query=${str}&userMapView=-90,-180,90,180&key=${bingApiKey}`
     );
     return await res.json();
   } catch (e) {
@@ -53,7 +53,7 @@ export async function getSearchData(str) {
 export async function getAutocompleteMapLocation(val) {
   try {
     let res = await fetch(
-      `https://dev.virtualearth.net/REST/v1/Locations/${val}?&key=Al2-1GXrd8GzwtSAID3J3LJn-flLLgNWzNtsT5nnSKW8dA2ClgaXXXMQR6WfE6wE`
+      `https://dev.virtualearth.net/REST/v1/Locations/${val}?&key=${bingApiKey}`
     );
     return res.json();
   } catch (e) {

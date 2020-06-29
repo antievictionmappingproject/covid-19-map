@@ -15,7 +15,6 @@ const events = [
   "title-details-open",
   "show-loading-indicator",
   "hide-loading-indicator",
-  "search-bar-autocomplete",
   "choose-autocomplete-element",
   "remove-autocompete-dropdown",
   "search-fetch-data-reject",

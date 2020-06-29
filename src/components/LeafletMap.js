@@ -258,7 +258,7 @@ export class LeafletMap {
       let location = await getAutocompleteMapLocation(value.trim());
       let resource = location.resourceSets[0].resources[0];
       let center = resource.point.coordinates;
-      const markerIcon = L.icon({ iconUrl: "assets/empty-icon.svg" });
+      const markerIcon = L.icon({ iconUrl: L.Icon.Default });
       this.map.setView(center, 5);
       const marker = new L.marker(center, { icon: markerIcon });
       //marker.onAdd = ()=>setTimeout( ()=>this.map.setZoomAround(center,5),500);

@@ -18,6 +18,8 @@
   font-size: 1.2em;
   display: block;
   float: left;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
 }
 
 .search-bar-no-data {
@@ -27,7 +29,6 @@
 #search-bar-autocomplete {
   width: 100%;
   background-color: white;
-  border: 2px solid rgba(0, 0, 0, 0.2);
   margin-top: 20px;
 }
 
