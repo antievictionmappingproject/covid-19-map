@@ -22,7 +22,7 @@ export class SearchBar {
           .indexOf(this.searchBar.value) >= 0
       ) {
         let val = this.searchBar.value;
-        dispatch.call("choose-autocomplete-element", Window.lmap, val);
+        dispatch.call("choose-autocomplete-element", null, val);
       }
       e.stopPropagation();
     });
@@ -41,7 +41,7 @@ export class SearchBar {
         if (autoselectSuggestions.length > 0) {
           dispatch.call(
             "choose-autocomplete-element",
-            Window.lmap,
+            null,
             autoselectSuggestions[0]
           );
         } else {
