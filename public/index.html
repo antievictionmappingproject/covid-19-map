@@ -1,9 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>
-      COVID-19 Housing Protection Legislation and Housing Justice Action Map
-    </title>
+    <title data-i18n="page-title"> </title>
     <meta name="viewport" content="initial-scale=1.0" />
     <meta charset="utf-8" />
     <meta name="author" content="Anti-Eviction Mapping Project" />
@@ -13,62 +11,58 @@
     />
     <!-- Load the Roboto font family -->
     <!-- see: https://csswizardry.com/2020/05/the-fastest-google-fonts/ -->
-    <link rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossorigin />
-    <link rel="preload"
-          as="style"
-          href="https://fonts.googleapis.com/css?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap" />
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-          media="print" onload="this.media='all'" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    />
     <noscript>
-      <link rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap" />
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      />
     </noscript>
   </head>
   <body>
     <div id="root">
       <header id="aemp-titlebox">
-        <h1 id="aemp-title">
-          COVID-19 Housing Protection Legislation & Housing Justice Action
-        </h1>
+        <h1 data-i18n="titlebox.title" id="aemp-title"></h1>
         <details open>
-          <summary>About the map:</summary>
+          <summary data-i18n="titlebox.about-map"></summary>
           <div class="title-content-wrapper">
-            <h2>Housing Protection Legislation</h2>
-            <p>
-              Where officials have passed (or tenants are working to pass)
-              housing protection legislation during the COVID-19 crisis.
-            </p>
+            <h2 data-i18n="titlebox.about-protections"></h2>
+            <p data-i18n="titlebox.about-description"></p>
             <p>
               <a
                 href="https://docs.google.com/forms/d/e/1FAIpQLSfHzR_SYO-wKfa3Abi9jDvZXCH3dsLgrkDj-9Rwm-3oRjDD9A/viewform"
                 target="_blank"
-                >Submit housing protection legislation for locations outside of
-                the United States.</a
-              >
+                data-i18n="titlebox.legislation-form-intl"
+              ></a>
             </p>
             <p>
               <a
                 href="https://docs.google.com/forms/d/e/1FAIpQLSdhYpQa66snIwgbF8OiATpAvNayhQHTZcke4wDK4JazehzEmQ/viewform"
                 target="_blank"
-                >Submit housing protection legislation for locations within the
-                United States.</a
-              >
+                data-i18n="titlebox.legislation-form-usa"
+              ></a>
             </p>
             <div class="legend">
               <div class="legendpair">
                 <div class="legendbox scale1">&nbsp;</div>
-                Few protections in place
+                <span data-i18n="policy-strength.1"></span>
               </div>
               <div class="legendpair">
                 <div class="legendbox scale2">&nbsp;</div>
-                Some protections in place
+                <span data-i18n="policy-strength.2"></span>
               </div>
               <div class="legendpair">
                 <div class="legendbox scale3">&nbsp;</div>
-                Many protections in place
+                <span data-i18n="policy-strength.3"></span>
               </div>
               <div class="legendpair">
                 <div class="legendbox-svg">
@@ -76,47 +70,40 @@
                     <rect x="2" y="2" width="10" height="10"></rect>
                   </svg>
                 </div>
-                <em>Stripes indicate expired protections</em>
+                <em data-i18n="policy-strength.expired"></em>
               </div>
             </div>
-            <h2>Housing Justice Action</h2>
-            <p>
-              Where
-              <strong class="color-rent-strike">housing justice actions</strong>
-              are occurring or have occurred.
-            </p>
+            <h2 data-i18n="titlebox.housing-action-title"></h2>
+            <p data-i18n="titlebox.housing-action-description"></p>
             <p>
               <a
                 href="https://docs.google.com/forms/d/e/1FAIpQLSfzMYs_BZYFb601oiAGtotfTX7tjZXvao3F0PHuTlko4rAxKA/viewform"
                 target="_blank"
-                >Fill out to submit information about: Organizing, resistance,
-                and mutual aid in the form of rent strikes, housing reclamation,
-                solidarity work, squats, and more. Also fill out if you are
-                looking for solidarity and resources to help cancel rent.</a
-              >
+                data-i18n="titlebox.housing-action-form"
+              ></a>
             </p>
-            <h2>Resources</h2>
+            <h2 data-i18n="titlebox.resources.title"></h2>
+            <p data-i18n="titlebox.resources.description"></p>
             <p>
-              Here are some resources to help if you are in need.
-            </p>
-            <p>
-              <a href="https://cancelrent.us/" target="_blank"
-                >Resources and demands from Right To The City Alliance and Homes
-                For All.</a
-              >
+              <a
+                href="https://cancelrent.us/"
+                target="_blank"
+                data-i18n="titlebox.resources.right-to-the-city"
+              ></a>
             </p>
             <p>
-              <a href="https://housingnotprofit.org/" target="_blank"
-                >Resources and demands from the European Action Coalition for
-                the Right to Housing.</a
-              >
+              <a
+                href="https://housingnotprofit.org/"
+                target="_blank"
+                data-i18n="titlebox.resources.hashtag-cancel-rent"
+              ></a>
             </p>
             <p>
               <a
                 href="https://thenewinquiry.com/rent-strike-2020/"
                 target="_blank"
-                >Rent Strike resources for #CancelRent.</a
-              >
+                data-i18n="titlebox.resources.right-to-the-city"
+              ></a>
             </p>
           </div>
         </details>
@@ -163,69 +150,71 @@
 
         <div>
           <p class="infowindow-title">
-            <strong>Housing Protection Legislation</strong>
+            <strong data-i18n="infowindow.policy.title"></strong>
           </p>
         </div>
 
         <div>
           <p>
-            <strong>{{jurisdictionType}}: </strong>{{jurisdictionName}}
+            <strong data-i18n="infowindow.policy.jurisdictionType.{{jurisdictionTypeI18n}}"></strong><strong>: </strong>{{jurisdictionName}}
           </p>
         </div>
 
-        {{#policyStrength}}
+        {{#range}}
         <div>
           <p>
-            <strong>Policy Strength: </strong>
-            <span class="policy-strength-color policy-strength-color--{{range}}">{{policyStrength}}</span>
+            <strong data-i18n="infowindow.policy.strength-label"></strong>
+            <span class="policy-strength-color policy-strength-color--{{range}}" data-i18n="policy-strength.{{range}}"></span>
           </p>
         </div>
-        {{/policyStrength}}
+        {{/range}}
 
         {{#endDateEarliest}}
         <div>
-          <p><strong>Protections End Date:</strong> {{endDateEarliest}}</p>
+          <p><strong data-i18n="infowindow.policy.protections-end-label"></strong> {{endDateEarliest}}</p>
         </div>
         {{/endDateEarliest}}
 
         {{#endDateLegist}}
         <div>
-          <p><strong>Legislation Protections End Date:</strong> {{endDateLegist}}</p>
+          <p><strong data-i18n="infowindow.policy.strength-label"></strong> {{endDateLegist}}</p>
         </div>
         {{/endDateLegist}}
 
         {{#endDateRentRelief}}
         <div>
-          <p><strong>Rent Relief Protections End Date:</strong> {{endDateRentRelief}}</p>
+          <p><strong data-i18n="infowindow.policy.strength-label"></strong> {{endDateRentRelief}}</p>
         </div>
         {{/endDateRentRelief}}
 
         {{#endDateCourt}}
         <div>
-          <p><strong>Court Closures End Date:</strong> {{endDateCourt}}</p>
+          <p><strong data-i18n="infowindow.policy.strength-label"></strong> {{endDateCourt}}</p>
         </div>
         {{/endDateCourt}}
 
+        {{#policy_summary}}
         <div>
-          <p><strong>Policy Summary:</strong></p>
+          <p><strong data-i18n="infowindow.policy.summary-label"></strong></p>
           <p>{{policy_summary}}</p>
         </div>
+        {{/policy_summary}}
 
         {{#start}}
         <div>
-          <p><strong>Effective: </strong>{{start}}</p>
+          <p><strong data-i18n="infowindow.policy.start-date-label"></strong> {{start}}</p>
         </div>
         {{/start}}
 
         {{#_end}}
         <div>
-          <p><strong>Ends: </strong>{{_end}}</p>
+          <p><strong data-i18n="infowindow.policy.end-date-label"></strong> {{end}}</p>
         </div>
         {{/_end}}
 
         {{#link}}
         <div>
-          <p><a target="_blank" href="{{link}}" rel="noopener noreferrer">View more info.</a></p>
+          <p><a target="_blank" href="{{link}}" rel="noopener noreferrer" data-i18n="infowindow.policy.link">View more info.</a></p>
         </div>
         {{/link}}
       </div>
@@ -236,28 +225,28 @@
         <a class="aemp-infowindow-close" href="#close">×</a>
         <div>
           <p class="infowindow-title">
-            <strong>Housing Justice Action</strong>
+            <strong data-i18n="infowindow.action.title"></strong>
           </p>
         </div>
         <div>
           <p>
-            <strong>Location: </strong>{{location}}
+            <strong data-i18n="infowindow.action.loc-label"></strong> {{location}}
           </p>
-          <p><strong>Status: </strong>{{status}}</p>
+          <p><strong data-i18n="infowindow.action.status-label"></strong> {{status}}</p>
         </div>
         {{#why}}
         <div>
-          <p><strong>Why? </strong>{{why}}</p>
+          <p><strong data-i18n="infowindow.action.why-label"></strong> {{why}}</p>
         </div>
         {{/why}}
         {{#start}}
         <div>
-          <p><strong>Start: </strong>{{start}}</p>
+          <p><strong data-i18n="infowindow.action.start-date-label"></strong> {{start}}</p>
         </div>
         {{/start}}
         {{#resources}}
         <div>
-          <p><strong>Resources: </strong>{{resources}}</p>
+          <p><strong data-i18n="infowindow.action.resources-label"></strong> {{resources}}</p>
         </div>
         {{/resources}}
       </div>

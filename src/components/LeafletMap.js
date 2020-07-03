@@ -1,4 +1,5 @@
 import Mustache from "mustache";
+import i18next from "i18next";
 import L from "lib/leaflet";
 
 import { dispatch } from "utils/dispatch";
@@ -202,7 +203,9 @@ export class LeafletMap {
       });
     }
 
-    this.dataLayers.set(layerConfig.name, {
+    // Create layer group with localised name
+    const localizedName = i18next.t(layerConfig.nameI18n) || layerConfig.name;
+    this.dataLayers.set(localizedName, {
       layerGroup,
       zIndex: layerConfig.zIndex,
     });
