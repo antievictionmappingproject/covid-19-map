@@ -21,6 +21,7 @@
   border: 2px solid rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   padding: 8px 6px;
+  background-clip: padding-box;
 }
 
 .search-bar-no-data {

@@ -262,7 +262,6 @@ export class LeafletMap {
       const markerIcon = L.icon({ iconUrl: L.Icon.Default });
       this.map.setView(center, 5);
       const marker = new L.marker(center, { icon: markerIcon });
-      //marker.onAdd = ()=>setTimeout( ()=>this.map.setZoomAround(center,5),500);
       marker.addTo(this.map);
       let markerContent = `
           <div class="popup-container locality-popup-container">
