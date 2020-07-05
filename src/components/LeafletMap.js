@@ -253,6 +253,7 @@ export class LeafletMap {
       dispatch.call("hide-loading-indicator");
     }
   };
+
   findAutocompleteLocation = async (value) => {
     try {
       let location = await getAutocompleteMapLocation(value.trim());
