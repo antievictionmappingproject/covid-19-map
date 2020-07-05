@@ -57,7 +57,7 @@ export class LeafletMap {
       .addTo(this.map);
 
     this.basemapLayer = L.tileLayer(
-      "https://a.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}@2x.png",
+      "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
       {
         minZoom: 1,
         maxZoom: 18,
