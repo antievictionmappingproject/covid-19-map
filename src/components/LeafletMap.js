@@ -253,7 +253,7 @@ export class LeafletMap {
       dispatch.call("hide-loading-indicator");
     }
   };
-  async findAutocompleteLocation(value) {
+  findAutocompleteLocation = async (value) => {
     try {
       let location = await getAutocompleteMapLocation(value.trim());
       let resource = location.resourceSets[0].resources[0];
@@ -272,5 +272,5 @@ export class LeafletMap {
     } catch (e) {
       dispatch.call("search-bar-no-data", this, e);
     }
-  }
+  };
 }

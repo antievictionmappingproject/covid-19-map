@@ -20,10 +20,11 @@
   float: left;
   border: 2px solid rgba(0, 0, 0, 0.2);
   border-radius: 5px;
+  padding: 8px 6px;
 }
 
 .search-bar-no-data {
-  border: #f00 4px solid;
+  border: #f00 4px solid !important;
 }
 
 #search-bar-autocomplete {

@@ -9,9 +9,7 @@ export class SearchBar {
     this.searchBar.addEventListener("input", () =>
       this.autoComplete(this.searchBar.value)
     );
-    this.searchBar.addEventListener("blur", () => {
-      dispatch.call("remove-autocompete-dropdown", this);
-    });
+    this.searchBar.addEventListener("blur", this.removeAutocomplete);
     this.searchBar.addEventListener("focus", () => {
       this.searchBar.value = "";
     });
@@ -22,30 +20,26 @@ export class SearchBar {
           .indexOf(this.searchBar.value) >= 0
       ) {
         let val = this.searchBar.value;
-        dispatch.call("choose-autocomplete-element", Window.lmap, val);
+        dispatch.call("choose-autocomplete-element", undefined, val);
       }
       e.stopPropagation();
     });
-    dispatch.on("remove-autocompete-dropdown", this.removeAutocomplete);
     dispatch.on("search-fetch-data-reject", (err) => console.error(err));
-    dispatch.on("search-bar-no-data", (searchBarText) =>
-      this.noDataFound(searchBarText)
-    );
 
     document
       .getElementById("search-bar-form")
       .addEventListener("submit", (e) => {
-        var autoselectSuggestions = [
+        let autoselectSuggestions = [
           ...document.getElementsByClassName("autocompleteElement"),
         ].map((a) => a.value);
         if (autoselectSuggestions.length > 0) {
           dispatch.call(
             "choose-autocomplete-element",
-            Window.lmap,
+            undefined,
             autoselectSuggestions[0]
           );
         } else {
-          dispatch.call("search-bar-no-data");
+          this.noDataFound();
         }
         e.stopPropagation();
         e.preventDefault();
@@ -56,19 +50,17 @@ export class SearchBar {
     document.getElementById("search-bar").classList.add("search-bar-no-data");
   }
 
-  removeAutocomplete() {
+  removeAutocomplete = () => {
     setTimeout(() => {
       this.autoCompleteElement.innerHTML = "";
       this.searchBar.value =
         "\u{01f50d}  Enter Nation, state, province, city or zipcode";
+      this.removeNoData();
     }, 400);
-  }
+  };
 
   async autoComplete(str) {
-    const searchBarInput = document.getElementById("search-bar");
-    if (searchBarInput.classList.contains("search-bar-no-data")) {
-      searchBarInput.classList.remove("search-bar-no-data");
-    }
+    this.removeNoData();
     if (str.length > 1) {
       try {
         const res = await getSearchData(str.trim());
@@ -87,6 +79,12 @@ export class SearchBar {
       }
     }
   }
+
+  removeNoData = () => {
+    if (this.searchBar.classList.contains("search-bar-no-data")) {
+      this.searchBar.classList.remove("search-bar-no-data");
+    }
+  };
 
   autocompleteElement(location) {
     return `

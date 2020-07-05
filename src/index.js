@@ -17,14 +17,11 @@ if (process.env.NODE_ENV !== "production") {
 
 const mapConfig = parseUriHash(defaultMapConfig);
 
-new InfoWindow();
-new TitleDetails();
-new LoadingIndicator();
-
 i18nInit().then(() => {
-  Window.lmap = new LeafletMap(mapConfig);
+  new LeafletMap(mapConfig);
   new InfoWindow();
   new TitleDetails();
+  new LoadingIndicator();
   new SearchBar();
 
   getData();
