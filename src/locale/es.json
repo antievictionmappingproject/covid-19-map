@@ -1,0 +1,62 @@
+{
+  "page-title": "Protección de Emergencia para Inquilinos y movilización contra los desalojos durante la pandemia COVID-19",
+  "titlebox": {
+    "title": "Protección de Emergencia para Inquilinos y movilización contra los desalojos durante la pandemia COVID-19",
+    "about-map": "Sobre el mapa:",
+    "about-protections": "Legislación de protección",
+    "about-description": "En el contexto de la pandemia, estamos mapeando en qué ciudades, condados, estados los gobiernos han aprobado (o donde los inquilinos trabajan para lograr aprobar) legislación de emergencia que suspenda desalojos o asegure la permanencia de los inquilinos en sus hogares.",
+    "legislation-form-usa": "Envie información sobre legislación de protección para los lugares en los Estados Unidos.",
+    "legislation-form-intl": "Envie información sobre legislación de protección fuera de los Estados Unidos.",
+    "housing-action-title": "Movilización para la defensa de la vivienda",
+    "housing-action-description": "Donde <strong class='color-rent-strike'>acciones para la justicia</strong> están ocurriendo o han ocurrido.",
+    "housing-action-form": "Complete para presentar la información sobre: Organización, resistencia y ayuda mutua en forma de huelgas de alquiler, recuperación de viviendas, ocupaciones y más. También llene si busca las redes de solidaridad y recursos para ayudar a cancelar el alquiler.",
+    "resources": {
+      "title": "Recursos de apoyo",
+      "description": "Aquí hay algunos recursos para obtener ayuda si usted está en necesidad.",
+      "right-to-the-city": "Recursos y demandas de Right To The City Alliance y Homes For All.",
+      "european-action-coalition": "Recursos y demandas de la Coalición de Acción Europea por el Derecho a la Vivienda.",
+      "hashtag-cancel-rent": "Recursos de Rent Strike para #CancelRent."
+    }
+  },
+  "infowindow": {
+    "policy": {
+      "title": "Legislación de protección",
+      "jurisdictionType": {
+        "city": "Ciudad",
+        "county": "Condado",
+        "state-province": "Estado/Provincia",
+        "nation": "Nación"
+      },
+      "strength-label": "Fuerza de la política publica:",
+      "protections-end-label": "Fecha de finalización de la protección:",
+      "legislative-end-label": "Fecha límite de protección de la legislación:",
+      "rent-relief-end-label": "Fecha de finalización de la protección del alquiler:",
+      "court-closure-end-label": "Fecha de cierre del tribunal:",
+      "start-date-label": "Efectivo",
+      "end-date-label": "Finaliza:",
+      "summary-label": "Resumen de la política",
+      "link": "Ver más información"
+    },
+    "action": {
+      "title": "Movilización por el derecho a la vivienda",
+      "loc-label": "Localización:",
+      "status-label": "Status:",
+      "why-label": "¿Por qué?",
+      "start-date-label": "Inicio:",
+      "resources-label": "Recursos:"
+    }
+  },
+  "layer-select": {
+    "cities": "Protecciones municipales",
+    "counties": "Protecciones del condado",
+    "states": "Protecciones del estado",
+    "nations": "Protecciones nacionales",
+    "housingJusticeAction": "Movilización por el derecho a la vivienda"
+  },
+  "policy-strength": {
+    "1": "Pocas protecciones en vigor",
+    "2": "Algunas protecciones en vigor",
+    "3": "Muchas protecciones en vigor",
+    "expired": "Las rayas indican protecciones caducadas"
+  }
+}
