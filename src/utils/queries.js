@@ -65,7 +65,7 @@ export const housingActionsCartoQuery = `
       WHEN strike_status IN ('Unsure / No estoy segurx / 不确定 / Pas sûr.e.s.', 'No') THEN 'No'
       ELSE 'Unsure'
     END AS status,
-    TO_CHAR(start :: DATE, 'Month d, yyyy') as start,
+    TO_CHAR(date :: DATE, 'Month d, yyyy') as start,
     the_geom, location, why, resources
   FROM ${cartoHousingActionsTable}
   WHERE the_geom IS NOT NULL;
