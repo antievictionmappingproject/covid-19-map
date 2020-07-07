@@ -57,7 +57,7 @@ export class LeafletMap {
       .addTo(this.map);
 
     this.basemapLayer = L.tileLayer(
-      "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      "https://stamen-tiles.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.png",
       {
         minZoom: 1,
         maxZoom: 18,
