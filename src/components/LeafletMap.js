@@ -8,6 +8,7 @@ import {
   isMobile,
   TOTAL_NUMBER_OF_MAP_LAYERS,
 } from "utils/constants";
+import { getAutocompleteMapLocation } from "utils/data";
 
 export class LeafletMap {
   // dataLayers: look up table to store layer groups in the form of
@@ -37,7 +38,6 @@ export class LeafletMap {
       ],
     });
     this.map.setView([lat, lng], z);
-
     this.attributionControl = L.control
       .attribution({ prefix: "Data sources by: " })
       .addAttribution(
@@ -74,7 +74,6 @@ export class LeafletMap {
         dispatch.call("title-details-close");
         self.map.invalidateSize();
       }
-
       self.map.setView(e.popup._latlng, self.map.getZoom(), { animate: true });
     });
 
@@ -107,6 +106,10 @@ export class LeafletMap {
     dispatch.on("close-infowindow.map", this.handleInfoWindowClose);
     dispatch.on("fetch-map-data-resolve.map", this.handleAddLayer);
     dispatch.on("fetch-map-data-reject.map", this.handleLayerError);
+    dispatch.on(
+      "choose-autocomplete-element.map",
+      this.findAutocompleteLocation
+    );
   }
 
   handleWindowResize = () => {
@@ -248,6 +251,26 @@ export class LeafletMap {
       dispatch.call("show-loading-indicator");
     } else {
       dispatch.call("hide-loading-indicator");
+    }
+  };
+
+  findAutocompleteLocation = async (value) => {
+    try {
+      let location = await getAutocompleteMapLocation(value.trim());
+      let resource = location.resourceSets[0].resources[0];
+      let center = resource.point.coordinates;
+      const markerIcon = L.icon({ iconUrl: L.Icon.Default });
+      this.map.setView(center, 5);
+      const marker = new L.marker(center, { icon: markerIcon });
+      marker.addTo(this.map);
+      let markerContent = `
+          <div class="popup-container locality-popup-container">
+              <p class="popup-title"><strong>${resource.name}</strong></p>
+          </div>
+      `;
+      marker.bindPopup(markerContent).openPopup();
+    } catch (e) {
+      dispatch.call("search-bar-no-data", this, e);
     }
   };
 }

@@ -15,6 +15,10 @@ const events = [
   "title-details-open",
   "show-loading-indicator",
   "hide-loading-indicator",
+  "choose-autocomplete-element",
+  "remove-autocompete-dropdown",
+  "search-fetch-data-reject",
+  "search-bar-no-data",
 ];
 
 /**
