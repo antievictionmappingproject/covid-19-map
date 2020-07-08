@@ -1,7 +1,7 @@
 {
-  "page-title": "COVID-19 Housing Protection Legislation and Housing Justice Action Map",
+  "page-title": "COVID-19 Gloabl Housing Protection Legislation and Housing Justice Action Map",
   "titlebox": {
-    "title": "COVID-19 Housing Protection Legislation & Housing Justice Action",
+    "title": "COVID-19 Global Housing Protection Legislation & Housing Justice Action",
     "about-map": "About the map:",
     "about-protections": "Housing Protection Legislation",
     "about-description": "Where officials have passed (or tenants are working to pass) housing protection legislation during the COVID-19 crisis.",
@@ -10,6 +10,7 @@
     "housing-action-title": "Housing Justice Action",
     "housing-action-description": "Where <strong class='color-rent-strike'>housing justice actions</strong> are occurring or have occured.",
     "housing-action-form": "Fill out to submit information about: Organizing, resistance, and mutual aid in the form of rent strikes, housing reclamation, solidarity work, squats, and more. Also fill out if you are looking for solidarity and resources to help cancel rent.",
+    "submit": "Submit >>",
     "resources": {
       "title": "Resources",
       "description": "Here are some resources to get help if you are in need.",

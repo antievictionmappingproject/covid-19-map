@@ -5,8 +5,7 @@ header {
   left: 12px;
   padding: 12px;
   background: #fff;
-  border: 2px solid rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
+  border: 1px solid $rent-strike-color;
   background-clip: padding-box;
   z-index: 500;
 }
@@ -23,6 +22,10 @@ header {
 
 header > h1 {
   margin: 0 0 1.2rem 0;
+  font-family: "VT323", monospace;
+  text-transform: uppercase;
+  font-size: 2.4rem;
+  color: $rent-strike-color;
 }
 
 @media (max-width: 640px) {
@@ -32,9 +35,11 @@ header > h1 {
 }
 
 details > summary {
-  font-size: 1.6rem;
+  font-size: 2rem;
   font-weight: bold;
   cursor: pointer;
+  font-family: "IBM Plex Mono", monospace;
+  color: $rent-strike-color;
 }
 
 details p {
@@ -54,10 +59,39 @@ details p:last-of-type {
 .title-content-wrapper {
   max-height: 50vh;
   overflow-y: auto;
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  p > a {
+    color: $policy-color-bg-3;
+    text-decoration: underline;
+  }
+
+  p > a:hover {
+    text-decoration: none;
+    color: $rent-strike-color;
+  }
+
+  p > a:visited {
+    color: $link-visited;
+  }
 }
 
 @media (max-width: 640px) {
   .title-content-wrapper {
     max-height: 250px;
+  }
+}
+
+.submit-container {
+  display: flex;
+
+  p:first-child {
+    margin-right: 12px;
+    flex-shrink: 0;
+    font-family: "IBM Plex Mono", monospace;
+    color: $rent-strike-color;
   }
 }

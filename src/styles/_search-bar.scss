@@ -18,10 +18,11 @@
   font-size: 1.2em;
   display: block;
   float: left;
-  border: 2px solid rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
+  border: 1px solid $rent-strike-color;
   padding: 8px 6px;
   background-clip: padding-box;
+  font-family: "IBM Plex Mono", monospace;
+  color: $link-visited;
 }
 
 .search-bar-no-data {

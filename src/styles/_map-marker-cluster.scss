@@ -1,17 +1,28 @@
 @import "~leaflet.markercluster/dist/MarkerCluster.css";
 @import "~leaflet.markercluster/dist/MarkerCluster.Default.css";
 
+// .marker-cluster,
+// .marker-cluster > div {
+//   background-color: $rent-strike-color;
+//   color: white;
+// }
+
+// .marker-cluster {
+//   border: 1px solid white;
+// }
+
 .marker-cluster,
 .marker-cluster > div {
   background-color: $rent-strike-color;
-  color: white;
+  color: #fff;
 }
 
 .marker-cluster {
-  border: 1px solid white;
+  border: 1px solid #fff;
 }
 
 .marker-cluster > div {
   margin-left: 4px;
   margin-top: 4px;
+  font-weight: bold;
 }
