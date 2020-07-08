@@ -5,7 +5,8 @@ import i18next from "i18next";
 export class SearchBar {
   searchBar = document.getElementById("search-bar");
   autoCompleteElement = document.getElementById("search-bar-autocomplete");
-  valueText = i18next.t("searchbar.default-value");
+  icon = this.searchBar.value;
+  defaultValue = this.icon + i18next.t("searchbar.default-value");
 
   constructor() {
     this.searchBar.addEventListener("input", () =>
@@ -50,7 +51,7 @@ export class SearchBar {
       });
 
     // Translate the value of the searchbar
-    this.searchBar.value = this.valueText || "";
+    this.searchBar.value = this.defaultValue;
   }
 
   noDataFound() {
@@ -60,7 +61,7 @@ export class SearchBar {
   removeAutocomplete = () => {
     setTimeout(() => {
       this.autoCompleteElement.innerHTML = "";
-      this.searchBar.value = this.valueText;
+      this.searchBar.value = this.defaultValue;
       this.removeNoData();
     }, 400);
   };
