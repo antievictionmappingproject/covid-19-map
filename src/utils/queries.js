@@ -65,8 +65,17 @@ export const housingActionsCartoQuery = `
       WHEN strike_status IN ('Unsure / No estoy segurx / 不确定 / Pas sûr.e.s.', 'No') THEN 'No'
       ELSE 'Unsure'
     END AS status,
+    CASE
+      WHEN type LIKE 'Rent Strike%' THEN 'Rent Strike / Rent decrease'
+      WHEN type LIKE 'Occupation / Squat%' THEN 'Occupation / Squat'
+      WHEN type LIKE 'Mutual aid / Direct aid%' THEN 'Mutual aid / Direct aid'
+      WHEN type LIKE 'Campaigning / List of demands%' THEN 'Campaigning / List of demands'
+      ELSE 'Other'
+    END AS strike_type,
     TO_CHAR(date :: DATE, 'Month d, yyyy') as start,
     the_geom, location, why, resources
   FROM ${cartoHousingActionsTable}
   WHERE the_geom IS NOT NULL;
 `;
+
+//Rent Strike / Rent decrease (i.e. suspended or decreased rent payment) / Huelga de alquiler / disminución de alquiler (es decir, pago de alquiler suspendido o disminuido) / Grève du loyer / diminution du loyer (c.-à-d. Suspension ou diminution du paiement du loyer) / 租金罢工/租金减少（即暂停或减少的租金支付）
