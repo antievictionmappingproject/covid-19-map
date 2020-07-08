@@ -26,6 +26,7 @@ export const mapLayersConfig = {
         end_date_legist,
         end_date_rent_relief,
         end_date_court,
+        end_date_earliest,
         ...rest
       } = layer.feature.properties;
       return {
@@ -39,6 +40,7 @@ export const mapLayersConfig = {
         endDateLegist: formatDate(end_date_legist),
         endDateRentRelief: formatDate(end_date_rent_relief),
         endDateCourt: formatDate(end_date_court),
+        endDateEarliest: formatDate(end_date_earliest),
         ...rest,
       };
     },
@@ -77,6 +79,7 @@ export const mapLayersConfig = {
         end_date_legist,
         end_date_rent_relief,
         end_date_court,
+        end_date_earliest,
         ...rest
       } = layer.feature.properties;
       return {
@@ -88,6 +91,7 @@ export const mapLayersConfig = {
         endDateLegist: formatDate(end_date_legist),
         endDateRentRelief: formatDate(end_date_rent_relief),
         endDateCourt: formatDate(end_date_court),
+        endDateEarliest: formatDate(end_date_earliest),
         ...rest,
       };
     },
@@ -121,6 +125,7 @@ export const mapLayersConfig = {
         end_date_legist,
         end_date_rent_relief,
         end_date_court,
+        end_date_earliest,
         ...rest
       } = layer.feature.properties;
       return {
@@ -131,6 +136,7 @@ export const mapLayersConfig = {
         endDateLegist: formatDate(end_date_legist),
         endDateRentRelief: formatDate(end_date_rent_relief),
         endDateCourt: formatDate(end_date_court),
+        endDateEarliest: formatDate(end_date_earliest),
         ...rest,
       };
     },
