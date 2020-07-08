@@ -13,10 +13,11 @@ header {
 
 @media (max-width: 640px) {
   header {
-    top: 0;
+    top: 5%;
     left: 0;
     width: 70%;
     margin: 1rem;
+    z-index: 400;
   }
 }
 

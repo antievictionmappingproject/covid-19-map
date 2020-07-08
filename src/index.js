@@ -8,6 +8,7 @@ import { parseUriHash } from "utils/parse-hash";
 import { defaultMapConfig } from "utils/constants";
 import { dispatch } from "./utils/dispatch";
 import { i18nInit } from "./utils/i18n";
+import { SearchBar } from "./components/SearchBar";
 
 if (process.env.NODE_ENV !== "production") {
   dispatch.on("fetch-map-data-resolve.debug", console.log);
@@ -21,6 +22,7 @@ i18nInit().then(() => {
   new InfoWindow();
   new TitleDetails();
   new LoadingIndicator();
+  new SearchBar();
 
   getData();
 });
