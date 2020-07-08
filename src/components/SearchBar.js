@@ -9,6 +9,7 @@ export class SearchBar {
   defaultValue = this.icon + i18next.t("searchbar.default-value");
 
   constructor() {
+    this.searchBar.value = this.defaultValue;
     this.searchBar.addEventListener("input", () =>
       this.autoComplete(this.searchBar.value)
     );
@@ -49,9 +50,6 @@ export class SearchBar {
         e.stopPropagation();
         e.preventDefault();
       });
-
-    // Translate the value of the searchbar
-    this.searchBar.value = this.defaultValue;
   }
 
   noDataFound() {
