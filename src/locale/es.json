@@ -18,6 +18,9 @@
       "hashtag-cancel-rent": "Recursos de Rent Strike para #CancelRent."
     }
   },
+  "searchbar": {
+    "default-value": "Digita una localización"
+  },
   "infowindow": {
     "policy": {
       "title": "Legislación de protección",
