@@ -19,7 +19,7 @@
     }
   },
   "searchbar": {
-    "default-value": "Enter nation, state, province, city or zipcode"
+    "default-value": "Search location"
   },
   "infowindow": {
     "policy": {
