@@ -30,7 +30,6 @@
   </head>
   <body>
     <div id="root">
-
       <header id="aemp-titlebox">
         <h1 data-i18n="titlebox.title" id="aemp-title"></h1>
         <details open>
@@ -116,14 +115,15 @@
       <!--The search bar-->
       <form id="search-bar-form">
         <div id="search-bar-div">
-          <input type = "text"
-                 name="search"
-                 id="search-bar"
-                 aria-label="search"
-                 value = "&#128269; &nbsp; &nbsp; Enter nation, state, province, city or zipcode"
-                 list="search-bar-autocomplete"
-                 autocomplete="off"
-          >
+          <input
+            type="text"
+            name="search"
+            id="search-bar"
+            aria-label="search"
+            value="&#128269; &nbsp; &nbsp;"
+            list="search-bar-autocomplete"
+            autocomplete="off"
+          />
           <datalist id="search-bar-autocomplete"></datalist>
         </div>
       </form>
@@ -135,7 +135,6 @@
         <div id="loader"></div>
       </div>
     </div>
-
 
     <!--
       This script element will not be displayed, it just                                                                                                                holds our Leaflet popup template

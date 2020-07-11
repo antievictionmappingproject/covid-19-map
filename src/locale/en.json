@@ -18,6 +18,9 @@
       "hashtag-cancel-rent": "Rent Strike resources for #CancelRent."
     }
   },
+  "searchbar": {
+    "default-value": "Search location"
+  },
   "infowindow": {
     "policy": {
       "title": "Housing Protection Legislation",
