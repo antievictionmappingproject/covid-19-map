@@ -18,6 +18,9 @@
       "hashtag-cancel-rent": ""
     }
   },
+  "searchbar": {
+    "default-value": "Digite a localidade"
+  },
   "infowindow": {
     "policy": {
       "title": "Legislação de Proteção à Moradia",

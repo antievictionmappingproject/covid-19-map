@@ -19,6 +19,9 @@
       "hashtag-cancel-rent": "Rent Strike resources for #CancelRent."
     }
   },
+  "searchbar": {
+    "default-value": "Search location"
+  },
   "infowindow": {
     "policy": {
       "title": "Housing Protection Legislation",
@@ -41,8 +44,9 @@
     "action": {
       "title": "Housing Justice Action",
       "loc-label": "Location:",
-      "status-label": "Status:",
+      "status-label": "Rent striking?",
       "why-label": "Why?",
+      "strike-type-label": "Action Type:",
       "start-date-label": "Start:",
       "resources-label": "Resources:"
     }
