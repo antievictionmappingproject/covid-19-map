@@ -1,11 +1,15 @@
 import { getSearchData } from "utils/data";
 import { dispatch } from "utils/dispatch";
+import i18next from "i18next";
 
 export class SearchBar {
   searchBar = document.getElementById("search-bar");
   autoCompleteElement = document.getElementById("search-bar-autocomplete");
+  icon = this.searchBar.value;
+  defaultValue = this.icon + i18next.t("searchbar.default-value");
 
   constructor() {
+    this.searchBar.value = this.defaultValue;
     this.searchBar.addEventListener("input", () =>
       this.autoComplete(this.searchBar.value)
     );
@@ -55,8 +59,7 @@ export class SearchBar {
   removeAutocomplete = () => {
     setTimeout(() => {
       this.autoCompleteElement.innerHTML = "";
-      this.searchBar.value =
-        "\u{01f50d}  Enter Nation, state, province, city or zipcode";
+      this.searchBar.value = this.defaultValue;
       this.removeNoData();
     }, 400);
   };

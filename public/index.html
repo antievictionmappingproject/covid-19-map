@@ -30,7 +30,6 @@
   </head>
   <body>
     <div id="root">
-
       <header id="aemp-titlebox">
         <h1 data-i18n="titlebox.title" id="aemp-title"></h1>
         <details open>
@@ -116,14 +115,15 @@
       <!--The search bar-->
       <form id="search-bar-form">
         <div id="search-bar-div">
-          <input type = "text"
-                 name="search"
-                 id="search-bar"
-                 aria-label="search"
-                 value = "&#128269; &nbsp; &nbsp; Enter nation, state, province, city or zipcode"
-                 list="search-bar-autocomplete"
-                 autocomplete="off"
-          >
+          <input
+            type="text"
+            name="search"
+            id="search-bar"
+            aria-label="search"
+            value="&#128269; &nbsp; &nbsp;"
+            list="search-bar-autocomplete"
+            autocomplete="off"
+          />
           <datalist id="search-bar-autocomplete"></datalist>
         </div>
       </form>
@@ -135,7 +135,6 @@
         <div id="loader"></div>
       </div>
     </div>
-
 
     <!--
       This script element will not be displayed, it just                                                                                                                holds our Leaflet popup template
@@ -193,19 +192,19 @@
 
         {{#endDateLegist}}
         <div>
-          <p><strong data-i18n="infowindow.policy.strength-label"></strong> {{endDateLegist}}</p>
+          <p><strong data-i18n="infowindow.policy.legislative-end-label"></strong> {{endDateLegist}}</p>
         </div>
         {{/endDateLegist}}
 
         {{#endDateRentRelief}}
         <div>
-          <p><strong data-i18n="infowindow.policy.strength-label"></strong> {{endDateRentRelief}}</p>
+          <p><strong data-i18n="infowindow.policy.rent-relief-end-label"></strong> {{endDateRentRelief}}</p>
         </div>
         {{/endDateRentRelief}}
 
         {{#endDateCourt}}
         <div>
-          <p><strong data-i18n="infowindow.policy.strength-label"></strong> {{endDateCourt}}</p>
+          <p><strong data-i18n="infowindow.policy.court-closure-end-label"></strong> {{endDateCourt}}</p>
         </div>
         {{/endDateCourt}}
 
@@ -260,6 +259,11 @@
           <p><strong data-i18n="infowindow.action.start-date-label"></strong> {{start}}</p>
         </div>
         {{/start}}
+        {{#strike_type}}
+        <div>
+          <p><strong data-i18n="infowindow.action.strike-type-label"></strong> {{strike_type}}</p>
+        </div>
+        {{/strike_type}}
         {{#resources}}
         <div>
           <p><strong data-i18n="infowindow.action.resources-label"></strong> {{resources}}</p>
