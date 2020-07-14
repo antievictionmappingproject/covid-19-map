@@ -11,7 +11,7 @@
     "deploy": "npm run build && gh-pages -d dist",
     "lint:js": "eslint 'src/**/*.js' --ext .js",
     "lint:js:fix": "npm run lint:js -- --fix",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "engines": {
     "node": ">=10.13.0",
@@ -37,6 +37,11 @@
     ],
     "src/**/*.{js,vue,json,css,scss,md}": [
       "prettier --write"
+    ]
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "jest-expect-message"
     ]
   },
   "husky": {
@@ -100,6 +105,8 @@
     "details-polyfill": "^1.1.0",
     "i18next": "^19.4.5",
     "i18next-browser-languagedetector": "^4.2.0",
+    "jest": "^26.1.0",
+    "jest-expect-message": "^1.0.2",
     "leaflet": "^1.6.0",
     "leaflet.markercluster": "^1.4.1",
     "mustache": "^4.0.1",
