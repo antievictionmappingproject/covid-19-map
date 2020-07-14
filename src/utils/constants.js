@@ -1,7 +1,7 @@
 import { mapLayersConfig } from "../map-layers";
 
 // List of all languages we have translations for.
-export const languages = ["en", "pt-BR"];
+export const languages = ["en", "es", "pt-BR"];
 
 // color values come from this ColorBrewer url:
 // https://colorbrewer2.org/#type=sequential&scheme=YlGn&n=7
