@@ -12,7 +12,8 @@ div.legendgrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: auto;
-  grid-row-gap: 16px;
+  grid-row-gap: 14px;
+  align-items: grid;
 }
 
 div.legendlabels > p,
@@ -38,7 +39,7 @@ div.legendgrid > p {
 .legendbox-svg {
   @extend %legendbox;
 
-  margin-top: -2px;
+  margin-top: 2px;
   margin-left: -1px;
   border: none;
 
