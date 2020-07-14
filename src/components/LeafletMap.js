@@ -55,9 +55,12 @@ export class LeafletMap {
     this.layersControl = L.control
       .layers(null, null, { position: "topright", collapsed: false })
       .addTo(this.map);
-
+    /* ----- Testing layers  
+      https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png
+      https://a.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}@2x.png
+    ----- */
     this.basemapLayer = L.tileLayer(
-      "https://a.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}@2x.png",
+      "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png",
       {
         minZoom: 1,
         maxZoom: 18,

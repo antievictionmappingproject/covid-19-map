@@ -1,7 +1,17 @@
+<!-- <div>Font made from <a href="http://www.onlinewebfonts.com">oNline Web Fonts</a>is licensed by CC BY 3.0</div> -->
+<!-- <a href="http://www.onlinewebfonts.com">oNline Web Fonts</a> -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <title data-i18n="page-title"> </title>
+    <style type="text/css">
+      @font-face {
+        font-family: "Harbour W00 Medium";
+        src: url("./assets/fonts/Harbour_W00_Medium/Harbour_W00_Medium.woff")
+          format("woff");
+      }
+    </style>
     <meta name="viewport" content="initial-scale=1.0" />
     <meta charset="utf-8" />
     <meta name="author" content="Anti-Eviction Mapping Project" />
@@ -158,11 +168,7 @@
             name="search"
             id="search-bar"
             aria-label="search"
-<<<<<<< HEAD
-            value="&#128269; Enter nation, state, province, city or zipcode"
-=======
             value="&#128269; &nbsp; &nbsp;"
->>>>>>> master
             list="search-bar-autocomplete"
             autocomplete="off"
           />
@@ -271,7 +277,7 @@
 
         {{#link}}
         <div>
-          <p><a target="_blank" href="{{link}}" rel="noopener noreferrer" data-i18n="infowindow.policy.link">View more info.</a></p>
+          <p class="infowindow-link"><a target="_blank" href="{{link}}" rel="noopener noreferrer" data-i18n="infowindow.policy.link">View more info.</a></p>
         </div>
         {{/link}}
       </div>

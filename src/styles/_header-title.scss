@@ -22,9 +22,12 @@ header {
 
 header > h1 {
   margin: 0 0 1.2rem 0;
-  font-family: "VT323", monospace;
+  // font-family: "VT323", monospace;
+  font-family: "Harbour W00 Medium";
+  font-weight: bold;
+  // font-family: "Harbour W00 Medium";
   text-transform: uppercase;
-  font-size: 2.4rem;
+  font-size: 2.2rem;
   color: $rent-strike-color;
 }
 

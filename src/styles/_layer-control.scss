@@ -1,6 +1,41 @@
 .leaflet-control-layers {
-  border: 1px solid #c92a1d;
+  border: 1px solid #c92a1d !important;
   border-radius: 0;
   font-family: "IBM Plex Mono", monospace;
   box-shadow: none;
+}
+
+input[type="checkbox"] {
+  visibility: hidden;
+}
+
+label {
+  cursor: pointer;
+}
+
+input[type="checkbox"] + label::before {
+  border: 1px solid #333;
+  content: "\00a0";
+  display: inline-block;
+  font: 16px/1em sans-serif;
+  height: 16px;
+  margin: 0 0.25em 0 0;
+  padding: 0;
+  vertical-align: top;
+  width: 16px;
+}
+
+input[type="checkbox"]:checked + label::before {
+  background: rgb(216, 13, 13);
+  color: #333;
+  content: "\2713";
+  text-align: center;
+}
+
+input[type="checkbox"]:checked + label::after {
+  font-weight: bold;
+}
+
+input[type="checkbox"]:focus + label::before {
+  outline: rgb(59, 153, 252) auto 5px;
 }
