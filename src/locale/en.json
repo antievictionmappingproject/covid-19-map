@@ -62,6 +62,6 @@
     "1": "Few protections in place",
     "2": "Some protections in place",
     "3": "Many protections in place",
-    "expired": "Stripes indicate expired protections"
+    "expired": "Expired protections"
   }
 }
