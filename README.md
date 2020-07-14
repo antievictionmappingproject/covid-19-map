@@ -119,6 +119,8 @@ de: {
 },
 ```
 
-6. To test that you new language works, run the development environment, and add `?lang=<your-lang>` to the url. Make sure that all the expected text is displayed as expected.
+6. To validate that you have all the correct keys in your language file, run `npm run test`. If there are any missing or extra keys, you will see an error which informs you which key is the issue, and which language it's being compared against.
+
+7. To check that your new language works, run the development environment, and add `?lang=<your-lang>` to the url. Make sure that all the expected text is displayed as expected.
 
 Thank you for contributing!

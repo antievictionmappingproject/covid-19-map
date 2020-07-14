@@ -14,8 +14,9 @@ const keyify = (obj, prefix = "") =>
   }, []);
 
 describe("Validate translations", () => {
-  const translations = { en, ptBR, es };
+  const translations = { ptBR, es };
   it("has the same keys in every file", () => {
+    const enKeys = keyify(en);
     // Get the list of keys for each localisation file
     const translationKeys = Object.values(translations).map((translation) => {
       return keyify(translation);
@@ -23,19 +24,11 @@ describe("Validate translations", () => {
 
     // For all translations
     translationKeys.forEach((translation, index) => {
-      // If the translation isn't the last one
-      if (index < translationKeys.length - 1) {
-        // Loop through remaining translations
-        translationKeys.slice(index).forEach((otherTranslation, otherIndex) => {
-          // Check that the keys match from the first translation to all remaining
-          expect(
-            translation.sort(),
-            `Comparing ${Object.keys(translations)[index]} with ${
-              Object.keys(translations)[index + otherIndex]
-            }`
-          ).toEqual(otherTranslation.sort());
-        });
-      }
+      // Check against the english file
+      expect(
+        enKeys.sort(),
+        `Comparing en with ${Object.keys(translations)[index]}`
+      ).toEqual(translation.sort());
     });
   });
 });
