@@ -1,5 +1,9 @@
 const en = require("./en.json");
 const ptBR = require("./pt-BR.json");
+const es = require("./es.json");
+
+// Add non-English translations here, to test against the English file
+const translations = { es, ptBR };
 
 const keyify = (obj, prefix = "") =>
   Object.keys(obj).reduce((res, el) => {
@@ -15,7 +19,6 @@ const keyify = (obj, prefix = "") =>
 describe("Validate translations", () => {
   it("has the same keys in every file", () => {
     const enKeys = keyify(en);
-    const translations = { ptBR };
     // Get the list of keys for each localisation file
     const translationKeys = Object.values(translations).map((translation) => {
       return keyify(translation);

@@ -119,7 +119,10 @@ de: {
 },
 ```
 
-6. To validate that you have all the correct keys in your language file, run `npm run test`. If there are any missing or extra keys, you will see an error which informs you which key is the issue.
+6. To validate that you have all the correct keys in your language file:
+
+- Add your locale to the test file, `locale/locale.test.js`, by importing at the top of the file, and adding it to the `translations` object.
+- Run `npm run test`. If there are any missing or extra keys, you will see an error which informs you which key and language is the issue.
 
 7. To check that your new language works, run the development environment, and add `?lang=<your-lang>` to the url. Make sure that all the expected text is displayed as expected.
 
