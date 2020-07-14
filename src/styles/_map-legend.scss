@@ -32,7 +32,7 @@ div.legendgrid > p {
   height: 20px;
   display: inline-block;
   border-style: solid;
-  border-width: 2px;
+  border-width: 1px;
   opacity: 0.7;
 }
 
@@ -41,7 +41,7 @@ div.legendgrid > p {
 
   margin-top: 2px;
   margin-left: -1px;
-  border: none;
+  border: 1px solid $policy-color-str-2;
 
   svg {
     display: inline;
@@ -54,7 +54,7 @@ div.legendgrid > p {
 
 .scale1 {
   background-color: $policy-color-bg-1;
-  border-color: $policy-color-str-1;
+  border-color: $policy-color-str-2;
 }
 
 .scale2 {

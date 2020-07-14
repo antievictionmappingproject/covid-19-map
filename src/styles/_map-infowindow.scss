@@ -8,9 +8,9 @@
 .aemp-infowindow {
   position: absolute;
   right: 0;
-  top: 40px;
+  top: 154px;
   width: 350px;
-  margin: 10px 10px 0 0;
+  margin: 10px 16px 0 0;
   max-height: 95%;
   overflow-y: auto;
   padding: 15px;
@@ -69,6 +69,7 @@ a.aemp-infowindow-close:hover {
 
 .aemp-infowindow .policy-strength-color--1 {
   background-color: $policy-color-bg-1;
+  border: 1px solid $policy-color-str-2;
 }
 
 .aemp-infowindow .policy-strength-color--2 {

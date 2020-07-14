@@ -6,7 +6,7 @@ export const languages = ["en", "es", "pt-BR"];
 // color values come from this ColorBrewer url:
 // https://colorbrewer2.org/#type=sequential&scheme=YlGn&n=7
 export const colorNoData = "#939393";
-export const fillColorScale = [undefined, "#d9d9d9", "#737373", "#000000"];
+export const fillColorScale = [undefined, "#fff", "#bdbdbd", "#5e5e5e"];
 export const strokeColorScale = [undefined, "#FFFFFF", "#FFFFFF", "#FFFFFF"];
 
 // global map layer styling variables
