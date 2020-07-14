@@ -1,5 +1,6 @@
 const en = require("./en.json");
 const ptBR = require("./pt-BR.json");
+const es = require("./es.json");
 
 const keyify = (obj, prefix = "") =>
   Object.keys(obj).reduce((res, el) => {
@@ -13,20 +14,27 @@ const keyify = (obj, prefix = "") =>
   }, []);
 
 describe("Validate translations", () => {
-  const translations = { en, ptBR };
+  const translations = { en, ptBR, es };
   it("has the same keys in every file", () => {
+    // Get the list of keys for each localisation file
     const translationKeys = Object.values(translations).map((translation) => {
       return keyify(translation);
     });
 
+    // For all translations
     translationKeys.forEach((translation, index) => {
+      // If the translation isn't the last one
       if (index < translationKeys.length - 1) {
-        expect(
-          translation,
-          `Comparing ${Object.keys(translations)[index]} with ${
-            Object.keys(translations)[index + 1]
-          }`
-        ).toEqual(translationKeys[index + 1]);
+        // Loop through remaining translations
+        translationKeys.slice(index).forEach((otherTranslation, otherIndex) => {
+          // Check that the keys match from the first translation to all remaining
+          expect(
+            translation.sort(),
+            `Comparing ${Object.keys(translations)[index]} with ${
+              Object.keys(translations)[index + otherIndex]
+            }`
+          ).toEqual(otherTranslation.sort());
+        });
       }
     });
   });
