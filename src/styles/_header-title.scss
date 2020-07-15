@@ -21,10 +21,8 @@ header {
 
 header > h1 {
   margin: 0 0 1.2rem 0;
-  // font-family: "VT323", monospace;
-  font-family: "Harbour W00 Medium";
+  font-family: "Harbour W00 Medium", "IBM Plex Mono", monospace;
   font-weight: bold;
-  // font-family: "Harbour W00 Medium";
   text-transform: uppercase;
   font-size: 2.2rem;
   color: $rent-strike-color;
@@ -32,7 +30,7 @@ header > h1 {
 
 @media (max-width: 640px) {
   header > h1 {
-    font-size: 1.8rem;
+    font-size: 1.7rem;
   }
 }
 
