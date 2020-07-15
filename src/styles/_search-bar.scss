@@ -27,7 +27,7 @@
 }
 
 .search-bar-no-data {
-  border: #f00 4px solid !important;
+  border: $rent-strike-color 4px solid !important;
 }
 
 #search-bar-autocomplete {
@@ -43,4 +43,10 @@
   text-align: center;
   padding: 10px;
   transform: translate(0, 40px);
+}
+
+#search-bar:focus {
+  color: black;
+  outline: none;
+  border: 2px solid $rent-strike-color;
 }
