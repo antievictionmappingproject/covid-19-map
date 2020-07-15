@@ -1,5 +1,7 @@
 @font-face {
   font-family: "Harbour W00 Medium";
   src: url("../../public/assets/fonts/Harbour_W00_Medium/Harbour_W00_Medium.woff")
-    format("woff");
+      format("woff"),
+    url("../../public/assets/fonts/Harbour_W00_Medium/Harbour_W00_Medium.woff2")
+      format("woff2");
 }
