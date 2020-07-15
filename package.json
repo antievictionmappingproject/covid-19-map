@@ -90,6 +90,7 @@
     "stylelint-scss": "^3.17.2",
     "stylelint-webpack-plugin": "^2.0.0",
     "terser-webpack-plugin": "^2.3.5",
+    "url-loader": "^4.1.0",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3"

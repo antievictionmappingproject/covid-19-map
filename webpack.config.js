@@ -86,7 +86,7 @@ module.exports = (env, argv) => {
         styles: path.resolve(__dirname, "src/styles"),
         utils: path.resolve(__dirname, "src/utils"),
         public: path.resolve(__dirname, "public"),
-      }
+      },
     },
 
     /******************************************************************************
@@ -167,9 +167,20 @@ module.exports = (env, argv) => {
         },
 
         // rule to handle loading fonts
+        // {
+        //   test: /\.(woff|woff2|eot|ttf|otf)$/,
+        //   use: ["file-loader"],
+        // },
         {
           test: /\.(woff|woff2|eot|ttf|otf)$/,
-          use: ["file-loader"],
+          use: [
+            {
+              loader: "url-loader",
+              options: {
+                limit: 10000,
+              },
+            },
+          ],
         },
       ],
     },
