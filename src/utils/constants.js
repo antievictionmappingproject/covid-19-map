@@ -3,16 +3,15 @@ import { mapLayersConfig } from "../map-layers";
 // List of all languages we have translations for.
 export const languages = ["en", "es", "pt-BR"];
 
-// color values come from this ColorBrewer url:
-// https://colorbrewer2.org/#type=sequential&scheme=YlGn&n=7
+// color values come from this ColorBrewer:
 export const colorNoData = "#939393";
-export const fillColorScale = [undefined, "#fff", "#bdbdbd", "#5e5e5e"];
-export const strokeColorScale = [undefined, "#FFFFFF", "#FFFFFF", "#FFFFFF"];
+export const fillColorScale = [undefined, "#ffffff", "#bdbdbd", "#5e5e5e"];
+export const strokeColorScale = [undefined, "#ffffff", "#ffffff", "#ffffff"];
 
 // global map layer styling variables
 export const strokeWeight = 1.5;
 export const pointRadius = 10;
-export const fillOpacity = 0.7;
+export const fillOpacity = 0.9;
 
 // corresponds to fill & stroke color scales above
 export const policyStrengthLayerClassNames = [

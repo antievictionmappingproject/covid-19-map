@@ -55,6 +55,7 @@ export class LeafletMap {
     this.layersControl = L.control
       .layers(null, null, { position: "topright", collapsed: false })
       .addTo(this.map);
+
     this.basemapLayer = L.tileLayer(
       "https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png",
       {
