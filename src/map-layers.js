@@ -3,7 +3,8 @@ import {
   colorNoData,
   fillColorScale,
   strokeColorScale,
-  strokeWeight,
+  strokeWeightLess,
+  strokeWeightMore,
   pointRadius,
   fillOpacity,
   policyStrengthLayerClassNames,
@@ -50,7 +51,7 @@ export const mapLayersConfig = {
         fillColor: fillColorScale[feature.properties.range] || colorNoData,
         fillOpacity: 0.85,
         radius: pointRadius,
-        weight: strokeWeight,
+        weight: strokeWeightLess,
       };
     },
     pointToLayer(feature, latlng) {
@@ -100,7 +101,7 @@ export const mapLayersConfig = {
         color: strokeColorScale[feature.properties.range] || colorNoData,
         fillColor: fillColorScale[feature.properties.range] || colorNoData,
         fillOpacity: fillOpacity,
-        weight: strokeWeight,
+        weight: strokeWeightLess,
       };
     },
     onEachFeature(feature, layer) {
@@ -145,7 +146,7 @@ export const mapLayersConfig = {
         fillColor: fillColorScale[feature.properties.range] || colorNoData,
         color: strokeColorScale[feature.properties.range] || colorNoData,
         fillOpacity: fillOpacity,
-        weight: strokeWeight,
+        weight: strokeWeightMore,
       };
     },
     onEachFeature(feature, layer) {
@@ -179,7 +180,7 @@ export const mapLayersConfig = {
         color: strokeColorScale[feature.properties.range] || colorNoData,
         fillColor: fillColorScale[feature.properties.range] || colorNoData,
         fillOpacity: fillOpacity,
-        weight: strokeWeight,
+        weight: strokeWeightLess,
       };
     },
     onEachFeature(feature, layer) {
