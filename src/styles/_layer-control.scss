@@ -6,36 +6,44 @@
 }
 
 input[type="checkbox"] {
-  visibility: hidden;
+  display: none;
 }
 
 label {
   cursor: pointer;
 }
 
-input[type="checkbox"] + label::before {
-  border: 1px solid #333;
-  content: "\00a0";
-  display: inline-block;
-  font: 16px/1em sans-serif;
-  height: 16px;
-  margin: 0 0.25em 0 0;
-  padding: 0;
-  vertical-align: top;
-  width: 16px;
+/* ----- text color ----- */
+input[type="checkbox"] + span {
+  color: black;
 }
 
-input[type="checkbox"]:checked + label::before {
-  background: rgb(216, 13, 13);
-  color: #333;
+/* ----- unchecked ----- */
+input[type="checkbox"] + span::before {
+  border: 1px solid black;
+  content: "\00a0";
+  display: inline-block;
+  font: 14px/1em sans-serif;
+  height: 12px;
+  margin-top: 0.25em;
+  padding: 0;
+  vertical-align: top;
+  width: 12px;
+}
+
+/* ----- checked ----- */
+input[type="checkbox"]:checked + span::before {
+  border: 1px solid $rent-strike-color;
+  background: $rent-strike-color;
+  color: white;
   content: "\2713";
   text-align: center;
 }
 
-input[type="checkbox"]:checked + label::after {
+input[type="checkbox"]:checked + span::after {
   font-weight: bold;
 }
 
-input[type="checkbox"]:focus + label::before {
-  outline: rgb(59, 153, 252) auto 5px;
-}
+// input[type="checkbox"]:focus + span::before {
+//   outline: rgb(59, 153, 252) auto 5px;
+// }
