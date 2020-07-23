@@ -3,16 +3,11 @@ div.legend {
   margin-bottom: 24px;
 }
 
-div.legendflex {
-  display: flex;
-  justify-content: space-between;
-}
-
 div.legendgrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   grid-template-rows: auto;
-  grid-row-gap: 14px;
+  grid-gap: 14px;
   align-items: grid;
 }
 
@@ -29,7 +24,7 @@ div.legendgrid > p {
 .legendbox,
 %legendbox {
   width: 100%;
-  height: 20px;
+  height: 40px;
   display: inline-block;
   border-style: solid;
   border-width: 1px;
@@ -49,6 +44,22 @@ div.legendgrid > p {
 
   rect {
     fill: url("#pattern-some-protections");
+  }
+}
+
+.legendbox-icons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  img {
+    width: 40px;
+    height: 40px;
+  }
+
+  circle {
+    fill: $rent-strike-color;
+    stroke: 1px solid white;
   }
 }
 
