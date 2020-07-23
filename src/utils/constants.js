@@ -5,7 +5,7 @@ export const languages = ["en", "es", "pt-BR"];
 
 // color values come from this ColorBrewer:
 export const colorNoData = "#939393";
-export const fillColorScale = [undefined, "#ffffff", "#bdbdbd", "#5e5e5e"];
+export const fillColorScale = [undefined, "#5e5e5e", "#bdbdbd", "#ffffff"];
 export const strokeColorScale = [undefined, "#ffffff", "#ffffff", "#ffffff"];
 
 // global map layer styling variables
