@@ -1,8 +1,14 @@
+/* ----- Layer controller ----- */
 .leaflet-control-layers {
   border: 1px solid #c92a1d !important;
   border-radius: 0;
   font-family: "IBM Plex Mono", monospace;
   box-shadow: none;
+
+  //show on mobile
+  @media (max-width: 640px) {
+    display: block !important;
+  }
 }
 
 input[type="checkbox"] {
@@ -33,17 +39,13 @@ input[type="checkbox"] + span::before {
 
 /* ----- checked ----- */
 input[type="checkbox"]:checked + span::before {
-  border: 1px solid $rent-strike-color;
-  background: $rent-strike-color;
-  color: white;
-  content: "\2713";
+  border: 1px solid black;
+  background: $policy-color-str-3;
+  color: $rent-strike-color;
+  content: "x";
   text-align: center;
 }
 
 input[type="checkbox"]:checked + span::after {
   font-weight: bold;
 }
-
-// input[type="checkbox"]:focus + span::before {
-//   outline: rgb(59, 153, 252) auto 5px;
-// }

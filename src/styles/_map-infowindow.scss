@@ -48,11 +48,12 @@
 }
 
 a.aemp-infowindow-close {
-  display: block;
-  float: right;
-  font-size: 2.4rem;
+  display: inline-block;
+  position: relative;
+  // float: right;
+  font-size: 5.4rem;
   font-style: normal;
-  font-weight: bold;
+  font-weight: 500;
   color: $rent-strike-color;
 }
 

@@ -65,13 +65,13 @@ details p:last-of-type {
   }
 
   p > a {
-    color: $policy-color-bg-3;
-    text-decoration: underline;
+    color: $font-color-black;
   }
 
   p > a:hover {
     text-decoration: none;
     color: $rent-strike-color;
+    text-decoration: underline;
   }
 
   p > a:visited {
