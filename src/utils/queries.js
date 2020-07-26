@@ -79,3 +79,55 @@ export const housingActionsCartoQuery = `
 `;
 
 //Rent Strike / Rent decrease (i.e. suspended or decreased rent payment) / Huelga de alquiler / disminución de alquiler (es decir, pago de alquiler suspendido o disminuido) / Grève du loyer / diminution du loyer (c.-à-d. Suspension ou diminution du paiement du loyer) / 租金罢工/租金减少（即暂停或减少的租金支付）
+
+export const searchResultProtectionsQuery = (adminLevel, locationName) => {
+  switch (adminLevel) {
+    case "locality":
+      return `
+          SELECT
+            municipality, has_expired_protections, range
+            policy_type, policy_summary, link, 
+            end_date_earliest, end_date_legist, end_date_rent_relief, end_date_court
+          FROM ${cartoSheetSyncTable}
+          admin_scale = 'City'
+          AND municipality = ${locationName}
+        `;
+    case "adminDistrict2":
+      return `
+          SELECT
+             c.county, m.range,
+            m.policy_type, m.policy_summary, m.link,
+            m.range, has_expired_protections,
+            end_date_earliest, end_date_legist, end_date_rent_relief, end_date_court
+          FROM ${cartoCountiesTable} c
+          JOIN ${cartoSheetSyncTable} m
+          ON ST_Intersects(c.the_geom, m.the_geom)
+          WHERE c.county = ${locationName}
+            AND m.admin_scale = 'County'
+            OR m.admin_scale = 'City and County'
+        `;
+    case "adminDistrict":
+      return `
+          SELECT
+            s.the_geom, s.name, s.admin, s.sr_adm0_a3,
+            m.range, m.iso, m .policy_type, m.policy_summary,
+            m.link, has_expired_protections,
+            end_date_earliest, end_date_legist, end_date_rent_relief, end_date_court
+          FROM ${cartoStatesTable} s
+          INNER JOIN ${cartoSheetSyncTable} m
+            ON s.name = m.state
+            AND s.sr_adm0_a3 = m.iso
+            AND m.admin_scale = 'State'
+          ORDER BY m.range        
+        `;
+    case "country":
+      return `
+          SELECT
+            m.policy_type, m.policy_summary, m.link, has_expired_protections,
+            end_date_earliest
+          FROM ${cartoSheetSyncTable}
+            WHERE country = ${locationName}
+            AND m.admin_scale = 'Country'
+        `;
+  }
+};

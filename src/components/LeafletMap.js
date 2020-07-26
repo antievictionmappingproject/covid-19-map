@@ -9,6 +9,8 @@ import {
   TOTAL_NUMBER_OF_MAP_LAYERS,
 } from "utils/constants";
 import { getAutocompleteMapLocation } from "utils/data";
+import { getCartoData } from "../utils/data";
+import * as queries from "../utils/queries";
 
 export class LeafletMap {
   // dataLayers: look up table to store layer groups in the form of
@@ -269,8 +271,49 @@ export class LeafletMap {
           </div>
       `;
       marker.bindPopup(markerContent).openPopup();
+      this.showSearchResultProtections(resource);
     } catch (e) {
       dispatch.call("search-bar-no-data", this, e);
+    }
+  };
+
+  showSearchResultProtections = async (resource) => {
+    let protections = await this.getSearchResultProtections(resource);
+    console.log("protections:");
+    protections.forEach((key, val) => console.log(`${key}:${val}`));
+    //TODO: make the infowindow pop up
+  };
+
+  getSearchResultProtections = async (resource) =>
+    ["locality", "adminDistrict2", "adminDistrict", "country"].reduce(
+      async (prevPromise, adminLevel) => {
+        let mapObj = await prevPromise;
+        const protection = await this.queryForProtectionByLocation(
+          adminLevel,
+          resource.address[adminLevel]
+        );
+        let plainLanguageAdminLevel = {
+          locality: "city",
+          adminDistrict2: "county",
+          adminDistrict: "state",
+          country: "country",
+        }[adminLevel];
+        mapObj.set(plainLanguageAdminLevel, protection);
+        return mapObj;
+      },
+      Promise.resolve(new Map())
+    );
+
+  queryForProtectionByLocation = async (adminLevel, locationName) => {
+    try {
+      return await getCartoData(
+        queries.searchResultProtectionsQuery(adminLevel, locationName)
+      );
+    } catch (e) {
+      console.log(
+        `no protections data from ${adminLevel} named ${locationName}`
+      );
+      return "";
     }
   };
 }
