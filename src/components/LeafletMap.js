@@ -11,6 +11,7 @@ import {
 import { getAutocompleteMapLocation } from "utils/data";
 import { getCartoData } from "../utils/data";
 import * as queries from "../utils/queries";
+import { usStateAbbrevToName } from "../utils/constants";
 
 export class LeafletMap {
   // dataLayers: look up table to store layer groups in the form of
@@ -280,31 +281,50 @@ export class LeafletMap {
   showSearchResultProtections = async (resource) => {
     let protections = await this.getSearchResultProtections(resource);
     console.log("protections:");
-    protections.forEach((key, val) => console.log(`${key}:${val}`));
+    protections.forEach((key, val) => {
+      console.log(`${key}:${val}`);
+    });
     //TODO: make the infowindow pop up
   };
 
-  getSearchResultProtections = async (resource) =>
-    ["locality", "adminDistrict2", "adminDistrict", "country"].reduce(
-      async (prevPromise, adminLevel) => {
-        let mapObj = await prevPromise;
-        const protection = await this.queryForProtectionByLocation(
-          adminLevel,
-          resource.address[adminLevel]
-        );
-        let plainLanguageAdminLevel = {
-          locality: "city",
-          adminDistrict2: "county",
-          adminDistrict: "state",
-          country: "country",
-        }[adminLevel];
-        mapObj.set(plainLanguageAdminLevel, protection);
-        return mapObj;
-      },
-      Promise.resolve(new Map())
-    );
-
+  getSearchResultProtections = async (resource) => {
+    //this is necessary because Bing sometimes returns full state names and other times as two-letter abbreviations
+    if (resource.address.countryRegion === "United States") {
+      let stateName = resource.address.adminDistrict;
+      if (
+        stateName.length === 2 &&
+        usStateAbbrevToName[stateName.toLowerCase()]
+      ) {
+        Object.assign(resource.address, {
+          adminDistrict: usStateAbbrevToName[stateName.toLowerCase()],
+        });
+      }
+    }
+    return [
+      "locality",
+      "adminDistrict2",
+      "adminDistrict",
+      "countryRegion",
+    ].reduce(async (prevPromise, adminLevel) => {
+      let mapObj = await prevPromise;
+      const protection = await this.queryForProtectionByLocation(
+        adminLevel,
+        resource.address[adminLevel]
+      );
+      let plainLanguageAdminLevel = {
+        locality: "city",
+        adminDistrict2: "county",
+        adminDistrict: "state",
+        countryRegion: "country",
+      }[adminLevel];
+      if (protection) {
+        mapObj.set(protection, plainLanguageAdminLevel);
+      }
+      return mapObj;
+    }, Promise.resolve(new Map()));
+  };
   queryForProtectionByLocation = async (adminLevel, locationName) => {
+    //FIXME: state name is by two letter code
     try {
       return await getCartoData(
         queries.searchResultProtectionsQuery(adminLevel, locationName)
@@ -313,7 +333,7 @@ export class LeafletMap {
       console.log(
         `no protections data from ${adminLevel} named ${locationName}`
       );
-      return "";
+      return null;
     }
   };
 }
