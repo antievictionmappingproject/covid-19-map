@@ -13,7 +13,7 @@
   margin: 10px 16px 0 0;
   max-height: 95%;
   overflow-y: auto;
-  padding: 15px;
+  padding: 0 15px 15px 15px;
   background: white;
   // box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
   font-family: "Noto Sans", sans-serif;
@@ -49,8 +49,9 @@
 
 a.aemp-infowindow-close {
   display: inline-block;
-  position: relative;
-  // float: right;
+  position: absolute;
+  right: 10px;
+  top: -5px;
   font-size: 5.4rem;
   font-style: normal;
   font-weight: 500;

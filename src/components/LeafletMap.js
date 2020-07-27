@@ -52,8 +52,6 @@ export class LeafletMap {
       .zoom({ position: "bottomright" })
       .addTo(this.map);
 
-    //testing
-
     this.layersControl = L.control
       .layers(null, null, {
         position: "topright",
