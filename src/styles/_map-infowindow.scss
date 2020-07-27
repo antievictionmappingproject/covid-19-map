@@ -54,7 +54,7 @@ a.aemp-infowindow-close {
   display: inline-block;
   position: absolute;
   right: 10px;
-  top: -5px;
+  top: -20px;
   font-size: 5.4rem;
   font-style: normal;
   font-weight: 500;
@@ -92,7 +92,6 @@ a.aemp-infowindow-close:hover {
 }
 
 .infowindow-link:hover > a {
-  color: $rent-strike-color;
   color: $rent-strike-color;
   text-decoration: underline;
 }
