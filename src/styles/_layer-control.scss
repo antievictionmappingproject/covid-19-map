@@ -26,6 +26,7 @@ label {
 /* ----- text color ----- */
 input[type="checkbox"] + span {
   color: black;
+  line-height: 25px;
 }
 
 /* ----- unchecked ----- */
@@ -33,12 +34,12 @@ input[type="checkbox"] + span::before {
   border: 1px solid black;
   content: "\00a0";
   display: inline-block;
-  font: 14px/1em sans-serif;
-  height: 12px;
+  font: 16px/1em sans-serif;
+  height: 15px;
+  width: 15px;
   margin-top: 0.25em;
   padding: 0;
   vertical-align: top;
-  width: 12px;
 }
 
 /* ----- checked ----- */
