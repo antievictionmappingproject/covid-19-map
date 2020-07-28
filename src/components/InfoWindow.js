@@ -12,6 +12,10 @@ export class InfoWindow {
     "aemp-rentstrike-infowindow-template"
   ).innerHTML;
 
+  searchResultInfowindowTemplate = document.getElementById(
+    "search-result-infowindow-template"
+  ).innerHTML;
+
   constructor() {
     this.bindListeners();
   }
@@ -42,6 +46,19 @@ export class InfoWindow {
           data
         );
         break;
+      case "searchResult":
+        this.infowindowContainer.innerHTML =
+          `
+        <div>
+          <p class="infowindow-title">
+            <strong data-i18n="infowindow.policy.title"></strong>
+          </p>
+        </div>
+
+          ` +
+          data.map(Mustache.render(this.searchResultInfowindowTemplate, data));
+        break;
+
       default:
         break;
     }

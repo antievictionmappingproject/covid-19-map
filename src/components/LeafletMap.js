@@ -284,7 +284,10 @@ export class LeafletMap {
     protections.forEach((key, val) => {
       console.log(`${key}:${val}`);
     });
-    //TODO: make the infowindow pop up
+    dispatch.call("render-infowindow", null, {
+      template: "searchResult",
+      data: protections,
+    });
   };
 
   getSearchResultProtections = async (resource) => {
@@ -324,7 +327,6 @@ export class LeafletMap {
     }, Promise.resolve(new Map()));
   };
   queryForProtectionByLocation = async (adminLevel, locationName) => {
-    //FIXME: state name is by two letter code
     try {
       return await getCartoData(
         queries.searchResultProtectionsQuery(adminLevel, locationName)
