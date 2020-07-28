@@ -13,6 +13,7 @@ export class LoadingIndicator {
   }
 
   show = () => {
+    // the default for the corresponding DOM element is false
     this.modalContainer.hidden = false;
   };
 
