@@ -14,7 +14,7 @@ div.legendgrid {
 
 div.submissions {
   margin-top: 32px;
-  grid-row-gap: 10px;
+  grid-row-gap: 16px;
   align-items: start;
 
   h3 {
@@ -33,6 +33,7 @@ div.submissions {
     color: $rent-strike-color;
     font-size: 1.6rem;
     font-style: normal;
+    text-transform: uppercase;
 
     &:hover {
       text-decoration: underline;
