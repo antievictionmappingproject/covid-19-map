@@ -66,7 +66,6 @@ export const mapLayersConfig = {
       }
     },
   },
-
   counties: {
     name: "County Protections",
     nameI18n: "layer-select.counties",
@@ -112,7 +111,6 @@ export const mapLayersConfig = {
       }
     },
   },
-
   states: {
     name: "State/Province Protections",
     nameI18n: "layer-select.states",
@@ -157,7 +155,6 @@ export const mapLayersConfig = {
       }
     },
   },
-
   nations: {
     name: "National Protections",
     nameI18n: "layer-select.nations",
@@ -191,7 +188,6 @@ export const mapLayersConfig = {
       }
     },
   },
-
   rentStrikes: {
     name: "Housing Justice Actions",
     nameI18n: "layer-select.housingJusticeAction",
