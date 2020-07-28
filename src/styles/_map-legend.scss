@@ -9,21 +9,39 @@ div.legendgrid {
   grid-template-rows: auto;
   align-items: center;
   justify-items: left;
+  margin-top: 16px;
 }
 
 div.submissions {
-  margin-top: 16px;
-  grid-row-gap: 16px;
+  margin-top: 32px;
+  grid-row-gap: 10px;
+  align-items: start;
+
+  h3 {
+    color: $rent-strike-color;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  p {
+    max-width: 95px;
+    margin: 0;
+  }
+
+  .aemp-logo {
+    font-family: "Harbour W00 Medium", "IBM Plex Mono", monospace;
+    color: $rent-strike-color;
+    font-size: 1.6rem;
+    font-style: normal;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
-div.legendlabels > p,
-div.legendgrid > p {
-  margin: 0;
-}
-
-.expired-label {
-  grid-column: 2 / -1;
-  padding-left: 8px;
+.legendlabel {
+  text-transform: uppercase;
 }
 
 .legendbox,
@@ -34,13 +52,6 @@ div.legendgrid > p {
   border-style: solid;
   border-width: 1px;
   opacity: 0.7;
-}
-
-.expired {
-  background-image: url("../../public/assets/stripes-icon.png");
-  background-size: cover;
-  height: 102px;
-  border: none;
 }
 
 .legendbox-icons {
@@ -79,10 +90,17 @@ div.legendgrid > p {
 
 .scale3 {
   background-color: $policy-color-bg-3;
-  border-color: $policy-color-str-3;
+  border: 1px solid $policy-color-str-2;
 }
 
 .missingdata {
   background-color: black;
   opacity: 1;
+}
+
+.expired {
+  background-image: url("../../public/assets/stripes-icon.png");
+  background-size: cover;
+  height: 102px;
+  border: none;
 }
