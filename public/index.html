@@ -70,43 +70,40 @@
             <h2 data-i18n="titlebox.about-protections"></h2>
             <p data-i18n="titlebox.about-description"></p>
 
-            <!-- Map legend -->
-            <p class="mapkey-title">
-              <span style="highlight-color">V</span> <span>MAP KEY</span>
-            </p>
-
             <div class="legendgrid">
-              <!-- Most protections -->
-              <div class="legendbox scale1"></div>
-              <p>MANY TENANT PROTECTIONS</p>
-              <!-- Some protections -->
-              <div class="legendbox scale2"></div>
-              <p>SOME TENANT PROTECTIONS</p>
               <!-- Few protections -->
               <div class="legendbox scale3"></div>
               <p>FEW TENANT PROTECTIONS</p>
+              <!-- Some protections -->
+              <div class="legendbox scale2"></div>
+              <p>SOME TENANT PROTECTIONS</p>
+              <!-- Most protections -->
+              <div class="legendbox scale1"></div>
+              <p>MANY TENANT PROTECTIONS</p>
               <!-- Missing Data -->
-              <div class="legendbox scale3"></div>
-              <p>Missing DATA</p>
+              <div class="legendbox missingdata"></div>
+              <p>MISSING DATA</p>
               <!-- Expired -->
-              <div class="legendbox-svg">
-                <svg width="100%" height="40">
-                  <rect x="0" y="-1" width="100%" height="40"></rect>
-                </svg>
-              </div>
+              <div class="legendbox expired"></div>
               <p class="expired-label" data-i18n="policy-strength.expired"></p>
               <!-- Icons -->
               <div class="legendbox-icons">
-                <img src="/assets/mapIcons/rent-strike.svg" />
+                <div class="rent-strike-icon"></div>
                 <svg width="40" height="40">
-                  <circle cx=20 cy=20 r=20>
+                  <circle cx="20" cy="20" r="20"></circle>
+                  <text x="12" y="25" class="cluster-svg-text">19</text>
                 </svg>
               </div>
               <p>HOUSING JUSTICE ACTIONS</p>
             </div>
 
-            <div class="submit-container">
+            <div class="legendgrid submissions">
+              <!-- Submit Header -->
               <p data-i18n="titlebox.submit"></p>
+
+              <!-- Resources Header -->
+              <p data-i18n="titlebox.submit"></p>
+
               <p>
                 <a
                   href="https://docs.google.com/forms/d/e/1FAIpQLSfHzR_SYO-wKfa3Abi9jDvZXCH3dsLgrkDj-9Rwm-3oRjDD9A/viewform"
@@ -115,6 +112,8 @@
                 ></a>
               </p>
             </div>
+
+            <div class="submit-container"></div>
             <div class="submit-container">
               <p data-i18n="titlebox.submit"></p>
               <p>

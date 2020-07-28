@@ -1,5 +1,5 @@
 header {
-  width: 30%;
+  width: 320px;
   position: absolute;
   top: 16px;
   left: 16px;
@@ -46,15 +46,21 @@ header > h1 {
 }
 
 details > summary {
-  font-size: 2rem;
+  font-size: 1.6rem;
   font-weight: bold;
   cursor: pointer;
   font-family: "IBM Plex Mono", monospace;
+  color: black;
+}
+
+details > summary::-webkit-details-marker,
+summary::marker {
   color: $rent-strike-color;
 }
 
 details p {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
+  margin-top: 0.6rem;
 }
 
 @media (max-width: 640px) {
@@ -72,7 +78,9 @@ details p:last-of-type {
   overflow-y: auto;
 
   h2 {
-    font-size: 1.8rem;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
   }
 
   p > a {
