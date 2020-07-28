@@ -3,22 +3,24 @@ header {
   position: absolute;
   top: 16px;
   left: 16px;
-  // left: -255px;
   padding: 12px;
   background: #fff;
   border: 1px solid $rent-strike-color;
   background-clip: padding-box;
   z-index: 500;
 
-  #aemp-titlebox-hamburger {
-    position: absolute;
-    right: 5px;
-    top: 5px;
-    font-size: 2.4rem;
-    font-style: normal;
-    font-weight: 500;
-    color: $rent-strike-color;
-  }
+  /* -----  In Dev ----- */
+  // #aemp-titlebox-hamburger {
+  //   position: absolute;
+  //   right: 5px;
+  //   top: 5px;
+  //   font-size: 2.4rem;
+  //   font-style: normal;
+  //   font-weight: 500;
+  //   color: $rent-strike-color;
+  // }
+
+  /* -------------------- */
 }
 
 @media (max-width: 640px) {
