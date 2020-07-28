@@ -54,9 +54,14 @@ export class InfoWindow {
             <strong data-i18n="infowindow.policy.title"></strong>
           </p>
         </div>
+        <div class="aemp-infowindow">
+          <a class="aemp-infowindow-close" href="#close">×</a>
 
           ` +
-          data.map(Mustache.render(this.searchResultInfowindowTemplate, data));
+          data.map((dataItem) =>
+            Mustache.render(this.searchResultInfowindowTemplate, dataItem)
+          ) +
+          "</div>";
         break;
 
       default:

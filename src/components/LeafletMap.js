@@ -12,6 +12,7 @@ import { getAutocompleteMapLocation } from "utils/data";
 import { getCartoData } from "../utils/data";
 import * as queries from "../utils/queries";
 import { usStateAbbrevToName } from "../utils/constants";
+import { mapLayersConfig } from "../map-layers";
 
 export class LeafletMap {
   // dataLayers: look up table to store layer groups in the form of
@@ -315,16 +316,20 @@ export class LeafletMap {
         resource.address[adminLevel]
       );
       let plainLanguageAdminLevel = {
-        locality: "city",
-        adminDistrict2: "county",
-        adminDistrict: "state",
-        countryRegion: "country",
+        locality: "cities",
+        adminDistrict2: "counties",
+        adminDistrict: "states",
+        countryRegion: "nations",
       }[adminLevel];
-      if (protection) {
-        mapObj.set(protection, plainLanguageAdminLevel);
+      if (protection && protection.features.length) {
+        return mapObj.concat(
+          mapLayersConfig[plainLanguageAdminLevel].props(
+            Object.assign({}, { feature: protection.features[0] })
+          )
+        );
       }
       return mapObj;
-    }, Promise.resolve(new Map()));
+    }, Promise.resolve([]));
   };
   queryForProtectionByLocation = async (adminLevel, locationName) => {
     try {

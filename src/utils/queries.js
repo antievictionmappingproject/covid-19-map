@@ -83,12 +83,12 @@ export const housingActionsCartoQuery = `
 export const searchResultProtectionsQuery = (adminLevel, locationName) => {
   switch (adminLevel) {
     case "locality":
-      return `SELECT municipality, has_expired_protections, range, policy_type, policy_summary, link, end_date_earliest, end_date_legist, end_date_rent_relief, end_date_court, the_geom_webmercator AS the_geom FROM ${cartoSheetSyncTable} admin_scale = 'City' AND municipality = '${locationName}'`;
+      return `SELECT municipality, has_expired_protections, range, policy_type, policy_summary, link, end_date_earliest, end_date_legist, end_date_rent_relief, end_date_court, the_geom_webmercator AS the_geom FROM ${cartoSheetSyncTable} WHERE admin_scale = 'City' AND municipality LIKE '${locationName}%'`;
     case "adminDistrict2":
-      return `SELECT  c.county, m.range, m.policy_type, m.policy_summary, m.link, m.range, m.has_expired_protections, m.end_date_earliest, m.end_date_legist, m.end_date_rent_relief, m.end_date_court, c.the_geom_webmercator AS the_geom FROM ${cartoCountiesTable} c INNER JOIN ${cartoSheetSyncTable} m ON ST_Intersects(c.the_geom, m.the_geom) WHERE c.county = '${locationName}' AND m.admin_scale = 'County' OR m.admin_scale = 'City and County'`;
+      return `SELECT  c.county, m.range, m.policy_type, m.policy_summary, m.link, m.range, m.has_expired_protections, m.end_date_earliest, m.end_date_legist, m.end_date_rent_relief, m.end_date_court, c.the_geom_webmercator AS the_geom FROM ${cartoCountiesTable} c INNER JOIN ${cartoSheetSyncTable} m ON ST_Intersects(c.the_geom, m.the_geom) WHERE m.admin_scale = 'County' OR m.admin_scale = 'City and County' AND c.county LIKE '${locationName}%' AND m.admin_scale = 'County'`;
     case "adminDistrict":
-      return `SELECT range, policy_type, policy_summary, link, has_expired_protections, end_date_earliest, end_date_legist, end_date_rent_relief, end_date_court, the_geom_webmercator AS the_geom  FROM ${cartoSheetSyncTable} WHERE state = '${locationName}' AND admin_scale = 'State'`;
+      return `SELECT range, policy_type, policy_summary, link, has_expired_protections, end_date_earliest, end_date_legist, end_date_rent_relief, end_date_court, the_geom_webmercator AS the_geom  FROM ${cartoSheetSyncTable} WHERE admin_scale ='State' AND state LIKE '${locationName}%'`;
     case "countryRegion":
-      return `SELECT policy_type, policy_summary, link, has_expired_protections, end_date_earliest, the_geom_webmercator AS the_geom FROM ${cartoSheetSyncTable} WHERE country = '${locationName}' AND admin_scale = 'Country'`;
+      return `SELECT policy_type, policy_summary, link, has_expired_protections, end_date_earliest, the_geom_webmercator AS the_geom FROM ${cartoSheetSyncTable} WHERE admin_scale = 'Country' AND policy_type = 'National' AND country LIKE '${locationName}%'`;
   }
 };
