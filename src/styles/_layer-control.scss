@@ -34,9 +34,9 @@ input[type="checkbox"] + span::before {
   border: 1px solid black;
   content: "\00a0";
   display: inline-block;
-  font: 16px/1em sans-serif;
-  height: 15px;
-  width: 15px;
+  font: 16px sans-serif;
+  height: 14px;
+  width: 14px;
   margin-top: 0.25em;
   padding: 0;
   vertical-align: top;
@@ -47,8 +47,9 @@ input[type="checkbox"]:checked + span::before {
   border: 1px solid black;
   background: $policy-color-str-3;
   color: $rent-strike-color;
-  content: "x";
+  content: "\2715";
   text-align: center;
+  line-height: 14px;
 }
 
 input[type="checkbox"]:checked + span::after {
