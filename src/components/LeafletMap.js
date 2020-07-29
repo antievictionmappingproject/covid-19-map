@@ -311,6 +311,9 @@ export class LeafletMap {
       "countryRegion",
     ].reduce(async (prevPromise, adminLevel) => {
       let mapObj = await prevPromise;
+      if (!resource.address[adminLevel]) {
+        return mapObj;
+      }
       const protection = await this.queryForProtectionByLocation(
         adminLevel,
         resource.address[adminLevel]
