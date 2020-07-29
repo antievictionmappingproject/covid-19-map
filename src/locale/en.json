@@ -1,5 +1,16 @@
 {
   "page-title": "COVID-19 Gloabl Housing Protection Legislation and Housing Justice Action Map",
+  "modal": {
+    "title": "COVID-19 Global Housing Protection Legislation & Housing Justice Action",
+    "warning": "Evictions have been reported in the locations listed below. If you need help or want to take action, see resources here.",
+    "about": "About",
+    "content": {
+      "paragraph-1": "Lorem Ipsum, Lorem Ipsum, Lorem Ipsum, Lorem Ipsum, Lorem Ipsum, Lorem Ipsum, Lorem Ipsum, Lorem Ipsum, Lorem Ipsum, Lorem Ipsum, Lorem Ipsum, Lorem Ipsum, Lorem Ipsum, Lorem Ipsum.",
+      "paragraph-2": "This map is an emergency response project by the Anti-Eviction Mapping Project, a data-visualization, data analysis, and storytelling collective with worldwide collaborators. AEMP collects information on global housing protection legislation and housing justice actions to inform tenants, community organizers, and researchers addressing COVID-19 challenges. This site serves as data aggregator to support housing justice action and research on housing rights.",
+      "paragraph-3": "Please note that colonial and nation-state geographies are depicted because protection legislations exists within these borders. AEMP recognizes that these are Indigenous lands that have been stolen, colonized, divided, and renamed. Our goal is to pay respect to the original stewards of the land by using Indigenous names when able to implement this modification. The map is an ongoing work in progress for which we would like to thank our many collaborators.",
+      "paragraph-4": "While the AEMP maintains close relationships with a number of tenant organizations and networks, this development of this map has in particular relied upon collaboration with the Mapping Action Collective, Tenants Together, the San Francisco Anti-Displacement Coalition,  East Bay Housing Organizations, Community Justice Project, Dr. Emily Benfer, and Bay Area Rent Strike (BARS) organizers, as well as assistance in international research from our friends at kollektiv orangotango and the European Action Coalition for the Right to Housing. We are grateful for consultation from Right To The City Alliance, Policy Link, Dr. Lisa Bates, and John Pollock."
+    }
+  },
   "titlebox": {
     "title": "COVID-19 Global Housing Protection Legislation & Housing Justice Action",
     "about-map": "MAP KEY",

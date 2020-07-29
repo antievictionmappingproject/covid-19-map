@@ -1,17 +1,55 @@
 #modal-container {
-  position: relative;
-  height: 100%;
-  width: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   background-color: rgba(0, 0, 0, 0.4);
-  z-index: 600;
+  z-index: 700;
 }
 
 div.modal {
   border: 1px solid $rent-strike-color;
+  background-clip: padding-box;
   background-color: white;
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: 40%;
   transform: translate(-50%, -50%);
   padding: 1rem;
+}
+
+a.modal-close {
+  // display: inline-block;
+  // position: absolute;
+  // right: 10px;
+  // top: -20px;
+  font-size: 5.4rem;
+  font-style: normal;
+  font-weight: 500;
+  color: $rent-strike-color;
+}
+
+a.modal-close:hover {
+  text-decoration: none;
+  color: $link-visited;
+}
+
+.modal h1 {
+  margin: 0 0 1.2rem 0;
+  font-family: "Harbour W00 Medium", "IBM Plex Mono", monospace;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 1.8rem;
+  color: $rent-strike-color;
+}
+
+.modal-content-img::before {
+  background-image: url("../../public/assets/caution-icon.svg");
+  background-size: 30px 35px;
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  content: "";
 }

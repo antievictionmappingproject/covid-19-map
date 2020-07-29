@@ -38,11 +38,6 @@ export class LeafletMap {
       ],
     });
 
-    // toggle modal off so only loading indicator is showing
-    this.map.on("load", () => {
-      this.toggleModal(false);
-    });
-
     this.map.setView([lat, lng], z);
     this.attributionControl = L.control
       .attribution({ prefix: "Data sources by: " })
@@ -242,9 +237,6 @@ export class LeafletMap {
 
     //hide the loading indicator
     this.toggleLoadingIndicator(false);
-
-    //show the modal
-    this.toggleModal(true);
   };
 
   fixZOrder = () => {
@@ -263,16 +255,6 @@ export class LeafletMap {
       dispatch.call("show-loading-indicator");
     } else {
       dispatch.call("hide-loading-indicator");
-    }
-  };
-
-  toggleModal = (isOpen) => {
-    if (isOpen) {
-      dispatch.call("show-modal");
-      console.log("show modal");
-    } else {
-      dispatch.call("hide-modal");
-      console.log("hide modal");
     }
   };
 

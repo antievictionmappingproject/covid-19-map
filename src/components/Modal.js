@@ -1,7 +1,8 @@
 import { dispatch } from "utils/dispatch";
 
-export class LoadingIndicator {
+export class Modal {
   modalContainer = document.getElementById("modal-container");
+  closeButton = document.querySelector(".modal-close");
 
   constructor() {
     this.bindListeners();
@@ -10,6 +11,10 @@ export class LoadingIndicator {
   bindListeners() {
     dispatch.on("show-modal", this.show);
     dispatch.on("hide-modal", this.hide);
+
+    this.closeButton.addEventListener("click", () => {
+      dispatch.call("hide-modal");
+    });
   }
 
   show = () => {
