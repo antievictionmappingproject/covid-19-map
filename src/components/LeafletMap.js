@@ -11,7 +11,10 @@ import {
 import { getAutocompleteMapLocation } from "utils/data";
 import { getCartoData } from "../utils/data";
 import * as queries from "../utils/queries";
-import { usStateAbbrevToName } from "../utils/constants";
+import {
+  usStateAbbrevToName,
+  indiaStateAbbrevToName,
+} from "../utils/constants";
 import { mapLayersConfig } from "../map-layers";
 
 export class LeafletMap {
@@ -301,6 +304,18 @@ export class LeafletMap {
       ) {
         Object.assign(resource.address, {
           adminDistrict: usStateAbbrevToName[stateName.toLowerCase()],
+        });
+      }
+    }
+    //India too
+    if (resource.address.countryRegion === "India") {
+      let stateName = resource.address.adminDistrict;
+      if (
+        stateName.length === 2 &&
+        indiaStateAbbrevToName[stateName.toLowerCase()]
+      ) {
+        Object.assign(resource.address, {
+          adminDistrict: indiaStateAbbrevToName[stateName.toLowerCase()],
         });
       }
     }

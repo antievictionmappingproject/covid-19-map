@@ -47,8 +47,8 @@ export class InfoWindow {
         );
         break;
       case "searchResult":
-        this.infowindowContainer.innerHTML =
-          `
+        this.infowindowContainer.innerHTML = data.length
+          ? `
         <div>
           <p class="infowindow-title">
             <strong data-i18n="infowindow.policy.title"></strong>
@@ -58,10 +58,21 @@ export class InfoWindow {
           <a class="aemp-infowindow-close" href="#close">×</a>
 
           ` +
-          data.map((dataItem) =>
-            Mustache.render(this.searchResultInfowindowTemplate, dataItem)
-          ) +
-          "</div>";
+            data.map((dataItem) =>
+              Mustache.render(this.searchResultInfowindowTemplate, dataItem)
+            ) +
+            "</div>"
+          : `
+        <div>
+          <p class="infowindow-title">
+            <strong data-i18n="infowindow.policy.title"></strong>
+          </p>
+        </div>
+        <div class="aemp-infowindow">
+          <a class="aemp-infowindow-close" href="#close">×</a>
+          <!--TODO: this needs a i18n translation but I actually don't know how to do that-->
+          <div><p><strong>No tenant protections listed for this location</strong></p></div>
+          </div>`;
         break;
 
       default:
