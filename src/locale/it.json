@@ -1,0 +1,69 @@
+{
+  "page-title": "Lotta per la Casa durante la Pandemia",
+  "titlebox": {
+    "title": "Lotta per la Casa durante la Pandemia",
+    "about-map": "A proposito della mappa:",
+    "about-protections": "Leggi e misure di protezione dell‘abitare durante la pandemia",
+    "about-description": "Luoghi in cui sono state adottate (o sono in corso di elaborazione) leggi sulla protezione degli inquilini durante la crisi del coronavirus.",
+    "legislation-form-usa": "",
+    "legislation-form-intl": "",
+    "housing-action-title": "Azioni di lotta per la casa",
+    "housing-action-description": "Dove <strong class='color-rent-strike'>azioni di lotta per la casa</strong> stanno accadendo o sono accadute.",
+    "housing-action-form": "Invia informazioni su azioni di lotta per la casa nella tua città (come ad esempio occupazioni, sciopero degli affitti, ecc.)",
+    "resources": {
+      "title": "",
+      "description": "",
+      "right-to-the-city": "",
+      "european-action-coalition": "",
+      "hashtag-cancel-rent": ""
+    },
+    "accreditation": {
+      "title": "Crediti",
+      "link": "Clicca qui per conoscere il gruppo che sta lavorando a questo progetto."
+    }
+  },
+  "searchbar": {
+    "default-value": "Inserisci la località"
+  },
+  "infowindow": {
+    "policy": {
+      "title": "Leggi e misure di protezione dell‘abitare",
+      "jurisdictionType": {
+        "city": "Città",
+        "county": "Provincia",
+        "state-province": "Regione",
+        "nation": "Paese"
+      },
+      "strength-label": "Livello della protezione:",
+      "protections-end-label": "Data di cessazione della protezione:",
+      "legislative-end-label": "Data di cessazione della legge:",
+      "rent-relief-end-label": "Data di cessazione della sospensione degli affitti:",
+      "court-closure-end-label": "Data di cessazione dell'impedimento legale allo sfratto:",
+      "start-date-label": "Inizio effettivo:",
+      "end-date-label": "Fine:",
+      "summary-label": "Sintesi della misura:",
+      "link": "Accedi a maggiori informazioni."
+    },
+    "action": {
+      "title": "Azioni per il diritto alla casa",
+      "loc-label": "Luogo:",
+      "status-label": "Situazione:",
+      "why-label": "Perché?",
+      "start-date-label": "Inizio:",
+      "resources-label": "Risorse di supporto:"
+    }
+  },
+  "layer-select": {
+    "cities": "Misura comunale",
+    "counties": "Misura provinciale",
+    "states": "Misura regionale",
+    "nations": "Misura nazionale",
+    "housingJusticeAction": "Azioni di lotta per la casa"
+  },
+  "policy-strength": {
+    "1": "Poche misure adottate",
+    "2": "Alcune misure adottate",
+    "3": "Molte misure adottate",
+    "expired": "Indica le protezioni non più valide"
+  }
+}

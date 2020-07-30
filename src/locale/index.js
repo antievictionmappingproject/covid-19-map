@@ -1,5 +1,6 @@
 import en from "./en.json";
 import es from "./es.json";
+import it from "./it.json";
 import ptBr from "./pt-BR.json";
 
 export default {
@@ -11,5 +12,8 @@ export default {
   },
   "pt-BR": {
     translation: ptBr,
+  },
+  it: {
+    translation: it,
   },
 };
