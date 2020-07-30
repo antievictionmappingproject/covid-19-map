@@ -20,11 +20,10 @@ const mapConfig = parseUriHash(defaultMapConfig);
 
 i18nInit().then(() => {
   new Modal();
-  new LeafletMap(mapConfig);
+  new LoadingIndicator();
   new InfoWindow();
   new TitleDetails();
-  new LoadingIndicator();
   new SearchBar();
-
+  new LeafletMap(mapConfig);
   getData();
 });

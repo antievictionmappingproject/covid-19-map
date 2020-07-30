@@ -8,28 +8,6 @@ header {
   border: 1px solid $rent-strike-color;
   background-clip: padding-box;
   z-index: 500;
-
-  /* -----  In Dev ----- */
-  // #aemp-titlebox-hamburger {
-  //   position: absolute;
-  //   right: 5px;
-  //   top: 5px;
-  //   font-size: 2.4rem;
-  //   font-style: normal;
-  //   font-weight: 500;
-  //   color: $rent-strike-color;
-  // }
-
-  /* -------------------- */
-}
-
-@media (max-width: 640px) {
-  header {
-    left: 0;
-    width: 80%;
-    margin: 1rem;
-    z-index: 400;
-  }
 }
 
 header > h1 {
@@ -100,12 +78,6 @@ details p:last-of-type {
 
   p > a:visited {
     color: $link-visited;
-  }
-}
-
-@media (max-width: 640px) {
-  .title-content-wrapper {
-    max-height: 250px;
   }
 }
 

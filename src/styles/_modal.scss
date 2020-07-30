@@ -4,7 +4,7 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.9);
   z-index: 700;
 }
 
@@ -16,14 +16,21 @@ div.modal {
   left: 50%;
   top: 40%;
   transform: translate(-50%, -50%);
-  padding: 1rem;
+  padding: 50px 1.5rem 1.5rem 1.5rem;
+  max-height: 500px;
+  width: 95%;
+  max-width: 400px;
+  overflow-y: scroll;
+
+  @media (max-width: 640px) {
+    width: 95%;
+  }
 }
 
 a.modal-close {
-  // display: inline-block;
-  // position: absolute;
-  // right: 10px;
-  // top: -20px;
+  position: absolute;
+  right: 10px;
+  top: -10px;
   font-size: 5.4rem;
   font-style: normal;
   font-weight: 500;
@@ -35,7 +42,7 @@ a.modal-close:hover {
   color: $link-visited;
 }
 
-.modal h1 {
+.modal h4 {
   margin: 0 0 1.2rem 0;
   font-family: "Harbour W00 Medium", "IBM Plex Mono", monospace;
   font-weight: bold;
@@ -52,4 +59,8 @@ a.modal-close:hover {
   width: 30px;
   height: 30px;
   content: "";
+}
+
+.modal > aside > p {
+  font-family: "IBM Plex Mono", monospace;
 }
