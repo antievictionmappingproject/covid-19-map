@@ -70,8 +70,7 @@ export class InfoWindow {
         </div>
         <div class="aemp-infowindow">
           <a class="aemp-infowindow-close" href="#close">×</a>
-          <!--TODO: this needs a i18n translation but I actually don't know how to do that-->
-          <div><p><strong>No tenant protections listed for this location</strong></p></div>
+          <div><p><strong data-i18n="searchbar.not-found">No tenant protections listed for this location</strong></p></div>
           </div>`;
         break;
 
