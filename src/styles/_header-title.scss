@@ -1,13 +1,24 @@
 header {
   width: 320px;
-  position: absolute;
-  top: 16px;
-  left: 16px;
   padding: 12px;
   background: #fff;
   border: 1px solid $rent-strike-color;
   background-clip: padding-box;
   z-index: 500;
+}
+
+.aemp-titlebox-open {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  transition: left 1s linear;
+}
+
+.aemp-titlebox-closed {
+  position: absolute;
+  top: 16px;
+  left: -320px;
+  transition: left 1s linear;
 }
 
 header > h1 {
@@ -23,6 +34,13 @@ header > h1 {
   header > h1 {
     font-size: 1.7rem;
   }
+}
+
+header > #aemp-titlebox-toggle {
+  position: absolute;
+  left: 320px;
+  background-color: white;
+  border: 1px solid $rent-strike-color;
 }
 
 details {
