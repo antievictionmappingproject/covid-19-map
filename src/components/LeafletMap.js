@@ -37,6 +37,7 @@ export class LeafletMap {
         [-85.05, -190], // lower left
         [85.05, 200], // upper right
       ],
+      maxZoom: 12,
     });
 
     this.map.setView([lat, lng], z);
