@@ -12,6 +12,32 @@ import {
 import * as queries from "./utils/queries";
 import { formatDate } from "./utils/datetime";
 
+//styling helpers
+
+function highlightFeature(e, strokeWeight) {
+  const layer = e.target;
+
+  if (e.type === "mouseover") {
+    layer.setStyle({
+      // weight: 5,
+      // color: "#666",
+      fillOpacity: 0.4,
+    });
+  } else if (e.type === "mouseout") {
+    layer.setStyle({
+      // weight: strokeWeight,
+      // color: "white",
+      fillOpacity: fillOpacity,
+    });
+  } else {
+    return;
+  }
+
+  if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+    layer.bringToFront();
+  }
+}
+
 export const mapLayersConfig = {
   cities: {
     name: "City Protections",
@@ -64,6 +90,10 @@ export const mapLayersConfig = {
           policyStrengthLayerClassNames[feature.properties.range] +
           "--city-level";
       }
+      layer.on({
+        mouseover: (e) => highlightFeature(e, strokeWeightLess),
+        mouseout: (e) => highlightFeature(e, strokeWeightLess),
+      });
     },
   },
   counties: {
@@ -109,6 +139,10 @@ export const mapLayersConfig = {
         layer.options.className =
           policyStrengthLayerClassNames[feature.properties.range];
       }
+      layer.on({
+        mouseover: (e) => highlightFeature(e, strokeWeightLess),
+        mouseout: (e) => highlightFeature(e, strokeWeightLess),
+      });
     },
   },
   states: {
@@ -153,6 +187,10 @@ export const mapLayersConfig = {
         layer.options.className =
           policyStrengthLayerClassNames[feature.properties.range];
       }
+      layer.on({
+        mouseover: (e) => highlightFeature(e, strokeWeightMore),
+        mouseout: (e) => highlightFeature(e, strokeWeightMore),
+      });
     },
   },
   nations: {
@@ -186,6 +224,10 @@ export const mapLayersConfig = {
         layer.options.className =
           policyStrengthLayerClassNames[feature.properties.range];
       }
+      layer.on({
+        mouseover: (e) => highlightFeature(e, strokeWeightLess),
+        mouseout: (e) => highlightFeature(e, strokeWeightLess),
+      });
     },
   },
   rentStrikes: {
