@@ -1,5 +1,5 @@
-header#aemp-titlebox,
-#aemp-titlebox-toggle {
+// #aemp-titlebox-toggle
+header#aemp-titlebox {
   width: 320px;
   padding: 12px;
   background: #fff;
@@ -26,7 +26,7 @@ header#aemp-titlebox,
 .aemp-titlebox-closed {
   position: absolute;
   top: 16px;
-  left: -320px;
+  left: -300px;
   transition: left 1s ease-out;
 
   @media (max-width: 900px) {
@@ -54,15 +54,17 @@ header > h1 {
 }
 
 header > #aemp-titlebox-toggle {
-  height: 149px;
-  width: 15px;
+  height: 100px;
+  width: 15;
   position: absolute;
-  left: 318px;
-  top: -1px;
-  background-color: white;
-  border: 1px solid $rent-strike-color;
-  border-left: none;
+  left: 305px;
+  top: 5;
+  background-color: $link-visited;
+  // border: 1px solid $rent-strike-color;
+  // border-left: none;
   cursor: pointer;
+  padding: 5px;
+  border-radius: 10px;
 }
 
 details {
@@ -99,7 +101,7 @@ details p:last-of-type {
 
 .title-content-wrapper {
   max-height: 50vh;
-  overflow-y: auto;
+  overflow-y: scroll;
 
   h2 {
     font-size: 1.4rem;
