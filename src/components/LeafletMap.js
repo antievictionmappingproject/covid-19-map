@@ -6,6 +6,7 @@ import { dispatch } from "utils/dispatch";
 import {
   defaultMapConfig,
   isMobile,
+  rentStrikeColor,
   TOTAL_NUMBER_OF_MAP_LAYERS,
 } from "utils/constants";
 import { getAutocompleteMapLocation } from "utils/data";
@@ -178,6 +179,7 @@ export class LeafletMap {
 
       const markerClusterGroup = L.markerClusterGroup({
         maxClusterRadius: 40,
+        polygonOptions: { color: rentStrikeColor, zoomToBoundsOnClick: false },
       }).on("clusterclick", function () {
         if (isMobile()) {
           dispatch.call("title-details-close");

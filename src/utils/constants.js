@@ -8,6 +8,8 @@ export const colorNoData = "#939393";
 export const fillColorScale = [undefined, "#5e5e5e", "#bdbdbd", "#ffffff"];
 export const strokeColorScale = [undefined, "#ffffff", "#ffffff", "#ffffff"];
 
+export const rentStrikeColor = "#c92a1d";
+
 // global map layer styling variables
 export const strokeWeightMore = 3; //state boundary
 export const strokeWeightLess = 1.5;
