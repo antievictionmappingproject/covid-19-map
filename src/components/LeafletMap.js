@@ -350,6 +350,12 @@ export class LeafletMap {
     }, Promise.resolve([]));
   };
   queryForProtectionByLocation = async (adminLevel, locationName) => {
+    if (
+      adminLevel === "adminDistrict2" &&
+      locationName.indexOf("County") >= 0
+    ) {
+      locationName = locationName.replace(" County", "");
+    }
     try {
       return await getCartoData(
         queries.searchResultProtectionsQuery(adminLevel, locationName)
