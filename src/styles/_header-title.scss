@@ -1,4 +1,5 @@
-header {
+header#aemp-titlebox,
+#aemp-titlebox-toggle {
   width: 320px;
   padding: 12px;
   background: #fff;
@@ -11,14 +12,30 @@ header {
   position: absolute;
   top: 16px;
   left: 16px;
-  transition: left 1s linear;
+  transition: left 1s ease-out;
+
+  @media (max-width: 900px) {
+    top: 60px;
+  }
+
+  @media (max-width: 640px) {
+    top: 16px;
+  }
 }
 
 .aemp-titlebox-closed {
   position: absolute;
   top: 16px;
   left: -320px;
-  transition: left 1s linear;
+  transition: left 1s ease-out;
+
+  @media (max-width: 900px) {
+    top: 60px;
+  }
+
+  @media (max-width: 640px) {
+    top: 16px;
+  }
 }
 
 header > h1 {
@@ -37,10 +54,15 @@ header > h1 {
 }
 
 header > #aemp-titlebox-toggle {
+  height: 149px;
+  width: 15px;
   position: absolute;
-  left: 320px;
+  left: 318px;
+  top: -1px;
   background-color: white;
   border: 1px solid $rent-strike-color;
+  border-left: none;
+  cursor: pointer;
 }
 
 details {
