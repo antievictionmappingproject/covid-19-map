@@ -64,3 +64,19 @@ a.modal-close:hover {
 .modal > aside > p {
   font-family: "IBM Plex Mono", monospace;
 }
+
+.modal > aside > p > a,
+.modal > aside > p > span > a {
+  color: $rent-strike-color;
+  text-decoration: underline;
+}
+
+// aside > p > a:hover {
+//   color: $rent-strike-color;
+//   text-decoration: underline !important;
+// }
+
+.modal > aside > p > a:visited,
+.modal > aside > p > span > a:visited {
+  color: $link-visited;
+}
