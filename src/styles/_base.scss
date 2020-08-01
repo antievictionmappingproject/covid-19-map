@@ -46,6 +46,16 @@ a {
 
 .leaflet-right {
   margin-right: 8px;
+
+  @media (max-width: 640px) {
+    margin-right: 0;
+  }
+}
+
+.leaflet-control {
+  @media (max-width: 640px) {
+    margin-right: 0;
+  }
 }
 
 .leaflet-top {

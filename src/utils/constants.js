@@ -31,9 +31,9 @@ export const defaultMapConfig = {
   lng: -43.74,
   z: 2,
   nations: true,
-  states: true,
+  states: false,
   cities: true,
-  counties: true,
+  counties: false,
   rentStrikes: true,
 };
 
