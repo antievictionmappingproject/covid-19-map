@@ -6,17 +6,12 @@
   z-index: 600;
 
   @media (max-width: 900px) {
-    top: 16px;
-    left: 16px;
-    width: 320px;
-  }
-
-  @media (max-width: 640px) {
     top: unset;
     left: 0;
     right: 0;
     bottom: 0;
-    width: 100%;
+    width: 97%;
+    margin: 0 auto;
   }
 }
 

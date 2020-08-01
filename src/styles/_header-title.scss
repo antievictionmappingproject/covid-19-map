@@ -1,45 +1,27 @@
-// #aemp-titlebox-toggle
 header#aemp-titlebox {
+  position: absolute;
+  top: 16px;
+  left: 10px;
   width: 320px;
   padding: 12px;
   background: #fff;
   border: 1px solid $rent-strike-color;
   background-clip: padding-box;
   z-index: 500;
-}
-
-.aemp-titlebox-open {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  transition: left 1s ease-out;
-
-  @media (max-width: 900px) {
-    top: 60px;
-  }
 
   @media (max-width: 640px) {
-    top: 16px;
+    width: unset;
+    right: 10px;
   }
 }
 
 .aemp-titlebox-closed {
-  position: absolute;
-  top: 16px;
-  left: -300px;
-  transition: left 1s ease-out;
-
-  @media (max-width: 900px) {
-    top: 60px;
-  }
-
-  @media (max-width: 640px) {
-    top: 16px;
-  }
+  width: 110px !important;
+  padding: 5px !important;
 }
 
-header > h1 {
-  margin: 0 0 1.2rem 0;
+details > h1 {
+  margin: 1.6rem 0 1.2rem 0;
   font-family: "Harbour W00 Medium", "IBM Plex Mono", monospace;
   font-weight: bold;
   text-transform: uppercase;
@@ -53,22 +35,9 @@ header > h1 {
   }
 }
 
-header > #aemp-titlebox-toggle {
-  height: 100px;
-  width: 15;
-  position: absolute;
-  left: 305px;
-  top: 5;
-  background-color: $link-visited;
-  // border: 1px solid $rent-strike-color;
-  // border-left: none;
-  cursor: pointer;
-  padding: 5px;
-  border-radius: 10px;
-}
-
 details {
   padding: 4px;
+  max-width: 306px;
 }
 
 details > summary {

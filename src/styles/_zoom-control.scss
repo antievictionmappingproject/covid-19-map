@@ -29,7 +29,7 @@
 
 // hide on mobile
 .leaflet-control-zoom {
-  @media (max-width: 640px) {
+  @media (max-width: 900px) {
     display: none !important;
   }
 }

@@ -31,6 +31,8 @@ a.modal-close {
   position: absolute;
   right: 10px;
   top: -10px;
+  display: inline-block;
+  position: absolute;
   font-size: 5.4rem;
   font-style: normal;
   font-weight: 500;
@@ -51,16 +53,6 @@ a.modal-close:hover {
   color: $rent-strike-color;
 }
 
-.modal-content-img::before {
-  background-image: url("../../public/assets/caution-icon.svg");
-  background-size: 30px 35px;
-  background-repeat: no-repeat;
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  content: "";
-}
-
 .modal > aside > p {
   font-family: "IBM Plex Mono", monospace;
 }
@@ -70,11 +62,6 @@ a.modal-close:hover {
   color: $rent-strike-color;
   text-decoration: underline;
 }
-
-// aside > p > a:hover {
-//   color: $rent-strike-color;
-//   text-decoration: underline !important;
-// }
 
 .modal > aside > p > a:visited,
 .modal > aside > p > span > a:visited {
