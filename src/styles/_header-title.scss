@@ -16,8 +16,12 @@ header#aemp-titlebox {
 }
 
 .aemp-titlebox-closed {
-  width: 110px !important;
+  width: 115px !important;
   padding: 5px !important;
+
+  @media (max-width: 640px) {
+    width: 105px !important;
+  }
 }
 
 details > h1 {
@@ -46,6 +50,10 @@ details > summary {
   cursor: pointer;
   font-family: "IBM Plex Mono", monospace;
   color: black;
+
+  @media (max-width: 640px) {
+    font-size: 1.4rem;
+  }
 }
 
 details > summary::-webkit-details-marker,

@@ -14,19 +14,15 @@ import { formatDate } from "./utils/datetime";
 
 //styling helpers
 
-function highlightFeature(e, strokeWeight) {
+function highlightFeature(e) {
   const layer = e.target;
 
   if (e.type === "mouseover") {
     layer.setStyle({
-      // weight: 5,
-      // color: "#666",
       fillOpacity: 0.4,
     });
   } else if (e.type === "mouseout") {
     layer.setStyle({
-      // weight: strokeWeight,
-      // color: "white",
       fillOpacity: fillOpacity,
     });
   } else {
@@ -91,8 +87,8 @@ export const mapLayersConfig = {
           "--city-level";
       }
       layer.on({
-        mouseover: (e) => highlightFeature(e, strokeWeightLess),
-        mouseout: (e) => highlightFeature(e, strokeWeightLess),
+        mouseover: (e) => highlightFeature(e),
+        mouseout: (e) => highlightFeature(e),
       });
     },
   },
@@ -140,8 +136,8 @@ export const mapLayersConfig = {
           policyStrengthLayerClassNames[feature.properties.range];
       }
       layer.on({
-        mouseover: (e) => highlightFeature(e, strokeWeightLess),
-        mouseout: (e) => highlightFeature(e, strokeWeightLess),
+        mouseover: (e) => highlightFeature(e),
+        mouseout: (e) => highlightFeature(e),
       });
     },
   },
@@ -188,8 +184,8 @@ export const mapLayersConfig = {
           policyStrengthLayerClassNames[feature.properties.range];
       }
       layer.on({
-        mouseover: (e) => highlightFeature(e, strokeWeightMore),
-        mouseout: (e) => highlightFeature(e, strokeWeightMore),
+        mouseover: (e) => highlightFeature(e),
+        mouseout: (e) => highlightFeature(e),
       });
     },
   },
@@ -225,8 +221,8 @@ export const mapLayersConfig = {
           policyStrengthLayerClassNames[feature.properties.range];
       }
       layer.on({
-        mouseover: (e) => highlightFeature(e, strokeWeightLess),
-        mouseout: (e) => highlightFeature(e, strokeWeightLess),
+        mouseover: (e) => highlightFeature(e),
+        mouseout: (e) => highlightFeature(e),
       });
     },
   },
