@@ -28,10 +28,6 @@ function highlightFeature(e) {
   } else {
     return;
   }
-
-  if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-    layer.bringToFront();
-  }
 }
 
 export const mapLayersConfig = {
