@@ -38,7 +38,7 @@ header#aemp-titlebox {
   }
 }
 
-header > h1 {
+details > h1 {
   margin: 0 0 1.2rem 0;
   font-family: "Harbour W00 Medium", "IBM Plex Mono", monospace;
   font-weight: bold;
@@ -133,3 +133,8 @@ details p:last-of-type {
     color: $rent-strike-color;
   }
 }
+
+// #arrow-open {
+//   background-image: url(../../public/assets/arrow_right.svg);
+//   background-size: cover;
+// }

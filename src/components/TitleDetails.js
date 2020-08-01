@@ -22,8 +22,10 @@ export class TitleDetails {
     this.titleDetails.addEventListener("toggle", function () {
       if (this.open) {
         document.getElementById("aemp-titlebox").classList.remove("collapsed");
+        document.getElementById("aemp-titlebox").style.width = "320px";
       } else {
         document.getElementById("aemp-titlebox").classList.add("collapsed");
+        document.getElementById("aemp-titlebox").style.width = "130px";
       }
     });
 
