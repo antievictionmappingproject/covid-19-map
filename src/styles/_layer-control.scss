@@ -15,6 +15,11 @@
   margin-top: 6px !important;
 }
 
+.leaflet-right {
+  right: 0 !important;
+  margin-right: unset !important;
+}
+
 input[type="checkbox"] {
   display: none;
 }
