@@ -1,7 +1,8 @@
 import en from "./en.json";
-import es from "./es.json";
-import it from "./it.json";
+import ita from "./it.json";
+import de from "./de.json";
 import ptBr from "./pt-BR.json";
+import es from "./es.json";
 
 export default {
   en: {
@@ -13,7 +14,10 @@ export default {
   "pt-BR": {
     translation: ptBr,
   },
-  it: {
-    translation: it,
+  "it-IT": {
+    translation: ita,
+  },
+  de: {
+    translation: de,
   },
 };

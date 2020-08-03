@@ -1,0 +1,66 @@
+{
+  "page-title": "COVID-19 Maßnahmen zum Schutz von Mieter*innen und Aktionen für das Recht auf Wohnen",
+  "titlebox": {
+    "title": "COVID-19 Maßnahmen zum Schutz von Mieter*innen und Aktionen für das Recht auf Wohnen",
+    "about-map": "Über diese Karte:",
+    "about-protections": "Gesetze und Maßnahmen zum Schutz von Mieter*innen",
+    "about-description": "Orte, an denen Maßnahmen zum Schutz von Mieter*innen während der Coronavirus-Krise verabschiedet wurden (oder in Vorbereitung sind).",
+    "legislation-form-usa": "",
+    "legislation-form-intl": "Teile Informationen über neue Gesetze und Maßnahmen zum Schutz von Mieter*innen in deiner Stadt.",
+    "housing-action-title": "Aktionen für das Recht auf Wohnen",
+    "housing-action-description": "Wo finden oder fanden<strong class='color-rent-strike'>Aktionen für das Recht auf Wohnen</strong> statt.",
+    "housing-action-form": "Teile Informationen über Aktionen für das Recht auf Wohnen in deiner Stadt (z.B. Besetzungen, Mietstreiks, Verhandlungen um Mietminderung...)",
+    "resources": {
+      "title": "",
+      "description": "",
+      "right-to-the-city": "",
+      "european-action-coalition": "",
+      "hashtag-cancel-rent": ""
+    }
+  },
+  "searchbar": {
+    "default-value": "Gib deinen Ort ein"
+  },
+  "infowindow": {
+    "policy": {
+      "title": "Gesetze und Maßnahmen zum Schutz von Mieter*innen",
+      "jurisdictionType": {
+        "city": "Stadt/Gemeinde",
+        "county": "Landkreis",
+        "state-province": "Bundesland",
+        "nation": "Nationalstaat"
+      },
+      "strength-label": "Stärke der Schutzmaßnahme:",
+      "protections-end-label": "Ablaufdatum des Schutzes:",
+      "legislative-end-label": "Ablaufdatum der gesetzlichen maßnahme:",
+      "rent-relief-end-label": "Ablaufdatum der Mietaussetzung:",
+      "court-closure-end-label": "Ablaufdatum des rechtlichen Räumungsverbots:",
+      "start-date-label": "Inkrafttreten der Maßnahme:",
+      "end-date-label": "Ende:",
+      "summary-label": "Zusammenfassung der Maßnahme:",
+      "link": "Für weitere Informationen klicke hier."
+    },
+    "action": {
+      "title": "Aktionen für das Recht auf Wohnen",
+      "loc-label": "Ort:",
+      "status-label": "Situation:",
+      "why-label": "Auslöser der Aktion:",
+      "strike-type-label": "Art der Aktion:",
+      "start-date-label": "Beginn:",
+      "resources-label": "Informationen und Unterstützung:"
+    }
+  },
+  "layer-select": {
+    "cities": "kommunale Maßnahmen",
+    "counties": "Maßnahmen des Landkreises",
+    "states": "Maßnahmen auf Landesebene",
+    "nations": "bundesweite Maßnahmen",
+    "housingJusticeAction": "Aktionen für das Recht auf Wohnen"
+  },
+  "policy-strength": {
+    "1": "Wenige Schutzmaßnahmen verabschiedet",
+    "2": "Einige Schutzmaßnahmen verabschiedet",
+    "3": "Starke Schutzmaßnahmen verabschiedet",
+    "expired": "Bereits ausgelaufene Schutzmaßnahmen"
+  }
+}
