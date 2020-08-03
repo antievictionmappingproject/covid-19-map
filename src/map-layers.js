@@ -37,6 +37,7 @@ export const mapLayersConfig = {
     type: "point",
     query: queries.citiesCartoQuery,
     zIndex: 1,
+    overlayOrder: 0,
     props(layer) {
       const {
         municipality,
@@ -94,6 +95,7 @@ export const mapLayersConfig = {
     type: "polygon",
     query: queries.countiesCartoQuery,
     zIndex: 2,
+    overlayOrder: 1,
     props(layer) {
       const {
         state,
@@ -143,6 +145,7 @@ export const mapLayersConfig = {
     type: "polygon",
     query: queries.statesCartoQuery,
     zIndex: 3,
+    overlayOrder: 2,
     props(layer) {
       const {
         name,
@@ -191,6 +194,7 @@ export const mapLayersConfig = {
     type: "polygon",
     query: queries.countriesCartoQuery,
     zIndex: 4,
+    overlayOrder: 3,
     props(layer) {
       const { name_en, end_date_earliest, ...rest } = layer.feature.properties;
       return {
@@ -228,6 +232,7 @@ export const mapLayersConfig = {
     type: "marker-cluster",
     query: queries.housingActionsCartoQuery,
     zIndex: 0, // markers have their very own layer pane in Leaflet so don't need a z-index value
+    overlayOrder: 4,
     props(layer) {
       return layer.feature.properties;
     },

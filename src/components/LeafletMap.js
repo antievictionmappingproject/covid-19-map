@@ -1,7 +1,6 @@
 import Mustache from "mustache";
 import i18next from "i18next";
 import L from "lib/leaflet";
-
 import { dispatch } from "utils/dispatch";
 import {
   defaultMapConfig,
@@ -225,6 +224,7 @@ export class LeafletMap {
     this.dataLayers.set(localizedName, {
       layerGroup,
       zIndex: layerConfig.zIndex,
+      overlayOrder: layerConfig.overlayOrder,
     });
 
     if (this.config[key]) {
@@ -241,7 +241,8 @@ export class LeafletMap {
       return;
     }
 
-    this.dataLayers.forEach(({ layerGroup }, name) => {
+    // fix the order of layers in the layer controller
+    this.fixOverlayOrder(this.dataLayers).forEach(({ layerGroup }, name) => {
       this.layersControl.addOverlay(layerGroup, name);
     });
 
@@ -249,15 +250,28 @@ export class LeafletMap {
     this.toggleLoadingIndicator(false);
   };
 
+  // fix the z order of the map layers
   fixZOrder = () => {
     const layers = Array.from(this.dataLayers.values()).sort(
       (a, b) => b.zIndex - a.zIndex
     );
+
     layers.forEach(({ layerGroup }) => {
       if (this.map.hasLayer(layerGroup)) {
         layerGroup.bringToFront();
       }
     });
+  };
+
+  // return a new Map with the correct overlay order
+  fixOverlayOrder = (dataLayers) => {
+    const layers = new Map(
+      [...dataLayers.entries()].sort(
+        (a, b) => a[1].overlayOrder - b[1].overlayOrder
+      )
+    );
+
+    return layers;
   };
 
   toggleLoadingIndicator = (isLoading) => {
