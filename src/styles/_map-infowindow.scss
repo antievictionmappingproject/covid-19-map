@@ -19,6 +19,12 @@
   border: 1px solid $rent-strike-color;
 }
 
+@media (max-width: 900px) {
+  .aemp-infowindow {
+    bottom: 40px;
+  }
+}
+
 @media (max-width: 640px) {
   .aemp-infowindow {
     left: 0;
