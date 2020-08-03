@@ -58,9 +58,11 @@ export class InfoWindow {
           <a class="aemp-infowindow-close" href="#close">×</a>
 
           ` +
-            data.map((dataItem) =>
-              Mustache.render(this.searchResultInfowindowTemplate, dataItem)
-            ) +
+            data
+              .map((dataItem) =>
+                Mustache.render(this.searchResultInfowindowTemplate, dataItem)
+              )
+              .join("") +
             "</div>"
           : `
         <div>

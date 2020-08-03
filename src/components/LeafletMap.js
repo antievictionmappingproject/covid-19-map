@@ -284,10 +284,6 @@ export class LeafletMap {
 
   showSearchResultProtections = async (resource) => {
     let protections = await this.getSearchResultProtections(resource);
-    console.log("protections:");
-    protections.forEach((key, val) => {
-      console.log(`${key}:${val}`);
-    });
     dispatch.call("render-infowindow", null, {
       template: "searchResult",
       data: protections,
