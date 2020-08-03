@@ -111,7 +111,7 @@ export class LeafletMap {
 
     // Close the title box if mobile
     window.addEventListener("load", function () {
-      if (isMobile) {
+      if (isMobile()) {
         dispatch.call("title-details-close");
       }
     });
