@@ -109,6 +109,13 @@ export class LeafletMap {
       resizeWindow = setTimeout(self.handleWindowResize, 250);
     });
 
+    // Close the title box if mobile
+    window.addEventListener("load", function () {
+      if (isMobile) {
+        dispatch.call("title-details-close");
+      }
+    });
+
     dispatch.on("close-infowindow.map", this.handleInfoWindowClose);
     dispatch.on("fetch-map-data-resolve.map", this.handleAddLayer);
     dispatch.on("fetch-map-data-reject.map", this.handleLayerError);
