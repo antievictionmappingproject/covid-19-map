@@ -3,16 +3,18 @@ import { mapLayersConfig } from "../map-layers";
 // List of all languages we have translations for.
 export const languages = ["en", "es", "pt-BR"];
 
-// color values come from this ColorBrewer url:
-// https://colorbrewer2.org/#type=sequential&scheme=YlGn&n=7
+// color values come from this ColorBrewer:
 export const colorNoData = "#939393";
-export const fillColorScale = [undefined, "#d9f0a3", "#78c679", "#238443"];
-export const strokeColorScale = [undefined, "#addd8e", "#41ab5d", "#005a32"];
+export const fillColorScale = [undefined, "#5e5e5e", "#bdbdbd", "#ffffff"];
+export const strokeColorScale = [undefined, "#ffffff", "#ffffff", "#ffffff"];
+
+export const rentStrikeColor = "#c92a1d";
 
 // global map layer styling variables
-export const strokeWeight = 1.5;
+export const strokeWeightMore = 3; //state boundary
+export const strokeWeightLess = 1.5;
 export const pointRadius = 10;
-export const fillOpacity = 0.7;
+export const fillOpacity = 0.95;
 
 // corresponds to fill & stroke color scales above
 export const policyStrengthLayerClassNames = [
@@ -27,10 +29,10 @@ export const MOBILE_BREAKPOINT = 640;
 export const DESKTOP_BREAKPOINT = 1200;
 
 export const defaultMapConfig = {
-  lat: 40.67,
-  lng: -97.23,
-  z: 4,
-  nations: false,
+  lat: 40.27,
+  lng: -43.74,
+  z: 2,
+  nations: true,
   states: true,
   cities: true,
   counties: true,

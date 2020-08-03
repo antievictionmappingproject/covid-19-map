@@ -15,9 +15,13 @@ export class TitleDetails {
   bindListeners = () => {
     this.titleDetails.addEventListener("toggle", function () {
       if (this.open) {
-        document.getElementById("aemp-titlebox").classList.remove("collapsed");
+        document
+          .getElementById("aemp-titlebox")
+          .classList.remove("collapsed", "aemp-titlebox-closed");
       } else {
-        document.getElementById("aemp-titlebox").classList.add("collapsed");
+        document
+          .getElementById("aemp-titlebox")
+          .classList.add("collapsed", "aemp-titlebox-closed");
       }
     });
 

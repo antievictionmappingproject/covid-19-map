@@ -1,44 +1,69 @@
-header {
-  width: 30%;
+header#aemp-titlebox {
   position: absolute;
-  top: 12px;
-  left: 12px;
+  top: 16px;
+  left: 10px;
+  width: 320px;
   padding: 12px;
   background: #fff;
-  border: 2px solid rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
+  border: 1px solid $rent-strike-color;
   background-clip: padding-box;
   z-index: 500;
-}
 
-@media (max-width: 640px) {
-  header {
-    top: 5%;
-    left: 0;
-    width: 70%;
-    margin: 1rem;
-    z-index: 400;
+  @media (max-width: 640px) {
+    width: unset;
+    right: 10px;
   }
 }
 
-header > h1 {
-  margin: 0 0 1.2rem 0;
+.aemp-titlebox-closed {
+  width: 115px !important;
+  padding: 5px !important;
+
+  @media (max-width: 640px) {
+    width: 105px !important;
+  }
+}
+
+details > h1 {
+  margin: 1.6rem 0 1.2rem 0;
+  font-family: "Harbour W00 Medium", "IBM Plex Mono", monospace;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 1.8rem;
+  color: $rent-strike-color;
 }
 
 @media (max-width: 640px) {
   header > h1 {
-    font-size: 1.8rem;
+    font-size: 1.7rem;
   }
+}
+
+details {
+  padding: 4px;
+  max-width: 306px;
 }
 
 details > summary {
   font-size: 1.6rem;
   font-weight: bold;
   cursor: pointer;
+  font-family: "IBM Plex Mono", monospace;
+  color: black;
+
+  @media (max-width: 640px) {
+    font-size: 1.4rem;
+  }
+}
+
+details > summary::-webkit-details-marker,
+summary::marker {
+  color: $rent-strike-color;
 }
 
 details p {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
+  margin-top: 0.6rem;
 }
 
 @media (max-width: 640px) {
@@ -53,11 +78,35 @@ details p:last-of-type {
 
 .title-content-wrapper {
   max-height: 50vh;
-  overflow-y: auto;
+  overflow-y: scroll;
+
+  h2 {
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  p > a {
+    color: $font-color-black;
+  }
+
+  p > a:hover {
+    color: $rent-strike-color;
+    text-decoration: underline;
+  }
+
+  p > a:visited {
+    color: $link-visited;
+  }
 }
 
-@media (max-width: 640px) {
-  .title-content-wrapper {
-    max-height: 250px;
+.submit-container {
+  display: flex;
+
+  p:first-child {
+    margin-right: 12px;
+    flex-shrink: 0;
+    font-family: "IBM Plex Mono", monospace;
+    color: $rent-strike-color;
   }
 }

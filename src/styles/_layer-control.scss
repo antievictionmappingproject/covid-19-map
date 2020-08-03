@@ -1,0 +1,62 @@
+/* ----- Layer controller ----- */
+.leaflet-control-layers {
+  border: 1px solid $rent-strike-color !important;
+  border-radius: 0;
+  font-family: "IBM Plex Mono", monospace;
+  box-shadow: none;
+
+  //show on mobile
+  @media (max-width: 640px) {
+    display: block !important;
+  }
+}
+
+.leaflet-top {
+  margin-top: 6px !important;
+}
+
+.leaflet-right {
+  right: 0 !important;
+  margin-right: unset !important;
+}
+
+input[type="checkbox"] {
+  display: none;
+}
+
+label {
+  cursor: pointer;
+}
+
+/* ----- text color ----- */
+input[type="checkbox"] + span {
+  color: black;
+  line-height: 25px;
+}
+
+/* ----- unchecked ----- */
+input[type="checkbox"] + span::before {
+  border: 1px solid black;
+  content: "\00a0";
+  display: inline-block;
+  font: 16px sans-serif;
+  height: 14px;
+  width: 14px;
+  margin-top: 0.25em;
+  padding: 0;
+  vertical-align: top;
+}
+
+/* ----- checked ----- */
+input[type="checkbox"]:checked + span::before {
+  border: 1px solid black;
+  background: $policy-color-str-3;
+  color: $rent-strike-color;
+  content: "\2715";
+  text-align: center;
+  line-height: 14px;
+}
+
+input[type="checkbox"]:checked + span::after {
+  font-weight: bold;
+}

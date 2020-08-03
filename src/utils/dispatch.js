@@ -13,6 +13,8 @@ const events = [
   "title-details-toggle",
   "title-details-close",
   "title-details-open",
+  "show-modal",
+  "hide-modal",
   "show-loading-indicator",
   "hide-loading-indicator",
   "choose-autocomplete-element",
