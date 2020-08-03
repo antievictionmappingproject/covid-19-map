@@ -8,7 +8,7 @@
     "start": "webpack-dev-server --mode=development --env.NODE_ENV=development",
     "start:prod": "serve dist",
     "build": "webpack --mode=production --env.NODE_ENV=production",
-    "deploy": "npm run build && gh-pages -d dist",
+    "deploy": "npm run build && gh-pages -d dist -r 'https://github.com/antievictionmappingproject/covid-19-map.git'",
     "lint:js": "eslint 'src/**/*.js' --ext .js",
     "lint:js:fix": "npm run lint:js -- --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
