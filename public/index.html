@@ -355,10 +355,13 @@
       </div>
     </script>
 
-
-
     <script id="search-result-infowindow-template" type="x-tmpl-mustache">
-
+      
+      <div>
+        <p class="infowindow-title">
+          <strong data-i18n="infowindow.policy.title"></strong>
+        </p>
+      </div>
 
         <div>
           <p>
@@ -420,15 +423,10 @@
 
         {{#link}}
         <div>
-          <p class="infowindow-link"><a target="_blank" href="{{link}}" rel="noopener noreferrer" data-i18n="infowindow.policy.link">View more info.</a></p>
+          <p class="infowindow-link"><a target="_blank" href="{{link}}" rel="noopener noreferrer" data-i18n="infowindow.policy.info-link">View more info.</a></p>
         </div>
         {{/link}}
-
-
     </script>
-
-
-
 
     <!-- Leaflet map SVG patterns -->
     <svg id="map-pattern-fills" width="0" height="0" aria-hidden="true">
