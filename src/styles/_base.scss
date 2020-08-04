@@ -46,8 +46,29 @@ a {
 
 .leaflet-right {
   margin-right: 8px;
+
+  @media (max-width: 640px) {
+    margin-right: 0;
+  }
+}
+
+.leaflet-control {
+  @media (max-width: 640px) {
+    margin-right: 0;
+  }
 }
 
 .leaflet-top {
   margin-top: 8px;
+}
+
+//for os x
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: $rent-strike-color;
 }

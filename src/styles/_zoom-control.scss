@@ -1,0 +1,35 @@
+/* ----- Zoom control ----- */
+.leaflet-bar {
+  border: 1px solid $rent-strike-color !important;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.leaflet-bar a,
+.leaflet-bar a:hover {
+  background-color: #fff;
+  width: 60px !important;
+  height: 60px !important;
+  line-height: 60px !important;
+  color: $rent-strike-color !important;
+  font-size: 40px !important;
+  font-weight: 500 !important;
+}
+
+.leaflet-bar a:first-child {
+  border-bottom: 1px solid $rent-strike-color !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+.leaflet-bar a:last-child {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+// hide on mobile
+.leaflet-control-zoom {
+  @media (max-width: 900px) {
+    display: none !important;
+  }
+}

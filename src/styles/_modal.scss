@@ -1,0 +1,72 @@
+#modal-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  z-index: 700;
+}
+
+div.modal {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid $rent-strike-color;
+  background-clip: padding-box;
+  background-color: white;
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  width: 95%;
+  max-width: 400px;
+  max-height: 95%;
+  overflow-y: scroll;
+}
+
+a.modal-close {
+  position: absolute;
+  right: -10px;
+  top: -15px;
+  display: inline-block;
+  font-size: 5.4rem;
+  font-style: normal;
+  font-weight: 500;
+  color: $rent-strike-color;
+}
+
+a.modal-close:hover {
+  text-decoration: none;
+  color: $link-visited;
+}
+
+.modal h4 {
+  margin: 0 0 1.2rem 0;
+  font-family: "Harbour W00 Medium", "IBM Plex Mono", monospace;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 1.8rem;
+  color: $rent-strike-color;
+}
+
+.modal > aside > p {
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.modal > aside > p > a,
+.modal > aside > p > span > a {
+  color: $rent-strike-color;
+  text-decoration: underline;
+}
+
+.modal > aside > p > a:visited,
+.modal > aside > p > span > a:visited {
+  color: $link-visited;
+}
+
+.modal > div {
+  position: sticky;
+  top: 0;
+  padding-top: 1.5rem;
+  background-color: white;
+}

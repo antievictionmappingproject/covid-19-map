@@ -1,8 +1,20 @@
 {
-  "page-title": "COVID-19: Legislação de Proteção e Mobilização pelo Acesso à Moradia",
+  "page-title": "COVID-19: Legislação de Proteção Global e Mobilização pelo Acesso à Moradia",
+  "modal": {
+    "title": "COVID-19: Legislação de Proteção Global e Mobilização pelo Acesso à Moradia",
+    "warning": "Nós sabemos que os despejos estão acontecendo apesar de existerem recursos legais de proteção. Por favor, preenche este questionário para ajudar a mapear e coletar informações sobre os despejos onde você mora. Você pode usar este mapa para encontrar ajuda jurídica e grupos de apoio na sua região. Se você está sendo alvo de ameaças de despejo, <a href='https://airtable.com/shrHbY2q4ZmFtkB9d' target='_blank rel='noreferrer noopener'>preencha este questionário aqui</a>.",
+    "content": {
+      "paragraph-1": "Este mapa é parte de uma resposta de emergência com o objetivo de compartilhar informações sobre legislação de proteção e ações de defesa da moradia durante a pandemia. Ele foi feito pelo Projeto de Mapeamento Contra os Despejos (AEMP), um coletivo de visualização, análise e narrativas de vida com grupos em São Francisco, Los Angeles, Nova Iorque e colaboradores em várias partes do mundo.",
+      "paragraph-2": "AEMP agrega data usando tecnologias livres e de código aberto para apoiar movimentos sociais e grupos de pesquisa para promover a justiça no acesso à moradia. Os dados são coletados de forma colaborativa e não é exaustivo ou perfeito.",
+      "paragraph-3": "Para aprender mais sobre as proteções à moradia e a metodologia que adotamos, veja aqui. Para visualizar os dados, <a href='#' target='_blank' rel='noreferrer noopener'>clique aqui</a>",
+      "paragraph-4": "O grupo de Mapeamento Contra Despejos reconhece que estamos mapeando territórios indigenas que foram saqueados, colonizados, dividimos e renomeados. Nosso objetivo é de demonstrar respeito aos ocupantes originais das terras com a utilização de nomes indigenas, mas uma limitação dos serviços que utilizamos nós impede de implementar a modificação neste momento.",
+      "paragraph-5": "O grupo de Mapeamento Contra Despejos mantém relação pŕoxima com várias organizações na luta pela moradia. O desenvolvimento deste mapa contou com a ajuda do <a href='https://mappingaction.org/' target='_blank rel='noreferrer noopener'>Mapping Action Collective</a>, <a href='http://www.tenantstogether.org/' target='_blank rel='noreferrer noopener'>Tenants Together</a>, <a href='http://sfadc.org/landingpage/covid-19/' target='_blank rel='noreferrer noopener'>San Francisco Anti-Displacement Coalition</a>, <a href='https://ebho.org/' target='_blank rel='noreferrer noopener'>organizações em torno da East Bay Housing</a>, <a href='http://communityjusticeproject.com/' target='_blank rel='noreferrer noopener'>Community Justice Project</a>, <a href='https://www.law.columbia.edu/faculty/emily-benfer' target='_blank rel='noreferrer noopener'>Dr. Emily Benfer</a> e <a href='https://docs.google.com/spreadsheets/u/1/d/e/2PACX-1vTH8dUIbfnt3X52TrY3dEHQCAm60e5nqo0Rn1rNCf15dPGeXxM9QN9UdxUfEjxwvfTKzbCbZxJMdR7X/pubhtml?gid=1277129435&single=true&urp=gmail_link' target='_blank rel='noreferrer noopener'> seus estudantes de direito</a>, e <a href='https://bayarearentstrike.org/' target='_blank rel='noreferrer noopener'>organizadores do Bay Area Rent Strike (BARS)</a>, bem como a assistência de grupos internacionais de pesquisa como <a href='https://notanatlas.org/about/' target='_blank rel='noreferrer noopener'>Kollektiv Orangotango</a> e <a href='https://housingnotprofit.org/' target='_blank rel='noreferrer noopener'>Coalizão Européia pelo Direito à Moradia</a>. Nós também agradecemos a ajuda dos grupos <a href='https://righttothecity.org/' target='_blank rel='noreferrer noopener'>Right To The City Alliance</a>, <a href='https://www.policylink.org/' target='_blank rel='noreferrer noopener'>Policy Link</a>, <a href='https://www.pdx.edu/profile/lisa-bates' target='_blank rel='noreferrer noopener'>Dr. Lisa Bates</a>, e <a href='http://www.publicjustice.org/en/john-pollock-attorney/' target='_blank rel='noreferrer noopener'>John Pollock</a> da organização Public Justice, Greg Townley do coletivo <a href='https://www.psuf.org/homelessness-research-action-collaborative' target='_blank rel='noreferrer noopener'>Homelessness Research Action</a>, e Leeor Schwitzer do grupo <a href='https://www.pdxtu.org/' target='_blank rel='noreferrer noopener'>Portland Tenants United</a>."
+    }
+  },
   "titlebox": {
     "title": "COVID-19: Legislação de Proteção e Mobilização pelo Acesso à Moradia",
     "about-map": "Sobre o mapa:",
+    "aemp-name": "The Anti-Eviction Mapping Project",
     "about-protections": "Legislação de Proteção à Moradia",
     "about-description": "Lugares onde foram aprovadas (ou tramitam) leis de proteção à moradia durante a crise do coronavírus.",
     "legislation-form-usa": "",
@@ -46,6 +58,7 @@
       "loc-label": "Localização:",
       "status-label": "Situação:",
       "why-label": "Por quê?",
+      "strike-type-label": "Tipo de ação:",
       "start-date-label": "Início:",
       "resources-label": "Recursos de apoio:"
     }
@@ -61,6 +74,7 @@
     "1": "Poucas proteções aprovadas",
     "2": "Algumas proteções aprovadas",
     "3": "Muitas proteções aprovadas",
-    "expired": "Indica proteções que não são mais válidas"
+    "expired": "Indica proteções que não são mais válidas",
+    "missingData": "Dados não disponíveis"
   }
 }

@@ -1,15 +1,16 @@
 #search-bar-div {
   position: absolute;
-  left: 33%;
+  left: 37%;
   top: 16px;
   width: 35%;
   z-index: 600;
-}
 
-@media (max-width: 640px) {
-  #search-bar-div {
-    left: 2%;
-    width: 70%;
+  @media (max-width: 900px) {
+    top: unset;
+    left: 10px;
+    right: 10px;
+    bottom: 0;
+    width: unset;
   }
 }
 
