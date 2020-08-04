@@ -13,7 +13,6 @@ import * as queries from "./utils/queries";
 import { formatDate } from "./utils/datetime";
 
 //styling helpers
-
 function highlightFeature(e) {
   const layer = e.target;
 

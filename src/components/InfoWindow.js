@@ -33,6 +33,8 @@ export class InfoWindow {
   render = (props) => {
     const { template, data } = props;
 
+    console.log(data);
+
     switch (template) {
       case "protections":
         this.infowindowContainer.innerHTML = Mustache.render(
