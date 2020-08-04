@@ -89,6 +89,6 @@ export const searchResultProtectionsQuery = (adminLevel, locationName) => {
     case "adminDistrict":
       return `SELECT state AS jurisdictionname, range, policy_type, policy_summary, link, has_expired_protections, end_date_earliest, end_date_legist, end_date_rent_relief, end_date_court, the_geom_webmercator AS the_geom  FROM ${cartoSheetSyncTable} WHERE admin_scale ='State' AND state LIKE '${locationName}%'`;
     case "countryRegion":
-      return `SELECT country AS jurisdictionname, policy_type, policy_summary, link, has_expired_protections, end_date_earliest, the_geom_webmercator AS the_geom FROM ${cartoSheetSyncTable} WHERE admin_scale = 'Country' AND policy_type = 'National' AND country LIKE '${locationName}%'`;
+      return `SELECT country AS jurisdictionname, range, policy_type, policy_summary, link, has_expired_protections, end_date_earliest, the_geom_webmercator AS the_geom FROM ${cartoSheetSyncTable} WHERE admin_scale = 'Country' AND policy_type = 'National' AND country LIKE '${locationName}%'`;
   }
 };
