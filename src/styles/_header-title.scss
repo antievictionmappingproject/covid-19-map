@@ -16,12 +16,8 @@ header#aemp-titlebox {
 }
 
 .aemp-titlebox-closed {
-  width: 115px !important;
+  width: fit-content !important;
   padding: 5px !important;
-
-  @media (max-width: 640px) {
-    width: 105px !important;
-  }
 }
 
 details > h1 {
