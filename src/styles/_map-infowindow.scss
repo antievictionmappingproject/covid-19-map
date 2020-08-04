@@ -8,6 +8,7 @@
 .aemp-infowindow {
   position: absolute;
   right: 0;
+
   bottom: 20px;
   top: 154px;
   width: 350px;
@@ -99,6 +100,7 @@ a.aemp-infowindow-close:hover {
 
 .infowindow-link:hover > a {
   color: $rent-strike-color;
+
   text-decoration: underline;
 }
 

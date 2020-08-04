@@ -31,7 +31,8 @@
     }
   },
   "searchbar": {
-    "default-value": "Search location"
+    "default-value": "Search location",
+    "not-found": "No tenant protections listed for this location"
   },
   "infowindow": {
     "policy": {

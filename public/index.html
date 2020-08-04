@@ -23,7 +23,7 @@
     <link
       rel="preload"
       as="style"
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&display=swap"
+     href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&display=swap"
     />
     <link
       rel="preload"
@@ -354,6 +354,82 @@
         {{/resources}}
       </div>
     </script>
+
+
+
+    <script id="search-result-infowindow-template" type="x-tmpl-mustache">
+
+
+        <div>
+          <p>
+            <strong data-i18n="infowindow.policy.jurisdictionType.{{jurisdictionTypeI18n}}"></strong><strong>: </strong>{{jurisdictionname}}
+          </p>
+        </div>
+
+        {{#range}}
+        <div>
+          <p>
+            <strong data-i18n="infowindow.policy.strength-label"></strong>
+            <span class="policy-strength-color policy-strength-color--{{range}}" data-i18n="policy-strength.{{range}}"></span>
+          </p>
+        </div>
+        {{/range}}
+
+        {{#endDateEarliest}}
+        <div>
+          <p><strong data-i18n="infowindow.policy.protections-end-label"></strong> {{endDateEarliest}}</p>
+        </div>
+        {{/endDateEarliest}}
+
+        {{#endDateLegist}}
+        <div>
+          <p><strong data-i18n="infowindow.policy.legislative-end-label"></strong> {{endDateLegist}}</p>
+        </div>
+        {{/endDateLegist}}
+
+        {{#endDateRentRelief}}
+        <div>
+          <p><strong data-i18n="infowindow.policy.rent-relief-end-label"></strong> {{endDateRentRelief}}</p>
+        </div>
+        {{/endDateRentRelief}}
+
+        {{#endDateCourt}}
+        <div>
+          <p><strong data-i18n="infowindow.policy.court-closure-end-label"></strong> {{endDateCourt}}</p>
+        </div>
+        {{/endDateCourt}}
+
+        {{#policy_summary}}
+        <div>
+          <p><strong data-i18n="infowindow.policy.summary-label"></strong></p>
+          <p>{{policy_summary}}</p>
+        </div>
+        {{/policy_summary}}
+
+        {{#start}}
+        <div>
+          <p><strong data-i18n="infowindow.policy.start-date-label"></strong> {{start}}</p>
+        </div>
+        {{/start}}
+
+        {{#_end}}
+        <div>
+          <p><strong data-i18n="infowindow.policy.end-date-label"></strong> {{end}}</p>
+        </div>
+        {{/_end}}
+
+        {{#link}}
+        <div>
+          <p class="infowindow-link"><a target="_blank" href="{{link}}" rel="noopener noreferrer" data-i18n="infowindow.policy.link">View more info.</a></p>
+        </div>
+        {{/link}}
+
+
+    </script>
+
+
+
+
     <!-- Leaflet map SVG patterns -->
     <svg id="map-pattern-fills" width="0" height="0" aria-hidden="true">
       <defs>
@@ -463,6 +539,7 @@
           patternTransform="rotate(135)"
         >
           <path
+
             stroke="#5e5e5e"
             stroke-opacity="1"
             stroke-width="4"

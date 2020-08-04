@@ -31,7 +31,8 @@
     }
   },
   "searchbar": {
-    "default-value": "Digita una localización"
+    "default-value": "Digita una localización",
+    "not-found": "No hay protecciones para esta ubicación"
   },
   "infowindow": {
     "policy": {
