@@ -110,14 +110,3 @@ details p:last-of-type {
     color: $rent-strike-color;
   }
 }
-
-.submit-container {
-  display: flex;
-
-  p:first-child {
-    margin-right: 12px;
-    flex-shrink: 0;
-    font-family: "IBM Plex Mono", monospace;
-    color: $rent-strike-color;
-  }
-}
