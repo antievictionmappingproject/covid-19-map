@@ -40,20 +40,21 @@ details {
   max-width: 306px;
 }
 
-details > summary {
+details summary {
   font-size: 2rem;
   font-weight: bold;
   cursor: pointer;
   font-family: "IBM Plex Mono", monospace;
-  color: black;
+  color: $font-color-black;
+  outline: none;
 
   @media (max-width: 640px) {
     font-size: 1.4rem;
   }
 }
 
-details > summary::-webkit-details-marker,
-summary::marker {
+details summary::-webkit-details-marker,
+details summary::marker {
   color: $rent-strike-color;
 }
 
