@@ -40,9 +40,10 @@ export async function getData() {
   });
 }
 export async function getSearchData(str) {
+  let langStr = navigator.language ? `&culture = ${navigator.language}` : "";
   try {
     let res = await fetch(
-      `https://dev.virtualearth.net/REST/v1/Autosuggest?query=${str}&userMapView=-90,-180,90,180&key=${bingApiKey}`
+      `https://dev.virtualearth.net/REST/v1/Autosuggest?query=${str}${langStr}&includeEntityTypes=place&userMapView=-90,-180,90,180&key=${bingApiKey}`
     );
     return await res.json();
   } catch (e) {

@@ -31,7 +31,8 @@
     }
   },
   "searchbar": {
-    "default-value": "Digite a localidade"
+    "default-value": "Digite a localidade",
+    "not-found": "Proteções não foram encontradas para esta localidade"
   },
   "infowindow": {
     "policy": {
