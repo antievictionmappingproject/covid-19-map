@@ -79,3 +79,16 @@ export const housingActionsCartoQuery = `
 `;
 
 //Rent Strike / Rent decrease (i.e. suspended or decreased rent payment) / Huelga de alquiler / disminución de alquiler (es decir, pago de alquiler suspendido o disminuido) / Grève du loyer / diminution du loyer (c.-à-d. Suspension ou diminution du paiement du loyer) / 租金罢工/租金减少（即暂停或减少的租金支付）
+
+export const searchResultProtectionsQuery = (adminLevel, locationName) => {
+  switch (adminLevel) {
+    case "locality":
+      return `SELECT municipality AS jurisdictionname, municipality, has_expired_protections, range, policy_type, policy_summary, link, end_date_earliest, end_date_legist, end_date_rent_relief, end_date_court, the_geom_webmercator AS the_geom FROM ${cartoSheetSyncTable} WHERE admin_scale = 'City' AND municipality LIKE '${locationName}%'`;
+    case "adminDistrict2":
+      return `SELECT  c.county AS jurisdictionname, m.range, m.policy_type, m.policy_summary, m.link, m.range, m.has_expired_protections, m.end_date_earliest, m.end_date_legist, m.end_date_rent_relief, m.end_date_court, c.the_geom_webmercator AS the_geom FROM ${cartoCountiesTable} c INNER JOIN ${cartoSheetSyncTable} m ON ST_Intersects(c.the_geom, m.the_geom) WHERE m.admin_scale = 'County' AND c.county LIKE '${locationName}%' AND m.admin_scale = 'County'`;
+    case "adminDistrict":
+      return `SELECT state AS jurisdictionname, range, policy_type, policy_summary, link, has_expired_protections, end_date_earliest, end_date_legist, end_date_rent_relief, end_date_court, the_geom_webmercator AS the_geom  FROM ${cartoSheetSyncTable} WHERE admin_scale ='State' AND state LIKE '${locationName}%'`;
+    case "countryRegion":
+      return `SELECT country AS jurisdictionname, policy_type, policy_summary, link, has_expired_protections, end_date_earliest, the_geom_webmercator AS the_geom FROM ${cartoSheetSyncTable} WHERE admin_scale = 'Country' AND policy_type = 'National' AND country LIKE '${locationName}%'`;
+  }
+};

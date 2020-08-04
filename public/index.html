@@ -1,3 +1,6 @@
+<!-- <div>Font made from <a href="http://www.onlinewebfonts.com">oNline Web Fonts</a>is licensed by CC BY 3.0</div> -->
+<!-- <a href="http://www.onlinewebfonts.com">oNline Web Fonts</a> -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -18,96 +21,170 @@
       href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
     />
     <link
+      rel="preload"
+      as="style"
+     href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&display=swap"
+    />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
+    />
+
+    <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
     />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
+    />
+
     <noscript>
       <link
         rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      />
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&display=swap"
+      />
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
       />
     </noscript>
   </head>
   <body>
     <div id="root">
       <header id="aemp-titlebox">
-        <h1 data-i18n="titlebox.title" id="aemp-title"></h1>
         <details open>
+          <h1 data-i18n="titlebox.title" id="aemp-title"></h1>
           <summary data-i18n="titlebox.about-map"></summary>
           <div class="title-content-wrapper">
             <h2 data-i18n="titlebox.about-protections"></h2>
             <p data-i18n="titlebox.about-description"></p>
-            <p>
-              <a
-                href="https://docs.google.com/forms/d/e/1FAIpQLSfHzR_SYO-wKfa3Abi9jDvZXCH3dsLgrkDj-9Rwm-3oRjDD9A/viewform"
-                target="_blank"
-                data-i18n="titlebox.legislation-form-intl"
-              ></a>
-            </p>
-            <p>
-              <a
-                href="https://docs.google.com/forms/d/e/1FAIpQLSdhYpQa66snIwgbF8OiATpAvNayhQHTZcke4wDK4JazehzEmQ/viewform"
-                target="_blank"
-                data-i18n="titlebox.legislation-form-usa"
-              ></a>
-            </p>
-            <div class="legend">
-              <div class="legendpair">
-                <div class="legendbox scale1">&nbsp;</div>
-                <span data-i18n="policy-strength.1"></span>
+
+            <div class="legendgrid">
+              <!-- Few protections -->
+              <div class="legendbox scale3"></div>
+              <p class="legendlabel" data-i18n="policy-strength.3"></p>
+              <!-- Some protections -->
+              <div class="legendbox scale2"></div>
+              <p class="legendlabel" data-i18n="policy-strength.2"></p>
+              <!-- Most protections -->
+              <div class="legendbox scale1"></div>
+              <p class="legendlabel" data-i18n="policy-strength.1"></p>
+              <!-- Missing Data -->
+              <div class="legendbox missingdata"></div>
+              <p
+                class="legendlabel"
+                data-i18n="policy-strength.missingData"
+              ></p>
+              <!-- Expired -->
+              <div class="legendbox expired"></div>
+              <p class="legendlabel" data-i18n="policy-strength.expired"></p>
+              <!-- Icons -->
+              <div class="legendbox-icons">
+                <div class="rent-strike-icon"></div>
+                <svg width="40" height="40">
+                  <circle cx="20" cy="20" r="20"></circle>
+                  <text x="12" y="25" class="cluster-svg-text">19</text>
+                </svg>
               </div>
-              <div class="legendpair">
-                <div class="legendbox scale2">&nbsp;</div>
-                <span data-i18n="policy-strength.2"></span>
-              </div>
-              <div class="legendpair">
-                <div class="legendbox scale3">&nbsp;</div>
-                <span data-i18n="policy-strength.3"></span>
-              </div>
-              <div class="legendpair">
-                <div class="legendbox-svg">
-                  <svg width="14" height="14">
-                    <rect x="2" y="2" width="10" height="10"></rect>
-                  </svg>
-                </div>
-                <em data-i18n="policy-strength.expired"></em>
-              </div>
+              <p
+                class="legendlabel"
+                data-i18n="layer-select.housingJusticeAction"
+              ></p>
             </div>
-            <h2 data-i18n="titlebox.housing-action-title"></h2>
-            <p data-i18n="titlebox.housing-action-description"></p>
-            <p>
+
+            <div class="legendgrid submissions">
+              <!-- Submit Header -->
+              <h3 data-i18n="titlebox.submit"></h3>
+
+              <!-- Resources Header -->
+              <h3 data-i18n="titlebox.resources.title"></h3>
+
+              <!-- Submission -->
+              <p>
+                <a
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSdhYpQa66snIwgbF8OiATpAvNayhQHTZcke4wDK4JazehzEmQ/viewform"
+                  target="_blank"
+                  data-i18n="titlebox.legislation-form-usa"
+                ></a>
+              </p>
+
+              <!-- Resource -->
+              <p>
+                <a
+                  href="https://cancelrent.us/"
+                  target="_blank"
+                  data-i18n="titlebox.resources.right-to-the-city"
+                ></a>
+              </p>
+
+              <!-- Submission -->
+              <p>
+                <a
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSfHzR_SYO-wKfa3Abi9jDvZXCH3dsLgrkDj-9Rwm-3oRjDD9A/viewform"
+                  target="_blank"
+                  data-i18n="titlebox.legislation-form-intl"
+                ></a>
+              </p>
+
+              <!-- Resource -->
+              <p>
+                <a
+                  href="https://housingnotprofit.org/"
+                  target="_blank"
+                  data-i18n="titlebox.resources.hashtag-cancel-rent"
+                ></a>
+              </p>
+              <!-- Submission -->
+              <p>
+                <a
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSfzMYs_BZYFb601oiAGtotfTX7tjZXvao3F0PHuTlko4rAxKA/viewform"
+                  target="_blank"
+                  data-i18n="titlebox.housing-action-form"
+                ></a>
+              </p>
+
+              <!-- Logo -->
               <a
-                href="https://docs.google.com/forms/d/e/1FAIpQLSfzMYs_BZYFb601oiAGtotfTX7tjZXvao3F0PHuTlko4rAxKA/viewform"
-                target="_blank"
-                data-i18n="titlebox.housing-action-form"
+                href="https://antievictionmap.com/"
+                data-i18n="titlebox.aemp-name"
+                class="aemp-logo"
               ></a>
-            </p>
-            <h2 data-i18n="titlebox.resources.title"></h2>
-            <p data-i18n="titlebox.resources.description"></p>
-            <p>
-              <a
-                href="https://cancelrent.us/"
-                target="_blank"
-                data-i18n="titlebox.resources.right-to-the-city"
-              ></a>
-            </p>
-            <p>
-              <a
-                href="https://housingnotprofit.org/"
-                target="_blank"
-                data-i18n="titlebox.resources.hashtag-cancel-rent"
-              ></a>
-            </p>
-            <p>
-              <a
-                href="https://thenewinquiry.com/rent-strike-2020/"
-                target="_blank"
-                data-i18n="titlebox.resources.right-to-the-city"
-              ></a>
-            </p>
+            </div>
           </div>
         </details>
       </header>
+
+      <!-- the modal container -->
+      <div id="modal-container">
+        <div class="modal">
+          <div>
+            <h4 data-i18n="modal.title"></h4>
+            <a href="#close" class="modal-close">&#x2715;</a>
+          </div>
+          <aside>
+            <p>
+              <span data-i18n="modal.warning"></span>
+            </p>
+            <p data-i18n="modal.content.paragraph-1"></p>
+            <p data-i18n="modal.content.paragraph-2"></p>
+            <!-- This next paragraph can be added once the data is ready.
+            This is a placeholder for now -->
+            <!-- <p data-i18n="modal.content.paragraph-3"></p> -->
+            <p data-i18n="modal.content.paragraph-4"></p>
+            <p data-i18n="modal.content.paragraph-5"></p>
+          </aside>
+        </div>
+      </div>
 
       <!-- the Leaflet map container -->
       <div id="map"></div>
@@ -120,7 +197,7 @@
             name="search"
             id="search-bar"
             aria-label="search"
-            value="&#128269; &nbsp; &nbsp;"
+            value="&#128269; &nbsp;"
             list="search-bar-autocomplete"
             autocomplete="off"
           />
@@ -229,9 +306,15 @@
 
         {{#link}}
         <div>
-          <p><a target="_blank" href="{{link}}" rel="noopener noreferrer" data-i18n="infowindow.policy.link">View more info.</a></p>
+          <p class="infowindow-link"><a target="_blank" href="{{link}}" rel="noopener noreferrer" data-i18n="infowindow.policy.link">View more info.</a></p>
         </div>
         {{/link}}
+
+         {{#resource}}
+        <div>
+          <p><a target="_blank" href="{{resource}}" rel="noopener noreferrer" data-i18n="infowindow.policy.link">View more info.</a></p>
+        </div>
+        {{/resource}}
       </div>
     </script>
 
@@ -271,6 +354,82 @@
         {{/resources}}
       </div>
     </script>
+
+
+
+    <script id="search-result-infowindow-template" type="x-tmpl-mustache">
+
+
+        <div>
+          <p>
+            <strong data-i18n="infowindow.policy.jurisdictionType.{{jurisdictionTypeI18n}}"></strong><strong>: </strong>{{jurisdictionname}}
+          </p>
+        </div>
+
+        {{#range}}
+        <div>
+          <p>
+            <strong data-i18n="infowindow.policy.strength-label"></strong>
+            <span class="policy-strength-color policy-strength-color--{{range}}" data-i18n="policy-strength.{{range}}"></span>
+          </p>
+        </div>
+        {{/range}}
+
+        {{#endDateEarliest}}
+        <div>
+          <p><strong data-i18n="infowindow.policy.protections-end-label"></strong> {{endDateEarliest}}</p>
+        </div>
+        {{/endDateEarliest}}
+
+        {{#endDateLegist}}
+        <div>
+          <p><strong data-i18n="infowindow.policy.legislative-end-label"></strong> {{endDateLegist}}</p>
+        </div>
+        {{/endDateLegist}}
+
+        {{#endDateRentRelief}}
+        <div>
+          <p><strong data-i18n="infowindow.policy.rent-relief-end-label"></strong> {{endDateRentRelief}}</p>
+        </div>
+        {{/endDateRentRelief}}
+
+        {{#endDateCourt}}
+        <div>
+          <p><strong data-i18n="infowindow.policy.court-closure-end-label"></strong> {{endDateCourt}}</p>
+        </div>
+        {{/endDateCourt}}
+
+        {{#policy_summary}}
+        <div>
+          <p><strong data-i18n="infowindow.policy.summary-label"></strong></p>
+          <p>{{policy_summary}}</p>
+        </div>
+        {{/policy_summary}}
+
+        {{#start}}
+        <div>
+          <p><strong data-i18n="infowindow.policy.start-date-label"></strong> {{start}}</p>
+        </div>
+        {{/start}}
+
+        {{#_end}}
+        <div>
+          <p><strong data-i18n="infowindow.policy.end-date-label"></strong> {{end}}</p>
+        </div>
+        {{/_end}}
+
+        {{#link}}
+        <div>
+          <p class="infowindow-link"><a target="_blank" href="{{link}}" rel="noopener noreferrer" data-i18n="infowindow.policy.link">View more info.</a></p>
+        </div>
+        {{/link}}
+
+
+    </script>
+
+
+
+
     <!-- Leaflet map SVG patterns -->
     <svg id="map-pattern-fills" width="0" height="0" aria-hidden="true">
       <defs>
@@ -285,7 +444,7 @@
           patternTransform="rotate(45)"
         >
           <path
-            stroke="#d9f0a3"
+            stroke="#5e5e5e"
             stroke-opacity="1"
             stroke-width="4"
             stroke-linecap="round"
@@ -316,7 +475,7 @@
           patternTransform="rotate(45)"
         >
           <path
-            stroke="#78c679"
+            stroke="#bdbdbd"
             stroke-opacity="1"
             stroke-width="4"
             stroke-linecap="round"
@@ -347,7 +506,7 @@
           patternTransform="rotate(45)"
         >
           <path
-            stroke="#238443"
+            stroke="#ffffff"
             stroke-opacity="1"
             stroke-width="4"
             stroke-linecap="round"
@@ -380,7 +539,8 @@
           patternTransform="rotate(135)"
         >
           <path
-            stroke="#d9f0a3"
+
+            stroke="#5e5e5e"
             stroke-opacity="1"
             stroke-width="4"
             stroke-linecap="round"
@@ -411,7 +571,7 @@
           patternTransform="rotate(135)"
         >
           <path
-            stroke="#78c679"
+            stroke="#bdbdbd"
             stroke-opacity="1"
             stroke-width="4"
             stroke-linecap="round"
@@ -442,7 +602,7 @@
           patternTransform="rotate(135)"
         >
           <path
-            stroke="#238443"
+            stroke="#ffffff"
             stroke-opacity="1"
             stroke-width="4"
             stroke-linecap="round"

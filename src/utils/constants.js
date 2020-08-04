@@ -1,18 +1,20 @@
 import { mapLayersConfig } from "../map-layers";
 
 // List of all languages we have translations for.
-export const languages = ["en", "pt-BR"];
+export const languages = ["en", "es", "pt-BR"];
 
-// color values come from this ColorBrewer url:
-// https://colorbrewer2.org/#type=sequential&scheme=YlGn&n=7
+// color values come from this ColorBrewer:
 export const colorNoData = "#939393";
-export const fillColorScale = [undefined, "#d9f0a3", "#78c679", "#238443"];
-export const strokeColorScale = [undefined, "#addd8e", "#41ab5d", "#005a32"];
+export const fillColorScale = [undefined, "#5e5e5e", "#bdbdbd", "#ffffff"];
+export const strokeColorScale = [undefined, "#ffffff", "#ffffff", "#ffffff"];
+
+export const rentStrikeColor = "#c92a1d";
 
 // global map layer styling variables
-export const strokeWeight = 1.5;
+export const strokeWeightMore = 3; //state boundary
+export const strokeWeightLess = 1.5;
 export const pointRadius = 10;
-export const fillOpacity = 0.7;
+export const fillOpacity = 0.95;
 
 // corresponds to fill & stroke color scales above
 export const policyStrengthLayerClassNames = [
@@ -27,10 +29,10 @@ export const MOBILE_BREAKPOINT = 640;
 export const DESKTOP_BREAKPOINT = 1200;
 
 export const defaultMapConfig = {
-  lat: 40.67,
-  lng: -97.23,
-  z: 4,
-  nations: false,
+  lat: 40.27,
+  lng: -43.74,
+  z: 2,
+  nations: true,
   states: true,
   cities: true,
   counties: true,
@@ -41,3 +43,96 @@ export const TOTAL_NUMBER_OF_MAP_LAYERS = Object.keys(mapLayersConfig).length;
 
 export const isMobile = () =>
   document.querySelector("body").offsetWidth < MOBILE_BREAKPOINT;
+
+export const usStateAbbrevToName = {
+  al: "Alabama",
+  ak: "Alaska",
+  az: "Arizona",
+  ar: "Arkansas",
+  ca: "California",
+  co: "Colorado",
+  ct: "Connecticut",
+  de: "Delaware",
+  fl: "Florida",
+  ga: "Georgia",
+  hi: "Hawaii",
+  id: "Idaho",
+  il: "Illinois",
+  in: "Indiana",
+  ia: "Iowa",
+  ks: "Kansas",
+  ky: "Kentucky",
+  la: "Louisiana",
+  me: "Maine",
+  md: "Maryland",
+  ma: "Massachusetts",
+  mi: "Michigan",
+  mn: "Minnesota",
+  ms: "Mississippi",
+  mo: "Missouri",
+  mt: "Montana",
+  ne: "Nebraska",
+  nv: "Nevada",
+  nh: "New Hampshire",
+  nj: "New Jersey",
+  nm: "New Mexico",
+  ny: "New York",
+  nc: "North Carolina",
+  nd: "North Dakota",
+  oh: "Ohio",
+  ok: "Oklahoma",
+  or: "Oregon",
+  pa: "Pennsylvania",
+  ri: "Rhode Island",
+  sc: "South Carolina",
+  sd: "South Dakota",
+  tn: "Tennessee",
+  tx: "Texas",
+  ut: "Utah",
+  vt: "Vermont",
+  va: "Virginia",
+  wa: "Washington",
+  wv: "West Virginia",
+  wi: "Wisconson",
+  wy: "Wyoming",
+  dc: "District of Columbia",
+};
+
+export const indiaStateAbbrevToName = {
+  an: "Andaman and Nicobar Islands",
+  ap: "Andhra Pradesh",
+  ar: "Arunachal Pradesh",
+  as: "Assam",
+  br: "Bihar",
+  ch: "Chandigarh",
+  ct: "Chhattisgarh",
+  dn: "Dadra and Nagar Haveli",
+  dd: "Daman and Diu",
+  dl: "Delhi",
+  ga: "Goa",
+  gj: "Gujarat",
+  hr: "Haryana",
+  hp: "Himachal Pradesh",
+  jk: "Jammu and Kashmir",
+  jh: "Jharkhand",
+  ka: "Karnataka",
+  kl: "Kerala",
+  ld: "Lakshadweep",
+  mp: "Madhya Pradesh",
+  mh: "Maharashtra",
+  mn: "Manipur",
+  ml: "Meghalaya",
+  mz: "Mizoram",
+  nl: "Nagaland",
+  or: "Odisha",
+  py: "Puducherry",
+  pb: "Punjab",
+  rj: "Rajasthan",
+  sk: "Sikkim",
+  tn: "Tamil Nadu",
+  tg: "Telangana",
+  tr: "Tripura",
+  up: "Uttar Pradesh",
+  ut: "Uttarakhand",
+  wb: "West Bengal",
+};

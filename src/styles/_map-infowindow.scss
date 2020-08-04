@@ -8,23 +8,36 @@
 .aemp-infowindow {
   position: absolute;
   right: 0;
-  top: 40px;
+
+  bottom: 20px;
+  top: 154px;
   width: 350px;
   margin: 10px 10px 0 0;
-  max-height: 95%;
   overflow-y: auto;
-  padding: 15px;
+  padding: 0 15px 15px 15px;
   background: white;
-  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
+  font-family: "Noto Sans", sans-serif;
+  border: 1px solid $rent-strike-color;
+}
+
+@media (max-width: 900px) {
+  .aemp-infowindow {
+    bottom: 40px;
+  }
 }
 
 @media (max-width: 640px) {
   .aemp-infowindow {
     left: 0;
+    right: 0;
     bottom: 0;
+    top: 0;
     margin: 0;
+    z-index: 1000;
+    max-height: 100%;
+    max-width: 100%;
     width: 100%;
-    height: 50%;
+    height: 100%;
   }
 }
 
@@ -35,19 +48,29 @@
 }
 
 .aemp-infowindow p.infowindow-title {
+  font-family: "IBM Plex Mono", monospace;
   font-size: 1.8rem;
+  color: $rent-strike-color;
+
+  @media (max-width: 640px) {
+    max-width: 80%;
+  }
 }
 
 a.aemp-infowindow-close {
-  display: block;
-  float: right;
-  font-size: 2.4rem;
+  display: inline-block;
+  position: absolute;
+  right: 10px;
+  top: -20px;
+  font-size: 5.4rem;
   font-style: normal;
-  font-weight: bold;
+  font-weight: 500;
+  color: $rent-strike-color;
 }
 
 a.aemp-infowindow-close:hover {
   text-decoration: none;
+  color: $link-visited;
 }
 
 .aemp-infowindow .policy-strength-color {
@@ -58,6 +81,8 @@ a.aemp-infowindow-close:hover {
 
 .aemp-infowindow .policy-strength-color--1 {
   background-color: $policy-color-bg-1;
+  border: 1px solid $policy-color-str-2;
+  color: $policy-color-str-3; //white font
 }
 
 .aemp-infowindow .policy-strength-color--2 {
@@ -65,6 +90,20 @@ a.aemp-infowindow-close:hover {
 }
 
 .aemp-infowindow .policy-strength-color--3 {
-  color: #fff;
+  color: #000;
   background-color: $policy-color-bg-3;
+}
+
+.infowindow-link > a {
+  color: $font-color-black;
+}
+
+.infowindow-link:hover > a {
+  color: $rent-strike-color;
+
+  text-decoration: underline;
+}
+
+.infowindow-link:visited > a {
+  color: $link-visited;
 }
