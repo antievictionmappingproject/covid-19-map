@@ -13,4 +13,4 @@ export const cartoStatesTable = "public.states_and_provinces_global";
 export const cartoNationsTable = "public.countries";
 
 export const bingApiKey =
-  "Ars_Xdn-jUBqKP6OH0kwNgYzZ2uUx5_kbj0HBjpjCnrAHhHyTVzBZNk1UW6bxgZo";
+  "Al2-1GXrd8GzwtSAID3J3LJn-flLLgNWzNtsT5nnSKW8dA2ClgaXXXMQR6WfE6wE";
