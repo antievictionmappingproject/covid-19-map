@@ -112,7 +112,7 @@ export const searchResultProtectionsQuery = (adminLevel, locationName) => {
 
     case "countryRegion":
       return `SELECT country AS jurisdictionname, 
-        policy_type, policy_summary, link, resource,
+        range, policy_type, policy_summary, link, resource,
         has_expired_protections, end_date_earliest, 
         the_geom_webmercator AS the_geom FROM ${cartoSheetSyncTable} 
       WHERE admin_scale = 'Country' AND policy_type = 'National' 
