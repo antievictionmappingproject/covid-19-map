@@ -6,7 +6,7 @@ Mapping states, counties, and municipalities that are enacting emergency tenant 
 
 Data sourcing and maintenance is being provided by the [Anti-Eviction Mapping Project](https://www.antievictionmap.com/).
 
-**DISCLAIMER:** This data is by no means perfect or exhaustive of all emergency tenant protection policies in the United States and elsewhere. It has been crowdsourced and is maintained by a team of dedicated volunteers. If you notice something missing or incorrect in the data, please [reach out to us](mailto:antievictionmap@riseup.net) to let us know so we may update it accordingly!
+**DISCLAIMER:** This data is by no means perfect or exhaustive of all emergency tenant protection policies. It has been crowdsourced and is maintained by a team of dedicated volunteers. If you notice something missing or incorrect in the data, please [reach out to us](mailto:antievictionmap@riseup.net) to let us know so we may update it accordingly! The AEMP recognizes that we are mapping Indigenous lands that have been stolen, colonized, divided, and renamed. We have depicted colonial and nation-state geographies because tenant protection legislation exists within these borders. Our goal is to pay our respect to the original stewards of the land by using Indigenous names, whenever a third-part service that we depend on allows us to implement this modification.
 
 ## Developer Instructions
 
