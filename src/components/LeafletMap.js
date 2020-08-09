@@ -1,14 +1,21 @@
 import Mustache from "mustache";
 import i18next from "i18next";
 import L from "lib/leaflet";
-
 import { dispatch } from "utils/dispatch";
 import {
   defaultMapConfig,
   isMobile,
+  rentStrikeColor,
   TOTAL_NUMBER_OF_MAP_LAYERS,
 } from "utils/constants";
 import { getAutocompleteMapLocation } from "utils/data";
+import { getCartoData } from "../utils/data";
+import * as queries from "../utils/queries";
+import {
+  usStateAbbrevToName,
+  indiaStateAbbrevToName,
+} from "../utils/constants";
+import { mapLayersConfig } from "../map-layers";
 
 export class LeafletMap {
   // dataLayers: look up table to store layer groups in the form of
@@ -36,7 +43,9 @@ export class LeafletMap {
         [-85.05, -190], // lower left
         [85.05, 200], // upper right
       ],
+      maxZoom: 12,
     });
+
     this.map.setView([lat, lng], z);
     this.attributionControl = L.control
       .attribution({ prefix: "Data sources by: " })
@@ -53,11 +62,14 @@ export class LeafletMap {
       .addTo(this.map);
 
     this.layersControl = L.control
-      .layers(null, null, { position: "topright", collapsed: false })
+      .layers(null, null, {
+        position: "topright",
+        collapsed: false,
+      })
       .addTo(this.map);
 
     this.basemapLayer = L.tileLayer(
-      "https://a.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}@2x.png",
+      "https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png",
       {
         minZoom: 1,
         maxZoom: 18,
@@ -101,6 +113,13 @@ export class LeafletMap {
     window.addEventListener("resize", function () {
       clearTimeout(resizeWindow);
       resizeWindow = setTimeout(self.handleWindowResize, 250);
+    });
+
+    // Close the title box if mobile
+    window.addEventListener("load", function () {
+      if (isMobile()) {
+        dispatch.call("title-details-close");
+      }
     });
 
     dispatch.on("close-infowindow.map", this.handleInfoWindowClose);
@@ -174,6 +193,7 @@ export class LeafletMap {
 
       const markerClusterGroup = L.markerClusterGroup({
         maxClusterRadius: 40,
+        polygonOptions: { color: rentStrikeColor, zoomToBoundsOnClick: false },
       }).on("clusterclick", function () {
         if (isMobile()) {
           dispatch.call("title-details-close");
@@ -211,6 +231,7 @@ export class LeafletMap {
     this.dataLayers.set(localizedName, {
       layerGroup,
       zIndex: layerConfig.zIndex,
+      overlayOrder: layerConfig.overlayOrder,
     });
 
     if (this.config[key]) {
@@ -227,7 +248,8 @@ export class LeafletMap {
       return;
     }
 
-    this.dataLayers.forEach(({ layerGroup }, name) => {
+    // fix the order of layers in the layer controller
+    this.fixOverlayOrder(this.dataLayers).forEach(({ layerGroup }, name) => {
       this.layersControl.addOverlay(layerGroup, name);
     });
 
@@ -235,15 +257,28 @@ export class LeafletMap {
     this.toggleLoadingIndicator(false);
   };
 
+  // fix the z order of the map layers
   fixZOrder = () => {
     const layers = Array.from(this.dataLayers.values()).sort(
       (a, b) => b.zIndex - a.zIndex
     );
+
     layers.forEach(({ layerGroup }) => {
       if (this.map.hasLayer(layerGroup)) {
         layerGroup.bringToFront();
       }
     });
+  };
+
+  // return a new Map with the correct overlay order
+  fixOverlayOrder = (dataLayers) => {
+    const layers = new Map(
+      [...dataLayers.entries()].sort(
+        (a, b) => a[1].overlayOrder - b[1].overlayOrder
+      )
+    );
+
+    return layers;
   };
 
   toggleLoadingIndicator = (isLoading) => {
@@ -269,8 +304,91 @@ export class LeafletMap {
           </div>
       `;
       marker.bindPopup(markerContent).openPopup();
+      this.showSearchResultProtections(resource);
     } catch (e) {
       dispatch.call("search-bar-no-data", this, e);
+    }
+  };
+
+  showSearchResultProtections = async (resource) => {
+    let protections = await this.getSearchResultProtections(resource);
+    dispatch.call("render-infowindow", null, {
+      template: "searchResult",
+      data: protections,
+    });
+  };
+
+  getSearchResultProtections = async (resource) => {
+    //this is necessary because Bing sometimes returns full state names and other times as two-letter abbreviations
+    if (resource.address.countryRegion === "United States") {
+      let stateName = resource.address.adminDistrict;
+      if (
+        stateName.length === 2 &&
+        usStateAbbrevToName[stateName.toLowerCase()]
+      ) {
+        Object.assign(resource.address, {
+          adminDistrict: usStateAbbrevToName[stateName.toLowerCase()],
+        });
+      }
+    }
+    //India too
+    if (resource.address.countryRegion === "India") {
+      let stateName = resource.address.adminDistrict;
+      if (
+        stateName.length === 2 &&
+        indiaStateAbbrevToName[stateName.toLowerCase()]
+      ) {
+        Object.assign(resource.address, {
+          adminDistrict: indiaStateAbbrevToName[stateName.toLowerCase()],
+        });
+      }
+    }
+    return [
+      "locality",
+      "adminDistrict2",
+      "adminDistrict",
+      "countryRegion",
+    ].reduce(async (prevPromise, adminLevel) => {
+      let mapObj = await prevPromise;
+      if (!resource.address[adminLevel]) {
+        return mapObj;
+      }
+      const protection = await this.queryForProtectionByLocation(
+        adminLevel,
+        resource.address[adminLevel]
+      );
+      let plainLanguageAdminLevel = {
+        locality: "cities",
+        adminDistrict2: "counties",
+        adminDistrict: "states",
+        countryRegion: "nations",
+      }[adminLevel];
+      if (protection && protection.features.length) {
+        return mapObj.concat(
+          mapLayersConfig[plainLanguageAdminLevel].props(
+            Object.assign({}, { feature: protection.features[0] })
+          )
+        );
+      }
+      return mapObj;
+    }, Promise.resolve([]));
+  };
+  queryForProtectionByLocation = async (adminLevel, locationName) => {
+    if (
+      adminLevel === "adminDistrict2" &&
+      locationName.indexOf("County") >= 0
+    ) {
+      locationName = locationName.replace(" County", "");
+    }
+    try {
+      return await getCartoData(
+        queries.searchResultProtectionsQuery(adminLevel, locationName)
+      );
+    } catch (e) {
+      console.log(
+        `no protections data from ${adminLevel} named ${locationName}`
+      );
+      return null;
     }
   };
 }

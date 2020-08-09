@@ -1,54 +1,87 @@
 div.legend {
   width: 100%;
+  margin-bottom: 24px;
 }
 
-div.legendpair {
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: nowrap;
-  font-size: 1.4em;
-  padding: 2px 0 0 0;
-  width: 100%;
+div.legendgrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto;
+  align-items: center;
+  justify-items: left;
+  margin-top: 16px;
+}
+
+div.submissions {
+  margin-top: 32px;
+  grid-row-gap: 16px;
+  align-items: start;
+
+  h3 {
+    color: $rent-strike-color;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  p {
+    max-width: 95px;
+    margin: 0;
+  }
+
+  .aemp-logo {
+    font-family: "Harbour W00 Medium", "IBM Plex Mono", monospace;
+    color: $rent-strike-color;
+    font-size: 1.6rem;
+    font-style: normal;
+    text-transform: uppercase;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.legendlabel {
+  text-transform: uppercase;
 }
 
 .legendbox,
 %legendbox {
-  width: 12px;
-  height: 12px;
+  width: 95px;
+  height: 75px;
   display: inline-block;
   border-style: solid;
-  border-width: 2px;
-  margin: 4px 5px 0 0;
+  border-width: 1px;
+  opacity: 0.7;
 }
 
-.legendbox-svg {
-  @extend %legendbox;
+.legendbox-icons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 95px;
 
-  margin-top: -2px;
-  margin-left: -1px;
-  border: none;
-
-  svg {
-    display: inline;
+  .rent-strike-icon {
+    background-image: url("../../public/assets/mapIcons/rent-strike.svg");
+    background-size: 55px 55px;
+    height: 40px;
+    width: 40px;
   }
 
-  rect {
-    stroke: $policy-color-str-2;
-    stroke-width: 2;
-    fill: url("#pattern-some-protections");
+  circle {
+    fill: $rent-strike-color;
+    stroke: 1px solid white;
   }
-}
 
-.legendtext {
-  width: 50px;
-  font-size: 12px;
-  display: inline-block;
-  margin: 0 2px 7px 0;
+  .cluster-svg-text {
+    fill: white;
+    font-weight: bold;
+  }
 }
 
 .scale1 {
   background-color: $policy-color-bg-1;
-  border-color: $policy-color-str-1;
+  border-color: $policy-color-str-2;
 }
 
 .scale2 {
@@ -58,5 +91,17 @@ div.legendpair {
 
 .scale3 {
   background-color: $policy-color-bg-3;
-  border-color: $policy-color-str-3;
+  border: 1px solid $policy-color-str-2;
+}
+
+.missingdata {
+  background-color: black;
+  opacity: 1;
+}
+
+.expired {
+  background-image: url("../../public/assets/stripes-icon.png");
+  background-size: cover;
+  height: 102px;
+  border: none;
 }

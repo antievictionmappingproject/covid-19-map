@@ -12,6 +12,10 @@ export class InfoWindow {
     "aemp-rentstrike-infowindow-template"
   ).innerHTML;
 
+  searchResultInfowindowTemplate = document.getElementById(
+    "search-result-infowindow-template"
+  ).innerHTML;
+
   constructor() {
     this.bindListeners();
   }
@@ -42,6 +46,36 @@ export class InfoWindow {
           data
         );
         break;
+      case "searchResult":
+        this.infowindowContainer.innerHTML = data.length
+          ? `
+        <div class="aemp-infowindow">
+          <a class="aemp-infowindow-close" href="#close">×</a>
+          <div>
+            <p class="infowindow-title">
+              <strong data-i18n="infowindow.policy.title"></strong>
+            </p>
+          </div>
+
+          ` +
+            data
+              .map((dataItem) =>
+                Mustache.render(this.searchResultInfowindowTemplate, dataItem)
+              )
+              .join("") +
+            "</div>"
+          : `
+        <div>
+          <p class="infowindow-title">
+            <strong data-i18n="infowindow.policy.title"></strong>
+          </p>
+        </div>
+        <div class="aemp-infowindow">
+          <a class="aemp-infowindow-close" href="#close">×</a>
+          <div><p><strong data-i18n="searchbar.not-found">No tenant protections listed for this location</strong></p></div>
+          </div>`;
+        break;
+
       default:
         break;
     }

@@ -17,6 +17,7 @@
   },
   "rules": {
     "no-unused-vars": 1,
-    "jest/valid-expect": 0
+    "jest/valid-expect": 0,
+    "font-family-no-missing-generic-family-keyword": 0
   }
 }

@@ -28,9 +28,9 @@
 
 @media (max-width: 640px) {
   // when the infowindow & popup are open, reduce map height
-  #root.aemp-popupopen #map {
-    height: 50%;
-  }
+  // #root.aemp-popupopen #map {
+  //   // height: 50%;
+  // }
 
   // Hide map layers controls on mobile for now, as they get obscured
   #root.aemp-popupopen .leaflet-control-attribution,

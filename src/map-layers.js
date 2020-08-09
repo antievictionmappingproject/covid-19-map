@@ -3,13 +3,31 @@ import {
   colorNoData,
   fillColorScale,
   strokeColorScale,
-  strokeWeight,
+  strokeWeightLess,
+  strokeWeightMore,
   pointRadius,
   fillOpacity,
   policyStrengthLayerClassNames,
 } from "utils/constants";
 import * as queries from "./utils/queries";
 import { formatDate } from "./utils/datetime";
+
+//styling helpers
+function highlightFeature(e) {
+  const layer = e.target;
+
+  if (e.type === "mouseover") {
+    layer.setStyle({
+      fillOpacity: 0.4,
+    });
+  } else if (e.type === "mouseout") {
+    layer.setStyle({
+      fillOpacity: fillOpacity,
+    });
+  } else {
+    return;
+  }
+}
 
 export const mapLayersConfig = {
   cities: {
@@ -18,6 +36,7 @@ export const mapLayersConfig = {
     type: "point",
     query: queries.citiesCartoQuery,
     zIndex: 1,
+    overlayOrder: 0,
     props(layer) {
       const {
         municipality,
@@ -50,7 +69,7 @@ export const mapLayersConfig = {
         fillColor: fillColorScale[feature.properties.range] || colorNoData,
         fillOpacity: 0.85,
         radius: pointRadius,
-        weight: strokeWeight,
+        weight: strokeWeightLess,
       };
     },
     pointToLayer(feature, latlng) {
@@ -63,15 +82,19 @@ export const mapLayersConfig = {
           policyStrengthLayerClassNames[feature.properties.range] +
           "--city-level";
       }
+      layer.on({
+        mouseover: (e) => highlightFeature(e),
+        mouseout: (e) => highlightFeature(e),
+      });
     },
   },
-
   counties: {
     name: "County Protections",
     nameI18n: "layer-select.counties",
     type: "polygon",
     query: queries.countiesCartoQuery,
     zIndex: 2,
+    overlayOrder: 1,
     props(layer) {
       const {
         state,
@@ -100,7 +123,7 @@ export const mapLayersConfig = {
         color: strokeColorScale[feature.properties.range] || colorNoData,
         fillColor: fillColorScale[feature.properties.range] || colorNoData,
         fillOpacity: fillOpacity,
-        weight: strokeWeight,
+        weight: strokeWeightLess,
       };
     },
     onEachFeature(feature, layer) {
@@ -109,15 +132,19 @@ export const mapLayersConfig = {
         layer.options.className =
           policyStrengthLayerClassNames[feature.properties.range];
       }
+      layer.on({
+        mouseover: (e) => highlightFeature(e),
+        mouseout: (e) => highlightFeature(e),
+      });
     },
   },
-
   states: {
     name: "State/Province Protections",
     nameI18n: "layer-select.states",
     type: "polygon",
     query: queries.statesCartoQuery,
     zIndex: 3,
+    overlayOrder: 2,
     props(layer) {
       const {
         name,
@@ -145,7 +172,7 @@ export const mapLayersConfig = {
         fillColor: fillColorScale[feature.properties.range] || colorNoData,
         color: strokeColorScale[feature.properties.range] || colorNoData,
         fillOpacity: fillOpacity,
-        weight: strokeWeight,
+        weight: strokeWeightMore,
       };
     },
     onEachFeature(feature, layer) {
@@ -154,15 +181,19 @@ export const mapLayersConfig = {
         layer.options.className =
           policyStrengthLayerClassNames[feature.properties.range];
       }
+      layer.on({
+        mouseover: (e) => highlightFeature(e),
+        mouseout: (e) => highlightFeature(e),
+      });
     },
   },
-
   nations: {
     name: "National Protections",
     nameI18n: "layer-select.nations",
     type: "polygon",
     query: queries.countriesCartoQuery,
     zIndex: 4,
+    overlayOrder: 3,
     props(layer) {
       const { name_en, end_date_earliest, ...rest } = layer.feature.properties;
       return {
@@ -179,7 +210,7 @@ export const mapLayersConfig = {
         color: strokeColorScale[feature.properties.range] || colorNoData,
         fillColor: fillColorScale[feature.properties.range] || colorNoData,
         fillOpacity: fillOpacity,
-        weight: strokeWeight,
+        weight: strokeWeightLess,
       };
     },
     onEachFeature(feature, layer) {
@@ -188,15 +219,19 @@ export const mapLayersConfig = {
         layer.options.className =
           policyStrengthLayerClassNames[feature.properties.range];
       }
+      layer.on({
+        mouseover: (e) => highlightFeature(e),
+        mouseout: (e) => highlightFeature(e),
+      });
     },
   },
-
   rentStrikes: {
     name: "Housing Justice Actions",
     nameI18n: "layer-select.housingJusticeAction",
     type: "marker-cluster",
     query: queries.housingActionsCartoQuery,
     zIndex: 0, // markers have their very own layer pane in Leaflet so don't need a z-index value
+    overlayOrder: 4,
     props(layer) {
       return layer.feature.properties;
     },
