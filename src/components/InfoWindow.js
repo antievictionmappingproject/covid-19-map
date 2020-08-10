@@ -49,13 +49,13 @@ export class InfoWindow {
       case "searchResult":
         this.infowindowContainer.innerHTML = data.length
           ? `
-        <div>
-          <p class="infowindow-title">
-            <strong data-i18n="infowindow.policy.title"></strong>
-          </p>
-        </div>
         <div class="aemp-infowindow">
           <a class="aemp-infowindow-close" href="#close">×</a>
+          <div>
+            <p class="infowindow-title">
+              <strong data-i18n="infowindow.policy.title"></strong>
+            </p>
+          </div>
 
           ` +
             data

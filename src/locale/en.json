@@ -51,7 +51,8 @@
       "start-date-label": "Effective:",
       "end-date-label": "Ends:",
       "summary-label": "Policy Summary:",
-      "link": "View more info."
+      "info-link": "View more info.",
+      "resource-link": "View associated resource."
     },
     "action": {
       "title": "Housing Justice Action",

@@ -306,13 +306,13 @@
 
         {{#link}}
         <div>
-          <p class="infowindow-link"><a target="_blank" href="{{link}}" rel="noopener noreferrer" data-i18n="infowindow.policy.link">View more info.</a></p>
+          <p class="infowindow-link"><a target="_blank" href="{{link}}" rel="noopener noreferrer" data-i18n="infowindow.policy.info-link"></a></p>
         </div>
         {{/link}}
 
          {{#resource}}
         <div>
-          <p><a target="_blank" href="{{resource}}" rel="noopener noreferrer" data-i18n="infowindow.policy.link">View more info.</a></p>
+          <p class="infowindow-link"><a target="_blank" href="{{resource}}" rel="noopener noreferrer" data-i18n="infowindow.policy.resource-link"></a></p>
         </div>
         {{/resource}}
       </div>
@@ -355,11 +355,8 @@
       </div>
     </script>
 
-
-
     <script id="search-result-infowindow-template" type="x-tmpl-mustache">
-
-
+      
         <div>
           <p>
             <strong data-i18n="infowindow.policy.jurisdictionType.{{jurisdictionTypeI18n}}"></strong><strong>: </strong>{{jurisdictionname}}
@@ -420,15 +417,16 @@
 
         {{#link}}
         <div>
-          <p class="infowindow-link"><a target="_blank" href="{{link}}" rel="noopener noreferrer" data-i18n="infowindow.policy.link">View more info.</a></p>
+          <p class="infowindow-link"><a target="_blank" href="{{link}}" rel="noopener noreferrer" data-i18n="infowindow.policy.info-link"></a></p>
         </div>
         {{/link}}
 
-
+        {{#resource}}
+        <div>
+          <p class="infowindow-link"><a target="_blank" href="{{resource}}" rel="noopener noreferrer" data-i18n="infowindow.policy.resource-link"></a></p>
+        </div>
+        {{/resource}}
     </script>
-
-
-
 
     <!-- Leaflet map SVG patterns -->
     <svg id="map-pattern-fills" width="0" height="0" aria-hidden="true">
