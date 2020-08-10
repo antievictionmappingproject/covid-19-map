@@ -40,7 +40,7 @@ export class LeafletMap {
       zoomControl: false,
       attributionControl: false,
       maxBounds: [
-        [-85.05, -190], // lower left
+        [-85.05, -320], // lower left
         [85.05, 200], // upper right
       ],
       maxZoom: 12,
@@ -295,7 +295,7 @@ export class LeafletMap {
       let resource = location.resourceSets[0].resources[0];
       let center = resource.point.coordinates;
       const markerIcon = L.icon({ iconUrl: L.Icon.Default });
-      this.map.setView(center, 5);
+      this.map.setView(center, 8);
       const marker = new L.marker(center, { icon: markerIcon });
       marker.addTo(this.map);
       let markerContent = `
