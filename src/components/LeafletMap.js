@@ -40,9 +40,10 @@ export class LeafletMap {
       zoomControl: false,
       attributionControl: false,
       maxBounds: [
-        [-85.05, -320], // lower left
-        [85.05, 200], // upper right
+        [-85.05, -220], // lower left
+        [85.05, 230], // upper right
       ],
+      minZoom: 3,
       maxZoom: 12,
     });
 
@@ -71,7 +72,7 @@ export class LeafletMap {
     this.basemapLayer = L.tileLayer(
       "https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png",
       {
-        minZoom: 1,
+        minZoom: 3,
         maxZoom: 18,
       }
     ).addTo(this.map);
