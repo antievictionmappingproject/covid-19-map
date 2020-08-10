@@ -29,8 +29,8 @@ export const MOBILE_BREAKPOINT = 640;
 export const DESKTOP_BREAKPOINT = 1200;
 
 export const defaultMapConfig = {
-  lat: 40.27,
-  lng: -43.74,
+  lat: 45.356488,
+  lng: 12.771901,
   z: 3,
   nations: true,
   states: true,

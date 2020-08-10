@@ -43,7 +43,7 @@ export class LeafletMap {
         [-85.05, -220], // lower left
         [85.05, 230], // upper right
       ],
-      minZoom: 3,
+      minZoom: 2,
       maxZoom: 12,
     });
 
@@ -72,7 +72,7 @@ export class LeafletMap {
     this.basemapLayer = L.tileLayer(
       "https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png",
       {
-        minZoom: 3,
+        minZoom: 2,
         maxZoom: 18,
       }
     ).addTo(this.map);
