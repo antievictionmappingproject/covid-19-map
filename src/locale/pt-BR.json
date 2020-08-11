@@ -22,9 +22,9 @@
     "housing-action-title": "Mobilização pelo Acesso à Moradia",
     "housing-action-description": "Onde <strong class='color-rent-strike'>ações de acesso à moradia</strong> estão ocorrendo ou ocorreram.",
     "housing-action-form": "Envie informações sobre ações pelo acesso à moradia de sua região (como ocupações, suspensão de alugueis, etc.)",
+    "submit": "Envie dados:",
     "resources": {
       "title": "",
-      "description": "",
       "right-to-the-city": "",
       "european-action-coalition": "",
       "hashtag-cancel-rent": ""
@@ -51,7 +51,8 @@
       "start-date-label": "Inicio efetivo:",
       "end-date-label": "Fim:",
       "summary-label": "Resumo da política:",
-      "info-link": "Acesse maiores informacoes."
+      "info-link": "Acesse maiores informações.",
+      "resource-link": "Acesse fontes associadas."
     },
     "action": {
       "title": "Ação em defesa do direito de acesso à moradia",
