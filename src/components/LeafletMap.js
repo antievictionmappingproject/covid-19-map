@@ -40,9 +40,10 @@ export class LeafletMap {
       zoomControl: false,
       attributionControl: false,
       maxBounds: [
-        [-85.05, -190], // lower left
-        [85.05, 200], // upper right
+        [-85.05, -220], // lower left
+        [85.05, 230], // upper right
       ],
+      minZoom: 2,
       maxZoom: 12,
     });
 
@@ -71,7 +72,7 @@ export class LeafletMap {
     this.basemapLayer = L.tileLayer(
       "https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png",
       {
-        minZoom: 1,
+        minZoom: 2,
         maxZoom: 18,
       }
     ).addTo(this.map);
@@ -295,7 +296,7 @@ export class LeafletMap {
       let resource = location.resourceSets[0].resources[0];
       let center = resource.point.coordinates;
       const markerIcon = L.icon({ iconUrl: L.Icon.Default });
-      this.map.setView(center, 5);
+      this.map.setView(center, 8);
       const marker = new L.marker(center, { icon: markerIcon });
       marker.addTo(this.map);
       let markerContent = `
