@@ -57,7 +57,6 @@
     "action": {
       "title": "Housing Justice Action",
       "loc-label": "Location:",
-      "status-label": "Rent striking?",
       "why-label": "Why?",
       "strike-type-label": "Action Type:",
       "start-date-label": "Start:",
