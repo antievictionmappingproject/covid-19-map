@@ -74,7 +74,7 @@
     "1": "Few tenant protections",
     "2": "Some tenant protections",
     "3": "Many tenant protections",
-    "expired": "Stripes indicate expired protections",
+    "expired": "Stripes indicate expired policies and evictions",
     "missingData": "Missing data"
   }
 }
