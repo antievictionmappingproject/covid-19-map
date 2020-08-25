@@ -74,7 +74,7 @@
     "1": "Pocas protecciones en vigor",
     "2": "Algunas protecciones en vigor",
     "3": "Muchas protecciones en vigor",
-    "expired": "Las rayas indican protecciones caducadas",
+    "expired": "Las rayas indican políticas caducadas y desalojos",
     "missingData": "Datos no disponibles"
   }
 }

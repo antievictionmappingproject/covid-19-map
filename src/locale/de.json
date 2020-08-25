@@ -76,7 +76,7 @@
     "1": "geringe Schutzmaßnahmen",
     "2": "mittelmäßige Schutzmaßnahmen",
     "3": "starke Schutzmaßnahmen",
-    "expired": "Bereits ausgelaufene Schutzmaßnahmen",
+    "expired": "Bereits ausgelaufene Schutzmaßnahmen, Räumungen finden statt",
     "missingData": "Keine Daten vorhanden"
   }
 }
