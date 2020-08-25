@@ -74,7 +74,7 @@
     "1": "Poucas proteções aprovadas",
     "2": "Algumas proteções aprovadas",
     "3": "Muitas proteções aprovadas",
-    "expired": "Indica proteções que não são mais válidas",
+    "expired": "Indica proteções expiradas e despejos",
     "missingData": "Dados não disponíveis"
   }
 }
