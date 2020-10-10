@@ -50,6 +50,7 @@
       "court-closure-end-label": "Court Closures End Date:",
       "start-date-label": "Effective:",
       "end-date-label": "Ends:",
+      "eviction-status-label": "Eviction status:",
       "summary-label": "Policy Summary:",
       "info-link": "View more info.",
       "resource-link": "View associated resource."
