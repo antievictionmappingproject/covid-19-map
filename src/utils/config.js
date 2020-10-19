@@ -1,10 +1,10 @@
 // name of AEMP's CARTO account
 export const aempCartoAccount = "ampitup";
 
-// table in CARTO that syncs with the tenants protections legislation Google sheet
+// table in CARTO that syncs with the tenants protections legislation Airtable db
 export const cartoSheetSyncTable = "public.emergency_tenant_protections_scored";
 
-// table in CARTO that syncs with the housing actions Google sheet
+// table in CARTO that syncs with the housing actions Airtable db
 export const cartoHousingActionsTable = "public.emergency_housing_actions";
 
 // misc admin boundary geometry tables

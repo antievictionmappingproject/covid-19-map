@@ -280,6 +280,13 @@
           <p><strong data-i18n="infowindow.policy.court-closure-end-label"></strong> {{endDateCourt}}</p>
         </div>
         {{/endDateCourt}}
+        
+	{{#eviction_status}}
+        <div>
+          <p><strong data-i18n="infowindow.policy.eviction-status-label"></strong></p>
+          <p>{{eviction_status}}</p>
+        </div>
+        {{/eviction_status}}
 
         {{#policy_summary}}
         <div>
