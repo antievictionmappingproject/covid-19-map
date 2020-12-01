@@ -53,6 +53,10 @@ a.modal-close:hover {
   font-family: "IBM Plex Mono", monospace;
 }
 
+.modal > aside > p > span > a {
+  background-color: #feff54;
+}
+
 .modal > aside > p > a,
 .modal > aside > p > span > a {
   color: $rent-strike-color;
