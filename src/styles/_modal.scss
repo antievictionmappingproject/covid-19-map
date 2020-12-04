@@ -53,8 +53,8 @@ a.modal-close:hover {
   font-family: "IBM Plex Mono", monospace;
 }
 
-.modal > aside > p > span > a {
-  background-color: #feff54;
+.hlt-yellow {
+  background-color: $highlight-color-yellow;
 }
 
 .modal > aside > p > a,
