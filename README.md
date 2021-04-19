@@ -1,5 +1,7 @@
 # COVID-19 Emergency Tenants Protections Map
 
+**This repository is no longer in use! Development has moved to this repo: https://github.com/antievictionmappingproject/covid-19-map-react*
+
 Mapping states, counties, and municipalities that are enacting emergency tenant protections due to COVID-19 (the novel corona virus) pandemic, as well as where organized rent strikes are taking place.
 
 ## Data Source
